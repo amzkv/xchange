@@ -1,0 +1,25 @@
+<div layout-fill>
+
+  <md-content class="md-padding" layout-xs="row" layout="row" layout-wrap>
+    <div flex-xs flex-gt-xs="50" flex-gt-sm="25" layout="column" ng-repeat="doc in customer.docs">
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{doc.title.value}}</span>
+            <span class="md-subhead">{{doc.title.locale}}</span>
+          </md-card-title-text>
+          <!-- <md-card-title-media>
+             <div class="md-media-lg card-media"></div>
+           </md-card-title-media>-->
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button">Edit</md-button>
+          <md-button">Open Collection</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </md-content>
+
+
+
+</div>
