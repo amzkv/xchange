@@ -48,7 +48,6 @@ export class DocumentsService {
   }
 
   callDocumentByOneCollection(id) {
-    console.log(id);
     let info =
     {
       "auth" : {
