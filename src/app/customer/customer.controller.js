@@ -2,11 +2,13 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor (docs) {
+  constructor ($scope, docs, category, $log) {
     'ngInject';
 
-    console.log(docs);
+    $scope.category = category;
+    $log.log($scope.category);
 
-    this.docs = docs.data.collections;
+    $scope.docs = docs.data.documents;
+    $log.log($scope.docs);
   }
 }

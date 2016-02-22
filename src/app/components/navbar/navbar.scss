@@ -4,4 +4,33 @@
 
 .header {
   height: 42px;
+
+  i:hover {
+    cursor: pointer;
+  }
+}
+
+.menu{
+  li i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    position: relative;
+    top: 6px;
+    padding: 8px 4px;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+
+  li:hover {
+    background: $primary-color;
+    color: #fff;
+    cursor: pointer;
+
+    a {
+      color: #fff;
+    }
+  }
 }

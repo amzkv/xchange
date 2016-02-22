@@ -1,25 +1,20 @@
-<div layout-fill>
-
-  <md-content class="md-padding" layout-xs="row" layout="row" layout-wrap>
-    <div flex-xs flex-gt-xs="50" flex-gt-sm="25" layout="column" ng-repeat="doc in collection.docs">
-      <md-card>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{doc.title.value}}</span>
-            <span class="md-subhead">{{doc.title.locale}}</span>
-          </md-card-title-text>
-          <!-- <md-card-title-media>
-             <div class="md-media-lg card-media"></div>
-           </md-card-title-media>-->
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button>Edit</md-button>
-          <md-button ui-sref="customer({id: doc.id})">Open Collection</md-button>
-        </md-card-actions>
-      </md-card>
+<div layout-fill ng-cloak="">
+  <md-content class="md-padding">
+    <div flex deckgrid class="deckgrid" source="collection.docs">
+      <div class="a-card">
+        <md-card
+          ng-class="{'CUSTOMER':'first-level', 'VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[card.group.value]">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{card.title.value}}</span>
+              <span class="md-subhead">{{card.title.locale}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center">
+            <a ui-sref="customer({id: card.id, category: card.group.value})" class="md-raised md-accent md-button">Open collection</a>
+          </md-card-actions>
+        </md-card>
+      </div>
     </div>
   </md-content>
-
-
-
 </div>

@@ -30,9 +30,15 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
+      params: {
+        category: 'CUSTOMER'
+      },
       resolve: {
         docs: function (documentsService, $stateParams) {
           return documentsService.callDocumentByOneCollection($stateParams.id);
+        },
+        category: function ($stateParams) {
+          return $stateParams.category;
         }
       }
     });

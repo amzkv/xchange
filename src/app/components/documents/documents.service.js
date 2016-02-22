@@ -2,9 +2,10 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http) {
+  constructor($http, $log) {
     'ngInject';
     this.$http = $http;
+    this.$log = $log;
   }
 
   callDocumentsCore() {
@@ -54,9 +55,9 @@ export class DocumentsService {
         "user" : { "username" : "mm@365my.biz", "password" : "mm2015!" }
       },
       "document": {
-        "method" : "by collection",
-        "collection" : id,
-        "offset" : { "start" : 1, "end" : 100 }
+       "method" : "by collection",
+       "collection" : id,
+        "offset" : { "start" : 1, "end" : 20 }
       }
     };
 

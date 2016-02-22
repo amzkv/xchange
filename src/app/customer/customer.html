@@ -1,25 +1,24 @@
-<div layout-fill>
-
-  <md-content class="md-padding" layout-xs="row" layout="row" layout-wrap>
-    <div flex-xs flex-gt-xs="50" flex-gt-sm="25" layout="column" ng-repeat="doc in customer.docs">
-      <md-card>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{doc.title.value}}</span>
-            <span class="md-subhead">{{doc.title.locale}}</span>
-          </md-card-title-text>
-          <!-- <md-card-title-media>
-             <div class="md-media-lg card-media"></div>
-           </md-card-title-media>-->
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button">Edit</md-button>
-          <md-button">Open Collection</md-button>
-        </md-card-actions>
-      </md-card>
+<div layout-fill ng-cloak="">
+  <md-content class="md-padding">
+    <div flex deckgrid class="deckgrid" source="docs">
+      <div class="a-card">
+        <md-card
+          ng-class="{'CUSTOMER':'first-level', 'VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[mother.category]">
+          <div class="image-container">
+            <img ng-src="http://stage.365xchange.net/api/file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
+          </div>
+          <md-card-title>
+            <md-card-title-text class="white-card">
+              <span class="md-headline">{{card.title}}</span>
+              <span class="md-subhead">{{card.type.locale}}</span>
+              <span class="md-subhead secondary-subhead">{{card.user.firstname + ' ' + card.user.lastname}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <!--<md-card-actions layout="row" layout-align="end center">
+            <a ui-sref="customer({id: card.id})" class="md-raised md-accent md-button">Open collection</a>
+          </md-card-actions>-->
+        </md-card>
+      </div>
     </div>
   </md-content>
-
-
-
 </div>

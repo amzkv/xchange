@@ -1,5 +1,5 @@
 export class MainController {
-  constructor (categories) {
+  constructor(categories) {
     'ngInject';
 
     this.docs = categories.data.collections;

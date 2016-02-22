@@ -16,10 +16,16 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor (moment) {
+  constructor ($mdSidenav, $log) {
     'ngInject';
 
-    // "this.creation" is available by directive option "bindToController: true"
-    this.relativeDate = moment(this.creationDate).fromNow();
+    this.toggle = function () {
+      $mdSidenav('left').toggle();
+    };
+
+    this.closeMenu = function () {
+      $mdSidenav('left').close();
+    };
+
   }
 }

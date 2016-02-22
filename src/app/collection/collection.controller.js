@@ -2,10 +2,10 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection) {
+  constructor (collection, $log) {
     'ngInject';
 
-    console.log(collection);
+    $log.log(collection);
 
     this.docs = collection.data.collections;
   }

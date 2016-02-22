@@ -1,7 +1,7 @@
 /**
  * Created by decipher on 19.2.16.
  */
-export function TremulaDirective($timeout) {
+/*export function TremulaDirective($timeout) {
   'ngInject';
 
   let directive = {
@@ -102,3 +102,4 @@ class NavbarController {
 
   }
 }
+*/

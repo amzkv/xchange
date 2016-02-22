@@ -4,13 +4,13 @@ import { config } from './index.config';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
 import { MainController } from './main/main.controller';
-import { CollectionController } from './collection/collection.controller.js';
-import { CustomerController } from './customer/customer.controller.js';
-import { DocumentsService } from '../app/components/documents/documents.service.js';
+import { CollectionController } from './collection/collection.controller';
+import { CustomerController } from './customer/customer.controller';
+import { DocumentsService } from '../app/components/documents/documents.service';
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
-import { MalarkeyDirective } from '../app/components/malarkey/malarkey.directive';
+import { SidemenuDirective } from '../app/components/sidemenu/sidemenu.directive';
 
-angular.module('xchange', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'toastr'])
+angular.module('xchange', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'toastr', 'akoenig.deckgrid',  'anim-in-out'])
   .constant('malarkey', malarkey)
   .constant('moment', moment)
   .config(config)
@@ -21,4 +21,4 @@ angular.module('xchange', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
   .controller('CollectionController', CollectionController)
   .controller('CustomerController', CustomerController)
   .directive('acmeNavbar', NavbarDirective)
-  .directive('acmeMalarkey', MalarkeyDirective);
+  .directive('sideMenu', SidemenuDirective);

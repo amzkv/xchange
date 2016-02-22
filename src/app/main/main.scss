@@ -1,0 +1,27 @@
+md-card.first-level {
+  background: #960061;
+}
+
+md-card.second-level {
+  background: #310055;
+}
+
+md-card.third-level {
+  background: #82b700;
+}
+
+md-card-title-text {
+  color: #fff;
+}
+
+.image-container img {
+  background: #fff;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 20px auto;
+}
+
+md-card md-card-title md-card-title-text:only-child .md-subhead.secondary-subhead {
+  padding: 0;
+}

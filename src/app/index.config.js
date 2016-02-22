@@ -11,6 +11,8 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider) {
   toastrConfig.progressBar = true;
 
   $mdThemingProvider.theme('default')
-    .primaryPalette('red')
-    .accentPalette('indigo');
+    .primaryPalette('deep-purple', {
+      'default': '800'
+    })
+    .accentPalette('red');
 }

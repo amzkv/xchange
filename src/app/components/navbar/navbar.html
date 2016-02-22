@@ -1,3 +1,17 @@
 <md-toolbar layout="row" layout-align="center center" class="header md-primary">
-Hello I'm header
+  <i class="material-icons nav-toggle" ng-click="vm.toggle()">menu</i>
 </md-toolbar>
+
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+  <md-toolbar class="md-theme-indigo">
+
+  </md-toolbar>
+  <md-content layout-padding>
+
+    <nav class="menu">
+      <ul>
+        <li ng-click="vm.closeMenu()"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
+      </ul>
+    </nav>
+  </md-content>
+</md-sidenav>
