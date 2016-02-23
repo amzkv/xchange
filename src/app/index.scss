@@ -48,6 +48,10 @@ html {
   font-family: 'Roboto Slab', serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 [layout=row] {
   flex-direction: row;
 }

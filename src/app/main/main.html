@@ -1,19 +1,18 @@
 <div layout-fill ng-cloak="">
     <md-content class="md-padding">
     <div flex deckgrid class="deckgrid" source="main.docs">
+
       <div class="a-card">
-        <md-card
-          ng-class="{'CUSTOMER':'first-level', 'VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[card.group.value]">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">{{card.group.value}}</span>
-              <span class="md-subhead">{{card.group.locale}}</span>
-            </md-card-title-text>
-          </md-card-title>
-          <md-card-actions layout="row" layout-align="end center">
-            <a ui-sref="collection({value: card.group.value})" class="md-raised md-accent md-button">Open collection</a>
-          </md-card-actions>
-        </md-card>
+        <a ui-sref="collection({value: card.group.value})">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{card.group.value}}</span>
+                <span class="md-subhead">{{card.group.locale}}</span>
+              </md-card-title-text>
+            </md-card-title>
+          </md-card>
+        </a>
       </div>
     </div>
   </md-content>
