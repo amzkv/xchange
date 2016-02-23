@@ -12,7 +12,6 @@ export class DocumentsService {
     let info =
     {
       "auth" : {
-        //"user" : { "username" : "ulrich.frotscher@10able.de", "password" : "365xchange!" }
         "user" : { "username" : "mm@365my.biz", "password" : "mm2015!" }
       },
       "collection" : {
