@@ -6,9 +6,13 @@ export class CustomerController {
     'ngInject';
 
     $scope.category = category;
-    $log.log($scope.category);
 
     $scope.docs = docs.data.documents;
     $log.log($scope.docs);
+
+    $scope.showDetails = function (card) {
+      $log.log(card);
+      card.details = card.details ? false : true;
+    }
   }
 }

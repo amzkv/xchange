@@ -10,6 +10,32 @@
   }
 }
 
+
+md-toolbar {
+  position: relative;
+}
+
+.nav-toggle {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-size: 1.9em;
+}
+
+.nav-filter {
+  position: absolute;
+  top: 14px;
+  right: 80px;
+  font-size: 1.9em;
+}
+
+.nav-options {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 1.9em;
+}
+
 .menu{
   li i {
     margin-right: 10px;
@@ -34,3 +60,47 @@
     }
   }
 }
+
+/*.menu ul {
+  width: 100%;
+  list-style: none;
+  padding: 0
+}
+
+.menu li {
+  width: 100%;
+  height: 3em;
+  line-height: 3em;
+}
+
+.menu a {
+  display: block;
+  padding: 0 0 0 20px;
+  font-size: 1.2em;
+  color: $font-color;
+  width: 100%;
+  text-align: left;
+  line-height: auto
+}
+
+.menu a i {
+  margin-right: 15px;
+  color: $font-color;
+}
+
+.menu ul li:hover,
+.menu ul li:focus {
+  background: $primary-color;
+}
+
+.menu ul li:hover a,
+.menu ul li:focus a,
+.menu ul li:hover a i,
+.menu ul li:focus a i{
+  color: #fff;
+}
+
+.menu md-divider {
+  margin: 10px 0;
+}
+*/
