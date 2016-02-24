@@ -10,8 +10,8 @@ app.use(morgan('dev'));
 //app.use(gzippo.staticGzip("" + __dirname + "/dist"));
 app.use(express.static(__dirname + "/dist"));
 
-/*app.get('/', function(req, res) {
-  res.sendfile("./dist/index.html");
-});*/
+app.get('/', function(req, res) {
+  res.sendfile('index.html', {root: __dirname + "/dist"})
+});
 
-app.listen(process.env.PORT || 5000);
+var server = app.listen(process.env.PORT || 80);
