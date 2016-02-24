@@ -10,10 +10,8 @@ app.use(morgan('dev'));
 //app.use(gzippo.staticGzip("" + __dirname + "/dist"));
 app.use(express.static(__dirname + "/dist"));
 
-app.get('/', function(req, res) {
-
-  // ejs render automatically looks in the views folder
+/*app.get('/', function(req, res) {
   res.sendfile("./dist/index.html");
-});
+});*/
 
 app.listen(process.env.PORT || 5000);
