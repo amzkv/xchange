@@ -13,7 +13,7 @@ app.use(express.static(__dirname + + "/dist"));
 app.get('/', function(req, res) {
 
   // ejs render automatically looks in the views folder
-  res.send(__dirname + + "/dist/index.html");
+  res.send("index.html");
 });
 
 app.listen(process.env.PORT || 5000);
