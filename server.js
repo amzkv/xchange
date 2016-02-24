@@ -11,8 +11,8 @@ app.use(morgan('dev'));
 //app.use(express.static(__dirname + "/dist"));
 app.use(express.static(__dirname + '/dist'));
 
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
   res.sendfile('index.html', {root: __dirname + "/dist"})
-});
+});*/
 
 var server = app.listen(process.env.PORT || 80);
