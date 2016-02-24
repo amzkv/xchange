@@ -8,12 +8,12 @@ var app = express();
 
 app.use(morgan('dev'));
 //app.use(gzippo.staticGzip("" + __dirname + "/dist"));
-app.use(express.static(__dirname + + "/dist"));
+app.use(express.static(__dirname + "/dist"));
 
 app.get('/', function(req, res) {
 
   // ejs render automatically looks in the views folder
-  res.sendFile("index.html");
+  res.sendFile(__dirname + "/dist/index.html");
 });
 
 app.listen(process.env.PORT || 5000);
