@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $log) {
+  constructor ($mdSidenav) {
     'ngInject';
 
     this.toggle = function () {
