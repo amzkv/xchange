@@ -41,18 +41,12 @@ class NavbarController {
     $rootScope.$on('$stateChangeSuccess',
       function(event, toState, toParams, from, fromState, fromParams, options){
 
-        $log.log(from);
-        $log.log(fromState);
-
         setState($state.current.name, from.name, fromState);
-        // transitionTo() promise will be rejected with
-        // a 'transition prevented' error
       });
 
     this.navigateBack = function(){
       "use strict";
       if(self.previousState && self.previousStateParams){
-        $log.log(self.previousStateParams);
         $state.go(self.previousState, {id: self.previousStateParams.id})
       }
     }
