@@ -11,6 +11,6 @@ export class CustomerController {
 
     $scope.showDetails = function (card) {
       card.details = card.details ? false : true;
-    }
+    };
   }
 }

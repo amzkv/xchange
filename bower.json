@@ -17,7 +17,8 @@
     "angular": "~1.4.2",
     "angular-deckgrid": "^0.5.0",
     "mdi": "^1.4.57",
-    "angular-ui-router-anim-in-out": "^1.0.2"
+    "angular-ui-router-anim-in-out": "^1.0.2",
+    "angular-touch": "^1.5.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.2"

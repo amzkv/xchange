@@ -3,12 +3,12 @@
     <div flex deckgrid class="deckgrid" source="main.docs">
 
       <div class="a-card">
-        <a ui-sref="collection({value: card.group.value})">
+        <a ui-sref="collection({id: card.group.value})">
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">{{card.group.value}}</span>
-                <span class="md-subhead">{{card.group.locale}}</span>
+                <span class="md-headline">{{card.group.locale}}</span>
+                <span class="md-subhead">{{card.count}}</span>
               </md-card-title-text>
             </md-card-title>
           </md-card>

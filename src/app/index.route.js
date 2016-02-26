@@ -14,7 +14,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     })
 
     .state('collection', {
-      url: '/collection/:value',
+      url: '/collection/:id',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
       controllerAs: 'collection',
