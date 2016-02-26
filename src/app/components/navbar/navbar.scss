@@ -22,9 +22,29 @@ md-toolbar {
   font-size: 1.9em;
 }
 
+@media screen and (min-width: 860px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .breadcrumbs {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 859px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .breadcrumbs {
+    display: none;
+  }
+}
+
 .nav-filter {
   position: absolute;
-  top: 14px;
+  top: 10px;
   right: 80px;
   font-size: 1.9em;
 }
@@ -34,6 +54,13 @@ md-toolbar {
   top: 14px;
   right: 18px;
   font-size: 1.9em;
+}
+
+@media screen and (max-width: 859px) {
+  .nav-options, .nav-filter, .nav-toggle {
+    font-size: 1.7em;
+    top: 10px;
+  }
 }
 
 .md-breadcrumb {

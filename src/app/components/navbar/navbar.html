@@ -1,14 +1,14 @@
 <md-toolbar layout="row" layout-align="center center" class="header md-primary">
   <i class="material-icons nav-toggle" ng-click="vm.toggle()">menu</i>
 
-  <div layout="row" flex class="fill-height">
+  <div layout="row" flex class="fill-height breadcrumbs">
     <h2 class="md-toolbar-item md-breadcrumb md-headline">
       <span>
-              <span hide-sm hide-md>Home</span>
+              <span hide-sm hide-md ng-click="vm.navigateHome()">Home</span>
               <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state !== 'home'">
                 <i class="material-icons">keyboard_arrow_right</i>
               </span>
-              <span ng-if="vm.state !== 'home'">Collection</span>
+              <span ng-if="vm.state !== 'home'" ng-click="vm.navigateBack()">Collection</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md>
                 <i class="material-icons" ng-if="vm.state === 'customer'">keyboard_arrow_right</i>
               </span>

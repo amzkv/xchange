@@ -34,8 +34,8 @@ class NavbarController {
     function setState(state, prev, params){
       "use strict";
       self.state = state;
-      //self.previousState = prev;
-      //self.previousStateParams = params;
+      self.previousState = prev;
+      self.previousStateParams = params;
     }
 
     $rootScope.$on('$stateChangeSuccess',
@@ -47,7 +47,22 @@ class NavbarController {
         setState($state.current.name, from.name, fromState);
         // transitionTo() promise will be rejected with
         // a 'transition prevented' error
-      })
+      });
+
+    this.navigateBack = function(){
+      "use strict";
+      if(self.previousState && self.previousStateParams){
+        $log.log(self.previousStateParams);
+        $state.go(self.previousState, {id: self.previousStateParams.id})
+      }
+    }
+
+    this.navigateHome = function(){
+      "use strict";
+      if (self.state !== 'home'){
+        $state.go('home');
+      }
+    }
 
   }
 }

@@ -20,7 +20,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       controllerAs: 'collection',
       resolve: {
         collection: function (documentsService, $stateParams) {
-          return documentsService.callDocumentRelated($stateParams.value);
+          return documentsService.callDocumentRelated($stateParams.id);
         }
       }
     })
