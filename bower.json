@@ -25,5 +25,13 @@
   },
   "resolutions": {
     "angular": "~1.4.9"
+  },
+  "overrides": {
+    "mdi": {
+      "main": [
+        "fonts/*",
+        "css/*"
+      ]
+    }
   }
 }
