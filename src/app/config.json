@@ -1,0 +1,6 @@
+{
+  "appConfig": {
+    "appName": "local 365xchange test",
+    "baseUrl": "http://localhost"
+  }
+}

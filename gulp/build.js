@@ -33,6 +33,9 @@ gulp.task('html', ['inject', 'partials'], function () {
     addRootSlash: false
   };
 
+  var replace = require('gulp-token-replace');
+  var config = require(path.join('../', conf.paths.src, '/app/config.json'));
+
   var htmlFilter = $.filter('*.html', { restore: true });
   var jsFilter = $.filter('**/*.js', { restore: true });
   var cssFilter = $.filter('**/*.css', { restore: true });
@@ -57,6 +60,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(htmlFilter)
+    .pipe(replace({global:config}))
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
