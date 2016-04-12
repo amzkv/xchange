@@ -29,10 +29,12 @@ gulp.task('inject', ['scripts', 'styles'], function () {
     ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],
     addRootSlash: false
   };
-
+  var replace = require('gulp-token-replace');
+  var config = require(path.join('../', conf.paths.src, '/app/config.json'));
   return gulp.src(path.join(conf.paths.src, '/*.html'))
     .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))
+    .pipe(replace({global:config}))
     .pipe(wiredep(_.extend({}, conf.wiredep)))
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));
 });
