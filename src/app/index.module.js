@@ -8,7 +8,7 @@ import { DocumentsService } from '../app/components/documents/documents.service'
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
 import { SidemenuDirective } from '../app/components/sidemenu/sidemenu.directive';
 
-angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'toastr', 'akoenig.deckgrid',  'anim-in-out'])
+angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid',  'anim-in-out'])
   .config(config)
   .config(routerConfig)
   .run(runBlock)
