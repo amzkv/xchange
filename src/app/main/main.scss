@@ -13,9 +13,11 @@
   font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
   visibility: hidden;
 }
+.deckgrid {
+  padding-top: 60px;
+}
 
 .deckgrid .column {
-  padding-top: 60px;
   float: left;
   width: 210px;
 }
