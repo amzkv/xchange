@@ -4,17 +4,17 @@
   <div layout="row" flex class="fill-height breadcrumbs">
     <h2 class="md-toolbar-item md-breadcrumb md-headline">
       <span>
-              <span hide-sm hide-md ng-click="vm.navigateHome()">Home</span>
-              <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state !== 'home'">
-                <i class="material-icons">keyboard_arrow_right</i>
-              </span>
+        <span hide-sm hide-md ng-click="vm.navigateHome()">{{appConfig.appName || 'Home'}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state !== 'home'">
+          <i class="material-icons">keyboard_arrow_right</i>
+        </span>
               <span ng-if="vm.state !== 'home'" ng-click="vm.navigateBack()">Collection</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md>
                 <i class="material-icons" ng-if="vm.state === 'customer'">keyboard_arrow_right</i>
-              </span>
+        </span>
               <span ng-if="vm.state === 'customer'">Documents</span>
 
-            </span>
+      </span>
     </h2>
   </div>
 

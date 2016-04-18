@@ -15,6 +15,7 @@
 }
 
 .deckgrid .column {
+  padding-top: 60px;
   float: left;
   width: 210px;
 }
@@ -120,6 +121,14 @@ md-card md-card-title md-card-title-text .md-headline {
 .card-details {
   color: #fff;
 }
+
+/*.md-padding {
+    padding-top: 65px;
+}*/
+
+/*.layout-padding  {
+  padding-top: 40px;
+}*/
 
 .card-details.first-level {
   background: #960061;

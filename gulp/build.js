@@ -9,6 +9,10 @@ var $ = require('gulp-load-plugins')({
 });
 
 gulp.task('partials', function () {
+
+  var replace = require('gulp-token-replace');
+  var config = require(path.join('../', conf.paths.src, '/app/config.json'));
+
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.html'),
     path.join(conf.paths.tmp, '/serve/app/**/*.html')
@@ -18,6 +22,7 @@ gulp.task('partials', function () {
       spare: true,
       quotes: true
     }))
+    .pipe(replace({global:config}))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
       module: 'xchange',
       root: 'app'
@@ -82,7 +87,7 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('onsenfix', function () {
-  var onsenPath = 'bower_components/OnsenUI'
+  var onsenPath = 'bower_components/OnsenUI';
   return gulp.src([path.join(onsenPath, '/**/*')])
     .pipe($.filter(['css/**/*','stylus/**/*','js/**/*']))
     .pipe(gulp.dest(path.join(onsenPath, '/build/')));

@@ -4,15 +4,16 @@
 
 .header {
   height: 42px;
-
-  i:hover {
+  i,span:hover {
     cursor: pointer;
   }
+
 }
 
 
 md-toolbar {
   position: relative;
+  position:fixed;
 }
 
 .nav-toggle {
@@ -68,6 +69,7 @@ md-toolbar {
 }
 
 .menu{
+  padding-top: 40px;
   li i {
     margin-right: 10px;
     font-size: 1.3em;
