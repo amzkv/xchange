@@ -1,18 +1,18 @@
 <md-toolbar layout="row" layout-align="center center" class="header md-primary">
-  <i class="material-icons nav-toggle" ng-click="vm.toggle()">menu</i>
+  <!--<i class="material-icons nav-toggle" ng-click="vm.toggle()">menu</i>-->
 
   <div layout="row" flex class="fill-height breadcrumbs">
     <h2 class="md-toolbar-item md-breadcrumb md-headline">
       <span>
-        <span hide-sm hide-md ng-click="vm.navigateHome()">{{appConfig.appName || 'Home'}}</span>
+        <span hide-sm hide-md ng-click="vm.navigateHome()">{{(appConfig.appName) || 'Home'}}</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state !== 'home'">
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
-              <span ng-if="vm.state !== 'home'" ng-click="vm.navigateBack()">Collection</span>
+        <span ng-if="vm.state !== 'home'" ng-click="vm.navigateBack()">Collection</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md>
                 <i class="material-icons" ng-if="vm.state === 'customer'">keyboard_arrow_right</i>
         </span>
-              <span ng-if="vm.state === 'customer'">Documents</span>
+        <span ng-if="vm.state === 'customer'">Documents</span>
 
       </span>
     </h2>
@@ -20,10 +20,13 @@
 
   <i class="mdi mdi-filter-variant nav-filter"></i>
   <i class="mdi mdi-dots-vertical nav-options"></i>
+  <i class="nav-home" ng-click="vm.navigateHome()">
+    <img src="assets/images/365Header.png" style="width:40px">
+  </i>
 </md-toolbar>
 
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-  <md-toolbar class="md-theme-indigo">
+  <md-toolbar>
 
   </md-toolbar>
   <md-content layout-padding>

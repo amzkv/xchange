@@ -16,8 +16,15 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state) {
+  constructor ($mdSidenav, $rootScope, $log, $state, $http) {
     'ngInject';
+
+    //console.log($rootScope);
+
+    $http.get('app/config.json').success(function(data) {
+      $rootScope.appConfig = data.appConfig;
+      //console.log('ok');
+    });
 
     var self = this;
 

@@ -126,6 +126,8 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
   //$mdThemingProvider.generateThemesOnDemand(true);
   $provide.value('themeProvider', $mdThemingProvider);
 
+  //console.log($scope);
+
   $mdThemingProvider.alwaysWatchTheme(true);
 
 }
