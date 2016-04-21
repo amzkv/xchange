@@ -22,11 +22,11 @@ gulp.task('partials', function () {
       spare: true,
       quotes: true
     }))
-    .pipe(replace({global:config}))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
       module: 'xchange',
       root: 'app'
     }))
+    .pipe(replace({global:config, preserveUnknownTokens: true}))
     .pipe(gulp.dest(conf.paths.tmp + '/partials/'));
 });
 
@@ -65,7 +65,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(htmlFilter)
-    .pipe(replace({global:config}))
     .pipe($.minifyHtml({
       empty: true,
       spare: true,

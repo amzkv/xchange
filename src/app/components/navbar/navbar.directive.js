@@ -16,16 +16,13 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state, $http) {
+  constructor ($mdSidenav, $rootScope, $log, $state, $http, $scope) {
     'ngInject';
 
-    //console.log($rootScope);
-
     $http.get('app/config.json').success(function(data) {
-      $rootScope.appConfig = data.appConfig;
-      //console.log('ok');
+      $scope.appConfig = data.appConfig;//todo
+      //$scope['appConfig'] = {"appName":"Home"};
     });
-
     var self = this;
 
     self.state = $state.current.name;
