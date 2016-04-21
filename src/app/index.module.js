@@ -6,6 +6,7 @@ import { CollectionController } from './collection/collection.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from '../app/components/documents/documents.service';
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
+import { FooterbarDirective } from '../app/components/footerbar/footerbar.directive';
 import { SidemenuDirective } from '../app/components/sidemenu/sidemenu.directive';
 
 angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid',  'anim-in-out'])
@@ -17,4 +18,5 @@ angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'n
   .controller('CollectionController', CollectionController)
   .controller('CustomerController', CustomerController)
   .directive('acmeNavbar', NavbarDirective)
+  .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective);

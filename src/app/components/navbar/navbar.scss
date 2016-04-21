@@ -12,7 +12,6 @@
 
 
 md-toolbar {
-  position: relative;
   position:fixed;
 }
 
@@ -23,8 +22,19 @@ md-toolbar {
   font-size: 1.9em;
 }
 
+.nav-mob-header {
+  position: absolute;
+  top: 4px;
+  right: 150px;
+  font-size: 1.5em;
+}
+
 @media screen and (min-width: 860px) {
   .nav-toggle {
+    display: none;
+  }
+
+  .nav-mob-header {
     display: none;
   }
 
@@ -35,6 +45,10 @@ md-toolbar {
 
 @media screen and (max-width: 859px) {
   .nav-toggle {
+    display: block;
+  }
+
+  .nav-mob-header {
     display: block;
   }
 
