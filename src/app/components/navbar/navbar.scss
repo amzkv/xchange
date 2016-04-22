@@ -29,6 +29,12 @@ md-toolbar {
   font-size: 1.5em;
 }
 
+.nav-back {
+  position: absolute;
+  top: 14px;
+  left: 10px;
+}
+
 @media screen and (min-width: 860px) {
   .nav-toggle {
     display: none;
@@ -40,6 +46,10 @@ md-toolbar {
 
   .breadcrumbs {
     display: block;
+  }
+
+  .nav-back {
+    display: none;
   }
 }
 

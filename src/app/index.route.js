@@ -9,6 +9,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     })
     .state('home', {
       url: '/',
+      parentState: null,
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main',
@@ -20,7 +21,8 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     })
 
     .state('collection', {
-      url: '/collection/:id',
+      url: '/collection/:id/:locale',
+      parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
       controllerAs: 'collection',
@@ -32,7 +34,8 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     })
 
     .state('customer', {
-      url: '/customer/:id',
+      url: '/customer/:id/:category/:locale',
+      parentState: 'collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
