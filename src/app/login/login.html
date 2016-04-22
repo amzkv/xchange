@@ -1,0 +1,40 @@
+<application-bar></application-bar>
+<div class="login-container">
+  <div class="content-container" layout="row" layout-sm="column">
+    <div flex class="content-left-border">
+      <div class="login-left-content-settings">
+        <span style="display: block; font-size: 12px;">Need an account?</span>
+        <md-button data-ng-click="login.onClickForRegistration()" class="md-raised login-sample-button">Create Account</md-button>
+      </div>
+    </div>
+    <div flex class="content-right" >
+      <div id="signin">Sign In</div>
+      <form name="login.loginForm" id="loginForm" novalidate>
+        <div>
+          <md-input-container>
+            <label class="login-validation-color">Username</label>
+            <input type="email" style="color:white !important;border-color: rgb(250, 245, 245) !important;" name="userId" data-ng-model="login.userInfo.userId" required />
+            <div ng-messages="login.loginForm.userId.$error">
+              <span ng-message="required" class="login-validation-color">Please enter your email address</span>
+              <div ng-message="email" class="login-validation-color">Please enter a VALID email address</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container>
+            <label class="login-validation-color">Password</label>
+            <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required />
+            <div ng-messages="login.loginForm.passWord.$error">
+              <span ng-message="required" class="login-validation-color">Password doesn't match</span>
+            </div>
+          </md-input-container>
+        </div>
+        <div>
+          <md-button class="md-raised login-sample-button login-format" data-ng-click="login.onLogin()">Sign In</md-button>
+          <span data-ng-click="login.onClickForForgetPassword()" id="Span1" class="login-forgetpassword">Forgot your password?</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

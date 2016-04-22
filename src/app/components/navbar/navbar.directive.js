@@ -16,13 +16,11 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state, $http, $scope) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService) {
     'ngInject';
 
-    $http.get('app/config.json').success(function(data) {
-      $scope.appConfig = data.appConfig;//todo
-      //$scope['appConfig'] = {"appName":"Home"};
-    });
+    this.appConfig = ConfigService.appName();
+
     var self = this;
 
     self.state = $state.current.name;
@@ -53,7 +51,7 @@ class NavbarController {
       if(self.previousState && self.previousStateParams){
         $state.go(self.previousState, {id: self.previousStateParams.id})
       }
-    }
+    };
 
     this.navigateHome = function(){
       "use strict";
