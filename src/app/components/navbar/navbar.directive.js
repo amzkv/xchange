@@ -19,7 +19,8 @@ class NavbarController {
   constructor ($mdSidenav, $rootScope, $state, ConfigService) {
     'ngInject';
 
-    this.appConfig = ConfigService.appName();
+    var appName = ConfigService.appName();//todo
+    this.appConfig = {appName: appName};
 
     var self = this;
 
