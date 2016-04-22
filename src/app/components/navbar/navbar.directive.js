@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state, $http, $scope) {
+  constructor ($mdSidenav, $rootScope, $log, $state, $stateParams, $http, $scope) {
     'ngInject';
 
     $http.get('app/config.json').success(function(data) {
@@ -26,6 +26,7 @@ class NavbarController {
     var self = this;
 
     self.state = $state.current.name;
+    self.parentState = $state.current.parentState;
 
     this.toggle = function () {
       $mdSidenav('left').toggle();
@@ -35,23 +36,41 @@ class NavbarController {
       $mdSidenav('left').close();
     };
 
-    function setState(state, prev, params){
+    function setState(state, prev, params, parent, toParams){
       "use strict";
       self.state = state;
       self.previousState = prev;
       self.previousStateParams = params;
+      if (parent) {
+        self.parentState = parent;
+      }
+      if (toParams) {
+        self.params = toParams
+      }
     }
 
     var listener = $rootScope.$on('$stateChangeSuccess',
       function(event, toState, toParams, from, fromState){
-
-        setState($state.current.name, from.name, fromState);
+        setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
       });
 
     this.navigateBack = function(){
       "use strict";
       if(self.previousState && self.previousStateParams){
         $state.go(self.previousState, {id: self.previousStateParams.id})
+      }
+    }
+
+    this.navigateUp = function(){
+      "use strict";
+
+      if(self.parentState){
+        if (self.parentState == self.previousState) {
+          //{id: self.previousStateParams.id}
+          $state.go(self.previousState, self.previousStateParams);
+        } else {
+          $state.go(self.parentState, self.params);
+        }
       }
     }
 

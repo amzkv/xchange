@@ -9,7 +9,12 @@
   .footer-bar {
     bottom: 0px;
     position:fixed;
+    font-size: 0.7em;
     /*min-height: 22px;*/
+  }
+
+  .footer-fix {
+    padding-left: 10px;
   }
 }
 
@@ -21,4 +26,12 @@
   .footer-bar {
     display: none;
   }
+
+  .nav-back {
+      display: none;
+  }
+}
+
+.footer-nav {
+  font-size: 0.6em;
 }
