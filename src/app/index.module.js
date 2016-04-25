@@ -1,4 +1,5 @@
 import { config } from './index.config';
+//import { ENV } from './index.constant';
 import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
 import { MainController } from './main/main.controller';
@@ -17,6 +18,7 @@ import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid',  'anim-in-out'])
   .config(config)
   .config(routerConfig)
+  //.constant(ENV)
   .run(runBlock)
   .service('documentsService', DocumentsService)
   .service('ConfigService', ConfigService)

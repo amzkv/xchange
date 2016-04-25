@@ -9,13 +9,16 @@ export class ConfigService {
     this.$q = $q;
   }
 
-  getProtocol() {
-    return "http://";
+  getProtocol(env) {
+    "use strict"
+    let protocol = (env === 'development') ? "http://" : "https://";
+    return protocol;
   }
 
-  getBaseUrl() {
+  getBaseUrl(env) {
     "use strict";
-    return this.getProtocol() + 'stage.365xchange.net/api/';
+    let baseUrl = (env === 'development') ? "stage.365xchange.net/api/" : "365xchange.de/api/";
+    return this.getProtocol(env) + baseUrl;
   }
 
   userServiceURL() {
@@ -40,7 +43,7 @@ export class ConfigService {
 
   appName(){
     "use strict";
-    return '365 xchange'
+    return '365'
   }
 
 

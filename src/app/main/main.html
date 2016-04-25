@@ -6,9 +6,14 @@
         <a ui-sref="collection({id: card.group.value, locale: card.group.locale})">
           <md-card>
             <md-card-title>
+              <div class="card-count count-other">
+                {{card.count}}
+              </div>
               <md-card-title-text>
+                <!--<span class="md-subhead">
+                  {{card.count}}
+                </span>-->
                 <span class="md-headline">{{card.group.locale}}</span>
-                <span class="md-subhead">{{card.count}}</span>
               </md-card-title-text>
             </md-card-title>
           </md-card>

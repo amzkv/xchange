@@ -109,6 +109,10 @@ section.jumbotron {
   }
 }
 
+md-content.md-365violet-theme,
+md-content.md-365red-theme {
+  background-color: $background-color;
+}
 
 /**
  *  Do not remove the comment below. It's the markers used by gulp-inject to inject

@@ -6,9 +6,11 @@
         <a ui-sref="customer({id: card.id, category: card.group.locale, locale: card.title.locale})">
           <md-card>
             <md-card-title>
+              <div class="card-count count-other">
+                {{card.count}}
+              </div>
               <md-card-title-text>
                 <span class="md-headline">{{card.title.locale}}</span>
-                <span class="md-subhead">{{card.count}}</span>
               </md-card-title-text>
             </md-card-title>
           </md-card>

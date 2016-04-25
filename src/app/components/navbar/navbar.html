@@ -1,5 +1,7 @@
 <md-toolbar layout="row" layout-align="center center" class="header md-primary" ng-hide="vm.state === 'login'">
   <!--<i class="material-icons nav-toggle" ng-click="vm.toggle()">menu</i>-->
+
+  <i class="mdi mdi-menu hamburger" ng-click="vm.toggle()"></i>
   <span class="nav-mob-header" ng-click="vm.navigateHome()">{{vm.appConfig.appName}}</span>
 
 
@@ -52,6 +54,23 @@
     <nav class="menu">
       <ul>
         <li ng-click="vm.closeMenu()"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
+        <li ng-click="vm.closeMenu()"  ng-if="vm.state !== 'home'">
+          <a ui-sref="" ng-click="vm.navigateUp()">
+            <i class="material-icons">keyboard_arrow_right</i>{{vm.params.category}}
+          </a>
+
+        </li>
+        <li ng-click="vm.closeMenu()" ng-if="vm.state === 'customer'">
+          <a ui-sref="" ng-click="vm.navigateUp()">
+                <i class="material-icons" >keyboard_arrow_right</i>{{vm.params.locale}}
+          </a>
+
+        </li>
+        <li ng-click="vm.closeMenu()" ng-if="vm.state === 'customer'">
+          <a ui-sref="">
+            <i class="material-icons" >keyboard_arrow_right</i>Documents
+          </a>
+        </li>
       </ul>
     </nav>
   </md-content>

@@ -2,10 +2,13 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log) {
+  constructor($http, $log, ConfigService) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
+    this.configService = ConfigService;
+    //console.log(ENV);
+    this.env = 'development';
   }
 
   callDocumentsCore() {
@@ -19,7 +22,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post('http://stage.365xchange.net/api/document', {
+    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
@@ -39,7 +42,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post('http://stage.365xchange.net/api/document', {
+    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
@@ -60,7 +63,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post('http://stage.365xchange.net/api/document', {
+    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
       auth: info.auth,
       document: info.document,
       contentType: 'application/json',
