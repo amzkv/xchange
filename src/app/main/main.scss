@@ -15,6 +15,8 @@
 }
 .deckgrid {
   padding-top: 60px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .deckgrid .column {
@@ -51,9 +53,76 @@
   width: 210px;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 2310px)  and (max-width: 5120px) {
   .deckgrid {
-    width: 1000px;
+    margin-top: 150px;
+    width: 2100px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '10 .column.size-1-10';
+  }
+}
+
+@media screen and (min-width: 2150px) and (max-width: 2360px) {
+  .deckgrid {
+    margin-top: 150px;
+    width: 2100px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '9 .column.size-1-9';
+  }
+}
+
+@media screen and (min-width: 1890px) and (max-width: 2150px) {
+  .deckgrid {
+    margin-top: 100px;
+    width: 1680px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '8 .column.size-1-8';
+  }
+}
+
+@media screen and (min-width: 1720px) and (max-width: 1940px) {
+  .deckgrid {
+    margin-top: 100px;
+    width: 1470px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '7 .column.size-1-7';
+  }
+}
+
+@media screen and (min-width: 1520px) and (max-width: 1720px) {
+  .deckgrid {
+    margin-top: 100px;
+    width: 1260px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '6 .column.size-1-6';
+  }
+}
+
+@media screen and (min-width: 1310px) and (max-width: 1520px) {
+  .deckgrid {
+    margin-top: 100px;
+    width: 1260px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '6 .column.size-1-6';
+  }
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1310px) {
+  .deckgrid {
+    margin-top: 70px;
+    width: 1050px;
   }
 
   .deckgrid[deckgrid]::before {
@@ -61,9 +130,10 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (min-width: 890px) and (max-width: 1100px) {
   .deckgrid {
-    width:800px;
+    margin-top: 50px;
+    width:840px;
   }
 
   .deckgrid[deckgrid]::before {
@@ -71,9 +141,42 @@
   }
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (min-width: 680px) and (max-width: 890px) {
   .deckgrid {
-    width:760px;
+    margin-top: 30px;
+    width:630px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '3 .column.size-1-3';
+  }
+}
+
+@media screen and (min-width: 460px) and (max-width: 680px) {
+  .deckgrid {
+    margin-top: 30px;
+    width:420px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '2 .column.size-1-2';
+  }
+}
+
+@media screen and (min-width: 260px) and (max-width: 460px) {
+  .deckgrid {
+    /*margin-top: 30px;*/
+    width:210px;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '1 .column.size-1-1';
+  }
+}
+
+/*@media screen and (max-width: 900px) {
+  .deckgrid {
+    width:630px;
   }
 
   .deckgrid[deckgrid]::before {
@@ -90,9 +193,9 @@
   .deckgrid[deckgrid]::before {
     content: '2 .column.size-1-2';
   }
-}
+}*/
 
-@media only screen and (max-device-width : 320px),
+/*@media only screen and (max-device-width : 320px),
 only screen and (max-width : 480px) {
 
   .l-header {
@@ -109,7 +212,7 @@ only screen and (max-width : 480px) {
   .deckgrid[deckgrid]::before {
     content: '1 .column.size-1-1';
   }
-}
+}*/
 
 .image-container {
   overflow-x: hidden;

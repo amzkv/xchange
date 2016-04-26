@@ -55,19 +55,19 @@
       <ul>
         <li ng-click="vm.closeMenu()"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
         <li ng-click="vm.closeMenu()"  ng-if="vm.state !== 'home'">
-          <a ui-sref="" ng-click="vm.navigateUp()">
+          <a ng-click="vm.navigateUp()">
             <i class="material-icons">keyboard_arrow_right</i>{{vm.params.category}}
           </a>
 
         </li>
         <li ng-click="vm.closeMenu()" ng-if="vm.state === 'customer'">
-          <a ui-sref="" ng-click="vm.navigateUp()">
+          <a ui-sref="customer" ng-click="vm.navigateUp()">
                 <i class="material-icons" >keyboard_arrow_right</i>{{vm.params.locale}}
           </a>
 
         </li>
         <li ng-click="vm.closeMenu()" ng-if="vm.state === 'customer'">
-          <a ui-sref="">
+          <a ui-sref="customer">
             <i class="material-icons" >keyboard_arrow_right</i>Documents
           </a>
         </li>
