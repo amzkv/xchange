@@ -2,13 +2,11 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log, ConfigService) {
+  constructor($http, $log, ConfigService, CONSTANT) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
     this.configService = ConfigService;
-    //console.log(ENV);
-    this.env = 'production';
   }
 
   callDocumentsCore() {
@@ -22,7 +20,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
+    return this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
@@ -42,7 +40,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
+    return this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
@@ -63,7 +61,7 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post(this.configService.getBaseUrl(this.env) + 'document', {
+    return this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       document: info.document,
       contentType: 'application/json',

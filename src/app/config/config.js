@@ -2,23 +2,24 @@
  * Created by decipher on 22.4.16.
  */
 export class ConfigService {
-  constructor($http, $log, $q) {
+  constructor($http, $log, $q, CONSTANT) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
     this.$q = $q;
+    this.constant = CONSTANT;
   }
 
   getProtocol(env) {
     "use strict"
-    let protocol = (env === 'development') ? "http://" : "https://";
+    let protocol = (this.constant.ENV === 'development') ? this.constant.HTTP : this.constant.HTTPS;
     return protocol;
   }
 
-  getBaseUrl(env) {
+  getBaseUrl() {
     "use strict";
-    let baseUrl = (env === 'development') ? "stage.365xchange.net/api/" : "365xchange.de/api/";
-    return this.getProtocol(env) + baseUrl;
+    let baseUrl = (this.constant.ENV === 'development') ? this.constant.BASEURL_DEV + this.constant.API_ENTRY : this.constant.BASEURL_PROD + this.constant.API_ENTRY;
+    return this.getProtocol(this.constant.ENV) + baseUrl;
   }
 
   userServiceURL() {
