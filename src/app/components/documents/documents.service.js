@@ -2,18 +2,20 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log, ConfigService) {
+  constructor($http, $log, ConfigService, LocalAccessService) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
     this.configService = ConfigService;
+    this.localAccessService = LocalAccessService;
   }
 
   callDocumentsCore() {
+    let credentials = this.localAccessService.getCredentails();
     let info =
     {
       "auth" : {
-        "user" : { "username" : "mm@365my.biz", "password" : "mm2015!" }
+        "user" : { "username" : credentials.userId, "password" : credentials.passWord }
       },
       "collection" : {
         "method" : "core"
@@ -29,10 +31,11 @@ export class DocumentsService {
   }
 
   callDocumentRelated(value) {
+    let credentials = this.localAccessService.getCredentails();
     let info =
     {
       "auth" : {
-        "user" : { "username" : "mm@365my.biz", "password" : "mm2015!" }
+        "user" : { "username" : credentials.userId, "password" : credentials.passWord }
       },
       "collection": {
         "method": "related by ID",
@@ -49,14 +52,15 @@ export class DocumentsService {
   }
 
   callDocumentByOneCollection(id) {
+    let credentials = this.localAccessService.getCredentails();
     let info =
     {
       "auth" : {
-        "user" : { "username" : "mm@365my.biz", "password" : "mm2015!" }
+        "user" : { "username" : credentials.userId, "password" : credentials.passWord }
       },
       "document": {
-       "method" : "by collection",
-       "collection" : id,
+        "method" : "by collection",
+        "collection" : id,
         "offset" : { "start" : 1, "end" : 20 }
       }
     };

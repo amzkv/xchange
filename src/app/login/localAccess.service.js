@@ -20,7 +20,8 @@ export class LocalAccessService {
   getCredentails() {
     //var decrypted = CryptoJS.AES.decrypt(localStorage.getItem('userinfo'), "temp").toString(CryptoJS.enc.Latin1);
     //return JSON.parse(decrypted);
-    return this.$window.localStorage.getItem('userinfo');
+    let credentials = this.$window.localStorage.getItem('userinfo');
+    return JSON.parse(credentials);
   }
 
   setCredentails(UserInfo) {
