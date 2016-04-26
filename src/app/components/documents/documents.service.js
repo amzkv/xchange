@@ -2,7 +2,7 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log, ConfigService, CONSTANT) {
+  constructor($http, $log, ConfigService) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
