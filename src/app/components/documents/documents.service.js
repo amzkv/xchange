@@ -8,7 +8,7 @@ export class DocumentsService {
     this.$log = $log;
     this.configService = ConfigService;
     //console.log(ENV);
-    this.env = 'development';
+    this.env = 'production';
   }
 
   callDocumentsCore() {
