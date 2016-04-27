@@ -48,6 +48,10 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         },
         category: function ($stateParams) {
           return $stateParams.category;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
         }
       }
     });

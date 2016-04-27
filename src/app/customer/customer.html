@@ -4,7 +4,7 @@
       <div class="a-card">
         <md-card class="main-card" ng-click="mother.showDetails(card)" ng-show="!card.details">
           <div class="image-container">
-            <img ng-src="http://stage.365xchange.net/api/file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
+            <img ng-src="{{mother.baseUrl}}file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
           </div>
           <md-card-title>
             <md-card-title-text>
@@ -18,7 +18,7 @@
         <md-card class="card-details" ng-show="card.details" ng-click="mother.showDetails(card)"
                  ng-class="{'CUSTOMER':'first-level','VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Datum': 'second-level', 'Lieferanten' : 'second-level', 'customer': 'second-level', 'Belegart': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[mother.category]">
           <div class="image-container">
-            <img ng-src="http://stage.365xchange.net/api/file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
+            <img ng-src="{{mother.baseUrl}}file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
           </div>
           <md-card-title>
             <md-card-title-text class="white-card">
