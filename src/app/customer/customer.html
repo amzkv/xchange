@@ -39,16 +39,17 @@
             <span style="display:block;width:100%;text-align: left;">
             </span>
           </div>-->
-
+          <div class="card-upper-bar"></div>
           <md-card-title>
             <md-card-title-media>
               <!--<div class="md-media-sm card-media">-->
                 <img style="background-color: #FAFAFA;" ng-src="{{mother.baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title}}">
               <!--</div>-->
             </md-card-title-media>
-            <md-card-title-text>
+            <md-card-title-text class="mod-card-title">
               <span class="md-headline mod-card-text">{{card.title}}</span>
-              <!--<span class="md-subhead">{{document.workstatus}}</span>-->
+              <br/>
+              <span class="md-subhead">{{card.workstatus}}</span>
               <span class="md-subhead">{{card.type.locale}}</span>
               <span class="md-subhead">{{card.date}}</span>
               <span class="md-subhead secondary-subhead">{{card.user.firstname + ' ' + card.user.lastname}}</span>
@@ -56,7 +57,9 @@
           </md-card-title>
 
         </md-card>
-        <md-card class="card-details second-level" ng-show="card.details" ng-click="mother.showDetails(card)">
+        <md-card style="height:322px;" class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+            'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other', 'Belegart': 'count-other', 'Datum': 'count-other',
+            'Project': 'count-project', '':'count-other'}[mother.category]}}" ng-show="card.details" ng-click="mother.showDetails(card)">
                  <!--ng-class="{'CUSTOMER':'first-level','VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Datum': 'second-level', 'Lieferanten' : 'second-level', 'customer': 'second-level', 'Belegart': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[mother.category]"-->
           <!--<div class="image-container">
             <img ng-src="{{mother.baseUrl}}file{{card.thumb}}" class="md-card-image" alt="{{card.title}}">
@@ -74,20 +77,35 @@
               <i class="mdi mdi-pencil"></i>
             </button>
           </md-card-actions>-->
-
+          <md-card-actions layout="row" layout-align="end center">
+            <button class="md-button md-icon-button card-details-button download-button" type="button" aria-label="Download" ng-click="$event.stopPropagation()">
+              <i class="mdi mdi-download"></i>
+            </button>
+            <button class="md-button md-icon-button card-details-button edit-button" type="button" aria-label="Edit" ng-click="$event.stopPropagation()">
+              <i class="mdi mdi-pencil"></i>
+            </button>
+          </md-card-actions>
         <md-card-title>
-          <md-card-title-media>
-            <!--<div class="md-media-sm card-media">-->
+          <!--<md-card-title-media>
             <img ng-src="{{mother.baseUrl}}file{{card.thumb}}" alt="{{card.title}}">
-            <!--</div>-->
-          </md-card-title-media>
-          <md-card-title-text>
+          </md-card-title-media>-->
+
+          <md-card-title-text class="mod-card-title">
             <span class="md-headline md-headline-selected mod-card-text">{{card.title}}</span>
+            <br/>
             <span class="md-subhead md-subhead-selected">{{card.type.locale}}</span>
-            <!--<span class="md-subhead md-subhead-selected">{{document.workstatus}}</span>-->
             <span class="md-subhead md-subhead-selected">{{card.date}}</span>
             <span class="md-subhead secondary-subhead md-secondary-subhead-selected">{{card.user.firstname + ' ' + card.user.lastname}}</span>
           </md-card-title-text>
+
+          <md-card-title-text class="mod-card-title">
+            <span class="md-headline md-headline-selected mod-card-text">Collections:</span>
+            <br/>
+            <!--ng-repeat doesnt work with Deckgrid, TODO-->
+            <div flex deckgrid class="listgrid md-subhead-selected" source="card.collections" cardTemplateString="<div>{{card.title.locale || card.title.value}}</div>">
+            </div>
+          </md-card-title-text>
+
         </md-card-title>
 
         </md-card>
