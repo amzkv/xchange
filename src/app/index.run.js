@@ -1,4 +1,8 @@
-export function runBlock ($log) {
+export function runBlock (CheckAuthService, $state, $log) {
   'ngInject';
-  $log.debug('runBlock end');
+  if(CheckAuthService.checkAuth){
+    $log.log('authorized');
+  } else {
+    $state.go('login');
+  }
 }

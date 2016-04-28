@@ -11,6 +11,11 @@ export class CheckAuthService {
 
   checkAuth(){
     "use strict";
+    if (this.$window.localStorage.getItem("userinfo") === null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   setUser(user){

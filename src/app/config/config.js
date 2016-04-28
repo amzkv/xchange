@@ -10,7 +10,7 @@ export class ConfigService {
     this.constant = CONSTANT;
   }
 
-  getProtocol(env) {
+  getProtocol() {
     "use strict"
     let protocol = (this.constant.ENV === 'development') ? this.constant.HTTP : this.constant.HTTPS;
     return protocol;

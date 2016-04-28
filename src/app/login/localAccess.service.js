@@ -32,6 +32,7 @@ export class LocalAccessService {
 
   removeCredentails () {
     this.$window.localStorage.removeItem('userinfo');
+    this.$window.localStorage.removeItem('user');
   }
 
   setViewSettings(settings) {

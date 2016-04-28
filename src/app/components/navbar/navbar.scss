@@ -62,11 +62,18 @@ md-toolbar {
 .nav-filter {
   position: absolute;
   top: 10px;
-  right: 80px;
+  right: 120px;
   font-size: 2.2em;
 }
 
 .nav-options {
+  position: absolute;
+  top: 14px;
+  right: 70px;
+  font-size: 1.9em;
+}
+
+.nav-logout {
   position: absolute;
   top: 14px;
   right: 20px;
@@ -130,7 +137,7 @@ md-toolbar {
     display: block;
   }
 
-  .nav-options, .nav-filter, .nav-toggle, .hamburger {
+  .nav-options, .nav-filter, .nav-toggle, .hamburger, .nav-logout {
     font-size: 1.7em;
     top: 8px;
   }
@@ -142,13 +149,5 @@ md-toolbar {
 
   .md-breadcrumb {
     margin-left: 100px;
-  }
-
-  .nav-filter {
-    right: 60px;
-  }
-
-  .nav-options {
-    right: 10px;
   }
 }

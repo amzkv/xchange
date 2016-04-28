@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService) {
     'ngInject';
 
     var appName = ConfigService.appName();//todo
@@ -33,6 +33,12 @@ class NavbarController {
 
     this.closeMenu = function () {
       $mdSidenav('left').close();
+    };
+
+    this.logout = function(){
+      "use strict";
+      LocalAccessService.removeCredentails();
+      $state.go('login');
     };
 
     function setState(state, prev, params, parent, toParams){
