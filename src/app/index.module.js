@@ -14,6 +14,7 @@ import { LocalAccessService } from './login/localAccess.service';
 import { NavbarDirective } from './components/navbar/navbar.directive';
 import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
+import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
 
 angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid'])
   .constant('CONSTANT', constant)
@@ -32,4 +33,5 @@ angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'n
   .controller('CustomerController', CustomerController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('footerBar', FooterbarDirective)
-  .directive('sideMenu', SidemenuDirective);
+  .directive('sideMenu', SidemenuDirective)
+  .directive('noScopeRepeat', NoScopeRepeatDirective);

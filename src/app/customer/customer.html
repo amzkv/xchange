@@ -102,8 +102,8 @@
             <span class="md-headline md-headline-selected mod-card-text">Collections:</span>
             <br/>
             <!--ng-repeat doesnt work with Deckgrid, TODO-->
-            <div flex deckgrid class="listgrid md-subhead-selected" source="card.collections" cardTemplateString="<div>{{card.title.locale || card.title.value}}</div>">
-            </div>
+            <div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.locale"></div>
+
           </md-card-title-text>
 
         </md-card-title>
