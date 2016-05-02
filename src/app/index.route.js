@@ -21,7 +21,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
     })
 
     .state('collection', {
-      url: '/collection/:collectionId',
+      url: '/:collectionId',
       parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
@@ -34,7 +34,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
     })
 
     .state('customer', {
-      url: '/customer/:customerId',
+      url: '/:collectionId/:customerId',
       parentState: 'collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
