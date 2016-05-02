@@ -5,7 +5,7 @@ export class CustomerController {
   constructor ($scope, docs, category, themeProvider, baseUrl) {
     'ngInject';
 
-    themeProvider.setDefaultTheme('365red');
+    //themeProvider.setDefaultTheme('365red');
 
     $scope.category = category;
 
