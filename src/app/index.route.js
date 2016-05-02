@@ -1,4 +1,4 @@
-export function routerConfig($stateProvider, $urlRouterProvider) {
+export function routerConfig($stateProvider, $urlRouterProvider, $locationProvider) {
   'ngInject';
   $stateProvider
     .state('login', {
@@ -21,20 +21,20 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
     })
 
     .state('collection', {
-      url: '/collection/:id/:locale',
+      url: '/:collectionId',
       parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
       controllerAs: 'collection',
       resolve: {
         collection: function (documentsService, $stateParams) {
-          return documentsService.callDocumentRelated($stateParams.id);
+          return documentsService.callDocumentRelated($stateParams.collectionId);
         }
       }
     })
 
     .state('customer', {
-      url: '/customer/:id/:category/:locale',
+      url: '/:customerId/:category',
       parentState: 'collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
@@ -44,7 +44,7 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
       },
       resolve: {
         docs: function (documentsService, $stateParams) {
-          return documentsService.callDocumentByOneCollection($stateParams.id);
+          return documentsService.callDocumentByOneCollection($stateParams.customerId);
         },
         category: function ($stateParams) {
           return $stateParams.category;
@@ -55,6 +55,8 @@ export function routerConfig($stateProvider, $urlRouterProvider) {
         }
       }
     });
+
+  $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/');
 }
