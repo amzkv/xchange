@@ -9,7 +9,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
     })
     .state('home', {
       url: '/',
-      parentState: null,
+      //parentState: null,
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main',
@@ -21,8 +21,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
     })
 
     .state('collection', {
-      url: '/:collectionId',
-      parentState: 'home',
+      url: '/collection/:collectionId',
+      //parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
       controllerAs: 'collection',
@@ -34,8 +34,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
     })
 
     .state('customer', {
-      url: '/:customerId/:category',
-      parentState: 'collection',
+      url: '/customer/:customerId',
+      //parentState: 'collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
@@ -56,7 +56,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     });
 
-  $locationProvider.html5Mode(true);
+  //$locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/');
 }

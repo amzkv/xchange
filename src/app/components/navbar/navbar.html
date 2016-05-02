@@ -22,17 +22,12 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span ng-if="vm.state != 'collection'" ng-click="vm.navigateUp()">{{vm.params.category}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md>
-                <i class="material-icons" ng-if="vm.state === 'customer'">keyboard_arrow_right</i>
+        <span ng-if="vm.state !== 'home'" ng-click="vm.navigateUp()">{{vm.params.collectionId}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer'">
+                <i class="material-icons" >keyboard_arrow_right</i>
         </span>
 
         <span ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.params.customerId}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md>
-                <i class="material-icons" ng-if="vm.state === 'customer'">keyboard_arrow_right</i>
-        </span>
-
-        <span ng-if="vm.state === 'customer'">Documents</span>
 
       </span>
     </h2>
