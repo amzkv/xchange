@@ -22,7 +22,8 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span ng-if="vm.state !== 'home'" ng-click="vm.navigateUp()">{{vm.params.collectionId}}</span>
+        <span ng-if="vm.state === 'collection'" ng-click="vm.navigateUp()">{{vm.params.collectionId}}</span>
+        <span ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionId}}</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer'">
                 <i class="material-icons" >keyboard_arrow_right</i>
         </span>

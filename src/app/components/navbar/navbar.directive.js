@@ -26,6 +26,7 @@ class NavbarController {
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
+    console.log($state.current.parentState);
 
     this.toggle = function () {
       $mdSidenav('left').toggle();
@@ -72,12 +73,13 @@ class NavbarController {
       if(self.parentState){
         if (self.parentState == self.previousState) {
           //{id: self.previousStateParams.id}
+
           $state.go(self.previousState, self.previousStateParams);
         } else {
           $state.go(self.parentState, self.params);
         }
       }
-    }
+    };
 
     this.navigateHome = function(){
       "use strict";
