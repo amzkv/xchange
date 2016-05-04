@@ -3,7 +3,7 @@
     <div flex deckgrid class="deckgrid" source="main.docs">
 
       <div class="a-card">
-        <a ui-sref="collection({collectionId: card.group.value})">
+        <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
           <md-card>
             <md-card-title>
               <div class="card-count" ng-class="{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',

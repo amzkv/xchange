@@ -26,6 +26,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
       controllerAs: 'collection',
+      params: {
+        collectionLocale: null
+      },
       resolve: {
         collection: function (documentsService, $stateParams) {
           return documentsService.callDocumentRelated($stateParams.collectionId);
@@ -40,7 +43,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       controller: 'CustomerController',
       controllerAs: 'customer',
       params: {
-        category: 'CUSTOMER'
+        category: 'CUSTOMER',
+        collectionLocale: null
       },
       resolve: {
         docs: function (documentsService, $stateParams) {
