@@ -26,7 +26,6 @@ class NavbarController {
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
-    console.log($state.current.parentState);
 
     this.toggle = function () {
       $mdSidenav('left').toggle();

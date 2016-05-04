@@ -1,4 +1,4 @@
-<div layout-fill ng-cloak="">
+<div layout-fill ng-cloak="" infinite-scroll="more()" infinite-scroll-disabled='documentService.busy' infinite-scroll-distance='1'>
   <md-content class="md-padding">
     <div flex deckgrid class="docgrid" source="docs">
       <div class="a-card" >
@@ -56,7 +56,7 @@
     </div>
   </md-content>
 </div>
-
+<!--<div ></div>-->
 <!-- ng-class="{'CUSTOMER':'first-level', 'VENDOR':'first-level', 'Lead':'first-level',
 'Monat': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level',
 'Project': 'third-level', '':'first-level'}[mother.category]" -->

@@ -24,7 +24,7 @@ export class LoginController {
 
     function validateUserData() {
       LoginService.authenticateUser(self.userInfo).then(function (response) {
-        $log.log(response);
+        //$log.log(response);
         if (response.data.response.errorcode == "200") {
           LocalAccessService.setCredentails(self.userInfo);
           //$scope.showSuccessToast($translate.instant('LOGIN_SUCCESSFULLY'));
