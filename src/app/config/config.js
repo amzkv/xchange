@@ -47,5 +47,15 @@ export class ConfigService {
     return '365'
   }
 
+  getDocumentStartValue(){
+    "use strict";
+    return 1
+  }
+
+  getDocumentOffsetValue(){
+    "use strict";
+    return 10
+  }
+
 
 }
