@@ -6,9 +6,9 @@
         <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
           <md-card>
             <md-card-title>
-              <div class="card-count" ng-class="{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
-'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other',
-'Project': 'count-project', '':'count-other'}[card.group.value]">
+              <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+              'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
+              'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
                 {{card.count}}
               </div>
               <md-card-title-text>

@@ -8,7 +8,7 @@ export class CustomerController {
     $scope.category = category;
 
     $scope.docs = docs.data.documents;
-    $scope.totalDocCount = docs.data.control.total_documents;
+    $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
     $scope.baseUrl = baseUrl;
 

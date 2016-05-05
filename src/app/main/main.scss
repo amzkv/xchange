@@ -19,13 +19,17 @@
   width: 100%;
 }
 
+.deckgrid md-card {
+  min-height: 110px;
+}
+
 .deckgrid .column {
   float: left;
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column-1-4 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column.size-1-5,
@@ -34,62 +38,29 @@
 .deckgrid .column.size-1-8,
 .deckgrid .column.size-1-9,
 .deckgrid .column.size-1-10 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column.size-1-4 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column.size-1-3 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column.size-1-2 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 .deckgrid .column.size-1-1 {
-  width: 210px;
+  width: $main-card-width;
 }
 
 @media screen and (min-width: 2310px)  and (max-width: 5120px) {
   .deckgrid {
-    margin-top: 150px;
-    width: 2100px;
-  }
-
-  .deckgrid[deckgrid]::before {
-    content: '10 .column.size-1-10';
-  }
-}
-
-@media screen and (min-width: 2150px) and (max-width: 2360px) {
-  .deckgrid {
-    margin-top: 150px;
-    width: 2100px;
-  }
-
-  .deckgrid[deckgrid]::before {
-    content: '9 .column.size-1-9';
-  }
-}
-
-@media screen and (min-width: 1890px) and (max-width: 2150px) {
-  .deckgrid {
     margin-top: 100px;
-    width: 1680px;
-  }
-
-  .deckgrid[deckgrid]::before {
-    content: '8 .column.size-1-8';
-  }
-}
-
-@media screen and (min-width: 1720px) and (max-width: 1940px) {
-  .deckgrid {
-    margin-top: 100px;
-    width: 1470px;
+    width: $main-card-width*7;
   }
 
   .deckgrid[deckgrid]::before {
@@ -97,10 +68,21 @@
   }
 }
 
-@media screen and (min-width: 1520px) and (max-width: 1720px) {
+@media screen and (min-width: (($main-card-width*7)+50)) and (max-width: (($main-card-width*8)+50)) {
   .deckgrid {
     margin-top: 100px;
-    width: 1260px;
+    width: $main-card-width*7;
+  }
+
+  .deckgrid[deckgrid]::before {
+    content: '7 .column.size-1-7';
+  }
+}
+
+@media screen and (min-width: (($main-card-width*6)+50)) and (max-width: (($main-card-width*7)+50)) {
+  .deckgrid {
+    margin-top: 100px;
+    width: $main-card-width*6;
   }
 
   .deckgrid[deckgrid]::before {
@@ -108,21 +90,10 @@
   }
 }
 
-@media screen and (min-width: 1310px) and (max-width: 1520px) {
+@media screen and (min-width: (($main-card-width*5)+50)) and (max-width: (($main-card-width*6)+50)) {
   .deckgrid {
     margin-top: 100px;
-    width: 1260px;
-  }
-
-  .deckgrid[deckgrid]::before {
-    content: '6 .column.size-1-6';
-  }
-}
-
-@media screen and (min-width: 1100px) and (max-width: 1310px) {
-  .deckgrid {
-    margin-top: 70px;
-    width: 1050px;
+    width: $main-card-width*5;
   }
 
   .deckgrid[deckgrid]::before {
@@ -130,10 +101,10 @@
   }
 }
 
-@media screen and (min-width: 890px) and (max-width: 1100px) {
+@media screen and (min-width: (($main-card-width*4)+50)) and (max-width: (($main-card-width*5)+50)) {
   .deckgrid {
-    margin-top: 50px;
-    width:840px;
+    margin-top: 100px;
+    width: $main-card-width*4;
   }
 
   .deckgrid[deckgrid]::before {
@@ -141,10 +112,10 @@
   }
 }
 
-@media screen and (min-width: 680px) and (max-width: 890px) {
+@media screen and (min-width: (($main-card-width*3)+50)) and (max-width: (($main-card-width*4)+50)) {
   .deckgrid {
-    margin-top: 30px;
-    width:630px;
+    margin-top: 70px;
+    width: $main-card-width*3;
   }
 
   .deckgrid[deckgrid]::before {
@@ -152,10 +123,10 @@
   }
 }
 
-@media screen and (min-width: 460px) and (max-width: 680px) {
+@media screen and (min-width: (($main-card-width*2)+50)) and (max-width: (($main-card-width*3)+50)) {
   .deckgrid {
     margin-top: 30px;
-    width:420px;
+    width: $main-card-width*2;
   }
 
   .deckgrid[deckgrid]::before {
@@ -163,10 +134,9 @@
   }
 }
 
-@media screen and (min-width: 260px) and (max-width: 460px) {
+@media screen and (min-width: (($main-card-width*1)+50)) and (max-width: (($main-card-width*2)+50)) {
   .deckgrid {
-    /*margin-top: 30px;*/
-    width:210px;
+    width: $main-card-width*1;
   }
 
   .deckgrid[deckgrid]::before {
@@ -227,11 +197,17 @@ md-card md-card-title md-card-title-text:only-child .md-subhead.secondary-subhea
 }
 
 md-card md-card-title md-card-title-text .md-headline {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
+  bottom: 15px;
+  position: absolute;
   word-break: break-all;
   font-size: 18px;
   line-height: 24px;
   color: #310055;
+}
+
+.collection-text .md-headline {
+  font-size: 16px;
 }
 
 .card-count {
@@ -259,13 +235,17 @@ md-card md-card-title md-card-title-text .md-headline {
   background: #4b0082;
 }
 
+.count-another {
+  background: #310055;
+}
+
 .card-details {
   color: #fff;
 }
 
-/*.md-padding {
-    padding-top: 65px;
-}*/
+.md-padding {
+    padding-bottom: 65px;
+}
 
 /*.layout-padding  {
   padding-top: 40px;
@@ -311,6 +291,7 @@ md-card md-card-title md-card-title-text .md-headline {
 .card-title-mod {
   padding-right: 12px;
   padding-left: 10px;
+  font-size: 16px !important;
 }
 
 @keyframes show {
