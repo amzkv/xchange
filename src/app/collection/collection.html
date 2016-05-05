@@ -7,8 +7,8 @@
           <md-card>
             <md-card-title class="card-title-mod">
               <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
-              'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other',
-              'Project': 'count-project', '':'count-other'}[card.group.value]}}" >
+              'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
+              'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}" >
                 {{card.count}}
               </div>
               <md-card-title-text >
