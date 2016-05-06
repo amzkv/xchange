@@ -9,7 +9,7 @@
     </div>
     <div flex class="content-right" >
       <div id="signin">Sign In</div>
-      <form name="login.loginForm" id="loginForm" novalidate>
+      <form name="login.loginForm" id="loginForm" ng-keyup="$event.keyCode == 13 && login.onLogin()" novalidate>
         <div>
           <md-input-container>
             <label class="login-validation-color">Username</label>
