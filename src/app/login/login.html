@@ -23,11 +23,11 @@
         <div>
           <md-input-container>
             <label class="login-validation-color">Password</label>
-            <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required />
+            <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required server />
             <div ng-messages="login.loginForm.passWord.$error">
               <span ng-message="required" class="login-validation-color">Password doesn't match</span>
+              <div ng-message="server" class="login-validation-color" style="opacity: 1; margin-top: 0px;">{{login.loginForm.serviceErrorMessage}}</div>
             </div>
-          </md-input-container>
         </div>
         <div>
           <md-button class="md-raised login-sample-button login-format" data-ng-click="login.onLogin()">Sign In</md-button>
