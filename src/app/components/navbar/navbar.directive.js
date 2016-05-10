@@ -16,8 +16,15 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService) {
     'ngInject';
+
+    $scope.documentsService = documentsService;
+    $scope.busy = documentsService.busy;
+
+    $scope.$watch('documentsService.busy', function (newValue, oldValue, scope) {
+      scope.busy = newValue;
+    });
 
     var appName = ConfigService.appName();//todo
     this.appConfig = {appName: appName};

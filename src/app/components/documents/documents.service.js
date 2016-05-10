@@ -20,6 +20,8 @@ export class DocumentsService {
   }
 
   callDocumentsCore() {
+
+    this.busy = true;
     let credentials = this.localAccessService.getCredentails();
     let info =
     {
@@ -30,16 +32,26 @@ export class DocumentsService {
         "method" : "core"
       }
     };
-
-    return this.$http.post(this.configService.getBaseUrl() + 'document', {
+    let self = this;
+    let promise =  this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
       datatype: 'json'
     });
+
+    promise.then(function(response) {
+      self.busy = false;
+    });
+
+    return promise;
+
   }
 
   callDocumentRelated(value) {
+
+    this.busy = true;
+
     let credentials = this.localAccessService.getCredentails();
     let info =
     {
@@ -52,12 +64,20 @@ export class DocumentsService {
       }
     };
 
-    return this.$http.post(this.configService.getBaseUrl() + 'document', {
+    let self = this;
+    let promise = this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       collection: info.collection,
       contentType: 'application/json',
       datatype: 'json'
     });
+
+    promise.then(function(response) {
+      self.busy = false;
+    });
+
+    return promise;
+
   }
 
   callDocumentByOneCollection(id, start, end) {
@@ -81,8 +101,7 @@ export class DocumentsService {
       }
     };
 
-    var that = this;
-
+    let self = this;
     let promise = this.$http.post(this.configService.getBaseUrl() + 'document', {
       auth: info.auth,
       document: info.document,
@@ -91,7 +110,7 @@ export class DocumentsService {
     });
 
     promise.then(function(response) {
-      that.busy = false;
+      self.busy = false;
     });
 
     return promise;
