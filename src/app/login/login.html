@@ -9,11 +9,11 @@
     </div>
     <div flex class="content-right" >
       <div id="signin">Sign In</div>
-      <form name="login.loginForm" id="loginForm" novalidate>
+      <form name="login.loginForm" id="loginForm" ng-keyup="$event.keyCode == 13 && login.onLogin()" novalidate>
         <div>
           <md-input-container>
             <label class="login-validation-color">Username</label>
-            <input type="email" style="color:white !important;border-color: rgb(250, 245, 245) !important;" name="userId" data-ng-model="login.userInfo.userId" required />
+            <input type="email" validate-email style="color:white !important;border-color: rgb(250, 245, 245) !important;" name="userId" data-ng-model="login.userInfo.userId" required />
             <div ng-messages="login.loginForm.userId.$error">
               <span ng-message="required" class="login-validation-color">Please enter your email address</span>
               <div ng-message="email" class="login-validation-color">Please enter a VALID email address</div>
@@ -23,11 +23,11 @@
         <div>
           <md-input-container>
             <label class="login-validation-color">Password</label>
-            <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required />
+            <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required server />
             <div ng-messages="login.loginForm.passWord.$error">
               <span ng-message="required" class="login-validation-color">Password doesn't match</span>
+              <div ng-message="server" class="login-validation-color" style="opacity: 1; margin-top: 0px;">{{login.loginForm.serviceErrorMessage}}</div>
             </div>
-          </md-input-container>
         </div>
         <div>
           <md-button class="md-raised login-sample-button login-format" data-ng-click="login.onLogin()">Sign In</md-button>

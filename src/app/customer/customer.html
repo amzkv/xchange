@@ -33,25 +33,10 @@
           </md-card-actions>
         <md-card-title>
           <md-card-title-text class="mod-card-title">
-            <span class="md-headline md-headline-selected mod-card-text">{{card.title|truncate:true:18:'...'}}</span>
-            <br/>
-            <span class="md-subhead md-subhead-selected">{{card.type.locale|truncate:true:18:'...'}}</span>
-            <span class="md-subhead md-subhead-selected">{{card.date}}</span>
-            <span class="md-subhead secondary-subhead md-secondary-subhead-selected">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:true:28:'...'}}</span>
+            <span class="md-headline md-headline-selected mod-card-text" title="{{card.title}}">{{card.title|truncate:true:20:'...'}}</span>
+            <div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.value"></div>
           </md-card-title-text>
-
-          <md-card-title-text class="mod-card-title">
-            <span class="md-headline md-headline-selected mod-card-text">Collections:</span>
-            <br/>
-            <!--ng-repeat doesnt work with Deckgrid, TODO-->
-            <div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.locale"></div>
-
-          </md-card-title-text>
-
         </md-card-title>
-
-        </md-card>
-
       </div>
     </div>
   </md-content>

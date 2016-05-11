@@ -16,6 +16,7 @@ import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
 import { TruncateFilter } from './components/truncate/truncate.filter';
+import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 /*import { WhenScrolledDirective } from './components/whenScrolled/when.scrolled.directive';*/
 
 angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid', 'infinite-scroll'])
@@ -37,5 +38,6 @@ angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'n
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)
   .directive('noScopeRepeat', NoScopeRepeatDirective)
+  .directive('validateEmail', ValidateEmail)
  /* .directive('whenScrolled', WhenScrolledDirective)*/
   .filter('truncate', TruncateFilter);
