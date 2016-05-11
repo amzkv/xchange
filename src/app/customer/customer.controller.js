@@ -2,10 +2,11 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope) {
+  constructor ($scope, docs, category, locale, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope) {
     'ngInject';
 
     $scope.category = category;
+    $scope.locale = locale;
 
     $scope.docs = docs.data.documents;
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;

@@ -3,7 +3,7 @@
     <div flex deckgrid class="deckgrid" source="collection.docs">
 
       <div class="a-card">
-        <a ui-sref="customer({collectionId: card.group.value, customerId: card.id})">
+        <a ui-sref="customer({collectionId: card.group.value, customerId: card.id, locale: card.title.locale})">
           <md-card>
             <md-card-title class="card-title-mod collection-text">
               <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',

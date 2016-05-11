@@ -40,7 +40,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       controller: 'CustomerController',
       controllerAs: 'customer',
       params: {
-        category: 'CUSTOMER'
+        category: 'CUSTOMER',
+        locale: ''
       },
       resolve: {
         docs: function (documentsService, $stateParams) {
@@ -48,6 +49,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         },
         category: function ($stateParams) {
           return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
         },
         baseUrl: function(ConfigService){
           "use strict";
