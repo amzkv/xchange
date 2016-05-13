@@ -2,13 +2,15 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog) {
+  constructor ($scope, docs, category, locale, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog, $mdSidenav) {
     'ngInject';
 
     $scope.category = category;
     $scope.locale = locale;
 
     $scope.docs = docs.data.documents;
+    $scope.filters = docs.data.avail_filter;
+
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
     $scope.baseUrl = baseUrl;
@@ -23,6 +25,15 @@ export class CustomerController {
     $scope.addMoreItems = function(items) {
       $scope.docs = $scope.docs.concat(items);
       //angular.extend($scope.docs, items);
+    };
+
+    $scope.closeFilter = function () {
+      $mdSidenav('right').close();
+    };
+
+    $scope.applyFilter = function () {
+      //TODO
+      $mdSidenav('right').close();
     };
 
     $scope.more = function() {
