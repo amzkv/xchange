@@ -1,0 +1,89 @@
+<link href="app/customer/breadcrumbnavi.css" rel="stylesheet">
+<md-dialog style="width:81vw;min-width:81vw;max-width:81vw;overflow-y:hidden" aria-label="documentEdit" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{documentTitle}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" style="padding-left: 15px;" ng-click="save()">
+          <i class="material-icons">save</i>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-content class="md-padding" style="overflow-y:scroll">
+          <md-content md-dynamic-height md-border-bottom style="margin:5px" class="documentTabContainer" class="md-padding">
+            <form name="documentInformation" novalidate>
+              <h2 class="md-title">Main</h2>
+              <div layout="row" layout="left center">
+                <md-input-container flex="100">
+                  <label class="profile-lable">{{'Title'}}</label>
+                  <input type="text" autofocus="autofocus" name="title" data-ng-model="rowDocument.title" class="profile-field"/>
+                </md-input-container>
+                <!--<md-button class="md-primary partner-button-color" ng-click="onSavePartner()"
+                           aria-label="x"
+                           ng-disabled="currentPartner.hasOwnProperty('deleted')"
+                           ng-class="{'contact-disable-save':currentPartner.hasOwnProperty('deleted')}">
+                  {{'SAVE'}}
+                </md-button>-->
+              </div>
+              <div layout="row" layout-align="left center">
+                <md-input-container flex="100">
+                  <label class="profile-lable">{{'Type'}}</label>
+                  <input type="text" autofocus="autofocus" name="title" data-ng-model="rowDocument.type.locale" class="profile-field"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout-align="left center">
+                <div class="documentIcon">
+                  <span style="font-size:13px;font-weight:600;display:block">{{'Date'}}</span>
+                  <md-datepicker ng-model="documentDate" md-placeholder="Enter date" aria-label="x"></md-datepicker>
+                </div>
+              </div>
+              <div layout="row" layout-align="left center">
+                <div class="documentIcon">
+                  <span style="font-size:13px;font-weight:600;display:block">{{'Pay date'}}</span>
+                  <md-datepicker ng-model="payDate" md-placeholder="Enter date"  aria-label="x"></md-datepicker>
+                </div>
+              </div>
+              <h2 class="md-title">Collections</h2>
+              <md-content class="md-padding" layout="column">
+                <md-chips ng-model="typeList" md-autocomplete-snap md-require-match="true">
+                  <md-autocomplete md-selected-item="selectedItem"
+                                   md-search-text="searchText"
+                                   md-items="item in querySearch(searchText)"
+                                   md-item-text="item.name">
+                    <span md-highlight-text="ctrl.searchText">{{item.title.locale}} :: {{item.group.locale}}</span>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <span>
+                        <strong>{{$chip.title.locale}}</strong>
+                        <em>({{$chip.group.locale}})</em>
+                    </span>
+                  </md-chip-template>
+                </md-chips>
+              </md-content>
+              <h2 class="md-title">Workflow</h2>
+              <div layout="row" style="padding: 10px;" layout-align="left center">
+                <div class="breadcrumb flat">
+                  <a href="#">Past</a>
+                  <a href="#" class="active">Current</a>
+                  <a href="#">Next</a>
+                </div>
+              </div>
+              <md-content class="md-padding" layout="column">
+                <md-input-container>
+                  <label class="profile-lable">{{'Workflow process'}}</label>
+                  <input type="text" name="type" data-ng-model="workflow" class="profile-field" title="{{workflowTips}}" />
+                </md-input-container>
+                <md-input-container>
+                  <label class="profile-lable">{{'Workflow status'}}</label>
+                  <input type="text"   name="displayname" data-ng-model="rowDocument.workstatus" data-ng-model="workflow" class="profile-field"/>
+                </md-input-container>
+              </md-content>
+            </form>
+          </md-content>
+    </md-content>
+  </form>
+</md-dialog>

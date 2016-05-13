@@ -115,4 +115,35 @@ export class DocumentsService {
 
     return promise;
   }
+
+  callDocumentById(id) {
+
+    this.busy = true;
+
+    let credentials = this.localAccessService.getCredentails();
+    let info =
+    {
+      "auth" : {
+        "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+      },
+      "document": {
+        "method" : "by ID",
+        "id" : id,
+      }
+    };
+
+    let self = this;
+    let promise = this.$http.post(this.configService.getBaseUrl() + 'document', {
+      auth: info.auth,
+      document: info.document,
+      contentType: 'application/json',
+      datatype: 'json'
+    });
+
+    promise.then(function(response) {
+      self.busy = false;
+    });
+
+    return promise;
+  }
 }
