@@ -7,7 +7,6 @@
   i,span:hover {
     cursor: pointer;
   }
-
 }
 
 md-toolbar {
@@ -34,6 +33,36 @@ md-progress-linear {
 
 .nav-home {
   display: none;
+}
+
+.options-popup {
+  position: fixed;
+  top: 75px;
+  right: 50px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  z-index: 100;
+  font-size: 18px;
+
+  ul {
+    list-style: none;
+    width: 100%;
+    padding: 10px 25px 10px 15px;
+
+    li:hover {
+      /*background: $hover-color;*/
+      cursor: pointer;
+    }
+  }
+}
+
+.options-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
 }
 
 @media screen and (min-width: 860px) {
@@ -65,9 +94,9 @@ md-progress-linear {
 
 .nav-filter {
   position: absolute;
-  top: 10px;
+  top: 14px;
   right: 120px;
-  font-size: 2.2em;
+  font-size: 1.9em;
 }
 
 .nav-options {
