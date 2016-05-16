@@ -1,5 +1,10 @@
 <div layout-fill ng-cloak="" infinite-scroll="more()" infinite-scroll-disabled='documentService.busy' infinite-scroll-distance='1'>
   <md-content class="md-padding">
+      <div style="" class="filter-text">
+          <span class="group-text">{{collectionFilterGroup}}</span>
+          <span ng-show="collectionFilterTitle">//</span>
+          <span class="title-text">{{collectionFilterTitle}}</span>
+      </div>
     <div flex deckgrid class="docgrid" source="docs">
       <div class="a-card" >
         <md-card class="main-card" ng-click="mother.showDetails(card)" ng-show="!card.details">
@@ -50,7 +55,7 @@
     <form>
       <md-input-container flex="100" layout="row">
         <label>Group</label>
-        <md-select ng-model="types">
+        <md-select ng-model="groupKey">
           <md-option ng-value="k" data-ng-repeat="(k,v) in filters">
             {{ v.group.locale }}
           </md-option>
@@ -59,8 +64,8 @@
 
       <md-input-container flex="100" layout="row">
         <label>Title</label>
-        <md-select ng-model="titles">
-          <md-option ng-value="t.id" data-ng-repeat="t in filters[types].title">
+        <md-select ng-model="titleId">
+          <md-option ng-value="t.id" data-ng-repeat="t in filters[groupKey].title">
             {{ t.value }}
           </md-option>
         </md-select>

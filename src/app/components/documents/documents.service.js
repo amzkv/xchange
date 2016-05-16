@@ -89,16 +89,22 @@ export class DocumentsService {
     this.startValue = start ? start : this.configService.getDocumentStartValue();
     this.endValue = end ? end : this.configService.getDocumentOffsetValue();
 
+    let document = {
+      "method" : "by collection",
+      "collection" : id,
+      "offset" : { "start" : this.startValue, "end" : this.endValue }
+    };
+
+    if (this.filter) {
+      document.filter = this.filter;
+    }
+
     let info =
     {
       "auth" : {
         "user" : { "username" : credentials.userId, "password" : credentials.passWord }
       },
-      "document": {
-        "method" : "by collection",
-        "collection" : id,
-        "offset" : { "start" : this.startValue, "end" : this.endValue }
-      }
+      "document": document
     };
 
     let self = this;

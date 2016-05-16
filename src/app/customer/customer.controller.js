@@ -32,7 +32,32 @@ export class CustomerController {
     };
 
     $scope.applyFilter = function () {
-      //TODO
+
+      $scope.collectionFilter = [];
+      $scope.collectionFilterGroupTitles = [];
+
+      if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
+        $scope.collectionFilterGroup = $scope.filters[$scope.groupKey].group.locale;//test it
+        angular.forEach($scope.filters[$scope.groupKey].title, function (item) {
+          $scope.collectionFilter.push({collection: item.id});
+          $scope.collectionFilterGroupTitles[item.id] = item.value;
+        });
+      }
+
+      if (typeof $scope.titleId != 'undefined') {
+        $scope.collectionFilter = [];
+        $scope.collectionFilter.push({collection: $scope.titleId});
+        $scope.collectionFilterTitle = $scope.collectionFilterGroupTitles[$scope.titleId];
+      }
+
+      documentsService.filter = $scope.collectionFilter;
+      documentsService.callDocumentByOneCollection($stateParams.customerId)
+        .then(function(resp) {
+        if (resp.data.response.success) {
+          $scope.docs = resp.data.documents;
+        }
+      });
+
       $mdSidenav('right').close();
     };
 
