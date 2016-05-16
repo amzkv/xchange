@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, $mdComponentRegistry) {
     'ngInject';
 
     $scope.documentsService = documentsService;
@@ -36,6 +36,12 @@ class NavbarController {
 
     this.toggle = function () {
       $mdSidenav('left').toggle();
+    };
+
+    this.toggleFilter = function () {
+      $mdComponentRegistry.when('right').then(function(rightSidenav){
+        rightSidenav.toggle();
+      });
     };
 
     this.closeMenu = function () {

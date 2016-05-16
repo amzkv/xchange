@@ -10,6 +10,22 @@
   margin-top: 30px;
 }*/
 
+.filter-text {
+  position: absolute;
+  top: 68px;
+  right: 10px;
+  /*opacity: 0.5;*/
+  font-size: 1.3em;
+}
+
+.group-text {
+  color: #960061;
+}
+
+.title-text {
+  color: #310055;
+}
+
 .card-upper-bar {
   height:40px;
   padding:8px;
@@ -210,6 +226,13 @@ md-card-title-media {
   .docgrid[deckgrid]::before {
     content: '1 .column.size-1-1';
   }
+
+  .filter-text {
+    top: 52px;
+    right: 5px;
+    font-size: 0.8em;
+  }
+
 }
 
 @media screen and (min-width: 0px) and (max-width: (($document-card-width*1)+20)) {
@@ -234,6 +257,12 @@ md-card-title-media {
 
   .docgrid[deckgrid]::before {
     content: '1 .column.size-1-1';
+  }
+
+  .filter-text {
+    top: 56px;
+    right: 5px;
+    font-size: 0.8em;
   }
 }
 
