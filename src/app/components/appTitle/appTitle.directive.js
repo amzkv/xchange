@@ -5,17 +5,20 @@ export function AppTitle () {
   'ngInject';
 
   let directive = {
-    require: 'ngModel',
-    restrict: 'AE',
-    link: function(scope, elm, attrs, ctrl) {
-      // only apply the validator if ngModel is present and Angular has added the email validator
-      if (ctrl && ctrl.$validators.email) {
+    restrict: 'A',
+    link: function($timeout, $rootScope, $state, $stateParams) {
 
-        // this will overwrite the default Angular email validator
-        ctrl.$validators.email = function(modelValue) {
-          return ctrl.$isEmpty(modelValue) || EMAIL_REGEXP.test(modelValue);
-        };
-      }
+      let listener = function(event, toState) {
+
+        $timeout(function() {
+          /*$rootScope.title = (toState.data && toState.data.pageTitle)
+            ? toState.data.pageTitle
+            : '365';*/
+          //$rootScope.title = '365';
+        });
+      };
+
+      $rootScope.$on('$stateChangeSuccess', listener);
     }
   };
 

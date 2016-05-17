@@ -17,6 +17,7 @@ import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
 import { TruncateFilter } from './components/truncate/truncate.filter';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
+import { AppTitle } from './components/appTitle/appTitle.directive.js';
 /*import { WhenScrolledDirective } from './components/whenScrolled/when.scrolled.directive';*/
 
 angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid', 'infinite-scroll'])
@@ -39,5 +40,6 @@ angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'n
   .directive('sideMenu', SidemenuDirective)
   .directive('noScopeRepeat', NoScopeRepeatDirective)
   .directive('validateEmail', ValidateEmail)
+  .directive('appTitle', AppTitle)
  /* .directive('whenScrolled', WhenScrolledDirective)*/
   .filter('truncate', TruncateFilter);

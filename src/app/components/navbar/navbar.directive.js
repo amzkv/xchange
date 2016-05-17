@@ -26,10 +26,10 @@ class NavbarController {
       scope.busy = newValue;
     });
 
-    var appName = ConfigService.appName();//todo
+    let appName = ConfigService.appName();//todo
     this.appConfig = {appName: appName};
 
-    var self = this;
+    let self = this;
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
@@ -63,11 +63,11 @@ class NavbarController {
         self.parentState = parent;
       }
       if (toParams) {
-        self.params = toParams
+        self.params = toParams;
       }
     }
 
-    var listener = $rootScope.$on('$stateChangeSuccess',
+    let listener = $rootScope.$on('$stateChangeSuccess',
       function(event, toState, toParams, from, fromState){
         setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
       });

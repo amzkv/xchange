@@ -5,7 +5,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       url: '/login',
       templateUrl: 'app/login/login.html',
       controller: 'LoginController',
-      controllerAs: 'login'
+      controllerAs: 'login',
+      data : { pageTitle: '365 | Login' }
     })
     .state('home', {
       url: '/',
@@ -13,6 +14,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main',
+      data : { pageTitle: '365' },
       resolve: {
         categories: function (documentsService) {
           return documentsService.callDocumentsCore();
