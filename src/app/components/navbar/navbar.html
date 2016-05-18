@@ -7,7 +7,7 @@
 
   <span class="nav-back" ng-if="vm.state !== 'home'">
     <span class="docs-menu-separator-icon" ng-click="vm.navigateUp()">
-          <i class="material-icons">keyboard_arrow_left</i>
+      <i class="material-icons">keyboard_arrow_left</i>
     </span>
   </span>
 
@@ -19,13 +19,13 @@
       <span>
         <span hide-sm hide-md ng-click="vm.navigateHome()">{{vm.appConfig.appName}}</span>
         <span ng-if="vm.state !== 'home'">
-          <ons-icon icon="fa-angle-right" size="20px"></ons-icon>
+          <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
         <span ng-if="vm.state === 'collection' && vm.params.collectionLocale" ng-click="vm.navigateUp()">{{vm.params.collectionLocale}}</span>
         <span ng-if="vm.state === 'customer' && vm.previousStateParams.collectionLocale" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale}}</span>
         <span ng-if="vm.state === 'customer' && vm.previousStateParams.collectionLocale || vm.params.collectionLocale">
-                  <ons-icon icon="fa-angle-right" size="20px"></ons-icon>
+          <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
         <span ng-if="vm.state === 'customer' && vm.params.locale" ng-click="vm.navigateUp()">{{vm.params.locale}}</span>
