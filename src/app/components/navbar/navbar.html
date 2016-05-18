@@ -43,7 +43,7 @@
 </md-toolbar>
 
 <div class="options-popup" ng-show="displayOptions">
-  <ul ng-click="$event.stopPropagation(); vm.logout()">
+  <ul ng-click="$event.stopPropagation(); vm.logout();displayOptions = !displayOptions">
     <li><span class="popup-icon"><i class="mdi mdi-logout-variant"></i></span> Logout</li>
   </ul>
 </div>

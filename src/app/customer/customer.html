@@ -16,8 +16,8 @@
             <md-card-title-text class="mod-card-title">
               <span class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</span>
               <br/>
-              <span class="md-subhead">{{card.workstatus|truncate:true:28:'...'}}</span>
               <span class="md-subhead">{{card.type.locale|truncate:true:28:'...'}}</span>
+              <span class="md-subhead">{{card.workstatus|truncate:true:28:'...'}}</span>
               <span class="md-subhead">{{card.date}}</span>
               <span class="md-subhead secondary-subhead">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
             </md-card-title-text>
