@@ -31,6 +31,11 @@ export class CustomerController {
       $mdSidenav('right').close();
     };
 
+    $scope.resetFilter = function() {
+      $scope.collectionFilter = [];
+      documentsService.filter = null;
+    };
+
     $scope.applyFilter = function () {
 
       $scope.collectionFilter = [];
@@ -83,9 +88,9 @@ export class CustomerController {
       }
     };
 
-    $scope.$on('$destroy', function(e) {
+    /*$scope.$on('$destroy', function(e) {
       $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
-    });
+    });*/
 
     $scope.editDocument = function (event, documentId) {
 
