@@ -53,23 +53,32 @@
   </md-toolbar>
   <md-content layout-padding style="padding-top:72px;">
     <form>
-      <md-input-container flex="100" layout="row">
-        <label>Group</label>
-        <md-select ng-model="groupKey">
-          <md-option ng-value="k" data-ng-repeat="(k,v) in filters">
-            {{ v.group.locale }}
-          </md-option>
-        </md-select>
-      </md-input-container>
+      <ons-list ng-model="groupKey">
+        <div ng-repeat="(k,v) in filters">
 
-      <md-input-container flex="100" layout="row">
-        <label>Title</label>
-        <md-select ng-model="titleId">
-          <md-option ng-value="t.id" data-ng-repeat="t in filters[groupKey].title">
+        <ons-list-item ng-click="toggleGroup(k)" class="title" ng-class="{active:isGroupShown(k)}">
+          <ons-icon icon="minus-square-o" ng-if="isGroupShown(k)"></ons-icon>
+          <ons-icon icon="plus-square-o" ng-if="!isGroupShown(k)"></ons-icon>
+          {{ v.group.locale }}
+        </ons-list-item>
+
+        <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
+          <label class="checkbox">
+            <input ng-model="filterData.titleIds[t.id]" type="checkbox" name="titleId">
+            <div class="checkbox__checkmark"></div>
+            <span class="ons-checkbox-inner">{{ t.locale || t.value }}</span>
+          </label>
+
+          <!--<label class="radio-button radio-button&#45;&#45;list-item">
+            <input ng-model="formData.selectedTitleId" type="radio" name="titleId" ng-value="t.id">
+            <div class="radio-button__checkmark radio-button&#45;&#45;list-item__checkmark"></div>
             {{ t.locale || t.value }}
-          </md-option>
-        </md-select>
-      </md-input-container>
+          </label>-->
+
+        </ons-list-item>
+        </div>
+      </ons-list>
+
     </form>
     <md-button ng-click="applyFilter()" class="md-primary">
       Apply

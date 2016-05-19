@@ -5,6 +5,8 @@ export class CustomerController {
   constructor ($scope, docs, category, locale, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog, $mdSidenav) {
     'ngInject';
 
+    $scope.filterData = {};
+
     $scope.category = category;
     $scope.locale = locale;
 
@@ -36,16 +38,29 @@ export class CustomerController {
       documentsService.filter = null;
     };
 
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+
+    $scope.isGroupShown = function(group) {
+      if (group == 0 && $scope.shownGroup == null) return true;
+      return $scope.shownGroup === group;
+    };
+
     $scope.applyFilter = function () {
 
       $scope.collectionFilter = [];
       $scope.collectionFilterGroupTitles = [];
 
-      if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
+      /*if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
         $scope.collectionFilterGroup = $scope.filters[$scope.groupKey].group.locale;//test it
         angular.forEach($scope.filters[$scope.groupKey].title, function (item) {
           $scope.collectionFilter.push({collection: item.id});
-          $scope.collectionFilterGroupTitles[item.id] = item.value;
+          $scope.collectionFilterGroupTitles[item.id] = item.locale || item.value;
         });
       }
 
@@ -53,6 +68,15 @@ export class CustomerController {
         $scope.collectionFilter = [];
         $scope.collectionFilter.push({collection: $scope.titleId});
         $scope.collectionFilterTitle = $scope.collectionFilterGroupTitles[$scope.titleId];
+      }*/
+
+      if (typeof $scope.filterData.titleIds != 'undefined') {
+        angular.forEach($scope.filterData.titleIds, function (item, k) {
+          //item:true|false
+          if (item) {
+            $scope.collectionFilter.push({collection: k});
+          }
+        });
       }
 
       documentsService.filter = $scope.collectionFilter;
