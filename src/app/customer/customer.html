@@ -59,14 +59,14 @@
         <ons-list-item ng-click="toggleGroup(k)" class="title" ng-class="{active:isGroupShown(k)}">
           <ons-icon icon="minus-square-o" ng-if="isGroupShown(k)"></ons-icon>
           <ons-icon icon="plus-square-o" ng-if="!isGroupShown(k)"></ons-icon>
-          {{ v.group.locale }}
+          &nbsp;{{ v.group.locale }}
         </ons-list-item>
 
         <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
           <label class="checkbox">
             <input ng-model="filterData.titleIds[t.id]" type="checkbox" name="titleId">
             <div class="checkbox__checkmark"></div>
-            <span class="ons-checkbox-inner">{{ t.locale || t.value }}</span>
+            <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
           </label>
 
           <!--<label class="radio-button radio-button&#45;&#45;list-item">

@@ -39,7 +39,10 @@
       "main": [
         "js/onsenui.js",
         "css/onsenui.css",
-        "css/onsen-css-components.css"
+        "css/onsen-css-components.css",
+        "css/font_awesome/css/font-awesome.min.css",
+        "css/ionicons/css/ionicons.min.css",
+        "css/onsen-css-components-purple-theme.css"
       ]
     }
   }
