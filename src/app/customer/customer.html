@@ -1,13 +1,8 @@
 <div layout-fill ng-cloak="" infinite-scroll="more()" infinite-scroll-disabled='documentService.busy' infinite-scroll-distance='1'>
   <md-content class="md-padding">
-      <div style="" class="filter-text">
-          <span class="group-text">{{collectionFilterGroup}}</span>
-          <span ng-show="collectionFilterTitle">//</span>
-          <span class="title-text">{{collectionFilterTitle}}</span>
-      </div>
     <div flex deckgrid class="docgrid" source="docs">
       <div class="a-card" >
-        <md-card class="main-card" ng-click="mother.showDetails(card)" ng-show="!card.details">
+        <md-card class="main-card" ng-class="mother.cardMode ? 'view-module' : 'view-list'" ng-click="mother.showDetails(card)" ng-show="!card.details">
           <div class="card-upper-bar"></div>
           <md-card-title>
             <md-card-title-media>
@@ -16,8 +11,8 @@
             <md-card-title-text class="mod-card-title">
               <span class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</span>
               <br/>
-              <span class="md-subhead">{{card.type.locale|truncate:true:28:'...'}}</span>
               <span class="md-subhead">{{card.workstatus|truncate:true:28:'...'}}</span>
+              <span class="md-subhead">{{card.type.locale|truncate:true:28:'...'}}</span>
               <span class="md-subhead">{{card.date}}</span>
               <span class="md-subhead secondary-subhead">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
             </md-card-title-text>
@@ -47,38 +42,6 @@
   </md-content>
   <div ng-show="!docs.length" class="no-docs">No documents found</div>
 </div>
-<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-  <md-toolbar class="md-theme-light">
-    <h1 class="md-toolbar-tools">Filter</h1>
-  </md-toolbar>
-  <md-content layout-padding style="padding-top:72px;">
-    <form>
-      <md-input-container flex="100" layout="row">
-        <label>Group</label>
-        <md-select ng-model="groupKey">
-          <md-option ng-value="k" data-ng-repeat="(k,v) in filters">
-            {{ v.group.locale }}
-          </md-option>
-        </md-select>
-      </md-input-container>
-
-      <md-input-container flex="100" layout="row">
-        <label>Title</label>
-        <md-select ng-model="titleId">
-          <md-option ng-value="t.id" data-ng-repeat="t in filters[groupKey].title">
-            {{ t.value }}
-          </md-option>
-        </md-select>
-      </md-input-container>
-    </form>
-    <md-button ng-click="applyFilter()" class="md-primary">
-      Apply
-    </md-button>
-    <md-button ng-click="closeFilter()" class="md-primary">
-      Close
-    </md-button>
-  </md-content>
-</md-sidenav>
 <!--<div ></div>-->
 <!-- ng-class="{'CUSTOMER':'first-level', 'VENDOR':'first-level', 'Lead':'first-level',
 'Monat': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level',

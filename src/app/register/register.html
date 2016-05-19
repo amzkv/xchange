@@ -1,0 +1,72 @@
+<div class="content-container" style="margin-top:0vh" layout="row" layout-sm="column">
+  <div flex class="content-left-border">
+    <div class="login-left-content-settings">
+      <span id="isAlreadyregistered" style="display: block; font-size: 12px;">Already a member?</span>
+      <md-button class="md-raised login-sample-button" ui-sref="login">SIGN IN</md-button>
+    </div>
+  </div>
+  <div flex class="content-right">
+    <div id="signin">Registration is FREE*</div>
+    <form name="registrationForm" novalidate class="registration-form">
+      <div>
+        <md-input-container>
+          <label style="color:white !important">First Name</label>
+          <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="person.firstName"  />
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container>
+          <label style="color:white !important">Last Name</label>
+          <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="person.lastName"  />
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container>
+          <label class="login-validation-color">Company Name</label>
+          <input type="text" class="login-validation-border-color" data-ng-model="person.companyName" name="companyName" required  />
+          <div ng-messages="registrationForm.companyName.$error">
+            <span class="login-validation-color" ng-message="required">This field is Required</span>
+          </div>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container>
+          <label class="login-validation-color">Email</label>
+          <input type="email" class="login-validation-border-color" data-ng-model="person.eMailName" name="eMailName" required />
+          <div ng-messages="registrationForm.eMailName.$error">
+            <span class="login-validation-color" ng-message="required">Please enter your email address</span>
+            <div class="login-validation-color" ng-message="email">Please enter a valid email address</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container>
+          <label class="login-validation-color">Password</label>
+          <input type="password" class="login-validation-border-color" data-ng-model="person.passWord" minlength="3" name="passWord" required />
+          <div ng-messages="registrationForm.passWord.$error">
+            <span class="login-validation-color" ng-message="required">Please enter your password</span>
+            <div class="login-validation-color" ng-message="minlength">Please enter at least 3 characters</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container>
+          <label class="login-validation-color">Confirm Password</label>
+          <input type="password" class="login-validation-border-color" data-ng-model="person.confirmPassWord" minlength="3" name="confirmPassWord" required />
+          <div ng-messages="registrationForm.confirmPassWord.$error">
+            <span class="login-validation-color" ng-message="required">Please enter your password</span>
+            <div class="login-validation-color" ng-message="minlength">Please enter at least 3 characters</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div>
+                <span>
+                    <md-checkbox data-ng-model="person.iagreewith" class="md-warn">
+                      <span>I agree with the Terms and Conditions</span>
+                    </md-checkbox>
+                </span>
+        <md-button class="md-raised login-sample-button" data-ng-click="submitToServer()">Register</md-button>
+      </div>
+    </form>
+  </div>
+</div>

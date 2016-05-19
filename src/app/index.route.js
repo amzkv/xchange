@@ -8,6 +8,15 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       controllerAs: 'login',
       data : { pageTitle: '365 | Login' }
     })
+
+    .state('register', {
+      url: '/register',
+      templateUrl: 'app/register/register.html',
+      controller: 'RegisterController',
+      controllerAs: 'register',
+      data : { pageTitle: '365 | Register' }
+    })
+
     .state('home', {
       url: '/',
       parentState: null,

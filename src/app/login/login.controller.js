@@ -5,12 +5,12 @@ export class LoginController {
   constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr) {
     'ngInject';
     this.onClickForRegistration = function () {
-      $state.go('registration');
+      $state.go('register');
     };
 
-    this.onClickForForgetPassword = function () {
+    /*this.onClickForForgetPassword = function () {
       $state.go('forgetPassword');
-    };
+    };*/
 
     this.onLogin = function () {
       if (this.loginForm.$valid) {

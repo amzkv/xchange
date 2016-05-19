@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, $mdComponentRegistry) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, $log) {
     'ngInject';
 
     $scope.documentsService = documentsService;
@@ -26,13 +26,42 @@ class NavbarController {
       scope.busy = newValue;
     });
 
+    let self = this;
+
     let appName = ConfigService.appName();//todo
     this.appConfig = {appName: appName};
 
-    let self = this;
+    self.toggleMode = {
+      thisState: ViewModeService.getState(),
+      alterState:  ViewModeService.getAlterState()
+    };
+
+    self.cardMode = (self.toggleMode.thisState === 'Card');
+
+    this.changeState = function(mode, alternateMode){
+      "use strict";
+      ViewModeService.setState(mode, alternateMode);
+    };
+
+    $rootScope.$on('customerStateChanged', function (event, data) {
+      self.toggleMode = {
+        thisState: data.thisState,
+        alterState:  data.alterState
+      };
+      self.cardMode = (data.thisState === 'Card');
+    });
+
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
+
+
+
+    $rootScope.$on('$stateChangeSuccess', function(){
+      "use strict";
+      self.documentsView = ($state.current.name === 'customer');
+    });
+
 
     this.toggle = function () {
       $mdSidenav('left').toggle();

@@ -1,0 +1,165 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: $login-page-color;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+
+#header {
+  font-family: sans-serif;
+  margin-left: 10px;
+  font-size: 24px;
+  padding-top: 0px;
+  margin-top: 7px;
+  display: block;
+}
+
+.content-container {
+  display: flex;
+  margin-top:25vh;
+  padding-top: 120px;
+  height: 100vh;
+  background: $login-page-color;
+}
+
+.content-left {
+  width: 45%;
+  display: flex;
+  justify-content: flex-end;
+  border-right: 1px solid $login-page-color;
+  margin-right: 10px;
+}
+
+.content-left-border {
+  border-right: 1px solid $login-page-color;
+  margin-right: 10px;
+}
+
+
+.content-right {
+  width: 50%;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.content-right #signin {
+  font-family: sans-serif;
+  font-size: 30px;
+}
+
+.content-right #loginForm {
+  width:70%;
+}
+
+#forgetPassword {
+  cursor: pointer;
+  font-style: italic;
+  font-size: 13px;
+  color: rgb(255,255,255);
+  margin-top:10px;
+}
+
+.login-signin {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-header {
+  height: 20%;
+}
+
+.login-header-registration {
+  height: 10%;
+}
+
+.login-sample-button {
+  padding: 0px !important;
+  -moz-border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  border-radius: 0px !important;
+  background-color: #547700 !important;
+  height: 44px !important;
+  width: 150px !important;
+  margin-top: 7px !important;
+  color: white !important;
+}
+
+.login-sample-button span {
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.login-left-content-settings {
+  height: 100%;
+  padding: 5px;
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 11px;
+}
+
+.login-forgetpassword {
+  -moz-transition: 1s all linear;
+  -o-transition: 1s all linear;
+  -webkit-transition: 1s all linear;
+  transition: 1s all linear;
+  cursor:pointer;
+}
+
+.login-forgetpassword:hover{
+  color:rgb(148,54,149) !important;
+}
+
+.login-toast-error{
+  width:30%;
+  background-color:#e8abab !important;
+  color:#f00 !important;
+}
+
+.login-toast-success{
+  width:30%;
+  background-color:#9fdb7b !important;
+  color:#547700 !important;
+}
+
+.userProfile-container{
+  background-color: rgba(255,255,255,1);
+  width: 100%;
+  overflow-y:hidden;
+}
+
+.registration-form{
+  background-color: $login-page-color;
+}
+
+.login-validation-color{
+  color:white !important;
+}
+
+.login-validation-border-color{
+  color:white !important;
+  border-color: rgb(250, 245, 245) !important;
+}
+
+.login-format{
+  display: block !important;
+  margin-left: 0px !important;
+  margin-bottom: 10px !important;
+}
+
+@media screen and (max-width: 960px) {
+  .content-right {
+    width: 100%;
+  }
+
+  .content-left-border{
+    border:none;
+  }
+}

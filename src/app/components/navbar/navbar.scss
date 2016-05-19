@@ -47,11 +47,14 @@ md-progress-linear {
   ul {
     list-style: none;
     width: 100%;
-    padding: 10px 25px 10px 15px;
+    padding: 2px 25px 2px 15px;
 
-    li:hover {
-      /*background: $hover-color;*/
-      cursor: pointer;
+    li {
+      padding: 10px 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

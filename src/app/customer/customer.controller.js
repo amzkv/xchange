@@ -2,18 +2,35 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, themeProvider, baseUrl, $stateParams, $state, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog, $mdSidenav) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog) {
     'ngInject';
 
     $scope.category = category;
     $scope.locale = locale;
 
     $scope.docs = docs.data.documents;
-    $scope.filters = docs.data.avail_filter;
+
+    console.log($scope.docs);
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
     $scope.baseUrl = baseUrl;
+
+
+    $scope.toggleMode = {
+      thisState: ViewModeService.getState(),
+      alterState:  ViewModeService.getAlterState()
+    };
+
+    $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+
+    $rootScope.$on('customerStateChanged', function (event, data) {
+        $scope.toggleMode = {
+          thisState: data.thisState,
+          alterState:  data.alterState
+        };
+        $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    });
 
     //$scope.theme = '365red';
 
@@ -25,40 +42,6 @@ export class CustomerController {
     $scope.addMoreItems = function(items) {
       $scope.docs = $scope.docs.concat(items);
       //angular.extend($scope.docs, items);
-    };
-
-    $scope.closeFilter = function () {
-      $mdSidenav('right').close();
-    };
-
-    $scope.applyFilter = function () {
-
-      $scope.collectionFilter = [];
-      $scope.collectionFilterGroupTitles = [];
-
-      if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
-        $scope.collectionFilterGroup = $scope.filters[$scope.groupKey].group.locale;//test it
-        angular.forEach($scope.filters[$scope.groupKey].title, function (item) {
-          $scope.collectionFilter.push({collection: item.id});
-          $scope.collectionFilterGroupTitles[item.id] = item.value;
-        });
-      }
-
-      if (typeof $scope.titleId != 'undefined') {
-        $scope.collectionFilter = [];
-        $scope.collectionFilter.push({collection: $scope.titleId});
-        $scope.collectionFilterTitle = $scope.collectionFilterGroupTitles[$scope.titleId];
-      }
-
-      documentsService.filter = $scope.collectionFilter;
-      documentsService.callDocumentByOneCollection($stateParams.customerId)
-        .then(function(resp) {
-        if (resp.data.response.success) {
-          $scope.docs = resp.data.documents;
-        }
-      });
-
-      $mdSidenav('right').close();
     };
 
     $scope.more = function() {
