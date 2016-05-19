@@ -5,6 +5,8 @@ export class CustomerController {
   constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog) {
     'ngInject';
 
+    $scope.filterData = {};
+
     $scope.category = category;
     $scope.locale = locale;
 
@@ -44,6 +46,67 @@ export class CustomerController {
       //angular.extend($scope.docs, items);
     };
 
+    $scope.closeFilter = function () {
+      $mdSidenav('right').close();
+    };
+
+    $scope.resetFilter = function() {
+      $scope.collectionFilter = [];
+      documentsService.filter = null;
+    };
+
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+
+    $scope.isGroupShown = function(group) {
+      if (group == 0 && $scope.shownGroup == null) return true;
+      return $scope.shownGroup === group;
+    };
+
+    $scope.applyFilter = function () {
+
+      $scope.collectionFilter = [];
+      $scope.collectionFilterGroupTitles = [];
+
+      /*if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
+        $scope.collectionFilterGroup = $scope.filters[$scope.groupKey].group.locale;//test it
+        angular.forEach($scope.filters[$scope.groupKey].title, function (item) {
+          $scope.collectionFilter.push({collection: item.id});
+          $scope.collectionFilterGroupTitles[item.id] = item.locale || item.value;
+        });
+      }
+
+      if (typeof $scope.titleId != 'undefined') {
+        $scope.collectionFilter = [];
+        $scope.collectionFilter.push({collection: $scope.titleId});
+        $scope.collectionFilterTitle = $scope.collectionFilterGroupTitles[$scope.titleId];
+      }*/
+
+      if (typeof $scope.filterData.titleIds != 'undefined') {
+        angular.forEach($scope.filterData.titleIds, function (item, k) {
+          //item:true|false
+          if (item) {
+            $scope.collectionFilter.push({collection: k});
+          }
+        });
+      }
+
+      documentsService.filter = $scope.collectionFilter;
+      documentsService.callDocumentByOneCollection($stateParams.customerId)
+        .then(function(resp) {
+        if (resp.data.response.success) {
+          $scope.docs = resp.data.documents;
+        }
+      });
+
+      $mdSidenav('right').close();
+    };
+
     $scope.more = function() {
 
       if (documentsService.busy) return;
@@ -66,9 +129,9 @@ export class CustomerController {
       }
     };
 
-    $scope.$on('$destroy', function(e) {
+    /*$scope.$on('$destroy', function(e) {
       $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
-    });
+    });*/
 
     $scope.editDocument = function (event, documentId) {
 

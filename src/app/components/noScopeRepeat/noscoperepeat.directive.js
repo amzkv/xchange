@@ -4,7 +4,7 @@ export function NoScopeRepeatDirective($compile) {
     scope.$watch(attrs.items, function (items) {
       if (!items) return;
 
-      let template = '<div>{{ #TPL#.' + attrs.value + ' }}</div>';
+      let template = '<div>{{ #TPL#.' + attrs.value + ' || #TPL#.' + attrs.defaultvalue + ' }}</div>';
 
       items.forEach(function (val, key) {
         let newElement = angular.element(

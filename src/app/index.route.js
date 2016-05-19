@@ -60,6 +60,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       },
       resolve: {
         docs: function (documentsService, $stateParams) {
+          documentsService.filter = null;
           return documentsService.callDocumentByOneCollection($stateParams.customerId);
         },
         category: function ($stateParams) {

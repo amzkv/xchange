@@ -58,6 +58,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(cssFilter)
     .pipe($.sourcemaps.init())
     .pipe($.replace('../../bower_components/material-design-iconfont/iconfont/', '../fonts/'))
+    .pipe($.replace('../../bower_components/OnsenUI/css/ionicons/fonts/', '../fonts/'))
+    .pipe($.replace('../../bower_components/OnsenUI/css/font_awesome/fonts/', '../fonts/'))
     .pipe($.minifyCss({ processImport: false }))
     .pipe($.sourcemaps.write('maps'))
     .pipe(cssFilter.restore)
@@ -85,6 +87,20 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
 
+gulp.task('onsen_ion_fonts', function () {
+  return gulp.src($.mainBowerFiles().concat('bower_components/OnsenUI/css/ionicons/fonts/*'))
+    .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
+    .pipe($.flatten())
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
+});
+
+gulp.task('onsen_font_awesome', function () {
+  return gulp.src($.mainBowerFiles().concat('bower_components/OnsenUI/css/font_awesome/fonts/*'))
+    .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
+    .pipe($.flatten())
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
+});
+
 gulp.task('other', function () {
   var fileFilter = $.filter(function (file) {
     return file.stat.isFile();
@@ -102,4 +118,4 @@ gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['html', 'fonts', 'onsen_ion_fonts', 'onsen_font_awesome', 'other']);
