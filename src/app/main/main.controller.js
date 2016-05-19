@@ -6,9 +6,5 @@ export class MainController {
 
     this.docs = categories.data.collections;
 
-    $scope.$on('$destroy', function(e) {
-      $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
-    });
-
   }
 }
