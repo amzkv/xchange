@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog, $mdSidenav) {
     'ngInject';
 
     $scope.filterData = {};
@@ -12,7 +12,7 @@ export class CustomerController {
 
     $scope.docs = docs.data.documents;
 
-    console.log($scope.docs);
+    $scope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
