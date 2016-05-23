@@ -74,10 +74,8 @@ md-card-title-media {
   display:block
 }
 
-.docgrid[deckgrid]::before {
-  /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
-  content: '10 .column.column-1-10';
-  font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+.docgrid[docgrid]::before {
+  font-size: 0;
   visibility: hidden;
 }
 .docgrid {
@@ -91,43 +89,10 @@ md-card-title-media {
   width: $document-card-width;
 }
 
-.docgrid .column-1-4 {
-  width: $document-card-width;
-}
-
-.docgrid .column.size-1-5,
-.docgrid .column.size-1-6,
-.docgrid .column.size-1-7,
-.docgrid .column.size-1-8,
-.docgrid .column.size-1-9,
-.docgrid .column.size-1-10 {
-  width: $document-card-width;
-}
-
-.docgrid .column.size-1-4 {
-  width: $document-card-width;
-}
-
-.docgrid .column.size-1-3 {
-  width: $document-card-width;
-}
-
-.docgrid .column.size-1-2 {
-  width: $document-card-width;
-}
-
-.docgrid .column.size-1-1 {
-  width: $document-card-width;
-}
-
 @media screen and (min-width: 2310px)  and (max-width: 5120px) {
   .docgrid {
     margin-top: 100px;
     width: $document-card-width*7;
-  }
-
-  .docgrid[deckgrid]::before {
-    content: '7 .column.size-1-7';
   }
 }
 
@@ -136,20 +101,12 @@ md-card-title-media {
     margin-top: 100px;
     width: $document-card-width*7;
   }
-
-  .docgrid[deckgrid]::before {
-    content: '7 .column.size-1-7';
-  }
 }
 
 @media screen and (min-width: (($document-card-width*6)+50)) and (max-width: (($document-card-width*7)+50)) {
   .docgrid {
     margin-top: 100px;
     width: $document-card-width*6;
-  }
-
-  .docgrid[deckgrid]::before {
-    content: '6 .column.size-1-6';
   }
 }
 
@@ -158,20 +115,12 @@ md-card-title-media {
     margin-top: 100px;
     width: $document-card-width*5;
   }
-
-  .docgrid[deckgrid]::before {
-    content: '5 .column.size-1-5';
-  }
 }
 
 @media screen and (min-width: (($document-card-width*4)+50)) and (max-width: (($document-card-width*5)+50)) {
   .docgrid {
     margin-top: 100px;
     width: $document-card-width*4;
-  }
-
-  .docgrid[deckgrid]::before {
-    content: '4 .column.size-1-4';
   }
 }
 
@@ -180,20 +129,12 @@ md-card-title-media {
     margin-top: 70px;
     width: $document-card-width*3;
   }
-
-  .docgrid[deckgrid]::before {
-    content: '3 .column.size-1-3';
-  }
 }
 
 @media screen and (min-width: (($document-card-width*2)+20)) and (max-width: (($document-card-width*3)+50)) {
   .docgrid {
     margin-top: 30px;
     width: $document-card-width*2;
-  }
-
-  .docgrid[deckgrid]::before {
-    content: '2 .column.size-1-2';
   }
 }
 
@@ -202,19 +143,11 @@ md-card-title-media {
     margin-top: 30px;
     width: $document-card-width;
   }
-
-  .docgrid[deckgrid]::before {
-    content: '1 .column.size-1-1';
-  }
 }
 
 @media screen and (min-width: (($document-card-width*1)+20)) and (max-width: (($document-card-width2*2)+50)) {
   .docgrid {
     width: $document-card-width;
-  }
-
-  .docgrid[deckgrid]::before {
-    content: '1 .column.size-1-1';
   }
 }
 
@@ -230,36 +163,15 @@ md-card-title-media {
     width: $image-container-w/2;
   }
 
-  .docgrid .column.size-1-1 {
-    width: $document-card-width2;
-  }
-
   .docgrid {
     width: $document-card-width2;
   }
 
-  .docgrid[deckgrid]::before {
-    content: '1 .column.size-1-1';
+  .docgrid .column {
+    width: $document-card-width2;
   }
 }
 
-/*list*/
-
-.listgrid[deckgrid]::before {
-  /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
-  padding-top: 40px;
-  content: '4 .column.column-1-4';
-  font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
-  visibility: hidden;
-}
-
-.listgrid .column {
-  float: left;
-}
-
-.listgrid .column-1-4 {
-  width: 100%;
-}
 
 .no-docs {
   text-align: center;

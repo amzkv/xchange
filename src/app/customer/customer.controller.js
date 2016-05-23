@@ -7,7 +7,7 @@ export class CustomerController {
 
     $scope.filterData = {};
 
-    $scope.category = category;
+    $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;
 
     $scope.docs = docs.data.documents;
