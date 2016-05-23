@@ -189,6 +189,10 @@ md-card-title-media {
   transition: 0.07s all linear;
 }
 
+.list__item:focus {
+  outline: none;
+}
+
 .item-accordion.ng-hide {
   line-height: 0px;
 }
