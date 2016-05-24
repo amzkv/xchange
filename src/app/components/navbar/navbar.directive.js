@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, $log, CONSTANT) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT) {
     'ngInject';
 
     this.constant = CONSTANT;
@@ -63,6 +63,7 @@ class NavbarController {
     $rootScope.$on('$stateChangeSuccess', function(){
       "use strict";
       self.documentsView = ($state.current.name === 'customer');
+      self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login');
     });
 
 
