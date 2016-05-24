@@ -59,6 +59,22 @@ md-progress-linear {
   }
 }
 
+.hamburger-header-items {
+  position:absolute;
+  top: 16px;
+  outline:none;
+  &:first-child {
+    right: 16px;
+  }
+  /*&:last-child {
+    left: 16px;
+  }*/
+}
+
+md-divider {
+  margin: 5px;
+}
+
 .options-backdrop {
   position: absolute;
   top: 0;
@@ -87,7 +103,7 @@ md-progress-linear {
   top: 14px;
   left: 20px;
   font-size: 1.9em;
-  display: none;
+  display: block;
 }
 
 .docs-menu-separator-icon {
@@ -98,7 +114,7 @@ md-progress-linear {
 .nav-filter {
   position: absolute;
   top: 14px;
-  right: 120px;
+  right: 10px;
   font-size: 1.9em;
 }
 

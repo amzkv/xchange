@@ -1,3 +1,7 @@
+.breadcrumb-footer {
+  font-size: 12px;
+}
+
 @media screen and (max-width: 859px) {
   .footer {
     /*height: 22px;*/
@@ -6,11 +10,30 @@
     }
   }
 
+  /*footer {
+    height:10px;
+  }*/
+
+  .docs-menu-separator-icon {
+    position: relative;
+    top: 5px;
+  }
+
+  /*.bc-pos {
+    top: 7px;
+  }*/
+
   .footer-bar {
+    display: block;/**/
     bottom: 0px;
     position:fixed;
-    font-size: 0.7em;
-    /*min-height: 22px;*/
+    /*font-size: 0.7em;*/
+    font-size: 16px;
+    min-height: 24px;
+  }
+
+  .breadcrumbs {
+    display: none;
   }
 
   .footer-fix {
@@ -25,6 +48,10 @@
 
   .footer-bar {
     display: none;
+  }
+
+  .breadcrumbs {
+    display: block;
   }
 
   /*.nav-back {

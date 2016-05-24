@@ -34,15 +34,16 @@
     </h2>
   </div>
 
+
   <i class="mdi mdi-magnify nav-filter" ng-click="vm.toggleFilter()"></i>
   <!--<ons-icon class="mdi nav-filter" icon="ion-funnel" ng-click="vm.toggleFilter()"></ons-icon>-->
-  <i class="mdi mdi-dots-vertical nav-options" ng-click="displayOptions = !displayOptions"></i>
+  <!--<i class="mdi mdi-dots-vertical nav-options" ng-click="displayOptions = !displayOptions"></i>-->
   <i class="nav-home" ng-click="vm.navigateHome()">
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
 </md-toolbar>
 
-<div class="options-popup" ng-show="displayOptions">
+<!--<div class="options-popup" ng-show="displayOptions">
   <ul>
     <li ng-if="vm.documentsView" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
       <span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span> {{vm.toggleMode.alterState}} mode
@@ -53,11 +54,14 @@
   </ul>
 </div>
 
-<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions"></div>
+<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions"></div>-->
 
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-  <md-toolbar>
-
+  <md-toolbar layout="row" class="header">
+    <h2 class="md-toolbar-item md-headline">
+      <!--<span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.logout();displayOptions = !displayOptions;vm.toggle();"><i class="mdi mdi-logout-variant"></i> Logout</span>-->
+      <span class="hamburger-header-items" ng-if="vm.documentsView" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i> {{vm.toggleMode.alterState}} <!--mode--> </span>
+    </h2>
   </md-toolbar>
   <md-content layout-padding>
 
@@ -66,7 +70,7 @@
         <li ng-click="vm.closeMenu()"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
         <li ng-click="vm.closeMenu()"  ng-if="vm.state !== 'home'">
           <a ng-click="vm.navigateUp()">
-            <i class="material-icons">keyboard_arrow_right</i>{{vm.params.category}}
+            <i class="material-icons">keyboard_arrow_right</i><!--{{vm.params.category}}-->{{vm.params.collectionLocale}}
           </a>
 
         </li>
@@ -81,6 +85,26 @@
             <i class="material-icons" >keyboard_arrow_right</i>Documents
           </a>
         </li>
+        <!--adding core items-->
+        <!--<li ng-if="vm.documentsView" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
+          <span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span> {{vm.toggleMode.alterState}} mode
+        </li>
+        <li ng-click="$event.stopPropagation(); vm.logout();displayOptions = !displayOptions">
+          <span class=""><i class="mdi mdi-logout-variant"></i></span><span style="bottom: 0px;">Logout</span>
+        </li>-->
+        <!--<li ng-click="$event.stopPropagation();vm.logout();displayOptions = !displayOptions">
+          <a class="ui-sref"><i class="mdi mdi-logout-variant"></i> Logout</a>
+        </li>-->
+        <!--<li style="padding-top: 100%;"></li>-->
+        <md-divider></md-divider>
+        <li ng-click="$event.stopPropagation(); vm.logout();displayOptions = !displayOptions;vm.toggle();">
+          <span class="">
+            <a ui-sref="login">
+              <i class="mdi mdi-logout-variant"></i> Logout
+            </a>
+          </span>
+        </li>
+
       </ul>
     </nav>
   </md-content>

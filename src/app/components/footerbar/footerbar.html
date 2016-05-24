@@ -1,13 +1,26 @@
 <md-toolbar layout="row" layout-align="center center" class="footer-bar footer">
   <div layout="row" flex class="fill-height">
-    <h2 class="">
-      <span class="footer-fix">
-
+    <!--<h1 class="md-toolbar-item md-headline">-->
+      <!--<span class="">
         <span ng-if="fm.state === 'collection'" ng-click="fm.navigateUp()">{{fm.params.category}}</span>
         <span ng-if="fm.state !== 'home'" ng-click="fm.navigateUp()">{{fm.params.locale}}</span>
+      </span>-->
+      <span class="footer-fix">
+        <!--<span hide-sm hide-md ng-click="fm.navigateHome()">{{fm.appConfig.appName}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="fm.state !== 'home'">
+          <i class="material-icons">keyboard_arrow_right</i>
+        </span>-->
+
+        <span ng-if="fm.state === 'collection' && fm.params.collectionLocale" ng-click="fm.navigateUp()">{{fm.params.collectionLocale}}</span>
+        <span ng-if="fm.state === 'customer' && fm.previousStateParams.collectionLocale" ng-click="fm.navigateUp()">{{fm.previousStateParams.collectionLocale}}</span>
+        <span ng-if="fm.state === 'customer' && (fm.previousStateParams.collectionLocale || fm.params.collectionLocale)">
+          <i class="material-icons breadcrumb-footer" >keyboard_arrow_right</i>
+        </span>
+
+        <span ng-if="fm.state === 'customer' && fm.params.locale" ng-click="fm.navigateUp()">{{fm.params.locale}}</span>
 
       </span>
-    </h2>
+    <!--</h1>-->
   </div>
 
 </md-toolbar>
