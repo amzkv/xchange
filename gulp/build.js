@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var ngConstant = require('gulp-ng-constant');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -116,6 +117,21 @@ gulp.task('other', function () {
 
 gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
+});
+
+gulp.task('constants', function() {
+  // get version from bower file
+  var bower = require('./../bower.json');
+  // set version to ng contants
+  var constants = { version: bower.version };
+
+  return ngConstant({
+    constants: constants,
+    stream: true,
+    name: 'version'
+  })
+    // save ngConstant.js to src/app/
+    .pipe(gulp.dest('./src/app/components/version'));
 });
 
 gulp.task('build', ['html', 'fonts', 'onsen_ion_fonts', 'onsen_font_awesome', 'other']);

@@ -36,6 +36,11 @@ class FooterbarController {
       $mdSidenav('left').close();
     };
 
+    $rootScope.$on('$stateChangeSuccess', function(){
+      "use strict";
+      self.hideFooter = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'home');
+    });
+
     function setState(state, prev, params, parent, toParams){
       "use strict";
       self.state = state;
@@ -59,7 +64,7 @@ class FooterbarController {
       if(self.previousState && self.previousStateParams){
         $state.go(self.previousState, {id: self.previousStateParams.id})
       }
-    }
+    };
 
     this.navigateUp = function(){
       "use strict";
@@ -72,7 +77,7 @@ class FooterbarController {
           $state.go(self.parentState, self.params);
         }
       }
-    }
+    };
 
     this.navigateHome = function(){
       "use strict";

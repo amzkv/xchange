@@ -8,5 +8,6 @@ export const constant = {
   BASEURL_DEV: 'stage.365xchange.net',
   API_ENTRY: '/api/',
   HTTP: 'http://',
-  HTTPS: 'https://'
+  HTTPS: 'https://',
+  VERSION: '0.0.10'
 };
