@@ -22,7 +22,20 @@ import { ValidateEmail } from './components/validateEmail/validateEmail.directiv
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
 /*import { WhenScrolledDirective } from './components/whenScrolled/when.scrolled.directive';*/
 
-angular.module('xchange', ['ngAnimate', 'ngTouch', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'onsen', 'toastr', 'akoenig.deckgrid', 'infinite-scroll'])
+angular.module('xchange', [
+  'ngAnimate',
+  'ngTouch',
+  'ngCookies',
+  'ngSanitize',
+  'ngMessages',
+  'ngAria',
+  'ui.router',
+  'ngMaterial',
+  'onsen',
+  'toastr',
+  'akoenig.deckgrid',
+  'infinite-scroll'
+])
   .constant('CONSTANT', constant)
   .config(config)
   .config(routerConfig)

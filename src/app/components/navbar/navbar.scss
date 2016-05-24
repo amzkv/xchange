@@ -20,8 +20,9 @@ md-progress-linear {
 .nav-toggle {
   position: absolute;
   top: 14px;
-  left: 18px;
+  left: 10px;
   font-size: 1.9em;
+  display: block;
 }
 
 .nav-back {
@@ -69,9 +70,9 @@ md-progress-linear {
 }
 
 @media screen and (min-width: 860px) {
-  .nav-toggle {
+  /*.nav-toggle {
     display: none;
-  }
+  }*/
 
   .nav-mob-header {
     display: none;
@@ -87,7 +88,7 @@ md-progress-linear {
   top: 14px;
   left: 20px;
   font-size: 1.9em;
-  display: none;
+  display: block;
 }
 
 .docs-menu-separator-icon {
@@ -98,7 +99,7 @@ md-progress-linear {
 .nav-filter {
   position: absolute;
   top: 14px;
-  right: 120px;
+  right: 10px;
   font-size: 1.9em;
 }
 
@@ -150,13 +151,14 @@ md-progress-linear {
       color: #fff;
     }
   }
+
+  md-divider {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 }
 
-
 @media screen and (max-width: 859px) {
-  .nav-toggle {
-    display: block;
-  }
 
   .nav-mob-header {
     display: block;
@@ -165,6 +167,7 @@ md-progress-linear {
     left: 80px;
     font-size: 1.5em;
   }
+
   .breadcrumbs {
     display: none;
   }
@@ -186,4 +189,11 @@ md-progress-linear {
   .md-breadcrumb {
     margin-left: 100px;
   }
+}
+
+.app-version {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 1.2em;
 }

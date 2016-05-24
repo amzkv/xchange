@@ -16,8 +16,11 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, $log) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, $log, CONSTANT) {
     'ngInject';
+
+    this.constant = CONSTANT;
+    this.version = this.constant.VERSION;
 
     $scope.documentsService = documentsService;
     $scope.busy = documentsService.busy;
