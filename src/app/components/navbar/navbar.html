@@ -85,7 +85,13 @@
           </a>
         </li>
         <md-divider></md-divider>
-        <li ng-click="vm.logout()"><span class="popup-icon"><i class="mdi mdi-logout-variant"></i></span> Logout</li>
+        <li ng-click="vm.logout();vm.toggle();">
+        <span class="">
+            <a ui-sref="login">
+               <i class="mdi mdi-logout-variant"></i> Logout
+               </a>
+           </span>
+        </li>
       </ul>
     </nav>
   </md-content>
