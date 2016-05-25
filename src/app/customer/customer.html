@@ -1,49 +1,8 @@
-<div layout-fill ng-cloak="" infinite-scroll="more()" infinite-scroll-disabled='documentService.busy' infinite-scroll-distance='1' >
-  <md-content class="md-padding">
-    <div docgrid class="docgrid">
-      <div grid ng-repeat="card in docs" class="a-card column">
-        <md-card class="main-card" ng-class="cardMode ? 'view-module' : 'view-list'" ng-click="showDetails(card)" ng-show="!card.details">
-          <div class="card-upper-bar"></div>
-          <md-card-title>
-            <md-card-title-media>
-                <img style="background-color: #FAFAFA;" ng-src="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
-            </md-card-title-media>
-            <md-card-title-text class="mod-card-title">
-              <span class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</span>
-              <br/>
-              <span class="md-subhead">{{card.workstatus|truncate:true:28:'...'}}</span>
-              <span class="md-subhead">{{card.type.locale|truncate:true:28:'...'}}</span>
-              <span class="md-subhead">{{card.date}}</span>
-              <span class="md-subhead secondary-subhead">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
-            </md-card-title-text>
-          </md-card-title>
-
-        </md-card>
-        <md-card style="height:322px;" class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
-            'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other', 'Belegart': 'count-other', 'Datum': 'count-other',
-            'Project': 'count-project', '':'count-other'}[category]}}" ng-show="card.details" ng-click="showDetails(card)">
-                 <!--ng-class="{'CUSTOMER':'first-level','VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Datum': 'second-level', 'Lieferanten' : 'second-level', 'customer': 'second-level', 'Belegart': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[category]"-->
-          <md-card-actions layout="row" layout-align="end center">
-            <button class="md-button md-icon-button card-details-button download-button" type="button" aria-label="Download" ng-click="$event.stopPropagation()">
-              <i class="mdi mdi-download"></i>
-            </button>
-            <button class="md-button md-icon-button card-details-button edit-button" type="button" aria-label="Edit" ng-click="editDocument($event, card.id);">
-              <i class="mdi mdi-pencil"></i>
-            </button>
-          </md-card-actions>
-        <md-card-title>
-          <md-card-title-text class="mod-card-title">
-            <span class="md-headline md-headline-selected mod-card-text" title="{{card.title}}">{{card.title|truncate:true:20:'...'}}</span>
-            <!--<div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.locale" defaultvalue="title.value"></div>-->
-            <div class="md-subhead-selected" ng-repeat="collection in card.collections">
-              {{collection.title.locale || collection.title.value}}
-            </div>
-          </md-card-title-text>
-        </md-card-title>
-      </div>
-    </div>
-  </md-content>
-  <div ng-show="!docs.length" class="no-docs">No documents found</div>
+<div layout-fill ng-cloak=""
+     infinite-scroll="more()"
+     infinite-scroll-disabled='documentService.busy'
+     infinite-scroll-distance='1'
+     ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
 </div>
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
   <md-toolbar class="md-theme-light">
