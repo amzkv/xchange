@@ -59,7 +59,7 @@
   <md-toolbar layout="row" class="header">
     <h2 class="md-toolbar-item md-headline">
       <!--<span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.logout();displayOptions = !displayOptions;vm.toggle();"><i class="mdi mdi-logout-variant"></i> Logout</span>-->
-      <span class="hamburger-header-items" ng-if="vm.documentsView" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i> {{vm.toggleMode.alterState}} <!--mode--> </span>
+      <span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.toggle();"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i> {{vm.toggleMode.alterState}} <!--mode--> </span>
     </h2>
   </md-toolbar>
   <md-content layout-padding>

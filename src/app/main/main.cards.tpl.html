@@ -1,0 +1,23 @@
+<md-content class="md-padding">
+  <div flex deckgrid class="deckgrid" source="main.docs">
+    <div class="a-card">
+      <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
+        <md-card>
+          <md-card-title>
+            <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+              'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
+              'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
+              {{card.count}}
+            </div>
+            <md-card-title-text>
+              <!--<span class="md-subhead">
+                {{card.count}}
+              </span>-->
+              <span class="md-headline">{{card.group.locale}}</span>
+            </md-card-title-text>
+          </md-card-title>
+        </md-card>
+      </a>
+    </div>
+  </div>
+</md-content>

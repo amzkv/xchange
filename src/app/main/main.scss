@@ -217,7 +217,25 @@ md-card md-card-title md-card-title-text .md-headline {
   border-radius: 50%;
   padding: 4px 10px;
   color: #fff;
-  }
+}
+
+.card-count-list {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  /*box-shadow: 0 0 0 1px #ccc;*/
+  font-size: 12px;
+  line-height: 32px;
+  color: #fff;
+}
+
+.list-offsets {
+  padding-top:42px;
+}
 
 .count-customer {
   background: #61003f !important;
