@@ -104,7 +104,7 @@ export class CustomerController {
         }
       });
 
-      $mdSidenav('right').close();
+      //$mdSidenav('right').close();
     };
 
     $scope.more = function() {
