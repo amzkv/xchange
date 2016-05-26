@@ -22,6 +22,12 @@ export class DocumentsService {
   callDocumentsCore() {
 
     this.busy = true;
+
+    let cachedPromise = this.getCache('core');
+    if (cachedPromise) {
+      this.busy = false;
+      return cachedPromise;
+    }
     let credentials = this.localAccessService.getCredentails();
     let info =
     {
@@ -43,7 +49,7 @@ export class DocumentsService {
     promise.then(function(response) {
       self.busy = false;
     });
-
+    this.setCache(promise, 'core');
     return promise;
 
   }
@@ -152,4 +158,28 @@ export class DocumentsService {
 
     return promise;
   }
+
+  setCache(promise, scope, cacheId) {
+    if (scope && promise) {
+      if (!this.dataCache) {
+        this.dataCache = {};
+      }
+      if (cacheId) {
+        promise.cacheId = cacheId;//debug info for now
+      }
+      this.dataCache[scope] = promise;
+      return true;
+    }
+    return false;
+  }
+
+  getCache(scope, cacheId) {
+    if (scope && this.dataCache && this.dataCache[scope]) {
+      if (cacheId && this.dataCache[scope].cacheId) {
+        return this.dataCache[scope];
+      }
+      return this.dataCache[scope];
+    }
+  }
+
 }

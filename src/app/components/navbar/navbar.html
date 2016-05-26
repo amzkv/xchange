@@ -66,10 +66,17 @@
 
     <nav class="menu">
       <ul>
-        <li ng-click="vm.closeMenu()"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
+        <li ng-click="vm.closeMenu();"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
+        <li ng-class="ci.group.value == vm.params.collectionId ? 'nav-menu-selected' : ''" ng-click="vm.closeMenu();" ng-repeat="ci in vm.coreItems">
+          <a ui-sref="collection({collectionId: ci.group.value, collectionLocale: ci.group.locale})">
+            <i class="material-icons">keyboard_arrow_right</i>{{ci.group.locale}}
+          </a>
+        </li>
+
+        <!--
         <li ng-click="vm.closeMenu()"  ng-if="vm.state !== 'home'">
           <a ng-click="vm.navigateUp()">
-            <i class="material-icons">keyboard_arrow_right</i><!--{{vm.params.category}}-->{{vm.params.collectionLocale}}
+            <i class="material-icons">keyboard_arrow_right</i>{{vm.params.collectionLocale}}
           </a>
 
         </li>
@@ -84,6 +91,7 @@
             <i class="material-icons" >keyboard_arrow_right</i>Documents
           </a>
         </li>
+        -->
         <md-divider></md-divider>
         <li ng-click="vm.logout();vm.toggle();">
         <span class="">
