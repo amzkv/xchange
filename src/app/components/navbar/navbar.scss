@@ -14,6 +14,8 @@ md-toolbar {
 }
 
 md-progress-linear {
+  top: 0;
+  z-index:3;
   position:absolute;
 }
 
