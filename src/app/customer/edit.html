@@ -1,6 +1,6 @@
 <md-dialog style="width:100%;height:100%;min-width:100%;min-height:100%;overflow-y:hidden" aria-label="documentEdit" ng-cloak>
   <form>
-    <md-toolbar>
+    <md-toolbar style="position:absolute;top:0;">
       <div class="md-toolbar-tools">
         <h2>{{documentTitle}}</h2>
         <span flex></span>
@@ -14,19 +14,13 @@
     </md-toolbar>
     <md-content class="md-padding" style="overflow-y:scroll">
           <md-content md-dynamic-height md-border-bottom style="margin:5px" class="documentTabContainer" class="md-padding">
-            <form name="documentInformation" novalidate>
+            <div name="documentInformation" novalidate>
               <h2 class="md-title">Main</h2>
               <div layout="row" layout="left center">
                 <md-input-container flex="100">
                   <label class="profile-lable">{{'Title'}}</label>
                   <input type="text" autofocus="autofocus" name="title" data-ng-model="rowDocument.title" class="profile-field"/>
                 </md-input-container>
-                <!--<md-button class="md-primary partner-button-color" ng-click="onSavePartner()"
-                           aria-label="x"
-                           ng-disabled="currentPartner.hasOwnProperty('deleted')"
-                           ng-class="{'contact-disable-save':currentPartner.hasOwnProperty('deleted')}">
-                  {{'SAVE'}}
-                </md-button>-->
               </div>
               <div layout="row" layout-align="left center">
                 <md-input-container flex="100">
@@ -81,7 +75,7 @@
                   <input type="text"   name="displayname" data-ng-model="rowDocument.workstatus" data-ng-model="workflow" class="profile-field"/>
                 </md-input-container>
               </md-content>
-            </form>
+            </div>
           </md-content>
     </md-content>
   </form>
