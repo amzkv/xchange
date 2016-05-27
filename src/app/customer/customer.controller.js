@@ -88,14 +88,23 @@ export class CustomerController {
       }*/
 
       if (typeof $scope.filterData.titleIds != 'undefined') {
+        $scope.shownGroup = $scope.shownGroup ? $scope.shownGroup : 0;
         angular.forEach($scope.filterData.titleIds, function (item, k) {
-          //item:true|false
           if (item) {
-            $scope.collectionFilter.push({collection: k});
+            if ($scope.shownGroup == k) {
+              angular.forEach( item, function (val, id) {
+                if (val) {
+                  $scope.collectionFilter.push({collection: id});
+                }
+              });
+            } else {
+              $scope.filterData.titleIds[k] = false;
+            }
           }
         });
       }
 
+      //console.log('collectionFilter', $scope.collectionFilter);
       documentsService.filter = $scope.collectionFilter;
       documentsService.callDocumentByOneCollection($stateParams.customerId)
         .then(function(resp) {
