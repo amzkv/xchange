@@ -1,12 +1,12 @@
 <div class="login-container">
   <div class="content-container" layout="row" layout-sm="column">
-    <div flex class="content-left-border">
+    <div flex-gt-sm class="content-left-border">
       <div class="login-left-content-settings">
         <span style="display: block; font-size: 12px;">Need an account?</span>
         <md-button data-ng-click="login.onClickForRegistration()" class="md-raised login-sample-button">Create Account</md-button>
       </div>
     </div>
-    <div flex class="content-right" >
+    <div flex-gt-sm class="content-right" >
       <div id="signin">Sign In</div>
       <form name="login.loginForm" id="loginForm" ng-keyup="$event.keyCode == 13 && login.onLogin()" novalidate>
         <div>
