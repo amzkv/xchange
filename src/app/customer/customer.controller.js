@@ -88,7 +88,8 @@ export class CustomerController {
       }*/
 
       if (typeof $scope.filterData.titleIds != 'undefined') {
-        $scope.shownGroup = $scope.shownGroup ? $scope.shownGroup : 0;
+        $scope.collectionFilter.push({collection: $scope.filterData.titleIds});
+        /*$scope.shownGroup = $scope.shownGroup ? $scope.shownGroup : 0;
         angular.forEach($scope.filterData.titleIds, function (item, k) {
           if (item) {
             if ($scope.shownGroup == k) {
@@ -101,7 +102,7 @@ export class CustomerController {
               $scope.filterData.titleIds[k] = false;
             }
           }
-        });
+        });*/
       }
 
       //console.log('collectionFilter', $scope.collectionFilter);

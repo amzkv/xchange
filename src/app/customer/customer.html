@@ -26,9 +26,9 @@
         </ons-list-item>
 
         <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
-          <label class="checkbox">
-            <input ng-model="filterData.titleIds[k][t.id]" type="checkbox" name="titleId" ng-change="applyFilter();">
-            <div class="checkbox__checkmark"></div>
+          <label class="radio-button">
+            <input ng-model="filterData.titleIds" type="radio" name="titleId" ng-change="applyFilter();" ng-value="t.id">
+            <div class="radio-button__checkmark"></div>
             <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
           </label>
         </ons-list-item>
