@@ -22,13 +22,16 @@ export class DocumentsService {
   callDocumentsCore() {
 
     this.busy = true;
-
+    this.coreItems = null;
     let cachedPromise = this.getCache('core');
     if (cachedPromise) {
       this.busy = false;
       return cachedPromise;
     }
     let credentials = this.localAccessService.getCredentails();
+    if (!credentials) {
+      return;
+    }
     let info =
     {
       "auth" : {
@@ -47,6 +50,7 @@ export class DocumentsService {
     });
 
     promise.then(function(response) {
+      self.coreItems = response.data.collections;
       self.busy = false;
     });
     this.setCache(promise, 'core');

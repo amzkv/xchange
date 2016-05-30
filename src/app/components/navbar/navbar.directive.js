@@ -31,13 +31,22 @@ class NavbarController {
 
     let self = this;
     self.coreItems = null;
-    let coreItemsP = documentsService.callDocumentsCore();
 
-    coreItemsP.then(function(response){
-      if (response.data) {
-        self.coreItems = response.data.collections;
+    $scope.$watch('documentsService.coreItems', function (newValue, oldValue) {
+      if (newValue && newValue != oldValue) {
+        self.coreItems = newValue;
       }
     });
+
+    //requests remote server only once
+    let coreItemsP = documentsService.callDocumentsCore();
+    if (coreItemsP) {
+      coreItemsP.then(function (response) {
+        if (response.data) {
+          self.coreItems = response.data.collections;
+        }
+      });
+    }
 
     let appName = ConfigService.appName();//todo
     this.appConfig = {appName: appName};
