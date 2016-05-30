@@ -33,7 +33,7 @@ angular.module('xchange', [
   'ngMaterial',
   'onsen',
   'toastr',
-  'akoenig.deckgrid',
+  /*'akoenig.deckgrid',*/
   'infinite-scroll'
 ])
   .constant('CONSTANT', constant)

@@ -1,6 +1,6 @@
 <md-content class="md-padding">
-  <div flex deckgrid class="deckgrid" source="main.docs">
-    <div class="a-card">
+  <div docgrid class="deckgrid">
+    <div grid ng-repeat="card in main.docs" class="a-card column">
       <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <md-card>
           <md-card-title>

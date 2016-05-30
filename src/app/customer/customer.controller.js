@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, Deckgrid, DeckgridDescriptor, $rootScope, $mdDialog, $mdSidenav) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav) {
     'ngInject';
 
     $scope.filterData = {};
