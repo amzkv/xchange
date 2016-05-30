@@ -38,8 +38,18 @@ md-progress-linear {
   display: none;
 }
 
+.sidenav-pos {
+  position: fixed;
+  overflow: auto;
+  height: 100%;
+}
+
 .nav-menu-selected {
-  background-color: #eeeeee;
+  background-color: #e1e1e1;
+}
+
+md-backdrop {
+  position:fixed;
 }
 
 .options-popup {
@@ -151,8 +161,13 @@ md-divider {
 
 .menu{
   padding-top: 40px;
+  ul {
+    padding-left:0;
+  }
   li i {
     margin-right: 10px;
+    margin-left: 40px;
+    margin-bottom: 10px;
     font-size: 1.3em;
     position: relative;
     top: 6px;
@@ -160,12 +175,17 @@ md-divider {
   }
 
   a {
+    color: #310055;
     text-decoration: none;
     font-size: 1.2em;
   }
 
+  a:link {
+    color: #310055;
+  }
+
   li:hover {
-    background: $primary-color;
+    background: #310055 /*$primary-color*/;
     color: #fff;
     cursor: pointer;
 

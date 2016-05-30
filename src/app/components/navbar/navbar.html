@@ -35,16 +35,15 @@
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
 </md-toolbar>
-<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div></br><!--remove br, revise padding-top-->
+<!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" md-component-id="left">
   <md-toolbar layout="row" class="header" style="position:absolute;top:0;">
     <h2 class="md-toolbar-item md-headline">
       <span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.toggle();"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i> {{vm.toggleMode.alterState}} <!--mode--> </span>
     </h2>
   </md-toolbar>
-  <md-content layout-padding>
-
+  <md-content>
     <nav class="menu">
       <ul>
         <li ng-click="vm.closeMenu();"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
@@ -55,11 +54,9 @@
         </li>
         <md-divider></md-divider>
         <li ng-click="vm.logout();vm.toggle();">
-        <span class="">
             <a ui-sref="login">
                <i class="mdi mdi-logout-variant"></i> Logout
-               </a>
-           </span>
+            </a>
         </li>
       </ul>
     </nav>
