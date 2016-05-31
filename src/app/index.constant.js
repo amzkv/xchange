@@ -9,5 +9,5 @@ export const constant = {
   API_ENTRY: '/api/',
   HTTP: 'http://',
   HTTPS: 'https://',
-  VERSION: '0.0.13'
+  VERSION: '0.0.14'
 };
