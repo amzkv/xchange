@@ -1,6 +1,6 @@
   <ons-list class="list-offsets">
     <ons-list-item grid ng-repeat="card in docs" class="a-card">
-      <div class="main-card view-list" ng-click="showDetails(card)" ng-show="!card.details">
+      <div class="main-card view-list" ng-click="editDocument($event, card.id);" ng-show="!card.details">
         <!--<div class="card-upper-bar"></div>-->
 
         <div class="doc-list-row">
@@ -18,7 +18,7 @@
         </div>
         <div class="doc-list-row collection-list">
           <div>
-            <span class="list-item-text" ng-repeat="collection in card.collections">
+            <span class="list-item-text" ng-repeat="collection in card.collections | filter: groupFilter">
                   {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ':'}}</span>
             </span>
           </div>

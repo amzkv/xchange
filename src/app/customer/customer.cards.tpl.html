@@ -1,7 +1,7 @@
 <md-content class="md-padding">
   <div docgrid class="docgrid">
     <div grid ng-repeat="card in docs" class="a-card column">
-      <md-card class="main-card view-module" ng-click="showDetails(card)" ng-show="!card.details">
+      <md-card class="main-card view-module" ng-click="editDocument($event, card.id);">
         <div class="card-upper-bar"></div>
         <md-card-title>
           <md-card-title-media>
