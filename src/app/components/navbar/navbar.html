@@ -29,7 +29,9 @@
     </h2>
   </div>
 
-
+  <span class="nav-mode-switch" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
+    <i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i>
+  </span>
   <i class="mdi mdi-magnify nav-filter" ng-click="vm.toggleFilter()"></i>
   <i class="nav-home" ng-click="vm.navigateHome()">
     <img src="assets/images/365Header.png" style="width:40px">
@@ -40,8 +42,12 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" md-component-id="left">
   <md-toolbar layout="row" class="header" style="position:absolute;top:0;">
     <h2 class="md-toolbar-item md-headline">
-      <span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.toggle();"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i> {{vm.toggleMode.alterState}} <!--mode--> </span>
+      <!--<span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.toggle();"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>-->
     </h2>
+    <!--<span flex></span>
+    <md-button class="md-icon-button" style="top:12px" ng-click="vm.toggle()">
+      <i class="material-icons">close</i>
+    </md-button>-->
   </md-toolbar>
   <md-content>
     <nav class="menu">
