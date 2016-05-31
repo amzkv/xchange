@@ -1,21 +1,28 @@
   <ons-list class="list-offsets">
     <ons-list-item grid ng-repeat="card in docs" class="a-card">
-      <div class="main-card view-list" ng-click="showDetails(card)" ng-show="!card.details">
+      <div class="main-card view-list" ng-click="editDocument($event, card.id);" ng-show="!card.details">
         <!--<div class="card-upper-bar"></div>-->
-        <div style="padding: 5px;">
+
+        <div class="doc-list-row">
           <!--<div>
             <img style="background-color: #FAFAFA;" ng-src="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
           </div>-->
-          <div>
-            <div class="list-item-title mod-card-text">{{card.title|truncate:true:24:'...'}}</div>
-            <div class="list-item-text">{{card.type.locale || card.type.value |truncate:true:28:'...'}}</div>
-            <div class="list-item-text">{{card.workstatus|truncate:true:28:'...'}}</div>
+            <div class="list-item-title mod-card-text list-column-1" title="{{card.title}}">{{card.title|truncate:true:24:'...'}}</div>
+            <div class="list-item-text list-column-2" title="{{card.type.locale || card.type.value}}">{{card.type.locale || card.type.value |truncate:true:28:'...'}}</div>
+            <div class="list-item-text list-column-3"  title="{{card.workstatus}}">{{card.workstatus|truncate:true:28:'...'}}</div>
 
-            <div class="list-item-text list-item-text-r1">{{card.date | date: "dd.MM.yyyy" }}</div>
-            <div class="list-item-text list-item-text-r2">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</div>
+            <div class="list-item-text list-item-text-r1 list-column-4">{{card.date | date: "dd.MM.yyyy" }}</div>
+            <div class="list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</div>
+
+            <div class="list-item-text list-column-6">[total_amount]</div>
+        </div>
+        <div class="doc-list-row collection-list">
+          <div>
+            <span class="list-item-text" ng-repeat="collection in card.collections | filter: groupFilter">
+                  {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ':'}}</span>
+            </span>
           </div>
         </div>
-
       </div>
       <div class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
                 'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other', 'Belegart': 'count-other', 'Datum': 'count-other',

@@ -71,6 +71,11 @@ md-card-title-media {
   position:absolute; right: 0; bottom: 2px;
 }
 
+.filter-asterisk {
+  position: absolute;
+  top: 8px;
+  font-size: 12px;
+}
 
 .back-list-item-text {
   line-height: 18px;
@@ -124,6 +129,71 @@ md-card-title-media {
 .docgrid .column {
   float: left;
   width: $document-card-width;
+}
+
+.doc-list-row {
+  padding: 5px;
+}
+
+.col-separator {
+  font-weight: bold;
+  padding-left: 2px;
+  color: rgba(0,0,0,1);
+}
+
+@media screen and (max-width: 767px) {
+  .collection-list {
+    display: none;
+  }
+  .list-item-text-r3 {
+    display: none;
+  }
+
+}
+
+@media screen and (min-width: 768px) {
+  .doc-list-row {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    div {
+      padding-left: 5px;
+      display: table-cell;
+    }
+
+    .list-column-1 {
+      /*text-align: center;*/
+      width: 240px;
+    }
+    .list-column-2 {
+      text-align: left;
+    }
+    .list-column-3 {
+      text-align: center;
+    }
+    .list-column-4 {
+      text-align: right;
+    }
+    .list-column-5 {
+      text-align: right;
+    }
+    .list-column-6 {
+      text-align: right;
+    }
+
+    .list-item-text-r1 {
+      position: inherit;
+      top: auto;
+    }
+    .list-item-text-r2 {
+      position: inherit;
+      bottom: auto;
+    }
+
+    .list-item-text-r3 {
+      display: block;
+    }
+  }
 }
 
 @media screen and (min-width: 2310px)  and (max-width: 5120px) {
