@@ -19,19 +19,19 @@
       <ons-list ng-model="groupKey">
         <div ng-repeat="(k,v) in filters">
 
-        <ons-list-item ng-click="toggleGroup(k)" class="title" ng-class="{active:isGroupShown(k)}">
-          <ons-icon icon="caret-down" ng-if="isGroupShown(k)"></ons-icon>
-          <ons-icon icon="caret-right" ng-if="!isGroupShown(k)"></ons-icon>
-          &nbsp;{{ v.group.locale }}
-        </ons-list-item>
+          <ons-list-item ng-click="toggleGroup(k)" class="title" class="active" ng-class="{active:isGroupShown(k)}">
+            <ons-icon icon="caret-down" ng-if="isGroupShown(k)"></ons-icon>
+            <ons-icon icon="caret-right" ng-if="!isGroupShown(k)"></ons-icon>
+            &nbsp;{{ v.group.locale }}<ons-icon class="filter-asterisk" icon="asterisk" ng-if="groupFilters[k]"></ons-icon>
+          </ons-list-item>
 
-        <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
-          <label class="radio-button">
-            <input ng-model="filterData.titleIds" type="radio" name="titleId" ng-change="applyFilter();" ng-value="t.id">
-            <div class="radio-button__checkmark"></div>
-            <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
-          </label>
-        </ons-list-item>
+          <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
+            <label class="checkbox">
+              <input ng-model="filterData.titleIds[k][t.id]" type="checkbox" name="titleId" ng-change="applyFilter();">
+              <div class="checkbox__checkmark"></div>
+              <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
+            </label>
+          </ons-list-item>
         </div>
       </ons-list>
 

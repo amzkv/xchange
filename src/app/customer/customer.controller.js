@@ -7,6 +7,9 @@ export class CustomerController {
 
     $scope.filterData = {};
 
+    $scope.groupFilters = [];
+    $scope.shownGroup = 0;
+
     $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;
 
@@ -68,7 +71,6 @@ export class CustomerController {
     };
 
     $scope.isGroupShown = function(group) {
-      if (group == 0 && $scope.shownGroup == null) return true;
       return $scope.shownGroup === group;
     };
 
@@ -77,46 +79,44 @@ export class CustomerController {
       $scope.collectionFilter = [];
       $scope.collectionFilterGroupTitles = [];
 
-      /*if (typeof $scope.groupKey != 'undefined' && $scope.filters[$scope.groupKey]) {
-        $scope.collectionFilterGroup = $scope.filters[$scope.groupKey].group.locale;//test it
-        angular.forEach($scope.filters[$scope.groupKey].title, function (item) {
-          $scope.collectionFilter.push({collection: item.id});
-          $scope.collectionFilterGroupTitles[item.id] = item.locale || item.value;
+      if (typeof $scope.filterData.titleIds != 'undefined') {
+        angular.forEach($scope.filterData.titleIds, function (items, groupKey) {
+          angular.forEach(items, function (active, id) {
+            if (active) {
+              if (!$scope.groupFilters[groupKey]) {
+                $scope.groupFilters[groupKey] = id;
+              } else {
+                if ($scope.groupFilters[groupKey] != id) {
+                  $scope.filterData.titleIds[groupKey][$scope.groupFilters[groupKey]] = false;//uncheck previous
+                  $scope.groupFilters[groupKey] = id;//set new
+                }
+              }
+            } else {
+              if ($scope.groupFilters[groupKey] == id) {
+                $scope.groupFilters[groupKey] = null;//none checked
+              }
+            }
+          });
         });
       }
 
-      if (typeof $scope.titleId != 'undefined') {
-        $scope.collectionFilter = [];
-        $scope.collectionFilter.push({collection: $scope.titleId});
-        $scope.collectionFilterTitle = $scope.collectionFilterGroupTitles[$scope.titleId];
-      }*/
-
-      if (typeof $scope.filterData.titleIds != 'undefined') {
-        $scope.collectionFilter.push({collection: $scope.filterData.titleIds});
-        /*$scope.shownGroup = $scope.shownGroup ? $scope.shownGroup : 0;
-        angular.forEach($scope.filterData.titleIds, function (item, k) {
-          if (item) {
-            if ($scope.shownGroup == k) {
-              angular.forEach( item, function (val, id) {
-                if (val) {
-                  $scope.collectionFilter.push({collection: id});
-                }
-              });
-            } else {
-              $scope.filterData.titleIds[k] = false;
-            }
+      //prepare filter
+      angular.forEach($scope.groupFilters, function (val, key) {
+          if (val) {
+            $scope.collectionFilter.push({collection: val});
           }
-        });*/
-      }
+      });
 
       //console.log('collectionFilter', $scope.collectionFilter);
+      //pass filter to doc service
       documentsService.filter = $scope.collectionFilter;
+
       documentsService.callDocumentByOneCollection($stateParams.customerId)
         .then(function(resp) {
-        if (resp.data.response.success) {
-          $scope.docs = resp.data.documents;
-        }
-      });
+          if (resp.data.response.success) {
+            $scope.docs = resp.data.documents;
+          }
+        });
 
       //$mdSidenav('right').close();
     };
