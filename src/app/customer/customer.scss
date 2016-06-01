@@ -23,6 +23,23 @@
   padding:8px;
 }
 
+/*md-sidenav-right IE fix*/
+
+.md-sidenav-right {
+  left: inherit;
+  right: 0;
+  transform: translate3d(0,0,0);
+  &.md-closed {
+    transform: translate3d(100%,0,0);
+  }
+}
+/*another IE fix, right sidenav close button*/
+.sidenav-right-close {
+  position: fixed;
+  right: 16px;
+  top: 12px;
+}
+
 md-card-title-media {
   width: 165px;
   height: 234px;
