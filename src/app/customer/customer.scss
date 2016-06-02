@@ -14,9 +14,30 @@
   margin-top: 30px;
 }*/
 
+.ie-fix {
+  height:320px;
+}
+
 .card-upper-bar {
   height:40px;
   padding:8px;
+}
+
+/*md-sidenav-right IE fix*/
+
+.md-sidenav-right {
+  left: inherit;
+  right: 0;
+  transform: translate3d(0,0,0);
+  &.md-closed {
+    transform: translate3d(100%,0,0);
+  }
+}
+/*another IE fix, right sidenav close button*/
+.sidenav-right-close {
+  position: fixed;
+  right: 16px;
+  top: 12px;
 }
 
 md-card-title-media {
@@ -142,13 +163,9 @@ md-card-title-media {
 }
 
 @media screen and (max-width: 767px) {
-  .collection-list {
-    display: none;
-  }
   .list-item-text-r3 {
     display: none;
   }
-
 }
 
 @media screen and (min-width: 768px) {
