@@ -6,8 +6,8 @@ body {
 .container {
   height: 100%;
   width: 100%;
-  position: absolute;
-  background-color: $login-page-color;
+  position: fixed;
+  background-color: $header-color;
   color: rgba(255, 255, 255, 0.85);
 }
 
@@ -19,30 +19,40 @@ body {
   padding-top: 0px;
   margin-top: 7px;
   display: block;
+  /*height: 0vh;*/
+}
+
+header {
+  height: 0vh;
+}
+
+footer {
+  background: $header-color;
 }
 
 .content-container {
   display: flex;
   margin-top:25vh;
-
 }
 
 .register-container {
-  padding-top: 120px;
-  height: 100vh;
-  background: $login-page-color;
+  /*padding-top: 120px;*/
+  /*height: 100vh;*/
+  overflow: hidden;
+  padding: 25vh 0px 23px;
+  background: $header-color;
 }
 
 .content-left {
   width: 45%;
   display: flex;
   justify-content: flex-end;
-  border-right: 1px solid $login-page-color;
+  border-right: 1px solid $header-color;
   margin-right: 10px;
 }
 
 .content-left-border {
-  border-right: 1px solid $login-page-color;
+  border-right: 1px solid $header-color;
   margin-right: 10px;
 }
 
@@ -140,7 +150,7 @@ body {
 }
 
 .registration-form{
-  background-color: $login-page-color;
+  background-color: $header-color;
 }
 
 .login-validation-color{

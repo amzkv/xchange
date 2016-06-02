@@ -78,6 +78,11 @@ md-sidenav {
   background: $background-color;
 }
 
+md-backdrop.md-opaque {
+  opacity: .0 !important;
+  background-color: inherit !important;
+}
+
 a {
   text-decoration: none;
 }

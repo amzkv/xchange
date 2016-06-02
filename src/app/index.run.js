@@ -8,7 +8,7 @@ export function runBlock (CheckAuthService, $state, $rootScope) {
     if(CheckAuthService.checkAuth()){
 
     } else {
-      if (toState.name != 'login') {
+      if (toState.name != 'login' && toState.name != 'register') {
         event.preventDefault();
         $state.go('login');
       }
