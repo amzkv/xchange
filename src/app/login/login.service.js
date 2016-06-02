@@ -61,5 +61,28 @@ export class LoginService {
     return defer.promise;
   }
 
+  registerUser(registerUserInfo) {
+    var defer = this.$q.defer();
+    var dataInfo =
+    {
+      "account": {
+        "method": "register",
+        "name": registerUserInfo.companyName,
+        "firstname": registerUserInfo.firstName,
+        "lastname": registerUserInfo.lastName,
+        "email": registerUserInfo.eMailName,
+        "password": registerUserInfo.passWord,
+        "channelcode": "7b3112b0"
+      }
+    };
+    dataInfo = JSON.stringify(dataInfo);
+    return this.$http.post(this.ConfigService.accountServiceURL(), dataInfo)
+      .success(function (data) {
+        defer.resolve(data);
+      }).error(function (data) {
+      defer.reject(data);
+    });
+    return defer.promise;
+  }
 
 }

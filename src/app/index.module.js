@@ -20,7 +20,7 @@ import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat
 import { TruncateFilter } from './components/truncate/truncate.filter';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
-/*import { WhenScrolledDirective } from './components/whenScrolled/when.scrolled.directive';*/
+import { CompareTo } from './components/compareTo/compareTo.directive';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -58,5 +58,5 @@ angular.module('xchange', [
   .directive('noScopeRepeat', NoScopeRepeatDirective)
   .directive('validateEmail', ValidateEmail)
   .directive('appTitle', AppTitle)
- /* .directive('whenScrolled', WhenScrolledDirective)*/
+  .directive('compareTo', CompareTo)
   .filter('truncate', TruncateFilter);
