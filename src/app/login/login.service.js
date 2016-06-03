@@ -84,5 +84,43 @@ export class LoginService {
     });
     return defer.promise;
   }
+  registerInformation(confirmationCode) {
+    var defer = this.$q.defer();
+    var dataInfo =
+    {
+      "account": {
+        "method": "register info",
+        "confirmcode": confirmationCode
+      }
+    };
+    dataInfo = JSON.stringify(dataInfo);
+    this.$http.post(this.ConfigService.accountServiceURL(), dataInfo)
+      .success(function (data) {
+        defer.resolve(data);
+      }).error(function (data) {
+      defer.reject(data);
+    });
+    return defer.promise;
+  }
+
+  confirm(confirmObject) {
+    var defer = this.$q.defer();
+    var dataInfo =
+    {
+      "account": {
+        "method": "confirm",
+        "email": confirmObject.eMailName,
+        "confirmcode": confirmObject.confirmCode,
+      }
+    };
+    dataInfo = JSON.stringify(dataInfo);
+    this.$http.post(this.ConfigService.accountServiceURL(), dataInfo)
+      .success(function (data) {
+        defer.resolve(data);
+      }).error(function (data) {
+      defer.reject(data);
+    });
+    return defer.promise;
+  }
 
 }

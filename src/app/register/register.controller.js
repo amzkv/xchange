@@ -23,7 +23,7 @@ export class RegisterController {
       LoginService.registerUser(data.person).then(function (response) {
         if (response.data.response.errorcode == "200") {
           toastr.success('Thank You! Please, check your e-mail!', 'Success');
-          $state.go('login');//TODO
+          $state.go('confirm');//TODO
         } else {
           toastr.error(response.data.response.errormessage, 'Error');//TODO
         }
