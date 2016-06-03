@@ -38,7 +38,7 @@ class FooterbarController {
 
     $rootScope.$on('$stateChangeSuccess', function(){
       "use strict";
-      self.hideFooter = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'home');
+      self.hideFooter = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'home' || $state.current.name === 'confirm');
     });
 
     function setState(state, prev, params, parent, toParams){

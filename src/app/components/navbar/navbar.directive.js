@@ -80,7 +80,7 @@ class NavbarController {
     $rootScope.$on('$stateChangeSuccess', function(){
       "use strict";
       self.documentsView = ($state.current.name === 'customer');
-      self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login');
+      self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'confirm');
     });
 
 
