@@ -15,7 +15,7 @@
 
             <div class="list-item-text list-item-text-r4 list-column-6">[total_amount]</div>
         </div>
-        <md-divider class="col-ruler"></md-divider>
+        <md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>
         <div class="doc-list-row collection-list">
           <div>
             <div class="list-item-text" ng-repeat="collection in card.collections | filter: groupFilter">
