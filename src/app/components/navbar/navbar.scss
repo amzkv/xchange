@@ -3,7 +3,7 @@
 }
 
 .header {
-  height: 42px;
+  height: 64px;
   i,span:hover {
     cursor: pointer;
   }
@@ -212,7 +212,7 @@ md-divider {
   .nav-mob-header {
     display: block;
     position: absolute;
-    top: 4px;
+    top: 10px;
     left: 80px;
     font-size: 1.5em;
   }
@@ -226,12 +226,12 @@ md-divider {
   }
 
   .nav-options, .nav-filter, .nav-toggle, .hamburger, .nav-logout {
-    font-size: 1.7em;
-    top: 8px;
+    /*font-size: 1.7em;*/
+    /*top: 8px;*/
   }
 
   .nav-home {
-    top: 8px;
+    /*top: 8px;*/
     right: 8px;
   }
 
