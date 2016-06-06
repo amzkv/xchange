@@ -16,11 +16,19 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window) {
     'ngInject';
 
     this.constant = CONSTANT;
     this.version = this.constant.VERSION;
+    this.storageCache = {};
+    //TODO
+    try {
+      this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
+      this.storageCache.collections = JSON.parse($window.localStorage.getItem('collections'));
+    } catch (e) {
+      //console.log('error:', e)
+    }
 
     $scope.documentsService = documentsService;
     $scope.busy = documentsService.busy;

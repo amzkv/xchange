@@ -2,10 +2,11 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log, ConfigService, LocalAccessService) {
+  constructor($http, $log, ConfigService, LocalAccessService, $window) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
+    this.$window = $window;
     this.configService = ConfigService;
     this.initPagerValues();
     this.localAccessService = LocalAccessService;
@@ -50,6 +51,7 @@ export class DocumentsService {
     });
 
     promise.then(function(response) {
+      self.storeCache('core', response);
       self.coreItems = response.data.collections;
       self.busy = false;
     });
@@ -83,6 +85,7 @@ export class DocumentsService {
     });
 
     promise.then(function(response) {
+      self.storeCache('collections', response);
       self.busy = false;
     });
 
@@ -184,6 +187,32 @@ export class DocumentsService {
       }
       return this.dataCache[scope];
     }
+  }
+
+  storeCache(cacheName, response) {
+    //console.log(cacheName, response);
+    let data = {};
+    if (response.data && response.data['collections']) {
+      angular.forEach(response.data['collections'], function (item, key) {
+        //console.log(item, key);
+        if (item.id && item.title) {
+          //collection case and higher
+          data[item.id] = item.title;
+        } else if (item.group && item.group.value) {
+          //basic case
+          data[item.group.value] = item.group;
+        }
+      });
+    }
+
+    if (Object.keys(data).length) {
+      try {
+        this.$window.localStorage.setItem(cacheName, JSON.stringify(data));
+      } catch (e) {
+        //console.log('error:', e)
+      }
+    }
+
   }
 
 }
