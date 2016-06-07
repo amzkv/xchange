@@ -16,7 +16,7 @@ export function FooterbarDirective() {
 }
 
 class FooterbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state, $stateParams, $http, $scope) {
+  constructor ($mdSidenav, $rootScope, $log, $state, $stateParams, $http, $scope, $window) {
     'ngInject';
 
     $http.get('app/config.json').success(function(data) {
@@ -24,6 +24,14 @@ class FooterbarController {
       //$scope['appConfig'] = {"appName":"Home"};
     });
     var self = this;
+    this.storageCache = {};
+    //TODO
+    try {
+      this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
+      this.storageCache.collections = JSON.parse($window.localStorage.getItem('collections'));
+    } catch (e) {
+      //console.log('error:', e)
+    }
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
