@@ -1,4 +1,4 @@
-<md-content class="md-padding">
+<md-content class="md-padding" ng-if="docs.length">
   <div docgrid class="docgrid">
     <div grid ng-repeat="card in docs" class="column">
       <md-card class="main-card view-module ie-fix" ng-click="editDocument($event, card.id);">
