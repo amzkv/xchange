@@ -1,50 +1,25 @@
-  <ons-list class="list-offsets" ng-if="docs.length">
-    <ons-list-item grid ng-repeat="card in docs" class="a-card">
-      <div class="main-card view-list" ng-click="editDocument($event, card.id);" ng-show="!card.details">
-        <!--<div class="card-upper-bar"></div>-->
+  <div class="list-offsets doc-list-table" ng-if="docs.length">
+    <div grid ng-repeat-start="card in docs" class="grid-item main-card view-list a-card doc-list-row" ng-click="editDocument($event, card.id);" style="border-top: 1px solid #ddd !important;">
 
-        <div class="doc-list-row">
-          <!--<div>
-            <img style="background-color: #FAFAFA;" ng-src="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
-          </div>-->
-            <div class="list-item-title mod-card-text list-column-1" title="{{card.title}}">{{card.title}}</div>
-            <div class="list-item-text list-column-2" title="{{card.type.locale || card.type.value}} {{card.workstatus}}">{{card.type.locale || card.type.value }} {{card.workstatus}}</div>
+      <div class="grid-column main-card column list-item-title mod-card-text list-column-1" title="{{card.title}}">{{card.title}}</div>
+      <div class="grid-column list-item-text list-column-2" title="{{card.type.locale || card.type.value}} {{card.workstatus}}">{{card.type.locale || card.type.value }} {{card.workstatus}}</div>
 
-            <div class="list-item-text list-item-text-r1 list-column-4">{{card.date | date: "dd.MM.yyyy" }}</div>
-            <div class="list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)}}</div>
-            <div class="list-item-text list-item-text-r4 list-column-6">[total_amount]</div>
-        </div>
-        <md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>
-        <div class="doc-list-row collection-list">
-          <div>
-            <div class="list-item-text" ng-repeat="collection in card.collections | filter: groupFilter">
-                  {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ', '}}</span>
-            </div>
-          </div>
+      <div class="grid-column list-item-text list-item-text-r1 list-column-4">{{card.date | date: "dd.MM.yyyy" }}</div>
+      <div class="grid-column list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)}}</div>
+      <div class="grid-column list-item-text list-item-text-r4 list-column-6">[total_amount]</div>
+
+      <md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>
+    </div>
+    <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="editDocument($event, card.id);">
+      <div class="grid-column">
+        <div class="list-item-text collection-item" ng-repeat="collection in card.collections | filter: groupFilter">
+          {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ', '}}&nbsp;</span>
         </div>
       </div>
-      <div class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
-                'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other', 'Belegart': 'count-other', 'Datum': 'count-other',
-                'Project': 'count-project', '':'count-other'}[category]}}" ng-show="card.details" ng-click="showDetails(card)">
-        <!--ng-class="{'CUSTOMER':'first-level','VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Datum': 'second-level', 'Lieferanten' : 'second-level', 'customer': 'second-level', 'Belegart': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[category]"-->
-        <md-card-actions layout="row" layout-align="end center">
-          <button class="md-button md-icon-button card-details-button download-button" type="button" aria-label="Download" ng-click="$event.stopPropagation()">
-            <i class="mdi mdi-download"></i>
-          </button>
-          <button class="md-button md-icon-button card-details-button edit-button" type="button" aria-label="Edit" ng-click="editDocument($event, card.id);">
-            <i class="mdi mdi-pencil"></i>
-          </button>
-        </md-card-actions>
-        <div>
-          <div class="mod-card-title">
-            <div class="md-headline md-headline-selected mod-card-text" title="{{card.title}}">{{card.title|truncate:true:28:'...'}}</div>
-            <!--<div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.locale" defaultvalue="title.value"></div>-->
-            <span style="padding: 5px;" class="md-subhead-selected back-list-item-text" ng-repeat="collection in card.collections">
-              {{collection.title.locale || collection.title.value}}
-            </span>
-          </div>
-        </div>
-      </div>
-    </ons-list-item>
-  </ons-list>
+      <div class="grid-column fake-col"></div>
+      <div class="grid-column fake-col"></div>
+      <div class="grid-column fake-col"></div>
+      <div class="grid-column fake-col"></div>
+    </div>
+  </div>
 <div ng-show="!docs.length" class="no-docs">No documents found</div>

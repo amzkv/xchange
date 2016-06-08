@@ -169,6 +169,18 @@ md-card-title-media {
   padding: 5px;
 }
 
+.grid-item {
+  &:hover, &:hover + .grid-nb {
+    background-color: $background-color;
+  }
+}
+
+/*.grid-nb {
+  &:hover {
+    background-color: $background-color;
+  }
+}*/
+
 .col-separator {
   /*font-weight: bold;
   padding-left: 2px;
@@ -185,6 +197,10 @@ md-card-title-media {
 }
 
 @media screen and (max-width: 767px) {
+
+  .fake-col {
+    display: none;
+  }
   .list-item-text-r3 {
     display: none;
   }
@@ -210,26 +226,51 @@ md-card-title-media {
     margin:0;
     display: block;
   }
+}
 
+.doc-list-table {
+  background-color: white;
+  border-spacing: 12px;
+}
+
+.grid-column {
+  padding: 4px;
 }
 
 @media screen and (min-width: 768px) {
-  .doc-list-row {
+
+  .doc-list-table {
     display: table;
     width: 100%;
-    table-layout: fixed;
-    div {
+    border-collapse: collapse;
+  }
+
+  /*.collection-list {
+    height: 24px;
+  }*/
+
+  .collection-item {
+      display: inline-block;
+  }
+
+  .doc-list-row {
+    display: table-row;
+    /*width: 100%;*/
+   /* table-layout: auto;*/
+    .grid-column {
       display: table-cell;
       /*word-break: keep-all;*/
       white-space: nowrap;
       overflow: hidden;
-      padding-left: 5px;
+      padding: 8px;
       text-overflow: ellipsis;
     }
 
-    /*.list-column-1 {
-
+    .list-column-1 {
+      width: 20%;
     }
+
+    /*
     .list-column-2 {
 
     }
