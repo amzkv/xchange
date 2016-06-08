@@ -85,9 +85,9 @@ md-card-title-media {
 }
 
 .list-item-text-r1 {
-  position: absolute;
+  /*position: absolute;
   right: 0;
-  top: 4px;
+  top: 4px;*/
 }
 
 .list-item-text-r4 {
@@ -204,10 +204,17 @@ md-card-title-media {
   .list-item-text-r3 {
     display: none;
   }
+
   .list-item-text-r4 {
     position:absolute;
     right: 0px;
-    top: 29px;
+    top: 38px;
+  }
+
+  .list-item-text-r1 {
+    position:absolute;
+    right: 0px;
+    top: 6px;
   }
 
   .list-item-text-r2 {
