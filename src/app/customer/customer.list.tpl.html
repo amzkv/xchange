@@ -1,5 +1,5 @@
   <div class="list-offsets doc-list-table" ng-if="docs.length">
-    <div grid ng-repeat-start="card in docs" class="grid-item main-card view-list a-card doc-list-row" ng-click="editDocument($event, card.id);" style="border-top: 1px solid #ddd !important;">
+    <div grid ng-repeat-start="card in docs" class="grid-item main-card view-list a-card doc-list-row" ng-click="editDocument($event, card.id);">
 
       <div class="grid-column main-card column list-item-title mod-card-text list-column-1" title="{{card.title}}">{{card.title}}</div>
       <div class="grid-column list-item-text list-column-2" title="{{card.type.locale || card.type.value}} {{card.workstatus}}">{{card.type.locale || card.type.value }} {{card.workstatus}}</div>

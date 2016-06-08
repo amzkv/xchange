@@ -249,7 +249,11 @@ md-card-title-media {
   .doc-list-table {
     display: table;
     width: 100%;
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
+    border-spacing:0px;
+    border-width: 0px;
+    cellpadding: 0px;
+    cellspacing: 0px;
   }
 
   /*.collection-list {
@@ -260,8 +264,13 @@ md-card-title-media {
       display: inline-block;
   }
 
+  .grid-nb .grid-column {
+    border-bottom: 1px solid #ddd;
+  }
+
   .doc-list-row {
     display: table-row;
+    position: relative;
     /*width: 100%;*/
    /* table-layout: auto;*/
     .grid-column {
