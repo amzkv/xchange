@@ -141,7 +141,7 @@ md-content.md-365red-theme {
 
 @media screen and (min-width: 860px) {
   .list-box {
-    padding: 20px;
+    padding: 30px 80px 30px 80px ;
     /*margin-bottom: 24px;*/
     background-color: $background-color;
   }
@@ -152,6 +152,10 @@ md-content.md-365red-theme {
   }
 
   ons-list-item {
+    &:hover {
+      background-color: $background-color;
+      /*cursor: pointer;*/
+    }
     .a-card {
       /*margin: 10px !important;*/
     }

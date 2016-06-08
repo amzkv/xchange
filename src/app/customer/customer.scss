@@ -91,9 +91,9 @@ md-card-title-media {
 }
 
 .list-item-text-r4 {
-  position:absolute;
+  /*position:absolute;
   right: 2px;
-  top: 4px;
+  top: 4px;*/
 }
 
 .list-item-text-r2 {
@@ -189,6 +189,8 @@ md-card-title-media {
     display: none;
   }
   .list-item-text-r4 {
+    position:absolute;
+    right: 0px;
     top: 29px;
   }
 
@@ -217,29 +219,32 @@ md-card-title-media {
     width: 100%;
     table-layout: fixed;
     div {
-      /*padding-left: 5px;*/
       display: table-cell;
+      /*word-break: keep-all;*/
+      white-space: nowrap;
+      overflow: hidden;
+      padding-left: 5px;
+      text-overflow: ellipsis;
     }
 
-    .list-column-1 {
-      /*text-align: center;*/
-      width: 240px;
+    /*.list-column-1 {
+
     }
     .list-column-2 {
-      text-align: left;
+
     }
     .list-column-3 {
-      text-align: center;
+
     }
     .list-column-4 {
-      text-align: right;
+
     }
     .list-column-5 {
-      text-align: right;
+
     }
     .list-column-6 {
-      text-align: right;
-    }
+
+    }*/
 
     .list-item-text-r1 {
       position: inherit;
