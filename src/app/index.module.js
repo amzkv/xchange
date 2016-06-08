@@ -5,10 +5,10 @@ import { runBlock } from './index.run';
 import { MainController } from './main/main.controller';
 import { LoginController } from './login/login.controller';
 import { RegisterController } from './register/register.controller';
-import { ConfirmController } from './confirm/confirm.controller';
 import { CollectionController } from './collection/collection.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
+import { ChangeLogController } from './changelog/changelog.controller';
 import { ConfigService } from './config/config';
 import { LoginService } from './login/login.service';
 import { CheckAuthService } from './login/checkAuth.service';
@@ -50,10 +50,10 @@ angular.module('xchange', [
   .controller('MainController', MainController)
   .controller('LoginController', LoginController)
   .controller('RegisterController', RegisterController)
-  .controller('ConfirmController', ConfirmController)
   .controller('LocalAccessService', LocalAccessService)
   .controller('CollectionController', CollectionController)
   .controller('CustomerController', CustomerController)
+  .controller('ChangeLogController', ChangeLogController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)

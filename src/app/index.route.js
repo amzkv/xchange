@@ -17,26 +17,6 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       data : { pageTitle: '365 | Register' }
     })
 
-    .state('confirm', {
-      url: '/confirm',
-      templateUrl: 'app/confirm/confirm.html',
-      controller: 'ConfirmController',
-      controllerAs: 'confirm',
-      params: {
-        confirmCode: null,
-        squash: true
-      },
-      data : { pageTitle: '365 | Confirm Registration' },
-      resolve: {
-        info: function (LoginService, $stateParams) {
-          if ($stateParams.confirmCode) {
-            return LoginService.registerInformation($stateParams.confirmCode);
-          }
-          return {};
-        }
-      }
-    })
-
     .state('home', {
       url: '/',
       parentState: null,
@@ -94,6 +74,15 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
           return ConfigService.getBaseUrl();
         }
       }
+
+    })
+
+    .state('changelog', {
+      url: '/changelog',
+      templateUrl: 'app/changelog/changelog.html',
+      controller: 'ChangeLogController',
+      controllerAs: 'log',
+      data : { pageTitle: 'changelog' }
     });
 
   $locationProvider.html5Mode(true);
