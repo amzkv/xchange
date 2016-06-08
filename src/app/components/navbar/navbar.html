@@ -17,13 +17,13 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span ng-if="vm.state === 'collection' && (vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
-        <span ng-if="vm.state === 'customer' && (vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && ( vm.params.collectionLocale || vm.storageCache.collections[vm.params.customerId])">
+        <span ng-if="vm.state === 'collection' && vm.params.collectionLocale" ng-click="vm.navigateUp()">{{vm.params.collectionLocale}}</span>
+        <span ng-if="vm.state === 'customer' && vm.previousStateParams.collectionLocale" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && vm.previousStateParams.collectionLocale || vm.params.collectionLocale">
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span ng-if="vm.state === 'customer' && (vm.params.locale || vm.storageCache.collections[vm.params.customerId])" ng-click="vm.navigateUp()">{{vm.params.locale || vm.storageCache.collections[vm.params.customerId].locale}}</span>
+        <span ng-if="vm.state === 'customer' && vm.params.locale" ng-click="vm.navigateUp()">{{vm.params.locale}}</span>
 
       </span>
     </h2>
@@ -37,6 +37,7 @@
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
 </md-toolbar>
+<!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 
 <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" md-component-id="left">
   <md-toolbar layout="row" class="header" style="position:absolute;top:0;">
@@ -66,5 +67,5 @@
       </ul>
     </nav>
   </md-content>
-  <div class="app-version">{{::vm.version}}</div>
+  <div class="app-version"><a ui-sref="changelog">{{::vm.version}}</a></div>
 </md-sidenav>
