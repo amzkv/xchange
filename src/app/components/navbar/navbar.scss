@@ -241,8 +241,14 @@ md-divider {
 }
 
 .app-version {
+
   position: absolute;
   bottom: 5px;
   right: 10px;
-  font-size: 1.2em;
+
+  /*position: relative;
+  bottom: 5px !important;
+  left: 260px;*/
+
+  font-size: 1.2em !important;
 }

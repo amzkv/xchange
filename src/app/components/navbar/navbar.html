@@ -39,7 +39,7 @@
 </md-toolbar>
 <!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 
-<md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" md-component-id="left">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" style="display: flex;flex-direction: column;" md-component-id="left">
   <md-toolbar layout="row" class="header" style="position:absolute;top:0;">
     <h2 class="md-toolbar-item md-headline">
       <!--<span class="hamburger-header-items" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.toggle();"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>-->
@@ -67,5 +67,7 @@
       </ul>
     </nav>
   </md-content>
-  <div class="app-version"><a ui-sref="changelog">{{::vm.version}}</a></div>
+  <md-content style="flex-grow: 1; min-height: 38px;">
+    <div  class="app-version" ng-click="vm.toggle();"><a ui-sref="changelog">{{::vm.version}}</a></div>
+  </md-content>
 </md-sidenav>
