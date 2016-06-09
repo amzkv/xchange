@@ -198,6 +198,11 @@ md-card-title-media {
 
 @media screen and (max-width: 767px) {
 
+
+  .doc-list-row {
+    position: relative;
+  }
+
   .fake-col {
     display: none;
   }
@@ -206,7 +211,7 @@ md-card-title-media {
   }
 
   .list-item-text-r4 {
-    position:absolute;
+    position: absolute;
     right: 0px;
     top: 38px;
   }
@@ -218,8 +223,9 @@ md-card-title-media {
   }
 
   .list-item-text-r2 {
-    position:inherit;
-    top: 52px;
+    position: relative;
+    left: 0px;
+    top: 0px;
   }
 
   .col-separator {
@@ -242,6 +248,10 @@ md-card-title-media {
 
 .grid-column {
   padding: 4px;
+}
+
+.grid-nb {
+  border-bottom: 1px solid #ddd;
 }
 
 @media screen and (min-width: 768px) {

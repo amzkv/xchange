@@ -8,7 +8,8 @@
       <div class="grid-column list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)}}</div>
       <div class="grid-column list-item-text list-item-text-r4 list-column-6">[total_amount]</div>
 
-      <md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>
+      <!--<md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>-->
+      <div class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></div>
     </div>
     <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="editDocument($event, card.id);">
       <div class="grid-column">
