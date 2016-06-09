@@ -108,6 +108,7 @@ class NavbarController {
 
     this.logout = function(){
       "use strict";
+      documentsService.clearCache();
       LocalAccessService.removeCredentails();
       $state.go('login');
     };

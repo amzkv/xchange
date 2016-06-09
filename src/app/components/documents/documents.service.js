@@ -63,6 +63,14 @@ export class DocumentsService {
   callDocumentRelated(value) {
 
     this.busy = true;
+    this.collectionItems = null;
+
+    let cachedPromise = this.getCache('collections', value);
+    if (cachedPromise) {
+      //console.log(cachedPromise);
+      this.busy = false;
+      return cachedPromise;
+    }
 
     let credentials = this.localAccessService.getCredentails();
     let info =
@@ -86,9 +94,11 @@ export class DocumentsService {
 
     promise.then(function(response) {
       self.storeCache('collections', response);
+      self.collectionItems = response.data.collections;
       self.busy = false;
     });
 
+    this.setCache(promise, 'collections', value);
     return promise;
 
   }
@@ -172,9 +182,14 @@ export class DocumentsService {
         this.dataCache = {};
       }
       if (cacheId) {
-        promise.cacheId = cacheId;//debug info for now
+        //promise.cacheId = cacheId;//debug info for now
+        if (!this.dataCache[scope]) {
+          this.dataCache[scope] = {};
+        }
+        this.dataCache[scope][cacheId] = promise;
+      } else {
+        this.dataCache[scope] = promise;
       }
-      this.dataCache[scope] = promise;
       return true;
     }
     return false;
@@ -182,8 +197,11 @@ export class DocumentsService {
 
   getCache(scope, cacheId) {
     if (scope && this.dataCache && this.dataCache[scope]) {
-      if (cacheId && this.dataCache[scope].cacheId) {
-        return this.dataCache[scope];
+      if (cacheId) {
+        if (this.dataCache[scope] && this.dataCache[scope][cacheId]) {
+          return this.dataCache[scope][cacheId];
+        }
+        return null;
       }
       return this.dataCache[scope];
     }
@@ -213,6 +231,18 @@ export class DocumentsService {
       }
     }
 
+  }
+
+  clearCache() {
+    try {
+      this.$window.localStorage.removeItem('core');
+      this.$window.localStorage.removeItem('collections');
+    } catch (e) {
+      //failed to clear storage
+      this.$log.log('failed to clear storage')
+    }
+    //clear Data Cache
+    this.dataCache = null;
   }
 
 }
