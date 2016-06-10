@@ -312,6 +312,12 @@ md-card md-card-title md-card-title-text .md-headline {
   display: none;
 }
 
+div.a-card {
+  a {
+      color: #310055;
+  }
+}
+
 @keyframes show {
   0% {
     opacity:0;
