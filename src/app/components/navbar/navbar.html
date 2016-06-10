@@ -59,15 +59,20 @@
           </a>
         </li>
         <md-divider></md-divider>
-        <li ng-click="vm.logout();vm.toggle();">
+        <li ng-click="vm.closeMenu();">
+          <a ui-sref="changelog">
+            <i class="material-icons">info_outline</i> About
+          </a>
+        </li>
+        <li ng-click="vm.logout();vm.closeMenu();">
             <a ui-sref="login">
-               <i class="mdi mdi-logout-variant"></i> Logout
+               <i class="material-icons">exit_to_app</i> Logout
             </a>
         </li>
       </ul>
     </nav>
   </md-content>
-  <md-content style="flex-grow: 1; min-height: 38px;">
+  <!--<md-content style="flex-grow: 1; min-height: 38px;">
     <div  class="app-version" ng-click="vm.toggle();"><a ui-sref="changelog">{{::vm.version}}</a></div>
-  </md-content>
+  </md-content>-->
 </md-sidenav>
