@@ -17,6 +17,7 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
+        <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">Change Log</span>
         <span class="nav" ng-if="vm.state === 'collection' && (vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
         <span class="nav" ng-if="vm.state === 'customer' && (vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && ( vm.params.collectionLocale || vm.storageCache.collections[vm.params.customerId])">
@@ -59,15 +60,20 @@
           </a>
         </li>
         <md-divider></md-divider>
-        <li ng-click="vm.logout();vm.toggle();">
+        <li ng-click="vm.closeMenu();">
+          <a ui-sref="changelog">
+            <i class="material-icons">info_outline</i> About
+          </a>
+        </li>
+        <li ng-click="vm.logout();vm.closeMenu();">
             <a ui-sref="login">
-               <i class="mdi mdi-logout-variant"></i> Logout
+               <i class="material-icons">exit_to_app</i> Logout
             </a>
         </li>
       </ul>
     </nav>
   </md-content>
-  <md-content style="flex-grow: 1; min-height: 38px;">
+  <!--<md-content style="flex-grow: 1; min-height: 38px;">
     <div  class="app-version" ng-click="vm.toggle();"><a ui-sref="changelog">{{::vm.version}}</a></div>
-  </md-content>
+  </md-content>-->
 </md-sidenav>

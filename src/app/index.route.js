@@ -1,6 +1,21 @@
 export function routerConfig($stateProvider, $urlRouterProvider, $locationProvider) {
   'ngInject';
   $stateProvider
+
+    .state('home', {
+      url: '/',
+      parentState: null,
+      templateUrl: 'app/main/main.html',
+      controller: 'MainController',
+      controllerAs: 'main',
+      data : { pageTitle: '365' },
+      resolve: {
+        categories: function (documentsService) {
+          return documentsService.callDocumentsCore();
+        }
+      }
+    })
+
     .state('login', {
       url: '/login',
       templateUrl: 'app/login/login.html',
@@ -37,19 +52,16 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('home', {
-      url: '/',
-      parentState: null,
-      templateUrl: 'app/main/main.html',
-      controller: 'MainController',
-      controllerAs: 'main',
-      data : { pageTitle: '365' },
-      resolve: {
-        categories: function (documentsService) {
-          return documentsService.callDocumentsCore();
-        }
-      }
+    .state('changelog', {
+      url: '/changelog',
+      templateUrl: 'app/changelog/changelog.html',
+      controller: 'ChangeLogController',
+      controllerAs: 'log',
+      data : { pageTitle: 'changelog' }
     })
+
+
+    /*should be last*/
 
     .state('collection', {
       url: '/:collectionId',
@@ -96,14 +108,6 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
 
     })
-
-    .state('changelog', {
-      url: '/changelog',
-      templateUrl: 'app/changelog/changelog.html',
-      controller: 'ChangeLogController',
-      controllerAs: 'log',
-      data : { pageTitle: 'changelog' }
-    });
 
   $locationProvider.html5Mode(true);
 
