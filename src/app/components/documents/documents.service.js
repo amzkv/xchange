@@ -177,12 +177,12 @@ export class DocumentsService {
   }
 
   setCache(promise, scope, cacheId) {
+    /*used for caching for 1 and 2 level(core and collections)*/
     if (scope && promise) {
       if (!this.dataCache) {
         this.dataCache = {};
       }
       if (cacheId) {
-        //promise.cacheId = cacheId;//debug info for now
         if (!this.dataCache[scope]) {
           this.dataCache[scope] = {};
         }
@@ -208,7 +208,7 @@ export class DocumentsService {
   }
 
   storeCache(cacheName, response) {
-    //console.log(cacheName, response);
+    /*this one is used for navigation caching*/
     let data = {};
     if (response.data && response.data['collections']) {
       angular.forEach(response.data['collections'], function (item, key) {
@@ -225,6 +225,8 @@ export class DocumentsService {
 
     if (Object.keys(data).length) {
       try {
+        let prevData = JSON.parse(this.$window.localStorage.getItem(cacheName));
+        data = angular.extend(data, prevData);
         this.$window.localStorage.setItem(cacheName, JSON.stringify(data));
       } catch (e) {
         //console.log('error:', e)
