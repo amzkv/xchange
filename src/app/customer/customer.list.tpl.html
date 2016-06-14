@@ -6,7 +6,7 @@
 
       <div class="grid-column list-item-text list-item-text-r1 list-column-4">{{card.date | date: "dd.MM.yyyy" }}</div>
       <div class="grid-column list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)}}</div>
-      <div class="grid-column list-item-text list-item-text-r4 list-column-6">{{card.totalamount}}</div>
+      <div class="grid-column list-item-text list-item-text-r4 list-column-6">{{card.totalamount | currency:""}}</div>
 
       <!--<md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>-->
       <div class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></div>

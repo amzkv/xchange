@@ -153,6 +153,13 @@ footer {
   background-color: $header-color;
 }
 
+.registration-form {
+  md-input-container {
+    width: 95%;
+    max-width: 500px;
+  }
+}
+
 .login-validation-color{
   color:white !important;
 }
