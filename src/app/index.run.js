@@ -14,4 +14,9 @@ export function runBlock (CheckAuthService, $state, $rootScope) {
       }
     }
   });
+
+  $rootScope.$on('$locationChangeStart', function() {
+    $rootScope.previousPage = location.pathname;
+  });
+
 }

@@ -110,6 +110,7 @@ class NavbarController {
       "use strict";
       documentsService.clearCache();
       LocalAccessService.removeCredentails();
+      $rootScope.loggedOut = true;
       $state.go('login');
     };
 
