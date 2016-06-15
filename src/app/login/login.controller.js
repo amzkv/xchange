@@ -30,7 +30,7 @@ export class LoginController {
           toastr.success('Logged in successfully', 'Success');
           CheckAuthService.setUser(response.data.user);
 
-          if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login') {
+          if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register') {
             $location.path($rootScope.previousPage);
           } else {
             $state.go('home');
