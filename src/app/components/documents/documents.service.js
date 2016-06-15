@@ -236,14 +236,16 @@ export class DocumentsService {
   }
 
   clearCache() {
-    try {
+    //for redirect case
+    /*try {
       this.$window.localStorage.removeItem('core');
       this.$window.localStorage.removeItem('collections');
     } catch (e) {
       //failed to clear storage
       this.$log.log('failed to clear storage')
-    }
-    //clear Data Cache
+    }*/
+
+    //clear Data Cache only
     this.dataCache = null;
   }
 

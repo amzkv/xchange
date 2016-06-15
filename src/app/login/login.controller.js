@@ -2,7 +2,7 @@
  * Created by decipher on 22.4.16.
  */
 export class LoginController {
-  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr) {
+  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $rootScope, $location) {
     'ngInject';
     this.onClickForRegistration = function () {
       $state.go('register');
@@ -29,7 +29,12 @@ export class LoginController {
           LocalAccessService.setCredentails(self.userInfo);
           toastr.success('Logged in successfully', 'Success');
           CheckAuthService.setUser(response.data.user);
-          $state.go('home');
+
+          if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register') {
+            $location.path($rootScope.previousPage);
+          } else {
+            $state.go('home');
+          }
         } else {
           toastr.error('email or password is wrong / eMail oder Passswort ist falsch', 'Error');
           $scope.login.loginForm.passWord.$error.server = response.data.response.errormessage;
