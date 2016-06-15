@@ -4,7 +4,7 @@
 export function ValidateEmail() {
   'ngInject';
 
-  let EMAIL_REGEXP = /^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$/;
+  let EMAIL_REGEXP = /^[-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$/;
 
   let directive = {
     require: 'ngModel',
