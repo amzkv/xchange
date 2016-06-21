@@ -12,12 +12,21 @@ export class CustomerController {
 
     $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;
-
-    $scope.docs = docs.data.documents;
+    //console.log('docs',docs);
+    $scope.docs = docs.data.documents || docs.data.collections;//todo
 
     $scope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
+
+    documentsService.startValue = ConfigService.getDocumentStartValue();
+    documentsService.endValue = ConfigService.getDocumentOffsetValue();
+
+    if ($scope.totalDocCount < documentsService.endValue) {
+      documentsService.endValue = $scope.totalDocCount;
+    }
+
+    $scope.cacheStart = docs.start;
 
     $scope.baseUrl = baseUrl;
 
@@ -125,6 +134,8 @@ export class CustomerController {
 
       if (documentsService.busy) return;
 
+      //console.log('more', documentsService.busy,  documentsService.startValue, documentsService.endValue, $scope.totalDocCount, $scope.cacheStart);
+
       var startValue = documentsService.startValue;
       var endValue = documentsService.endValue;
       var offset = documentsService.offset;
@@ -133,11 +144,17 @@ export class CustomerController {
         startValue = documentsService.endValue + 1;
         endValue = endValue + offset;
         endValue = (endValue > $scope.totalDocCount) ? $scope.totalDocCount : endValue;
-
+        //console.log(startValue, endValue);
         var newdocs = documentsService.callDocumentByOneCollection($stateParams.customerId, startValue, endValue);
         newdocs.then(function(resp) {
-          if (resp.data.response.success) {
-            $scope.addMoreItems(resp.data.documents);
+          //console.log('newdocs:', resp);
+          if (resp.data.response && resp.data.response.success) {
+            //request
+            let source = resp.data.documents || resp.data.collections;
+            $scope.addMoreItems(source);
+          } else if (resp.data.control) {
+            //cache
+            $scope.addMoreItems(resp.data.collections);
           }
         });
       }
@@ -154,7 +171,8 @@ export class CustomerController {
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService) {
             (function () {
               documentsService.callDocumentById(documentId).then(function(resp) {
-                if (resp.data.response.success) {
+                //resp.data.response.success
+                if (resp.data.document) {
                   $scope.basepath = ConfigService.getBaseUrl() + 'file';
                   $scope.setVisibilityForImage = false;
                   var res = resp.data;
@@ -171,9 +189,9 @@ export class CustomerController {
                   $scope.payDate = new Date();
                   if (res.document.hasOwnProperty('workflow')) {
 
-                    $scope.workflow = (res.document.workflow.startable.length == 0 ? "" : res.document.workflow.startable[0].process);
+                    $scope.workflow = (res.document.workflow.startable && res.document.workflow.startable.length != 0 ? res.document.workflow.startable[0].process : "");
                     //console.log('wf', $scope.workflow, res.document.workflow);
-                    $scope.workflowTips = (res.document.workflow.startable.length == 0 ? "" : res.document.workflow.startable[0].desc);
+                    $scope.workflowTips = (res.document.workflow.startable && res.document.workflow.startable.length != 0 ? res.document.workflow.startable[0].desc: "");
                   } else {
                     $scope.workflow = "";
                     $scope.workflowTips = "";

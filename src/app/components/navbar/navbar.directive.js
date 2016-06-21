@@ -47,14 +47,15 @@ class NavbarController {
     });
 
     //requests remote server only once
-    let coreItemsP = documentsService.callDocumentsCore();
+
+    /*let coreItemsP = documentsService.callDocumentsCore();
     if (coreItemsP) {
       coreItemsP.then(function (response) {
         if (response.data) {
           self.coreItems = response.data.collections;
         }
       });
-    }
+    }*/
 
     let appName = ConfigService.appName();//todo
     this.appConfig = {appName: appName};
@@ -89,6 +90,16 @@ class NavbarController {
       "use strict";
       self.documentsView = ($state.current.name === 'customer');
       self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'confirm');
+      if (!self.hideHeader && !self.coreItems) {
+        let coreItemsP = documentsService.callDocumentsCore();
+        if (coreItemsP) {
+          coreItemsP.then(function (response) {
+            if (response.data) {
+              self.coreItems = response.data.collections;
+            }
+          });
+        }
+      }
     });
 
 
