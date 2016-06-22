@@ -16,6 +16,14 @@ export class CollectionController {
 
     $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
 
+    $scope.emptyCollectionFilter = function (collection) {
+      if (ViewModeService.showEmptyCollections) {
+        return true;
+      } else {
+        return collection.count > 0;
+      }
+    };
+
     $rootScope.$on('customerStateChanged', function (event, data) {
       $scope.toggleMode = {
         thisState: data.thisState,

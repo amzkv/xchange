@@ -1,5 +1,5 @@
 <ons-list class="list-offsets">
-  <ons-list-item grid ng-repeat="card in collection.docs" class="">
+  <ons-list-item grid ng-repeat="card in collection.docs |filter:emptyCollectionFilter" class="">
     <div class="a-card">
       <a ui-sref="customer({collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale})">
         <div>

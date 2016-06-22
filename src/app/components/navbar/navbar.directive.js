@@ -148,6 +148,11 @@ class NavbarController {
         rightSidenav.toggle();
       });
     };
+    $scope.showEmptyCollections = false;
+    this.toggleEmptyCollectionFiltering = function() {
+      $scope.showEmptyCollections = !$scope.showEmptyCollections;
+      ViewModeService.showEmptyCollections = $scope.showEmptyCollections;
+    };
 
     this.closeMenu = function () {
       $mdSidenav('left').close();
