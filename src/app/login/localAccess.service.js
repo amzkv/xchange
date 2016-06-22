@@ -20,43 +20,26 @@ export class LocalAccessService {
     }
   }
 
+  getCKey() {
+    return 'xC3r6y5ptK';//todo
+  }
+
+  encryptCredentials(UserInfo) {
+    return CryptoJS.AES.encrypt(JSON.stringify(UserInfo), this.getCKey()).toString();
+  }
+
+  decryptCredentials(credentials) {
+    let decrypted = CryptoJS.AES.decrypt(credentials, this.getCKey()).toString(CryptoJS.enc.Latin1);
+    return JSON.parse(decrypted);
+  }
+
   getCredentails() {
-    //var decrypted = CryptoJS.AES.decrypt(localStorage.getItem('userinfo'), "temp").toString(CryptoJS.enc.Latin1);
-    //return JSON.parse(decrypted);
-
-    /*let credentials = this.$window.localStorage.getItem('userinfo');
-    return JSON.parse(credentials);*/
-
-    /*let deferred = this.$q.defer();
-
-    this.$indexedDB.openStore('user', function(user){
-      user.find('info').then(function(e){
-        //$scope.user = e['user'];
-        //return e['data'];
-        deferred.resolve(e['data']);
-      });
-    });
-
-    return deferred.promise;*/
     return this.storageService.getSingleRecordPromise('user','info', 'data')
-
   }
 
   setCredentails(UserInfo) {
-    //var encrypted = CryptoJS.AES.encrypt(JSON.stringify(UserInfo), "temp").toString();
-
-    /*
-    var encrypted = JSON.stringify(UserInfo);
-    this.$window.localStorage.setItem('userinfo', encrypted);
-    */
-
-    var encrypted = UserInfo;
-    /*this.$indexedDB.openStore('user', function(store){
-      store.upsert({"user_id": "info", "data": UserInfo}).then(function (e) {
-
-      });
-    });*/
-    this.storageService.upsertRecord('user',{"user_key": "info", "data": UserInfo});
+    var encrypted = this.encryptCredentials(UserInfo);
+    this.storageService.upsertRecord('user',{"user_key": "info", "data": encrypted});
   }
 
   removeCredentails () {
