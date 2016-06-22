@@ -30,14 +30,31 @@
     </h2>
   </div>
 
-  <span class="nav-mode-switch" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
+  <!--<span class="nav-mode-switch" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
     <i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i>
-  </span>
+  </span>-->
+  <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"></i>
   <i class="mdi mdi-magnify nav-filter" ng-click="vm.toggleFilter()"></i>
   <i class="nav-home" ng-click="vm.navigateHome()">
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
 </md-toolbar>
+
+<div class="options-popup" ng-show="vm.displayOptions">
+  <!--test-->
+  <div style="text-align: center;padding:5px;">
+    <i class="mdi mdi-checkbox-blank-circle" style="color: #310055;"></i>
+    <i class="mdi mdi-checkbox-blank-circle" style="color: #212121;"></i>
+    <i class="mdi mdi-checkbox-blank-circle" style="color: #727272;"></i>
+  </div>
+  <md-divider></md-divider>
+  <ul>
+    <li ng-click="$event.stopPropagation();fullScreen();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen' "></i></span> Full Screen</li><!--mdi-fullscreen-exit-->
+    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span> View Mode</li>
+    <li ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi mdi-numeric-0-box-outline"></i></span> Empty Sets</li><!--mdi-numeric-0-box-->
+  </ul>
+</div>
+
 <!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 
 <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-pos" style="display: flex;flex-direction: column;" md-component-id="left">

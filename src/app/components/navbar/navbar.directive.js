@@ -20,6 +20,7 @@ class NavbarController {
     'ngInject';
 
     this.constant = CONSTANT;
+    this.displayOptions = false;
     this.version = this.constant.VERSION;
     this.storageCache = {};
     //TODO
@@ -105,6 +106,41 @@ class NavbarController {
 
     this.toggle = function () {
       $mdSidenav('left').toggle();
+    };
+
+    $scope.isFullScreen = false;
+
+    $scope.fullScreen = function() {
+
+      function launchIntoFullscreen(element) {
+        if(element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if(element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        } else if(element.msRequestFullscreen) {
+          element.msRequestFullscreen();
+        }
+      }
+
+      function exitFullscreen() {
+        if(document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if(document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+
+      if (exitFullscreen()) {
+        launchIntoFullscreen(document.documentElement);
+      }
+      else {
+        launchIntoFullscreen(document.documentElement);
+      }
+      $scope.isFullScreen = !$scope.isFullScreen;
     };
 
     this.toggleFilter = function () {
