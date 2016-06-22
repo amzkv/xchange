@@ -1,7 +1,7 @@
 <div ng-cloak=""
      infinite-scroll="more()"
      infinite-scroll-disabled='documentService.busy'
-     infinite-scroll-distance='1'
+     infinite-scroll-distance='-1'
      ng-class="cardMode ? '' : 'list-box'"
      ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
 </div>

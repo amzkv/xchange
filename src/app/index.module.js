@@ -1,6 +1,8 @@
 import { config } from './index.config';
 import { constant } from './index.constant';
 import { routerConfig } from './index.route';
+import { indexedDBConfig } from './indexedDB.config';
+import { StorageService } from './storage/storage.service';
 import { runBlock } from './index.run';
 import { MainController } from './main/main.controller';
 import { LoginController } from './login/login.controller';
@@ -36,12 +38,15 @@ angular.module('xchange', [
   'onsen',
   'toastr',
   /*'akoenig.deckgrid',*/
-  'infinite-scroll'
+  'infinite-scroll',
+  'indexedDB'
 ])
   .constant('CONSTANT', constant)
   .config(config)
   .config(routerConfig)
+  .config(indexedDBConfig)
   .run(runBlock)
+  .service('StorageService', StorageService)
   .service('documentsService', DocumentsService)
   .service('ConfigService', ConfigService)
   .service('LoginService', LoginService)
