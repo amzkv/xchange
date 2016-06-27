@@ -12,6 +12,7 @@ import { CollectionController } from './collection/collection.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
 import { ChangeLogController } from './changelog/changelog.controller';
+import { SearchController } from './search/search.controller';
 import { ConfigService } from './config/config';
 import { LoginService } from './login/login.service';
 import { CheckAuthService } from './login/checkAuth.service';
@@ -59,6 +60,7 @@ angular.module('xchange', [
   .controller('ConfirmController', ConfirmController)
   .controller('LocalAccessService', LocalAccessService)
   .controller('CollectionController', CollectionController)
+  .controller('SearchController', SearchController)
   .controller('CustomerController', CustomerController)
   .controller('ChangeLogController', ChangeLogController)
   .directive('acmeNavbar', NavbarDirective)

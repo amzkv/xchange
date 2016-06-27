@@ -2,20 +2,22 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter) {
     'ngInject';
 
-    $scope.filterData = {};
+    //$scope.filterData = {};
 
-    $scope.groupFilters = [];
+    //$scope.groupFilters = [];
     $scope.shownGroup = 0;
+    //documentsService.filter = null;
+    $scope.documentsService = documentsService;
 
     $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;
     //console.log('docs',docs);
     $scope.docs = docs.data.documents || docs.data.collections;//todo
 
-    $scope.filters = docs.data.avail_filter;
+    $rootScope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
@@ -25,6 +27,8 @@ export class CustomerController {
     if ($scope.totalDocCount < documentsService.endValue) {
       documentsService.endValue = $scope.totalDocCount;
     }
+
+    $scope.pageSize = documentsService.endValue;
 
     $scope.cacheStart = docs.start;
 
@@ -62,79 +66,30 @@ export class CustomerController {
       //angular.extend($scope.docs, items);
     };
 
-    $scope.closeFilter = function () {
-      $mdSidenav('right').close();
-    };
+    $scope.$watch('documentsService.filter', function (newValue, oldValue, scope) {
+      if (newValue && newValue != oldValue) {
+        if (documentsService.filterCustomerId) {
+          documentsService.callDocumentByOneCollection(documentsService.filterCustomerId)
+            .then(function (resp) {
+              if (resp.data.response.success) {
+                //console.log('response');
+                scope.docs = resp.data.documents;
+                scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
-    $scope.resetFilter = function() {
-      $scope.collectionFilter = [];
-      documentsService.filter = null;
-    };
-
-    $scope.toggleGroup = function(group) {
-      if ($scope.isGroupShown(group)) {
-        $scope.shownGroup = null;
-      } else {
-        $scope.shownGroup = group;
-      }
-    };
-
-    $scope.isGroupShown = function(group) {
-      return $scope.shownGroup === group;
-    };
-
-    $scope.applyFilter = function () {
-
-      $scope.collectionFilter = [];
-      $scope.collectionFilterGroupTitles = [];
-
-      if (typeof $scope.filterData.titleIds != 'undefined') {
-        angular.forEach($scope.filterData.titleIds, function (items, groupKey) {
-          angular.forEach(items, function (active, id) {
-            if (active) {
-              if (!$scope.groupFilters[groupKey]) {
-                $scope.groupFilters[groupKey] = id;
-              } else {
-                if ($scope.groupFilters[groupKey] != id) {
-                  $scope.filterData.titleIds[groupKey][$scope.groupFilters[groupKey]] = false;//uncheck previous
-                  $scope.groupFilters[groupKey] = id;//set new
+                if (scope.totalDocCount < documentsService.endValue) {
+                  documentsService.endValue = scope.totalDocCount;
                 }
               }
-            } else {
-              if ($scope.groupFilters[groupKey] == id) {
-                $scope.groupFilters[groupKey] = null;//none checked
-              }
-            }
-          });
-        });
+            });
+        }
       }
-
-      //prepare filter
-      angular.forEach($scope.groupFilters, function (val, key) {
-          if (val) {
-            $scope.collectionFilter.push({collection: val});
-          }
-      });
-
-      //console.log('collectionFilter', $scope.collectionFilter);
-      //pass filter to doc service
-      documentsService.filter = $scope.collectionFilter;
-
-      documentsService.callDocumentByOneCollection($stateParams.customerId)
-        .then(function(resp) {
-          if (resp.data.response.success) {
-            $scope.docs = resp.data.documents;
-          }
-        });
-
-      //$mdSidenav('right').close();
-    };
+    });
 
     $scope.more = function() {
 
-      if (documentsService.busy) return;
-
       //console.log('more', documentsService.busy,  documentsService.startValue, documentsService.endValue, $scope.totalDocCount, $scope.cacheStart);
+
+      if (documentsService.busy) return;
 
       var startValue = documentsService.startValue;
       var endValue = documentsService.endValue;
@@ -152,9 +107,11 @@ export class CustomerController {
             //request
             let source = resp.data.documents || resp.data.collections;
             $scope.addMoreItems(source);
+            $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
           } else if (resp.data.control) {
             //cache
             $scope.addMoreItems(resp.data.collections);
+            $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
           }
         });
       }

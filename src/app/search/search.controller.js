@@ -1,15 +1,16 @@
 /**
  * Created by decipher on 18.2.16.
  */
-export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, $scope, $rootScope, documentsService) {
+export class SearchController {
+  constructor ($scope, core_docs, collections, docs, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdSidenav) {
     'ngInject';
 
-    themeProvider.setDefaultTheme('365violet');
+    //TODO:REDO, when API is ready
 
-    $scope.documentsService = documentsService;
+    this.coreDocs = core_docs.data.collections;
+    this.collections = collections.data.collections;
+    $scope.docs = docs.data.documents;
 
-    this.docs = collection.data.collections;
 
     $scope.toggleMode = {
       thisState: ViewModeService.getState(),
@@ -17,14 +18,6 @@ export class CollectionController {
     };
 
     $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
-
-    $scope.emptyCollectionFilter = function (collection) {
-      if (ViewModeService.showEmptyCollections) {
-        return true;
-      } else {
-        return collection.count > 0;
-      }
-    };
 
     $rootScope.$on('customerStateChanged', function (event, data) {
       $scope.toggleMode = {
@@ -34,5 +27,6 @@ export class CollectionController {
       $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
     });
 
+    //console.log(core_docs);
   }
 }

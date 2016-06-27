@@ -228,6 +228,11 @@ export class DocumentsService {
       }
     };
 
+    //console.log('filter:',this.filter);
+    if (this.filter && this.filter.length) {
+      skipCache = true;
+    }
+
     start = start ? start : this.configService.getDocumentStartValue();
     end = end ? end : this.configService.getDocumentOffsetValue();
 
@@ -263,7 +268,45 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, id);//id??
   }
 
+  searchDocument(value, start, end, skipCache) {
+    /*Do not use. not implemented yet.*/
+    let configExtension =
+    {
+      "document": {
+        "method" : "by collection",
+        "search" : value
+      }
+    };
+
+    start = start ? start : this.configService.getDocumentStartValue();
+    end = end ? end : this.configService.getDocumentOffsetValue();
+
+    let options = {
+      /*"cacheName": "documents",*/
+      "itemKey": "documentsItems",
+      "dataKey": "documents",
+      "useAllData": true,
+      "start": start,
+      "end": end
+    };
+
+    return this.baseCall(configExtension, options, value, true);
+  }
+
+  quickFilter(collection) {
+    /*if ($scope.searchFilter) {
+      if (collection.title) {
+        return collection.title.indexOf(this.searchFilter) == -1;
+      }
+    }*/
+    return true;
+  }
+
   setCache(promise, scope, cacheId, dataKey, useAllData) {
+
+    if (this.filter && this.filter.length) {
+      return;//test
+    }
 
     let self = this;
 

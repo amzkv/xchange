@@ -63,6 +63,39 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
 
     /*should be last*/
 
+    .state('search', {
+      url: '/search/:searchPhrase',
+      templateUrl: 'app/search/search.html',
+      controller: 'SearchController',
+      controllerAs: 'search',
+      data : { pageTitle: '365 | Search' },
+      resolve: {
+        core_docs: function (documentsService, $stateParams) {
+          return documentsService.callDocumentsCore();
+          //documentsService.filter = null;
+          //return documentsService.callDocumentByOneCollection($stateParams.customerId);
+        },
+        collections: function (documentsService, $stateParams) {
+          return documentsService.callDocumentRelated('Type');//just to test, TODO
+        },
+        docs: function (documentsService, $stateParams) {
+          documentsService.filter = null;
+          return documentsService.callDocumentByOneCollection(2047);//just to test, TODO
+          //return documentsService.searchDocument($stateParams.searchPhrase); //use this when API is ready
+        },
+        /*category: function ($stateParams) {
+         return $stateParams.category;
+         },
+         locale: function ($stateParams) {
+         return $stateParams.locale;
+         },*/
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
+    })
+
     .state('collection', {
       url: '/:collectionId',
       parentState: 'home',

@@ -17,6 +17,11 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
+        <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">Search</span>
+        <span ng-if="vm.state === 'search'" class="docs-menu-separator-icon" hide-sm hide-md>
+          <i class="material-icons">keyboard_arrow_right</i>
+        </span>
+        <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.toggleFilter()">{{vm.params.searchPhrase}}</span>
         <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">Change Log</span>
         <span class="nav" ng-if="vm.state === 'collection' && (vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
         <span class="nav" ng-if="vm.state === 'customer' && (vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
@@ -34,7 +39,7 @@
     <i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i>
   </span>-->
   <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"></i>
-  <i class="mdi mdi-magnify nav-filter" ng-click="vm.toggleFilter()"></i>
+  <i class="mdi mdi-magnify nav-filter" ng-click="vm.displayOptions = false;vm.toggleFilter()"></i>
   <i class="nav-home" ng-click="vm.navigateHome()">
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
@@ -93,4 +98,50 @@
   <!--<md-content style="flex-grow: 1; min-height: 38px;">
     <div  class="app-version" ng-click="vm.toggle();"><a ui-sref="changelog">{{::vm.version}}</a></div>
   </md-content>-->
+</md-sidenav>
+
+<md-sidenav class="md-sidenav-right md-whiteframe-z2 sidenav-pos" md-component-id="right">
+  <md-toolbar class="md-theme-light">
+    <div class="md-toolbar-tools">
+      <h1>Filter</h1>
+      <span flex></span>
+      <md-button class="md-icon-button sidenav-right-close" ng-click="closeFilter()">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-content layout-padding style="padding-top:72px;">
+    <md-input-container flex="100">
+      <label>Search</label>
+      <span>
+        <input type="search" autofocus="autofocus" name="search" data-ng-model="searchField" ng-keyup="search($event.keyCode);" md-autofocus/>
+      </span>
+    </md-input-container>
+    <span ng-if="searchField">
+        <md-button class="md-icon-button " ng-click="searchField='';documentsService.searchFilter=''">
+          <i class="material-icons">close</i>
+        </md-button>
+    </span>
+    <form ng-if="filters">
+      <ons-list ng-model="groupKey">
+        <div ng-repeat="(k,v) in filters">
+
+          <ons-list-item ng-click="toggleGroup(k)" class="title" class="active" ng-class="{active:isGroupShown(k)}">
+            <ons-icon icon="caret-down" ng-if="isGroupShown(k)"></ons-icon>
+            <ons-icon icon="caret-right" ng-if="!isGroupShown(k)"></ons-icon>
+            &nbsp;{{ v.group.locale }}<ons-icon class="filter-asterisk" icon="asterisk" ng-if="groupFilters[k]"></ons-icon>
+          </ons-list-item>
+
+          <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
+            <label class="checkbox">
+              <input ng-model="filterData.titleIds[k][t.id]" type="checkbox" name="titleId" ng-change="applyFilter();">
+              <div class="checkbox__checkmark"></div>
+              <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
+            </label>
+          </ons-list-item>
+        </div>
+      </ons-list>
+
+    </form>
+  </md-content>
 </md-sidenav>

@@ -1,6 +1,6 @@
 <md-content class="md-padding" ng-if="docs.length">
   <div docgrid class="docgrid">
-    <div grid ng-repeat="card in docs" class="column">
+    <div grid ng-repeat="card in docs | filter:documentsService.searchFilter" class="column">
       <md-card class="main-card view-module ie-fix" ng-click="editDocument($event, card.id);">
         <div class="card-upper-bar"></div>
         <md-card-title>

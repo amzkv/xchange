@@ -1,8 +1,10 @@
 export class MainController {
-  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService) {
+  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService) {
     'ngInject';
 
     themeProvider.setDefaultTheme('365violet');
+
+    $scope.documentsService = documentsService;
 
     this.docs = categories.data.collections;
 

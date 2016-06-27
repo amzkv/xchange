@@ -23,6 +23,10 @@ class NavbarController {
     this.displayOptions = false;
     this.version = this.constant.VERSION;
     this.storageCache = {};
+
+    $scope.groupFilters = [];
+    $scope.filterData = {};
+
     //TODO
     try {
       this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
@@ -45,6 +49,10 @@ class NavbarController {
       if (newValue && newValue != oldValue) {
         self.coreItems = newValue;
       }
+    });
+
+    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      $scope.searchField = newValue;
     });
 
     //requests remote server only once
@@ -177,6 +185,17 @@ class NavbarController {
       if (toParams) {
         self.params = toParams;
       }
+
+      if (self.state == 'customer') {
+
+        $scope.groupFilters = [];
+        $scope.filterData = {};
+        $scope.shownGroup = null;
+
+        $scope.filters = $rootScope.filters;
+      } else {
+        $scope.filters = null;
+      }
     }
 
     let listener = $rootScope.$on('$stateChangeSuccess',
@@ -211,6 +230,99 @@ class NavbarController {
         $state.go('home');
       }
     }
+
+    //filter funcs
+
+    //documentsService.filter = null;//??
+
+
+    $scope.closeFilter = function () {
+      $mdSidenav('right').close();
+    };
+
+    $scope.resetFilter = function() {
+      $scope.collectionFilter = [];
+      documentsService.filter = null;
+    };
+
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+
+    $scope.isGroupShown = function(group) {
+      return $scope.shownGroup === group;
+    };
+
+    $scope.search = function(keyCode) {
+      //console.log('search', keyCode, $scope.searchField);
+      if (keyCode == 13) {
+        //total search
+        $state.go('search', {'searchPhrase': $scope.searchField});
+      } else {
+        //filter
+        documentsService.searchFilter = $scope.searchField;
+      }
+
+    };
+
+    $scope.applyFilter = function () {
+
+      //$scope.documentsService.filter = null;
+
+      $scope.collectionFilter = [];
+      $scope.collectionFilterGroupTitles = [];
+
+      if (typeof $scope.filterData.titleIds != 'undefined') {
+        angular.forEach($scope.filterData.titleIds, function (items, groupKey) {
+          angular.forEach(items, function (active, id) {
+            if (active) {
+              if (!$scope.groupFilters[groupKey]) {
+                $scope.groupFilters[groupKey] = id;
+              } else {
+                if ($scope.groupFilters[groupKey] != id) {
+                  $scope.filterData.titleIds[groupKey][$scope.groupFilters[groupKey]] = false;//uncheck previous
+                  $scope.groupFilters[groupKey] = id;//set new
+                }
+              }
+            } else {
+              if ($scope.groupFilters[groupKey] == id) {
+                $scope.groupFilters[groupKey] = null;//none checked
+              }
+            }
+          });
+        });
+      }
+
+      //prepare filter
+      angular.forEach($scope.groupFilters, function (val, key) {
+        if (val) {
+          $scope.collectionFilter.push({collection: val});
+        }
+      });
+
+      //console.log('collectionFilter', $scope.collectionFilter);
+      //pass filter to doc service
+      documentsService.filter = $scope.collectionFilter;
+      documentsService.filterCustomerId = self.params.customerId;
+
+      //console.log('filter', documentsService.filter);
+
+      /*
+      documentsService.callDocumentByOneCollection(self.params.customerId)
+        .then(function(resp) {
+          if (resp.data.response.success) {
+            console.log('response');
+            $scope.docs = resp.data.documents;
+          }
+        });
+      */
+
+      //$mdSidenav('right').close();
+    };
 
   }
 }
