@@ -6,7 +6,7 @@ export function runBlock (CheckAuthService, $state, $rootScope) {
     //check login status
 
     CheckAuthService.checkAuth().then(function(checkAuth) {
-      if (!checkAuth && toState.name != 'login' && toState.name != 'register' && toState.name != 'confirm') {
+      if (!checkAuth && toState.name != 'login' && toState.name != 'register' && toState.name != 'confirm' && toState.name != 'accesskey') {
         event.preventDefault();
         $state.go('login');
       }

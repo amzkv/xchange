@@ -22,8 +22,9 @@ export class DocumentsService {
     this.busy = false;
   }
 
-  getBasePath() {
-    return this.configService.getBaseUrl() + 'document'
+  getBasePath(apiName) {
+    let api = apiName ? apiName : 'document'
+    return this.configService.getBaseUrl() + api;
   }
   getPageIdHashByValueAndRange(value, start, end) {
     return value + '_' + start + '_' + end;
@@ -82,30 +83,32 @@ export class DocumentsService {
         }
 
         if (dataContainer.data && dataContainer.data[options['dataKey']] && (dataContainer.data[options['dataKey']].length || angular.isObject(dataContainer.data[options['dataKey']]))) {
-          //console.log('collections-from cache:', dataContainer);
           deferred.resolve(dataContainer);
         } else {
           //set case
           let credentialsPromise = self.localAccessService.getCredentails();
 
           credentialsPromise.then(function(credentials) {
-            if (!credentials) {
+            if (!credentials && !configExtension.auth) {
               //credentialsPromise.reject();
               //?
               return;
             }
-            credentials = self.localAccessService.decryptCredentials(credentials);
+
             let baseConfig = {
-              auth: {
-                "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-              },
               contentType: 'application/json',
               datatype: 'json'
             };
+            if (credentials && !configExtension.auth) {
+              credentials = self.localAccessService.decryptCredentials(credentials);
+              baseConfig.auth = {
+                "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+              }
+            }
 
             let finalConfig = angular.merge(baseConfig, configExtension);
 
-            promise =  self.$http.post(self.getBasePath(), finalConfig);
+            promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
             promise.then(function(response) {
               if (options['cacheName']) {
@@ -113,8 +116,17 @@ export class DocumentsService {
               }
               self[options['itemKey']] = response.data[options['dataKey']];
               self.busy = false;
-
               deferred.resolve(response);
+              if (options['dataKey'] && response.data[options['dataKey']]) {
+                deferred.resolve(response);
+              } else {
+                //no data
+                let dataResponse = {"data": {}};
+                if (response.data.response && !response.data.response.success) {
+                  dataResponse.error = response.data.response.errormessage;
+                }
+                deferred.resolve(dataResponse);
+              }
             });
             if (options['cacheName']) {
               if (!value) {
@@ -136,29 +148,32 @@ export class DocumentsService {
 
       return deferred.promise;
     }
+    //console.log('access');
 
     let credentialsPromise = self.localAccessService.getCredentails();
 
     credentialsPromise.then(function(credentials) {
-      if (!credentials) {
+      if (!credentials && !configExtension.auth) {
         //credentialsPromise.reject();
         //?
-        return;
+          return;
       }
 
-      credentials = self.localAccessService.decryptCredentials(credentials);
-
       let baseConfig = {
-        auth: {
-          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-        },
         contentType: 'application/json',
         datatype: 'json'
       };
+      //console.log(configExtension);
+      if (credentials && !configExtension.auth) {
+        credentials = self.localAccessService.decryptCredentials(credentials);
+        baseConfig.auth = {
+          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+        }
+      }
 
       let finalConfig = angular.merge(baseConfig, configExtension);
 
-      promise =  self.$http.post(self.getBasePath(), finalConfig);
+      promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
       promise.then(function(response) {
         if (options['cacheName']) {
@@ -166,11 +181,19 @@ export class DocumentsService {
         }
         self[options['itemKey']] = response.data[options['dataKey']];
         self.busy = false;
-        deferred.resolve(response);
+        //console.log('rr2',response);
+        if (options['dataKey'] && response.data[options['dataKey']]) {
+          deferred.resolve(response);
+        } else {
+          let dataResponse = {"data": {}};
+          if (response.data.response && !response.data.response.success) {
+            dataResponse.error = response.data.response.errormessage;
+          }
+          deferred.resolve(dataResponse);
+        }
       });
-      //TODO: use indexedDB cache instead
+
       if (options['cacheName']) {
-        //console.log('set2');
 
        // self.setCache(promise, options['cacheName'], value, options['dataKey']);
 
@@ -228,7 +251,6 @@ export class DocumentsService {
       }
     };
 
-    //console.log('filter:',this.filter);
     if (this.filter && this.filter.length) {
       skipCache = true;
     }
@@ -248,7 +270,43 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, id, skipCache);//id??
   }
 
-  callDocumentById(id) {
+  callDocumentByAccessKey(accessKey, start, end, skipCache) {
+
+
+    skipCache = true;//for now
+
+    let configExtension =
+    {
+      "auth": {
+        "accesskey": { "longkey": accessKey }
+      },
+      "document": {
+        "method" : "by accesskey"
+      }
+    };
+
+    //console.log('filter:',this.filter);
+    if (this.filter && this.filter.length) {
+      skipCache = true;
+    }
+
+    start = start ? start : this.configService.getDocumentStartValue();
+    end = end ? end : this.configService.getDocumentOffsetValue();
+
+    let options = {
+      "apiName" : "accesskey",
+      "cacheName": "documents",
+      "itemKey": "documentsItems",
+      "dataKey": "documents",
+      "useAllData": true,
+      "start": start,
+      "end": end
+    };
+
+    return this.baseCall(configExtension, options, accessKey, skipCache);//id??
+  }
+
+  callDocumentById(id, accessKey) {
 
     let configExtension =
     {
@@ -257,6 +315,12 @@ export class DocumentsService {
         "id" : id
       }
     };
+
+    if (accessKey) {
+      configExtension.auth = {
+        "accesskey": { "longkey": accessKey }
+      }
+    }
 
     let options = {
       "cacheName": "document_detail",
@@ -315,6 +379,10 @@ export class DocumentsService {
       //console.log('setCache:store, response:', response, 'response.data.collections:',response.data.collections );
 
       let dataSource = response.data[dataKey];
+
+      if (!dataSource) {
+        return;
+      }
 
       if (!cacheId) {
         self.storageService.clearStorage(scope);

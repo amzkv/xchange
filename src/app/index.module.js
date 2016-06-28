@@ -13,6 +13,7 @@ import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
 import { ChangeLogController } from './changelog/changelog.controller';
 import { SearchController } from './search/search.controller';
+import { AccesskeyController } from './accesskey/accesskey.controller';
 import { ConfigService } from './config/config';
 import { LoginService } from './login/login.service';
 import { CheckAuthService } from './login/checkAuth.service';
@@ -63,6 +64,7 @@ angular.module('xchange', [
   .controller('SearchController', SearchController)
   .controller('CustomerController', CustomerController)
   .controller('ChangeLogController', ChangeLogController)
+  .controller('AccesskeyController', AccesskeyController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)

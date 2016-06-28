@@ -16,6 +16,7 @@ export class CustomerController {
     $scope.locale = locale;
     //console.log('docs',docs);
     $scope.docs = docs.data.documents || docs.data.collections;//todo
+    $scope.docsError = docs.error;
 
     $rootScope.filters = docs.data.avail_filter;
 
@@ -122,12 +123,16 @@ export class CustomerController {
     });*/
 
     $scope.editDocument = function (event, documentId) {
-
+      let key = null;
+      if ($stateParams.accessKey) {
+        key = $stateParams.accessKey;//this doesn't work yet, therefore return
+        return;
+      }
       event.stopPropagation();
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService) {
             (function () {
-              documentsService.callDocumentById(documentId).then(function(resp) {
+              documentsService.callDocumentById(documentId, key).then(function(resp) {
                 //resp.data.response.success
                 if (resp.data.document) {
                   $scope.basepath = ConfigService.getBaseUrl() + 'file';

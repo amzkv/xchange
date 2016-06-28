@@ -17,6 +17,7 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
+        <span class="nav" ng-if="vm.state === 'accesskey'">Documents By Access Key</span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">Search</span>
         <span ng-if="vm.state === 'search'" class="docs-menu-separator-icon" hide-sm hide-md>
           <i class="material-icons">keyboard_arrow_right</i>
@@ -87,10 +88,15 @@
             <i class="material-icons">info_outline</i> About
           </a>
         </li>
-        <li ng-click="vm.logout();vm.closeMenu();">
+        <li ng-if="vm.state!='accesskey'" ng-click="vm.logout();vm.closeMenu();">
             <a ui-sref="login">
                <i class="material-icons">exit_to_app</i> Logout
             </a>
+        </li>
+        <li ng-if="vm.state == 'accesskey'" ng-click="vm.closeMenu();">
+          <a ui-sref="login">
+            <i class="material-icons">exit_to_app</i> Log in
+          </a>
         </li>
       </ul>
     </nav>
