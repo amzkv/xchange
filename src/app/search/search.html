@@ -1,13 +1,19 @@
 <div style="padding: 64px 80px 0 80px;"></div>
 <h2 class="search-section">Core</h2>
-<div class="search" ng-cloak=""
+<div ng-show="search.coreDocs.length" class="search" ng-cloak=""
      ng-include="cardMode ? 'app/main/main.cards.tpl.html' : 'app/main/main.list.tpl.html'"
      ng-class="cardMode ? '' : 'list-box'">
+</div>
+<div ng-show="!search.coreDocs.length" class="no-records">
+  No collections found</span>
 </div>
 <h2 class="search-section">Collections</h2>
 <div class="search" style="padding-top: 0px;" ng-cloak=""
      ng-include="cardMode ? 'app/collection/collection.cards.tpl.html' : 'app/collection/collection.list.tpl.html'"
      ng-class="cardMode ? '' : 'list-box'">
+</div>
+<div ng-show="!search.collections.length" class="no-records">
+  No collections found</span>
 </div>
 <h2 class="search-section">Documents</h2>
 <div class="search docs" ng-cloak=""
@@ -16,5 +22,8 @@
      infinite-scroll-distance='1'
      ng-class="cardMode ? '' : 'list-box'"
      ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
+</div>
+<div ng-show="!docs.length" class="no-records">
+  No documents found</span>
 </div>
 

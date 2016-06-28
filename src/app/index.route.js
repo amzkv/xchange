@@ -71,7 +71,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       data : { pageTitle: '365 | Search' },
       resolve: {
         core_docs: function (documentsService, $stateParams) {
-          return documentsService.callDocumentsCore();
+          return documentsService.searchDocumentsCore($stateParams.searchPhrase);
           //documentsService.filter = null;
           //return documentsService.callDocumentByOneCollection($stateParams.customerId);
         },

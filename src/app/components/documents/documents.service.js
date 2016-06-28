@@ -224,6 +224,22 @@ export class DocumentsService {
     return this.baseCall(configExtension, options);
   }
 
+  searchDocumentsCore(searchPhrase) {
+
+    let configExtension = {
+      "collection" : {
+        "method" : "by name",
+        "name" : searchPhrase
+      }
+    };
+    let options = {
+      "itemKey": "searchCoreItems",
+      "dataKey": "collections"
+    };
+
+    return this.baseCall(configExtension, options);
+  }
+
   callDocumentRelated(value) {
 
     let configExtension = {
@@ -356,6 +372,8 @@ export class DocumentsService {
 
     return this.baseCall(configExtension, options, value, true);
   }
+
+
 
   quickFilter(collection) {
     /*if ($scope.searchFilter) {
