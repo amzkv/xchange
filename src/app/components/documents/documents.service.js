@@ -373,7 +373,30 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, value, true);
   }
 
+  callFileById(id, type) {
+    /*
+    * types:
+    *  "ORIGINAL", "THUMBNAIL", "SIGNATURE", "SIGNEDPDF", "REPORT", "OPENTRANS2"
+    * */
 
+    type = type || 'ORIGINAL';
+
+    let configExtension = {
+      "file" : {
+        "method" : "file by ID",
+          "id" : id,
+          "filetype" :  type
+      }
+    };
+
+    let options = {
+      "itemKey": "fileItems",
+      "dataKey": "file",
+      "useAllData": true,
+    };
+
+    return this.baseCall(configExtension, options, id, true);
+  }
 
   quickFilter(collection) {
     /*if ($scope.searchFilter) {

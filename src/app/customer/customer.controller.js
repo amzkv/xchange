@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
     'ngInject';
 
     //$scope.filterData = {};
@@ -205,9 +205,46 @@ export class CustomerController {
 
             $scope.cancel = function () {
               $mdDialog.hide();
-            }
+            };
+
+            //TODO: move
+            $scope.base64toBlob = function(base64Data, contentType) {
+              contentType = contentType || '';
+              var sliceSize = 1024;
+              var byteCharacters = atob(base64Data);
+              var bytesLength = byteCharacters.length;
+              var slicesCount = Math.ceil(bytesLength / sliceSize);
+              var byteArrays = new Array(slicesCount);
+
+              for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                var begin = sliceIndex * sliceSize;
+                var end = Math.min(begin + sliceSize, bytesLength);
+
+                var bytes = new Array(end - begin);
+                for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+                  bytes[i] = byteCharacters[offset].charCodeAt(0);
+                }
+                byteArrays[sliceIndex] = new Uint8Array(bytes);
+              }
+              return new Blob(byteArrays, { type: contentType });
+            };
+
             $scope.save = function () {
-              console.log('save');
+              documentsService.callFileById(documentId).then(function(resp) {
+                if (resp && resp.data.file) {
+                  let fileContents = resp.data.file.file;
+                  let fileName = resp.data.file.filename;
+                  if (fileContents && fileName) {
+                    fileContents = $scope.base64toBlob(fileContents);
+                    var data = new Blob([fileContents]);
+                    FileSaver.saveAs(data, fileName);
+                  } else {
+                    toastr.error('Unable to save file.', 'Error');
+                  }
+                } else {
+                  toastr.error('Unable to fetch file data.', 'Error');
+                }
+              });
               //$mdDialog.hide();
             }
           },
