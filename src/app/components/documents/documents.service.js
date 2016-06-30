@@ -58,7 +58,7 @@ export class DocumentsService {
       this[options['itemKey']] = null;
     }
 
-    if (options['cacheName'] && !skipCache) {
+    if (options['cacheName'] && !skipCache && !options['set']) {
       if (!value) {
         value = options['cacheName'];
       }
@@ -129,6 +129,7 @@ export class DocumentsService {
               }
             });
             if (options['cacheName']) {
+
               if (!value) {
                 value = options['cacheName'];
               }
@@ -148,7 +149,6 @@ export class DocumentsService {
 
       return deferred.promise;
     }
-    //console.log('access');
 
     let credentialsPromise = self.localAccessService.getCredentails();
 
@@ -163,7 +163,7 @@ export class DocumentsService {
         contentType: 'application/json',
         datatype: 'json'
       };
-      //console.log(configExtension);
+
       if (credentials && !configExtension.auth) {
         credentials = self.localAccessService.decryptCredentials(credentials);
         baseConfig.auth = {
@@ -176,12 +176,12 @@ export class DocumentsService {
       promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
       promise.then(function(response) {
-        if (options['cacheName']) {
+        if (options['cacheName'] && !options['set']) {
           self.storeCache(options['cacheName'], response);
         }
         self[options['itemKey']] = response.data[options['dataKey']];
         self.busy = false;
-        //console.log('rr2',response);
+
         if (options['dataKey'] && response.data[options['dataKey']]) {
           deferred.resolve(response);
         } else {
@@ -197,6 +197,10 @@ export class DocumentsService {
 
        // self.setCache(promise, options['cacheName'], value, options['dataKey']);
 
+        if (!value) {
+          value = options['cacheName'];
+        }
+
         if (options['useAllData']) {
           self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
         } else {
@@ -208,7 +212,9 @@ export class DocumentsService {
     return deferred.promise;
   }
 
-  callDocumentsCore() {
+  callDocumentsCore(skipCache) {
+
+    skipCache = skipCache || false;
 
     let configExtension = {
       "collection" : {
@@ -221,7 +227,25 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options);
+    return this.baseCall(configExtension, options, null, skipCache);
+  }
+
+  callAddCoreItem(data) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "add core",//?
+        "data" : data
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    //different base method for adding?
+    //will it return new collection set?
+    return this.baseCall(configExtension, options, null, true);
   }
 
   searchDocumentsCore(searchPhrase) {
@@ -240,7 +264,9 @@ export class DocumentsService {
     return this.baseCall(configExtension, options);
   }
 
-  callDocumentRelated(value) {
+  callDocumentRelated(value, skipCache) {
+
+    skipCache = skipCache || false;
 
     let configExtension = {
       "collection": {
@@ -254,8 +280,28 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options, value);
+    return this.baseCall(configExtension, options, value, skipCache);
   }
+
+  callAddCollectionItem(value, data) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "add collection",//?
+        "group": { "value": value },//?
+        "data" : data //?
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    //different base method for adding?
+    //will it return new collection set?
+    return this.baseCall(configExtension, options, null, true);
+  }
+
 
   callDocumentByOneCollection(id, start, end, skipCache) {
 
@@ -301,7 +347,6 @@ export class DocumentsService {
       }
     };
 
-    //console.log('filter:',this.filter);
     if (this.filter && this.filter.length) {
       skipCache = true;
     }
@@ -392,20 +437,12 @@ export class DocumentsService {
     let options = {
       "itemKey": "fileItems",
       "dataKey": "file",
-      "useAllData": true,
+      "useAllData": true
     };
 
     return this.baseCall(configExtension, options, id, true);
   }
 
-  quickFilter(collection) {
-    /*if ($scope.searchFilter) {
-      if (collection.title) {
-        return collection.title.indexOf(this.searchFilter) == -1;
-      }
-    }*/
-    return true;
-  }
 
   setCache(promise, scope, cacheId, dataKey, useAllData) {
 
@@ -426,8 +463,14 @@ export class DocumentsService {
       }
 
       if (!cacheId) {
-        self.storageService.clearStorage(scope);
-        self.storageService.insertRecord(scope, dataSource);
+
+        //we always should have it, actually
+
+        /*self.storageService.clearStorage(scope).then(function(rsp){
+          console.log(scope, dataSource);
+          self.storageService.upsertRecord(scope, dataSource);
+        });*/
+
       } else {
         let timeOffset = self.configService.getCacheExpirationPeriod() * 24 * 60 * 60 * 1000;//right
         //let timeOffset = 60*1000;//test

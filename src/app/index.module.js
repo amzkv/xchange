@@ -20,6 +20,7 @@ import { CheckAuthService } from './login/checkAuth.service';
 import { LocalAccessService } from './login/localAccess.service';
 import { ViewModeService } from './customer/viewMode.service.js';
 import { NavbarDirective } from './components/navbar/navbar.directive';
+import { FlyingButtonDirective } from './components/flyingButton/flyingbutton.directive';
 import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
@@ -73,4 +74,5 @@ angular.module('xchange', [
   .directive('validateEmail', ValidateEmail)
   .directive('appTitle', AppTitle)
   .directive('compareTo', CompareTo)
+  .directive('flyingButton', FlyingButtonDirective)
   .filter('truncate', TruncateFilter);
