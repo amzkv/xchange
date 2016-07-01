@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
     'ngInject';
 
     //$scope.filterData = {};
@@ -45,14 +45,16 @@ export class CustomerController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $rootScope.$on('customerStateChanged', function (event, data) {
         $scope.toggleMode = {
           thisState: data.thisState,
           alterState:  data.alterState
         };
-        $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+        //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
     //$scope.theme = '365red';

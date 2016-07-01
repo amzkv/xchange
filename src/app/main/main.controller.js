@@ -1,5 +1,5 @@
 export class MainController {
-  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, $q) {
+  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
@@ -16,14 +16,16 @@ export class MainController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $rootScope.$on('customerStateChanged', function (event, data) {
       $scope.toggleMode = {
         thisState: data.thisState,
         alterState:  data.alterState
       };
-      $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
     $scope.addListener = $rootScope.$on("CallAddMethod", function(scope, formData){

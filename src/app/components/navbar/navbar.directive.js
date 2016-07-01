@@ -74,11 +74,24 @@ class NavbarController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    self.cardMode = (self.toggleMode.thisState === 'Card');
+    //self.cardMode = (self.toggleMode.thisState === 'Card');
+    self.cardMode = (self.toggleMode.thisState === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     this.changeState = function(mode, alternateMode){
       "use strict";
+
+      //quick fix
+      let vwM = LocalAccessService.getUserSetting('viewMode');
+      if (vwM && vwM == mode) {
+        /*let nM = mode;
+        let naM = alternateMode;
+        mode = naM;
+        alternateMode = nM;*/
+        [mode, alternateMode] = [alternateMode, mode];
+      }
+      LocalAccessService.setUserSetting('viewMode', mode);
       ViewModeService.setState(mode, alternateMode);
+
     };
 
     $rootScope.$on('customerStateChanged', function (event, data) {
@@ -86,7 +99,8 @@ class NavbarController {
         thisState: data.thisState,
         alterState:  data.alterState
       };
-      self.cardMode = (data.thisState === 'Card');
+      //self.cardMode = (data.thisState === 'Card');
+      self.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
 

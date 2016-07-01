@@ -68,5 +68,33 @@ export class LocalAccessService {
     return this.$window.localStorage.getItem('viewSetting');
   }
 
+  setUserSetting(name, value, setOnly) {
+    try {
+      let userSettings = JSON.parse(this.$window.localStorage.getItem('settings')) || {};
+      if (setOnly && userSettings[name]) {
+        return false;
+      }
+      userSettings[name] = value;
+      let settings = JSON.stringify(userSettings);
+      this.$window.localStorage.setItem('settings', settings);
+      return true;
+
+    } catch (e) {
+      console.log('failed to save settings: ', e);
+      return false;
+    }
+  }
+
+  getUserSetting(name) {
+    try {
+      let userSettings = JSON.parse(this.$window.localStorage.getItem('settings')) || {};
+      if (userSettings[name]) {
+        return userSettings[name];
+      }
+    } catch (e) {
+      //console.log('failed to get settings');
+    }
+  }
+
 
 }

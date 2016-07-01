@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog) {
+  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog) {
     'ngInject';
 
     themeProvider.setDefaultTheme('365violet');
@@ -20,7 +20,8 @@ export class CollectionController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    $scope.cardMode = ($scope.toggleMode.thisState === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $scope.emptyCollectionFilter = function (collection) {
       if (ViewModeService.showEmptyCollections) {
@@ -68,23 +69,6 @@ export class CollectionController {
             this.errors = [];
             this.formErrors = [];
             if (dialog.editForm.$valid) {
-              //console.log('add');
-
-              /*let addres = $rootScope.$emit("CallAddMethod", this.addForm);
-              if (dialog.addForm.resultPromise) {
-                dialog.addForm.resultPromise.then(function(dResp) {
-                  if (dialog.addForm.customErrors && dialog.addForm.customErrors.length > 0) {
-                    let errorMessages = dialog.errorMessages;
-                    angular.forEach(dialog.addForm.customErrors, function (item, key) {
-                      dialog.errors.push(errorMessages[item['errorCode']]);
-                      dialog.formErrors['customError'] = errorMessages[item['errorCode']];
-                    });
-
-                  } else {
-                    $mdDialog.hide();
-                  }
-                });
-              }*/
 
               //let res = $rootScope.$emit("CallEditMethod", {'form': this.addForm, item: item});
               dialog.editForm.resultPromise = $scope.editCollection({'form': dialog.editForm, item: item});
@@ -122,7 +106,8 @@ export class CollectionController {
         thisState: data.thisState,
         alterState:  data.alterState
       };
-      $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
     $scope.addListener = $rootScope.$on("CallAddMethod", function(scope, formData){
