@@ -2,10 +2,10 @@
   <div class="btn-close md-toolbar" ng-click="dialog.close();">
     <i class="material-icons">close</i>
   </div>
-  <form name="dialog.addForm" id="addForm" ng-keyup="$event.keyCode == 13 && dialog.submit()">
+  <form name="dialog.editForm" id="editForm" ng-keyup="$event.keyCode == 13 && dialog.submit()">
     <!--<md-toolbar style="position:absolute;top:0;">
       <div class="md-toolbar-tools">
-        <h2>Add a new class...</h2>
+        <h2>Edit</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="dialog.close();">
           <i class="material-icons">close</i>
@@ -14,12 +14,13 @@
     </md-toolbar>-->
     <md-content class="md-padding">
       <div name="documentInformation" novalidate>
-        <div style="padding: 10px 10px 10px 0;">Add a new class...</div>
+        <!--<h2 class="md-title">Main</h2>-->
+        <div style="padding: 10px 10px 10px 0;">Edit collection...</div>
         <div layout="row" layout="left center">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
             <label class="profile-lable">Value</label>
             <input type="text" autofocus="autofocus" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
-            <div ng-messages="dialog.addForm.value.$error">
+            <div ng-messages="dialog.editForm.value.$error">
               <span ng-message="required" class="">Please enter value</span>
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>
             </div>
@@ -27,18 +28,9 @@
         </div>
         <div layout="row" layout-align="left center">
           <md-input-container flex="100">
-            <label class="profile-lable">Locale (Deutsch)</label>
-            <input type="text" autofocus="autofocus" name="locale_DE" data-ng-model="dialog.locale_DE" class="profile-field" required/>
-            <div ng-messages="dialog.addForm.locale_DE.$error">
-              <span ng-message="required" class="">Please enter locale</span>
-            </div>
-          </md-input-container>
-        </div>
-        <div layout="row" layout-align="left center">
-          <md-input-container flex="100">
-            <label class="profile-lable">Locale (English)</label>
-            <input type="text" autofocus="autofocus" name="locale_EN" data-ng-model="dialog.locale_EN" class="profile-field" required/>
-            <div ng-messages="dialog.addForm.locale_EN.$error">
+            <label class="profile-lable">Locale</label>
+            <input type="text" autofocus="autofocus" name="locale" data-ng-model="dialog.locale" class="profile-field" required/>
+            <div ng-messages="dialog.editForm.locale.$error">
               <span ng-message="required" class="">Please enter locale</span>
             </div>
           </md-input-container>

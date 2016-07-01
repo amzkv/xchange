@@ -1,6 +1,9 @@
-<md-dialog style="width:320px;" aria-label="addCollection" ng-cloak>
-  <form name="dialog.addForm" id="addForm" ng-keyup="$event.keyCode == 13 && dialog.submit()">
-    <md-toolbar style="position:absolute;top:0;">
+<md-dialog style="width:320px;" aria-label="addCollection" ng-cloak style="overflow: hidden;">
+  <div class="btn-close md-toolbar" ng-click="dialog.close();">
+    <i class="material-icons">close</i>
+  </div>
+  <form name="dialog.addForm" id="addForm" ng-keyup="$event.keyCode == 13 && dialog.submit()" >
+<!--    <md-toolbar style="position:absolute;top:0;">
       <div class="md-toolbar-tools">
         <h2>Add a new collection...</h2>
         <span flex></span>
@@ -8,10 +11,11 @@
           <i class="material-icons">close</i>
         </md-button>
       </div>
-    </md-toolbar>
-    <md-content class="md-padding" style="overflow-y:scroll">
+    </md-toolbar>-->
+    <md-content class="md-padding">
       <div name="documentInformation" novalidate>
-        <h2 class="md-title">Main</h2>
+        <!--<h2 class="md-title">Main</h2>-->
+        <div style="padding: 10px 10px 10px 0;">Add a new collection...</div>
         <div layout="row" layout="left center">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
             <label class="profile-lable">Value</label>

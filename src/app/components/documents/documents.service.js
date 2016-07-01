@@ -302,6 +302,23 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, null, true);
   }
 
+  callEditCollectionItem(value, data, oldItem) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "edit collection",//?
+        "group": { "value": value, "oldValue": oldItem.title.value },//?
+        "data" : data //?
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    return this.baseCall(configExtension, options, null, true);
+  }
+
 
   callDocumentByOneCollection(id, start, end, skipCache) {
 
