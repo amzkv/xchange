@@ -12,20 +12,23 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-content class="md-padding" style="overflow-y:scroll">
-          <md-content md-dynamic-height md-border-bottom style="margin:5px" class="documentTabContainer" class="md-padding">
-            <div name="documentInformation" novalidate>
-              <h2 class="md-title">Main</h2>
+    <md-content class="" style="height:100vh;overflow-y:scroll;padding-top:68px;">
+      <div id="main_details">
+        <!--md-raised-->
+        <md-button ng-model="docDetailsSections.mainBlock" class="category-button md-button-toggle md-raised" ng-click="toggleItem('mainBlock');">
+          Main
+          <md-icon aria-label="main"
+                   class="material-icons step md-toggle-icon" ng-class="docDetailsSections.mainBlock ? 'icon-expanded' : 'icon-collapsed'">
+            keyboard_arrow_down
+          </md-icon>
+        </md-button>
+        <div ng-accordion-body ng-class="docDetailsSections.mainBlock ? 'block-expanded' : 'block-collapsed'">
+          <div ng-cloak>
+            <md-content class="md-padding" style="padding-bottom: 10px">
               <div layout="row" layout="left center">
-                <md-input-container flex="100">
+                <md-input-container class="flex">
                   <label class="profile-lable">{{'Title'}}</label>
-                  <input type="text" autofocus="autofocus" name="title" data-ng-model="rowDocument.title" class="profile-field"/>
-                </md-input-container>
-              </div>
-              <div layout="row" layout-align="left center">
-                <md-input-container flex="100">
-                  <label class="profile-lable">{{'Type'}}</label>
-                  <input type="text" autofocus="autofocus" name="title" data-ng-model="rowDocument.type.locale" class="profile-field"/>
+                  <input type="text" name="title" data-ng-model="rowDocument.title" class="profile-field"/>
                 </md-input-container>
               </div>
               <div layout="row" layout-align="left center">
@@ -35,48 +38,200 @@
                 </div>
               </div>
               <div layout="row" layout-align="left center">
-                <div class="documentIcon">
-                  <span style="font-size:13px;font-weight:600;display:block">{{'Pay date'}}</span>
-                  <md-datepicker ng-model="payDate" md-placeholder="Enter date"  aria-label="x"></md-datepicker>
-                </div>
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Type'}}</label>
+                  <md-select ng-model="rowDocument.type.value">
+                    <md-option ng-repeat="type in rowDocument.types_available" value="{{type.value}}">
+                      {{type.locale}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
               </div>
-              <h2 class="md-title">Collections</h2>
-              <md-content class="md-padding" layout="column">
-                <md-chips ng-model="typeList" md-autocomplete-snap md-require-match="true">
-                  <md-autocomplete md-selected-item="selectedItem"
-                                   md-search-text="searchText"
-                                   md-items="item in querySearch(searchText)"
-                                   md-item-text="item.name">
-                    <span md-highlight-text="ctrl.searchText">{{item.title.locale}} :: {{item.group.locale}}</span>
-                  </md-autocomplete>
-                  <md-chip-template>
+            </md-content>
+          </div>
+        </div>
+      </div>
+      <div id="doc_stats">
+        <md-button class="md-raised category-button" ng-click="toggleItem('dataBlock');">
+          Data
+          <md-icon aria-label="details"
+                   class="material-icons step" ng-class="docDetailsSections.dataBlock ? 'icon-expanded' : 'icon-collapsed'">
+            keyboard_arrow_down
+          </md-icon>
+        </md-button>
+        <div ng-accordion-body ng-class="docDetailsSections.dataBlock ? 'block-expanded' : 'block-collapsed'">
+          <div ng-cloak>
+            <md-content class="md-padding" style="padding-bottom: 10px">
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Supplier ID'}}</label>
+                  <input type="text"  name="title" data-ng-model="rowDocument.supplierID" class="profile-field"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Net Amount'}}</label>
+                  <input type="text"  name="title" value="{{rowDocument.netvaluegoods | currency:''}}" class="profile-field"/>
+                </md-input-container>
+              </div>
+
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Tax Amount'}}</label>
+                  <input type="text"  name="title" value="{{rowDocument.totaltax | currency:''}}" class="profile-field"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Total Amount'}}</label>
+                  <input type="text"  name="title" value="{{rowDocument.totalamount | currency:''}}" class="profile-field"/>
+                </md-input-container>
+              </div>
+              <div style="margin-top:7px">
+                <label style="display:block;font-weight:bold;margin-bottom:3px">{{'Description'}}</label>
+                <textarea columns="1" name="remarks" style="height:15.4vh !important;width:99%"></textarea>
+              </div>
+            </md-content>
+          </div>
+        </div>
+      </div>
+      <div id="doc_collections">
+        <md-button class="md-raised category-button" ng-click="toggleItem('collectionsBlock');">
+          Collections
+          <md-icon aria-label="details"
+                   class="material-icons step" ng-class="docDetailsSections.collectionsBlock ? 'icon-expanded' : 'icon-collapsed'">
+            keyboard_arrow_down
+          </md-icon>
+        </md-button>
+        <div ng-class="docDetailsSections.collectionsBlock ? 'block-expanded' : 'block-collapsed'">
+          <div ng-cloak>
+              <md-chips ng-model="typeList"
+                        md-autocomplete-snap
+                        md-require-match="true"
+                        md-transform-chip="transformChip($chip)">
+                <md-autocomplete md-selected-item="selectedItem"
+                                 md-search-text="searchText"
+                                 md-items="item in querySearch(searchText)"
+                                 md-item-text="item.locale"
+                                 md-delay="200"
+                                 md-no-cache="true"
+                                 placeholder="Add collection...">
+                  <span md-highlight-text="searchText">{{item.value}} :: {{item.locale}}</span>
+                </md-autocomplete>
+                <md-chip-template>
                     <span>
                         <strong>{{$chip.title.locale}}</strong>
-                        <em>({{$chip.group.locale}})</em>
+                        <em ng-if="$chip.group.locale">({{$chip.group.locale}})</em>
                     </span>
-                  </md-chip-template>
-                </md-chips>
-              </md-content>
-              <h2 class="md-title">Workflow</h2>
+                </md-chip-template>
+              </md-chips>
+          </div>
+        </div>
+      </div>
+      <div id="doc_info">
+        <md-button class="md-raised category-button" ng-click="toggleItem('infoBlock');">
+          Info
+          <md-icon aria-label="details"
+                   class="material-icons step" ng-class="docDetailsSections.infoBlock ? 'icon-expanded' : 'icon-collapsed'">
+            keyboard_arrow_down
+          </md-icon>
+        </md-button>
+        <div ng-accordion-body ng-class="docDetailsSections.infoBlock ? 'block-expanded' : 'block-collapsed'">
+          <div ng-cloak>
+            <md-content class="md-padding" style="padding-bottom: 10px">
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Filename'}}</label>
+                  <input type="text" name="title" data-ng-model="rowDocument.filename" class="profile-field" ng-readonly="true"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Signature Filename'}}</label>
+                  <input type="text" name="title"  data-ng-model="rowDocument.filenamesig" class="profile-field" ng-readonly="true"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout="left center">
+                <md-input-container class="flex">
+                  <label class="profile-lable">{{'Creator'}}</label>
+                  <input type="text" name="title" data-ng-model="rowDocument.creator_name" class="profile-field" ng-readonly="true"/>
+                </md-input-container>
+              </div>
+              <div layout="row" layout-align="left center">
+                <div class="documentIcon">
+                  <span class="line-label">{{'Created on'}}&nbsp;</span>
+                  <md-datepicker class="ro-datepicker"  disabled="disabled" ng-model="documentDate" md-min-date="documentDate" md-max-date="documentDate" md-placeholder="created date" aria-label="x2" readonly="readonly"></md-datepicker>
+                </div>
+              </div>
+              <div layout="row" layout-align="left center">
+                <div class="documentIcon">
+                  <span class="line-label">{{'Updated on'}}</span>
+                  <md-datepicker class="ro-datepicker" disabled="disabled" ng-model="changedDate" md-placeholder="updated date" aria-label="x3" readonly="readonly"></md-datepicker>
+                </div>
+              </div>
+            </md-content>
+          </div>
+        </div>
+      </div>
+      <div id="doc_workflow">
+        <md-button class="md-raised category-button" ng-click="toggleItem('workflowBlock');">
+          Workflow
+          <md-icon aria-label="details"
+                   class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
+            keyboard_arrow_down
+          </md-icon>
+        </md-button>
+        <div ng-accordion-body ng-class="docDetailsSections.workflowBlock ? 'block-expanded' : 'block-collapsed'">
+          <div ng-cloak>
+            <md-content class="" style="padding-bottom: 10px">
               <div layout="row" style="padding: 10px;" layout-align="left center">
                 <div class="breadcrumb flat">
-                  <a href="#">Past</a>
-                  <a href="#" class="active">Current</a>
-                  <a href="#">Next</a>
+                  <a href="#" ng-class="rowDocument.workflow.startable ? 'active' : ''">{{'Past'}}</a>
+                  <a href="#" ng-class="rowDocument.workflow.running ? 'active' : ''">{{'Current'}}</a>
+                  <a href="#">{{'Next'}}</a>
                 </div>
               </div>
               <md-content class="md-padding" layout="column">
-                <md-input-container>
-                  <label class="profile-lable">{{'Workflow process'}}</label>
-                  <input type="text" name="type" data-ng-model="workflow" class="profile-field" title="{{workflowTips}}" />
-                </md-input-container>
-                <md-input-container>
+                  <label ng-if="rowDocument.workflow.startable" class="wf-process">{{'Workflow Process'}}</label>
+                  <div ng-if="rowDocument.workflow.startable" flex>
+                    <div class="wf-container" ng-repeat="wfItem in rowDocument.workflow.startable" ng-click="null">
+                      <div class="wf-container-inner">
+                        <div>{{wfItem.process}}</div>
+                        <p>{{ wfItem.desc }}</p>
+                        <div class="wf-container-sub" ng-if="wfItem.first_step">
+                          <label ng-if="rowDocument.workflow.startable" class="wf-process">{{'Workflow Status'}}</label>
+                          <div>{{ wfItem.first_step.status }}</div>
+                          <p>{{ wfItem.first_step.desc }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <label ng-if="rowDocument.workflow.running" class="wf-process">{{'Workflow Process'}}</label>
+                <div ng-if="rowDocument.workflow.running" flex>
+                  <div class="wf-container" ng-click="null">
+                    <div class="wf-container-inner">
+                      <div>{{rowDocument.workflow.running.process}}</div>
+                      <p>{{ rowDocument.workflow.running.desc }}</p>
+                      <div class="wf-container-sub" ng-if="rowDocument.workflow.running.first_step">
+                        <label ng-if="rowDocument.workflow.running" class="wf-process">{{'Workflow Status'}}</label>
+                        <div>{{ rowDocument.workflow.running.first_step.status }}</div>
+                        <p>{{ rowDocument.workflow.running.first_step.desc }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <md-input-container ng-if="rowDocument.workstatus">
                   <label class="profile-lable">{{'Workflow status'}}</label>
-                  <input type="text"   name="displayname" data-ng-model="rowDocument.workstatus" data-ng-model="workflow" class="profile-field"/>
+                  <input type="text" name="displayname" data-ng-model="rowDocument.workstatus" data-ng-model="workflow" class="profile-field"/>
                 </md-input-container>
               </md-content>
-            </div>
-          </md-content>
+              <!--<md-content class="md-padding" layout="column">
+                {{rowDocument.workflow}}
+              </md-content>-->
+            </md-content>
+          </div>
+        </div>
+      </div>
     </md-content>
   </form>
 </md-dialog>

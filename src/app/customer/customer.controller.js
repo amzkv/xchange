@@ -123,6 +123,10 @@ export class CustomerController {
     /*$scope.$on('$destroy', function(e) {
       $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
     });*/
+    /*$scope.typeList = [];
+    $scope.$watch('typeList', function (newValue, oldValue, scope) {
+      console.log($scope.typeList);
+    });*/
 
     $scope.editDocument = function (event, documentId) {
       let key = null;
@@ -133,7 +137,9 @@ export class CustomerController {
       event.stopPropagation();
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService) {
-            (function () {
+          let self = this;
+
+          //(function () {
               documentsService.callDocumentById(documentId, key).then(function(resp) {
                 //resp.data.response.success
                 if (resp.data.document) {
@@ -142,15 +148,15 @@ export class CustomerController {
                   var res = resp.data;
                   $scope.rowDocument = res.document;
                   $scope.documentTitle = resp.data.document.title;
-                  $scope.selectedItem = $scope.rowDocument;
+                  $scope.selectedItem = {};//$scope.rowDocument;
                   $scope.searchText = "";
 
-                  var currentDate = new Date(res.document.date)
+                  var currentDate = new Date(res.document.date);
                   $scope.documentDate = currentDate;
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
                   $scope.documentName = res.document.filename;
-                  $scope.payDate = new Date();
+                  $scope.payDate = new Date();//?
                   if (res.document.hasOwnProperty('workflow')) {
 
                     $scope.workflow = (res.document.workflow.startable && res.document.workflow.startable.length != 0 ? res.document.workflow.startable[0].process : "");
@@ -161,7 +167,8 @@ export class CustomerController {
                     $scope.workflowTips = "";
                   }
 
-                  $scope.userinfo = res.document.creator_name + "/" + $scope.rowDocument.date + " - " + updatedDate
+                  $scope.userinfo = res.document.creator_name + "/" + $scope.rowDocument.date + " - " + updatedDate;
+                  $scope.changedDate = new Date(updatedDate);
                   $scope.largeFilePath = $scope.basepath + '/large/' + res.document.uuid;
                   $scope.documentUrl = $scope.basepath + '/original/' + res.document.uuid;
                   $scope.setVisibilityForImage = true;
@@ -181,32 +188,61 @@ export class CustomerController {
                   $scope.typeList = res.document.collections;
 
 
+
                   $timeout(function () {
                     $scope.querySearch = function (query) {
-                      $scope.typesavailable;
-                    }
+                      return query ? createFilterFor(query) : $scope.typesavailable;
+                    };
                   }, 400);
 
-                  /*function createFilterFor(query) {
-                    var lowercaseQuery = query;
-                    var gd = _.filter($scope.typesavailable, function (item) {
-                      return (item.locale.indexOf(lowercaseQuery) != -1);
+                  $scope.transformChip = function (chip) {
+                      if (angular.isObject(chip)) {
+                        //return chip;
+                        return { group: {}, title: { locale: chip.locale} };
+                      }
+                      //return { name: chip, type: 'new' }
+
+                      return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                  };
+
+                  function createFilterFor(query) {
+
+                    let lowercaseQuery = angular.lowercase(query);
+                    let filteredItems = [];
+
+                    function filterFn(item) {
+                      return (angular.lowercase(item.locale).indexOf(lowercaseQuery) !== -1);
+                    };
+
+                    angular.forEach($scope.typesavailable, function (item) {
+                      if (filterFn(item)) {
+                        filteredItems.push(item);
+                      }
                     });
-                    return gd;
-                  }*/
 
-                  $timeout(function () {
-                    $scope.querySearch = function (query) {
-                      return $scope.typesavailable;
-                    }
-                  }, 400);
+                    return filteredItems;
+                  }
+
+                  //}, 400);
 
                 }
+
               });
-            })();
+            //})();
 
             $scope.cancel = function () {
               $mdDialog.hide();
+            };
+            $scope.docDetailsSections = {
+              'mainBlock': true,
+              'dataBlock': true,
+              'collectionsBlock': true,
+              'infoBlock': true,
+              'workflowBlock': true,
+            };
+
+            $scope.toggleItem = function(elementId) {
+              $scope.docDetailsSections[elementId] = !$scope.docDetailsSections[elementId];
             };
 
             //TODO: move
@@ -251,6 +287,7 @@ export class CustomerController {
             }
           },
           templateUrl: 'app/customer/edit.html',
+          preserveScope: true,
           parent: angular.element(document.body),
           targetEvent: event,
           clickOutsideToClose:true,
