@@ -12,6 +12,8 @@
         </span>-->
 
         <span ng-if="fm.state === 'changelog'" ng-click="fm.navigateHome()">change log</span>
+        <span ng-if="fm.state === 'accesskey'">documents by access key</span>
+        <span ng-if="fm.state === 'search'" ng-click="fm.navigateHome()">search : "{{fm.params.searchPhrase}}"</span>
         <span ng-if="fm.state === 'collection' && (fm.params.collectionLocale  || fm.storageCache.core[fm.params.collectionId])" ng-click="fm.navigateUp()">{{fm.params.collectionLocale  || fm.storageCache.core[fm.params.collectionId].locale}}</span>
         <span ng-if="fm.state === 'customer' && (fm.previousStateParams.collectionLocale  || fm.storageCache.core[fm.params.collectionId])" ng-click="fm.navigateUp()">{{fm.previousStateParams.collectionLocale || fm.storageCache.core[fm.params.collectionId].locale}}</span>
         <span ng-if="fm.state === 'customer' && (fm.params.collectionLocale || fm.storageCache.collections[fm.params.customerId])">

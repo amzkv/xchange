@@ -1,12 +1,12 @@
-<ons-list class="list-offsets">
-  <ons-list-item grid ng-repeat="card in main.docs" class="a-card">
+<ons-list ng-if="((main.docs || search.coreDocs) | filter : documentsService.searchFilter).length > 0" class="list-offsets">
+  <ons-list-item grid ng-repeat="card in (main.docs || search.coreDocs) | filter : documentsService.searchFilter" class="a-card">
     <div class="a-card">
       <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <div>
           <div class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
           'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
           'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
-            {{card.count}}
+            {{card.count || '?'}}
           </div>
           <span>{{card.group.locale}}</span>
         </div>

@@ -1,13 +1,13 @@
 <md-content class="md-padding">
   <div docgrid class="deckgrid">
-    <div grid ng-repeat="card in main.docs" class="a-card column">
+    <div grid ng-repeat="card in (main.docs || search.coreDocs) | filter : documentsService.searchFilter" class="a-card column">
       <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <md-card>
           <md-card-title>
             <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
               'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
               'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
-              {{card.count}}
+              {{card.count || '?'}}
             </div>
             <md-card-title-text>
               <!--<span class="md-subhead">

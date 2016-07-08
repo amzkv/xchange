@@ -12,12 +12,15 @@ import { CollectionController } from './collection/collection.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
 import { ChangeLogController } from './changelog/changelog.controller';
+import { SearchController } from './search/search.controller';
+import { AccesskeyController } from './accesskey/accesskey.controller';
 import { ConfigService } from './config/config';
 import { LoginService } from './login/login.service';
 import { CheckAuthService } from './login/checkAuth.service';
 import { LocalAccessService } from './login/localAccess.service';
 import { ViewModeService } from './customer/viewMode.service.js';
 import { NavbarDirective } from './components/navbar/navbar.directive';
+import { FlyingButtonDirective } from './components/flyingButton/flyingbutton.directive';
 import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
@@ -39,7 +42,8 @@ angular.module('xchange', [
   'toastr',
   /*'akoenig.deckgrid',*/
   'infinite-scroll',
-  'indexedDB'
+  'indexedDB',
+  'ngFileSaver'
 ])
   .constant('CONSTANT', constant)
   .config(config)
@@ -59,8 +63,10 @@ angular.module('xchange', [
   .controller('ConfirmController', ConfirmController)
   .controller('LocalAccessService', LocalAccessService)
   .controller('CollectionController', CollectionController)
+  .controller('SearchController', SearchController)
   .controller('CustomerController', CustomerController)
   .controller('ChangeLogController', ChangeLogController)
+  .controller('AccesskeyController', AccesskeyController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)
@@ -68,4 +74,5 @@ angular.module('xchange', [
   .directive('validateEmail', ValidateEmail)
   .directive('appTitle', AppTitle)
   .directive('compareTo', CompareTo)
+  .directive('flyingButton', FlyingButtonDirective)
   .filter('truncate', TruncateFilter);

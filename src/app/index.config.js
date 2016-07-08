@@ -125,6 +125,33 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
 
   //$mdThemingProvider.generateThemesOnDemand(true);
   $provide.value('themeProvider', $mdThemingProvider);
+  /*$provide.decorator('ngFocusDirective', function($delegate, $parse, $rootScope) {
+    var directive = $delegate[0];
+
+    var link = directive.link;
+    directive.compile = function($element, attr) {
+      var fn = $parse(attr['ngFocusDirective'], /!* interceptorFn *!/ null, /!* expensiveChecks *!/ true);
+      var forceAsyncEvents = {
+        'blur': true,
+        'focus': true
+      };
+      var eventName = 'focus';
+      return function ngEventHandler(scope, element, attr) {
+        element.on(eventName, function (event) {
+          var callback = function () {
+            fn(scope, {$event: event});
+          };
+          if (forceAsyncEvents[eventName] && $rootScope.$$phase) {
+            scope.$evalAsync(callback);
+          } else {
+            scope.$apply(callback);
+          }
+        });
+      };
+    };
+
+    return $delegate;
+  });*/
 
   //console.log($scope);
 

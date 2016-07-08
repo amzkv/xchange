@@ -139,6 +139,16 @@ md-content.md-365red-theme {
   margin-bottom: 24px;
 }
 
+.filter-box {
+  position: absolute;
+  top: 74px;
+  left: 10px;
+  z-index: 1;
+  .md-chips {
+    box-shadow: 0 0px rgb(224,224,224) !important;
+  }
+}
+
 @media screen and (min-width: 860px) {
   .list-box {
     padding: 30px 120px 30px 120px ;

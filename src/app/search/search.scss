@@ -1,0 +1,43 @@
+.search {
+  .deckgrid {
+    padding-top: 0px;
+    margin-top: 0px;
+  }
+
+  .docgrid {
+    padding-top: 0;
+  }
+
+  .list-box {
+    padding: 30px 120px 30px 120px;
+  }
+
+  .list-offsets {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+@media screen and (min-width: 920px) {
+  .docs .list-box {
+    padding: 30px;
+  }
+}
+@media screen and (max-width: 920px) {
+  .docs .list-box {
+    padding: 0px;
+  }
+}
+
+.search-section {
+  color: $header-color;
+  text-align: center;
+  padding: 30px 0 30px 0px;
+  margin: 0px;
+  background-color:$background-color;
+}
+
+.no-records {
+  text-align: center;
+  color: #999999;
+}

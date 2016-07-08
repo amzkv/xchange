@@ -34,5 +34,13 @@ export class ViewModeService {
     return this.alternateViewMode = mode;
   }
 
+  getDefaultViewMode() {
+    if (window.innerWidth > 860) {
+      return 'Card';//this.viewMode;//card
+    } else {
+      return 'List';//this.alternateViewMode;//list
+    }
+  }
+
 
 }

@@ -1,6 +1,6 @@
-<ons-list class="list-offsets">
-  <ons-list-item grid ng-repeat="card in collection.docs" class="">
-    <div class="a-card">
+<ons-list ng-if="((collection.docs || search.collections) | filter : documentsService.searchFilter).length > 0" class="list-offsets">
+  <ons-list-item grid ng-repeat="card in (collection.docs || search.collections) |filter:emptyCollectionFilter |filter:documentsService.searchFilter" class="">
+    <div class="a-card list-item">
       <a ui-sref="customer({collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale})">
         <div>
           <div class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
@@ -9,6 +9,9 @@
             {{card.count}}
           </div>
           <span>{{card.title.locale}}</span>
+            <md-button ng-if="!{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">
+              <i class="material-icons">edit</i>
+            </md-button>
         </div>
       </a>
     </div>

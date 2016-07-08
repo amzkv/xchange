@@ -22,8 +22,9 @@ export class DocumentsService {
     this.busy = false;
   }
 
-  getBasePath() {
-    return this.configService.getBaseUrl() + 'document'
+  getBasePath(apiName) {
+    let api = apiName ? apiName : 'document'
+    return this.configService.getBaseUrl() + api;
   }
   getPageIdHashByValueAndRange(value, start, end) {
     return value + '_' + start + '_' + end;
@@ -56,13 +57,9 @@ export class DocumentsService {
     if (options['itemKey']) {
       this[options['itemKey']] = null;
     }
-    /*this.coreItems = null;*/
 
-    if (options['cacheName'] && !skipCache) {
-      //TODO: use indexedDB cache instead
-      //console.log('cache case')
+    if (options['cacheName'] && !skipCache && !options['set']) {
       if (!value) {
-        //todo:test2
         value = options['cacheName'];
       }
       let cachedPromise;
@@ -73,7 +70,6 @@ export class DocumentsService {
         cachedPromise = this.getCache(options['cacheName'], value, options['dataKey']);
       }
 
-      //console.log('cachedPromise', cachedPromise);
       cachedPromise.then(function(response) {
         self.busy = false;
         let dataContainer = {
@@ -87,29 +83,32 @@ export class DocumentsService {
         }
 
         if (dataContainer.data && dataContainer.data[options['dataKey']] && (dataContainer.data[options['dataKey']].length || angular.isObject(dataContainer.data[options['dataKey']]))) {
-          //console.log('collections-from cache:', dataContainer);
           deferred.resolve(dataContainer);
         } else {
           //set case
           let credentialsPromise = self.localAccessService.getCredentails();
 
           credentialsPromise.then(function(credentials) {
-            if (!credentials) {
+            if (!credentials && !configExtension.auth) {
               //credentialsPromise.reject();
               //?
               return;
             }
+
             let baseConfig = {
-              auth: {
-                "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-              },
               contentType: 'application/json',
               datatype: 'json'
             };
+            if (credentials && !configExtension.auth) {
+              credentials = self.localAccessService.decryptCredentials(credentials);
+              baseConfig.auth = {
+                "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+              }
+            }
 
             let finalConfig = angular.merge(baseConfig, configExtension);
 
-            promise =  self.$http.post(self.getBasePath(), finalConfig);
+            promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
             promise.then(function(response) {
               if (options['cacheName']) {
@@ -117,24 +116,25 @@ export class DocumentsService {
               }
               self[options['itemKey']] = response.data[options['dataKey']];
               self.busy = false;
-
-              /*if (response.data.control) {
-                response.start = self.startValue;
-              }*/
-
               deferred.resolve(response);
+              if (options['dataKey'] && response.data[options['dataKey']]) {
+                deferred.resolve(response);
+              } else {
+                //no data
+                let dataResponse = {"data": {}};
+                if (response.data.response && !response.data.response.success) {
+                  dataResponse.error = response.data.response.errormessage;
+                }
+                deferred.resolve(dataResponse);
+              }
             });
-            //TODO: use indexedDB cache instead
             if (options['cacheName']) {
+
               if (!value) {
-                //todo:test
                 value = options['cacheName'];
               }
               if (options['start'] && options['end']) {
-                //todo??
-                //options['start'] and options['end']??
                 value = self.getPageIdHashByValueAndRange(value, options['start'], options['end']);
-                //value = self.getPageIdHashByValueAndRange(value, self.startValue, self.endValue);
               }
               if (options['useAllData']) {
                 self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
@@ -148,47 +148,58 @@ export class DocumentsService {
       });
 
       return deferred.promise;
-
-      //console.log("cache:",cachedPromise);
-      /*if (cachedPromise) {
-        this.busy = false;
-        return cachedPromise;
-      }*/
     }
 
     let credentialsPromise = self.localAccessService.getCredentails();
 
     credentialsPromise.then(function(credentials) {
-      if (!credentials) {
+      if (!credentials && !configExtension.auth) {
         //credentialsPromise.reject();
         //?
-        return;
+          return;
       }
+
       let baseConfig = {
-        auth: {
-          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-        },
         contentType: 'application/json',
         datatype: 'json'
       };
 
+      if (credentials && !configExtension.auth) {
+        credentials = self.localAccessService.decryptCredentials(credentials);
+        baseConfig.auth = {
+          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+        }
+      }
+
       let finalConfig = angular.merge(baseConfig, configExtension);
 
-      promise =  self.$http.post(self.getBasePath(), finalConfig);
+      promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
       promise.then(function(response) {
-        if (options['cacheName']) {
+        if (options['cacheName'] && !options['set']) {
           self.storeCache(options['cacheName'], response);
         }
         self[options['itemKey']] = response.data[options['dataKey']];
         self.busy = false;
-        deferred.resolve(response);
+
+        if (options['dataKey'] && response.data[options['dataKey']]) {
+          deferred.resolve(response);
+        } else {
+          let dataResponse = {"data": {}};
+          if (response.data.response && !response.data.response.success) {
+            dataResponse.error = response.data.response.errormessage;
+          }
+          deferred.resolve(dataResponse);
+        }
       });
-      //TODO: use indexedDB cache instead
+
       if (options['cacheName']) {
-        //console.log('set2');
 
        // self.setCache(promise, options['cacheName'], value, options['dataKey']);
+
+        if (!value) {
+          value = options['cacheName'];
+        }
 
         if (options['useAllData']) {
           self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
@@ -201,7 +212,9 @@ export class DocumentsService {
     return deferred.promise;
   }
 
-  callDocumentsCore() {
+  callDocumentsCore(skipCache) {
+
+    skipCache = skipCache || false;
 
     let configExtension = {
       "collection" : {
@@ -214,10 +227,46 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
+    return this.baseCall(configExtension, options, null, skipCache);
+  }
+
+  callAddCoreItem(data) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "add core",//?
+        "data" : data
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    //different base method for adding?
+    //will it return new collection set?
+    return this.baseCall(configExtension, options, null, true);
+  }
+
+  searchDocumentsCore(searchPhrase) {
+
+    let configExtension = {
+      "collection" : {
+        "method" : "by name",
+        "name" : searchPhrase
+      }
+    };
+    let options = {
+      "itemKey": "searchCoreItems",
+      "dataKey": "collections"
+    };
+
     return this.baseCall(configExtension, options);
   }
 
-  callDocumentRelated(value) {
+  callDocumentRelated(value, skipCache) {
+
+    skipCache = skipCache || false;
 
     let configExtension = {
       "collection": {
@@ -231,8 +280,45 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options, value);
+    return this.baseCall(configExtension, options, value, skipCache);
   }
+
+  callAddCollectionItem(value, data) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "add collection",//?
+        "group": { "value": value },//?
+        "data" : data //?
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    //different base method for adding?
+    //will it return new collection set?
+    return this.baseCall(configExtension, options, null, true);
+  }
+
+  callEditCollectionItem(value, data, oldItem) {
+    //TODO: when ready
+    let configExtension = {
+      "collection" : {
+        "method" : "edit collection",//?
+        "group": { "value": value, "oldValue": oldItem.title.value },//?
+        "data" : data //?
+      }
+    };
+    let options = {
+      /*"itemKey": "addCoreItems",*/
+      "set": true,
+      "dataKey": "collections"
+    };
+    return this.baseCall(configExtension, options, null, true);
+  }
+
 
   callDocumentByOneCollection(id, start, end, skipCache) {
 
@@ -244,7 +330,9 @@ export class DocumentsService {
       }
     };
 
-    //console.log('callDocumentByOneCollection', start, end);
+    if (this.filter && this.filter.length) {
+      skipCache = true;
+    }
 
     start = start ? start : this.configService.getDocumentStartValue();
     end = end ? end : this.configService.getDocumentOffsetValue();
@@ -261,7 +349,42 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, id, skipCache);//id??
   }
 
-  callDocumentById(id) {
+  callDocumentByAccessKey(accessKey, start, end, skipCache) {
+
+
+    skipCache = true;//for now
+
+    let configExtension =
+    {
+      "auth": {
+        "accesskey": { "longkey": accessKey }
+      },
+      "document": {
+        "method" : "by accesskey"
+      }
+    };
+
+    if (this.filter && this.filter.length) {
+      skipCache = true;
+    }
+
+    start = start ? start : this.configService.getDocumentStartValue();
+    end = end ? end : this.configService.getDocumentOffsetValue();
+
+    let options = {
+      "apiName" : "accesskey",
+      "cacheName": "documents",
+      "itemKey": "documentsItems",
+      "dataKey": "documents",
+      "useAllData": true,
+      "start": start,
+      "end": end
+    };
+
+    return this.baseCall(configExtension, options, accessKey, skipCache);//id??
+  }
+
+  callDocumentById(id, accessKey) {
 
     let configExtension =
     {
@@ -270,6 +393,12 @@ export class DocumentsService {
         "id" : id
       }
     };
+
+    if (accessKey) {
+      configExtension.auth = {
+        "accesskey": { "longkey": accessKey }
+      }
+    }
 
     let options = {
       "cacheName": "document_detail",
@@ -281,45 +410,84 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, id);//id??
   }
 
+  searchDocument(value, start, end, skipCache) {
+    /*Do not use. not implemented yet.*/
+    let configExtension =
+    {
+      "document": {
+        "method" : "by collection",
+        "search" : value
+      }
+    };
+
+    start = start ? start : this.configService.getDocumentStartValue();
+    end = end ? end : this.configService.getDocumentOffsetValue();
+
+    let options = {
+      /*"cacheName": "documents",*/
+      "itemKey": "documentsItems",
+      "dataKey": "documents",
+      "useAllData": true,
+      "start": start,
+      "end": end
+    };
+
+    return this.baseCall(configExtension, options, value, true);
+  }
+
+  callFileById(id, type) {
+    /*
+    * types:
+    *  "ORIGINAL", "THUMBNAIL", "SIGNATURE", "SIGNEDPDF", "REPORT", "OPENTRANS2"
+    * */
+
+    type = type || 'ORIGINAL';
+
+    let configExtension = {
+      "file" : {
+        "method" : "file by ID",
+          "id" : id,
+          "filetype" :  type
+      }
+    };
+
+    let options = {
+      "itemKey": "fileItems",
+      "dataKey": "file",
+      "useAllData": true
+    };
+
+    return this.baseCall(configExtension, options, id, true);
+  }
+
+
   setCache(promise, scope, cacheId, dataKey, useAllData) {
-    /*used for caching for 1 and 2 level(core and collections)*/
+
+    if (this.filter && this.filter.length) {
+      return;//test
+    }
+
     let self = this;
 
     promise.then(function(response) {
-      /*console.log('setCache:store, response:', response, 'response.data.collections:',response.data.collections );
-      let dataSource = response.data.collections || response.data.documents;//TODO
-
-      if (!cacheId) {
-        self.storageService.clearStorage(scope);
-        self.storageService.insertRecord(scope, dataSource);
-      } else {
-        let timeOffset = self.configService.getCacheExpirationPeriod()*24*60*60*1000;//right
-        //let timeOffset = 60*1000;//test
-        let expireDate = new Date().getTime() + timeOffset;
-        let data = {
-          'id': cacheId,
-          'collections': dataSource,
-          'expireDate': expireDate
-        };
-
-        if (response.data.documents) {
-          /!*angular.extend(data, response.data)*!/
-          data.avail_filter = response.data.avail_filter;
-          data.control = {};
-          data.control.total_documents = response.data.control ? response.data.control.total_documents : self.endValue;
-          data.start = response.start;
-        }
-
-        self.storageService.upsertRecord(scope, data);
-      }*/
 
       //console.log('setCache:store, response:', response, 'response.data.collections:',response.data.collections );
 
       let dataSource = response.data[dataKey];
 
+      if (!dataSource) {
+        return;
+      }
+
       if (!cacheId) {
-        self.storageService.clearStorage(scope);
-        self.storageService.insertRecord(scope, dataSource);
+
+        //we always should have it, actually
+
+        /*self.storageService.clearStorage(scope).then(function(rsp){
+          console.log(scope, dataSource);
+          self.storageService.upsertRecord(scope, dataSource);
+        });*/
+
       } else {
         let timeOffset = self.configService.getCacheExpirationPeriod() * 24 * 60 * 60 * 1000;//right
         //let timeOffset = 60*1000;//test
@@ -336,52 +504,14 @@ export class DocumentsService {
         self.storageService.upsertRecord(scope, data);
       }
     });
-
-    //return;
-
-    /*if (scope && promise) {
-      if (!this.dataCache) {
-        this.dataCache = {};
-      }
-      if (cacheId) {
-        if (!this.dataCache[scope]) {
-          this.dataCache[scope] = {};
-        }
-        this.dataCache[scope][cacheId] = promise;
-      } else {
-        this.dataCache[scope] = promise;
-      }
-      return true;
-    }
-    return false;*/
   }
 
   getCache(scope, cacheId, dataKey) {
-
     if (!cacheId) {
-      //console.log('gC:1');
       return this.storageService.getAllRecords(scope);
     } else {
-      //same for now
-      //console.log('gC:2');
       return this.storageService.getSingleRecordPromise(scope, cacheId, dataKey);
-      /*if (cache) {
-        console.log(cache);
-      }
-      return cache;*/
     }
-
-
-    /*if (scope && this.dataCache && this.dataCache[scope]) {
-      if (cacheId) {
-        if (this.dataCache[scope] && this.dataCache[scope][cacheId]) {
-          return this.dataCache[scope][cacheId];
-        }
-        return null;
-      }
-      return this.dataCache[scope];
-    }*/
-
   }
 
   storeCache(cacheName, response) {
@@ -409,7 +539,6 @@ export class DocumentsService {
         //console.log('error:', e)
       }
     }
-
   }
 
   clearCache() {

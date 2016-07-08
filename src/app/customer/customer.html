@@ -1,42 +1,20 @@
+<div class="filter-box" ng-show="documentsService.searchFilter">
+  <md-chips>
+    <md-chip ng-click="documentsService.searchFilter=''">
+        <span>
+            <strong>{{documentsService.searchFilter}}</strong>
+        </span>
+    </md-chip>
+  </md-chips>
+</div>
+<div ng-show="!(docs | filter : documentsService.searchFilter).length" class="no-docs">
+  No documents found<span ng-show="documentsService.searchFilter">. Filter: "{{documentsService.searchFilter}}"</span>
+</div>
 <div ng-cloak=""
-     infinite-scroll="more()"
+     infinite-scroll="totalDocCount > pageSize ? more() : null"
      infinite-scroll-disabled='documentService.busy'
-     infinite-scroll-distance='-1'
+     infinite-scroll-distance='1'
      ng-class="cardMode ? '' : 'list-box'"
      ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
 </div>
-<md-sidenav class="md-sidenav-right md-whiteframe-z2 sidenav-pos" md-component-id="right">
-  <md-toolbar class="md-theme-light">
-    <div class="md-toolbar-tools">
-      <h1>Filter</h1>
-      <span flex></span>
-      <md-button class="md-icon-button sidenav-right-close" ng-click="closeFilter()">
-        <i class="material-icons">close</i>
-      </md-button>
-    </div>
-  </md-toolbar>
-  <md-content layout-padding style="padding-top:72px;">
-    <form>
-      <ons-list ng-model="groupKey">
-        <div ng-repeat="(k,v) in filters">
-
-          <ons-list-item ng-click="toggleGroup(k)" class="title" class="active" ng-class="{active:isGroupShown(k)}">
-            <ons-icon icon="caret-down" ng-if="isGroupShown(k)"></ons-icon>
-            <ons-icon icon="caret-right" ng-if="!isGroupShown(k)"></ons-icon>
-            &nbsp;{{ v.group.locale }}<ons-icon class="filter-asterisk" icon="asterisk" ng-if="groupFilters[k]"></ons-icon>
-          </ons-list-item>
-
-          <ons-list-item class="item-accordion" ng-repeat="t in filters[k].title" ng-show="isGroupShown(k)">
-            <label class="checkbox">
-              <input ng-model="filterData.titleIds[k][t.id]" type="checkbox" name="titleId" ng-change="applyFilter();">
-              <div class="checkbox__checkmark"></div>
-              <span class="ons-checkbox-inner">&nbsp;{{ t.locale || t.value }}</span>
-            </label>
-          </ons-list-item>
-        </div>
-      </ons-list>
-
-    </form>
-  </md-content>
-</md-sidenav>
 

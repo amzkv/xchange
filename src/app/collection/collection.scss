@@ -1,0 +1,70 @@
+.operation {
+  background-color: #edeff0 !important;
+  background-clip: padding-box !important;;
+  background-origin: padding-box !important;
+  border-radius: 3px !important;
+  opacity: .8;
+  padding: 2px !important;
+  margin: 0px !important;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  min-height: 24px;
+  height: 24px !important;
+  width: 24px !important;
+  visibility: hidden;
+  z-index: 40;
+  color: #999;
+  line-height: 14px;
+
+  .material-icons {
+    font-size: 14px;
+    text-align: center;
+    line-height: 14px;
+    height: 14px;
+  }
+}
+
+
+.list-item {
+  .operation {
+    position: relative;
+    top: 1px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .list-item {
+    .operation {
+      /*visibility: visible;*/
+    }
+  }
+}
+
+.btn-close {
+  position: absolute;
+  right: 0px;
+  padding: 5px;
+  z-index: 1;
+  cursor: pointer;
+  opacity: .6;
+  &:hover {
+    opacity: .8;
+  }
+  .material-icons {
+    font-size: 18px;
+  }
+}
+.a-card {
+  &:hover {
+    .operation {
+      visibility: visible;
+    }
+  }
+  &:focus {
+    .operation {
+      visibility: visible;
+      background-color: #fdfdfd;
+    }
+  }
+}

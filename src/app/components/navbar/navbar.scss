@@ -55,7 +55,7 @@ md-backdrop {
 .options-popup {
   position: fixed;
   top: 75px;
-  right: 50px;
+  right: 10px;
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   z-index: 100;
@@ -63,14 +63,22 @@ md-backdrop {
 
   ul {
     list-style: none;
-    width: 100%;
-    padding: 2px 25px 2px 15px;
-
+    padding-left: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    .popup-icon {
+      /*padding-right: 10px;*/
+    }
     li {
-      padding: 10px 0;
-
+      padding: 12px;
       &:hover {
         cursor: pointer;
+        background: #310055;
+        color: #fff;
+        cursor: pointer;
+        a {
+          color: #fff;
+        }
       }
     }
   }

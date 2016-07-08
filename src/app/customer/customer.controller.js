@@ -2,20 +2,23 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, ConfigService, $rootScope, $mdDialog, $mdSidenav) {
+  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
     'ngInject';
 
-    $scope.filterData = {};
+    //$scope.filterData = {};
 
-    $scope.groupFilters = [];
+    //$scope.groupFilters = [];
     $scope.shownGroup = 0;
+    //documentsService.filter = null;
+    $scope.documentsService = documentsService;
 
     $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;
     //console.log('docs',docs);
     $scope.docs = docs.data.documents || docs.data.collections;//todo
+    $scope.docsError = docs.error;
 
-    $scope.filters = docs.data.avail_filter;
+    $rootScope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
@@ -25,6 +28,8 @@ export class CustomerController {
     if ($scope.totalDocCount < documentsService.endValue) {
       documentsService.endValue = $scope.totalDocCount;
     }
+
+    $scope.pageSize = documentsService.endValue;
 
     $scope.cacheStart = docs.start;
 
@@ -40,14 +45,16 @@ export class CustomerController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $rootScope.$on('customerStateChanged', function (event, data) {
         $scope.toggleMode = {
           thisState: data.thisState,
           alterState:  data.alterState
         };
-        $scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+        //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+      $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
     //$scope.theme = '365red';
@@ -62,79 +69,30 @@ export class CustomerController {
       //angular.extend($scope.docs, items);
     };
 
-    $scope.closeFilter = function () {
-      $mdSidenav('right').close();
-    };
+    $scope.$watch('documentsService.filter', function (newValue, oldValue, scope) {
+      if (newValue && newValue != oldValue) {
+        if (documentsService.filterCustomerId) {
+          documentsService.callDocumentByOneCollection(documentsService.filterCustomerId)
+            .then(function (resp) {
+              if (resp.data.response.success) {
+                //console.log('response');
+                scope.docs = resp.data.documents;
+                scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
 
-    $scope.resetFilter = function() {
-      $scope.collectionFilter = [];
-      documentsService.filter = null;
-    };
-
-    $scope.toggleGroup = function(group) {
-      if ($scope.isGroupShown(group)) {
-        $scope.shownGroup = null;
-      } else {
-        $scope.shownGroup = group;
-      }
-    };
-
-    $scope.isGroupShown = function(group) {
-      return $scope.shownGroup === group;
-    };
-
-    $scope.applyFilter = function () {
-
-      $scope.collectionFilter = [];
-      $scope.collectionFilterGroupTitles = [];
-
-      if (typeof $scope.filterData.titleIds != 'undefined') {
-        angular.forEach($scope.filterData.titleIds, function (items, groupKey) {
-          angular.forEach(items, function (active, id) {
-            if (active) {
-              if (!$scope.groupFilters[groupKey]) {
-                $scope.groupFilters[groupKey] = id;
-              } else {
-                if ($scope.groupFilters[groupKey] != id) {
-                  $scope.filterData.titleIds[groupKey][$scope.groupFilters[groupKey]] = false;//uncheck previous
-                  $scope.groupFilters[groupKey] = id;//set new
+                if (scope.totalDocCount < documentsService.endValue) {
+                  documentsService.endValue = scope.totalDocCount;
                 }
               }
-            } else {
-              if ($scope.groupFilters[groupKey] == id) {
-                $scope.groupFilters[groupKey] = null;//none checked
-              }
-            }
-          });
-        });
+            });
+        }
       }
-
-      //prepare filter
-      angular.forEach($scope.groupFilters, function (val, key) {
-          if (val) {
-            $scope.collectionFilter.push({collection: val});
-          }
-      });
-
-      //console.log('collectionFilter', $scope.collectionFilter);
-      //pass filter to doc service
-      documentsService.filter = $scope.collectionFilter;
-
-      documentsService.callDocumentByOneCollection($stateParams.customerId)
-        .then(function(resp) {
-          if (resp.data.response.success) {
-            $scope.docs = resp.data.documents;
-          }
-        });
-
-      //$mdSidenav('right').close();
-    };
+    });
 
     $scope.more = function() {
 
-      if (documentsService.busy) return;
-
       //console.log('more', documentsService.busy,  documentsService.startValue, documentsService.endValue, $scope.totalDocCount, $scope.cacheStart);
+
+      if (documentsService.busy) return;
 
       var startValue = documentsService.startValue;
       var endValue = documentsService.endValue;
@@ -152,9 +110,11 @@ export class CustomerController {
             //request
             let source = resp.data.documents || resp.data.collections;
             $scope.addMoreItems(source);
+            $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
           } else if (resp.data.control) {
             //cache
             $scope.addMoreItems(resp.data.collections);
+            $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
           }
         });
       }
@@ -163,14 +123,24 @@ export class CustomerController {
     /*$scope.$on('$destroy', function(e) {
       $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
     });*/
+    /*$scope.typeList = [];
+    $scope.$watch('typeList', function (newValue, oldValue, scope) {
+      console.log($scope.typeList);
+    });*/
 
     $scope.editDocument = function (event, documentId) {
-
+      let key = null;
+      if ($stateParams.accessKey) {
+        key = $stateParams.accessKey;//this doesn't work yet, therefore return
+        return;
+      }
       event.stopPropagation();
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService) {
-            (function () {
-              documentsService.callDocumentById(documentId).then(function(resp) {
+          let self = this;
+
+          //(function () {
+              documentsService.callDocumentById(documentId, key).then(function(resp) {
                 //resp.data.response.success
                 if (resp.data.document) {
                   $scope.basepath = ConfigService.getBaseUrl() + 'file';
@@ -178,15 +148,15 @@ export class CustomerController {
                   var res = resp.data;
                   $scope.rowDocument = res.document;
                   $scope.documentTitle = resp.data.document.title;
-                  $scope.selectedItem = $scope.rowDocument;
+                  $scope.selectedItem = {};//$scope.rowDocument;
                   $scope.searchText = "";
 
-                  var currentDate = new Date(res.document.date)
+                  var currentDate = new Date(res.document.date);
                   $scope.documentDate = currentDate;
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
                   $scope.documentName = res.document.filename;
-                  $scope.payDate = new Date();
+                  $scope.payDate = new Date();//?
                   if (res.document.hasOwnProperty('workflow')) {
 
                     $scope.workflow = (res.document.workflow.startable && res.document.workflow.startable.length != 0 ? res.document.workflow.startable[0].process : "");
@@ -197,7 +167,8 @@ export class CustomerController {
                     $scope.workflowTips = "";
                   }
 
-                  $scope.userinfo = res.document.creator_name + "/" + $scope.rowDocument.date + " - " + updatedDate
+                  $scope.userinfo = res.document.creator_name + "/" + $scope.rowDocument.date + " - " + updatedDate;
+                  $scope.changedDate = new Date(updatedDate);
                   $scope.largeFilePath = $scope.basepath + '/large/' + res.document.uuid;
                   $scope.documentUrl = $scope.basepath + '/original/' + res.document.uuid;
                   $scope.setVisibilityForImage = true;
@@ -217,39 +188,106 @@ export class CustomerController {
                   $scope.typeList = res.document.collections;
 
 
+
                   $timeout(function () {
                     $scope.querySearch = function (query) {
-                      $scope.typesavailable;
-                    }
+                      return query ? createFilterFor(query) : $scope.typesavailable;
+                    };
                   }, 400);
 
-                  /*function createFilterFor(query) {
-                    var lowercaseQuery = query;
-                    var gd = _.filter($scope.typesavailable, function (item) {
-                      return (item.locale.indexOf(lowercaseQuery) != -1);
+                  $scope.transformChip = function (chip) {
+                      if (angular.isObject(chip)) {
+                        //return chip;
+                        return { group: {}, title: { locale: chip.locale} };
+                      }
+                      //return { name: chip, type: 'new' }
+
+                      return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                  };
+
+                  function createFilterFor(query) {
+
+                    let lowercaseQuery = angular.lowercase(query);
+                    let filteredItems = [];
+
+                    function filterFn(item) {
+                      return (angular.lowercase(item.locale).indexOf(lowercaseQuery) !== -1);
+                    };
+
+                    angular.forEach($scope.typesavailable, function (item) {
+                      if (filterFn(item)) {
+                        filteredItems.push(item);
+                      }
                     });
-                    return gd;
-                  }*/
 
-                  $timeout(function () {
-                    $scope.querySearch = function (query) {
-                      return $scope.typesavailable;
-                    }
-                  }, 400);
+                    return filteredItems;
+                  }
+
+                  //}, 400);
 
                 }
+
               });
-            })();
+            //})();
 
             $scope.cancel = function () {
               $mdDialog.hide();
-            }
+            };
+            $scope.docDetailsSections = {
+              'mainBlock': true,
+              'dataBlock': true,
+              'collectionsBlock': true,
+              'infoBlock': true,
+              'workflowBlock': true,
+            };
+
+            $scope.toggleItem = function(elementId) {
+              $scope.docDetailsSections[elementId] = !$scope.docDetailsSections[elementId];
+            };
+
+            //TODO: move
+            $scope.base64toBlob = function(base64Data, contentType) {
+              contentType = contentType || '';
+              var sliceSize = 1024;
+              var byteCharacters = atob(base64Data);
+              var bytesLength = byteCharacters.length;
+              var slicesCount = Math.ceil(bytesLength / sliceSize);
+              var byteArrays = new Array(slicesCount);
+
+              for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                var begin = sliceIndex * sliceSize;
+                var end = Math.min(begin + sliceSize, bytesLength);
+
+                var bytes = new Array(end - begin);
+                for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+                  bytes[i] = byteCharacters[offset].charCodeAt(0);
+                }
+                byteArrays[sliceIndex] = new Uint8Array(bytes);
+              }
+              return new Blob(byteArrays, { type: contentType });
+            };
+
             $scope.save = function () {
-              console.log('save');
+              documentsService.callFileById(documentId).then(function(resp) {
+                if (resp && resp.data.file) {
+                  let fileContents = resp.data.file.file;
+                  let fileName = resp.data.file.filename;
+                  if (fileContents && fileName) {
+                    fileContents = $scope.base64toBlob(fileContents);
+                    var data = new Blob([fileContents]);
+                    FileSaver.saveAs(data, fileName);
+                  } else {
+                    toastr.error('Unable to save file.', 'Error');
+                  }
+                } else {
+                  toastr.error('Unable to fetch file data.', 'Error');
+                }
+              });
               //$mdDialog.hide();
             }
           },
           templateUrl: 'app/customer/edit.html',
+          preserveScope: true,
           parent: angular.element(document.body),
           targetEvent: event,
           clickOutsideToClose:true,

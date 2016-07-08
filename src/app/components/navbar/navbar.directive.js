@@ -20,8 +20,13 @@ class NavbarController {
     'ngInject';
 
     this.constant = CONSTANT;
+    this.displayOptions = false;
     this.version = this.constant.VERSION;
     this.storageCache = {};
+
+    $scope.groupFilters = [];
+    $scope.filterData = {};
+
     //TODO
     try {
       this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
@@ -46,6 +51,10 @@ class NavbarController {
       }
     });
 
+    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      $scope.searchField = newValue;
+    });
+
     //requests remote server only once
 
     /*let coreItemsP = documentsService.callDocumentsCore();
@@ -65,11 +74,24 @@ class NavbarController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    self.cardMode = (self.toggleMode.thisState === 'Card');
+    //self.cardMode = (self.toggleMode.thisState === 'Card');
+    self.cardMode = (self.toggleMode.thisState === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     this.changeState = function(mode, alternateMode){
       "use strict";
+
+      //quick fix
+      let vwM = LocalAccessService.getUserSetting('viewMode');
+      if (vwM && vwM == mode) {
+        /*let nM = mode;
+        let naM = alternateMode;
+        mode = naM;
+        alternateMode = nM;*/
+        [mode, alternateMode] = [alternateMode, mode];
+      }
+      LocalAccessService.setUserSetting('viewMode', mode);
       ViewModeService.setState(mode, alternateMode);
+
     };
 
     $rootScope.$on('customerStateChanged', function (event, data) {
@@ -77,7 +99,8 @@ class NavbarController {
         thisState: data.thisState,
         alterState:  data.alterState
       };
-      self.cardMode = (data.thisState === 'Card');
+      //self.cardMode = (data.thisState === 'Card');
+      self.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
 
@@ -107,10 +130,50 @@ class NavbarController {
       $mdSidenav('left').toggle();
     };
 
+    $scope.isFullScreen = false;
+
+    $scope.fullScreen = function() {
+
+      function launchIntoFullscreen(element) {
+        if(element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if(element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        } else if(element.msRequestFullscreen) {
+          element.msRequestFullscreen();
+        }
+      }
+
+      function exitFullscreen() {
+        if(document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if(document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+
+      if (exitFullscreen()) {
+        launchIntoFullscreen(document.documentElement);
+      }
+      else {
+        launchIntoFullscreen(document.documentElement);
+      }
+      $scope.isFullScreen = !$scope.isFullScreen;
+    };
+
     this.toggleFilter = function () {
       $mdComponentRegistry.when('right').then(function(rightSidenav){
         rightSidenav.toggle();
       });
+    };
+    $scope.showEmptyCollections = false;
+    this.toggleEmptyCollectionFiltering = function() {
+      $scope.showEmptyCollections = !$scope.showEmptyCollections;
+      ViewModeService.showEmptyCollections = $scope.showEmptyCollections;
     };
 
     this.closeMenu = function () {
@@ -135,6 +198,17 @@ class NavbarController {
       }
       if (toParams) {
         self.params = toParams;
+      }
+
+      if (self.state == 'customer') {
+
+        $scope.groupFilters = [];
+        $scope.filterData = {};
+        $scope.shownGroup = null;
+
+        $scope.filters = $rootScope.filters;
+      } else {
+        $scope.filters = null;
       }
     }
 
@@ -170,6 +244,99 @@ class NavbarController {
         $state.go('home');
       }
     }
+
+    //filter funcs
+
+    //documentsService.filter = null;//??
+
+
+    $scope.closeFilter = function () {
+      $mdSidenav('right').close();
+    };
+
+    $scope.resetFilter = function() {
+      $scope.collectionFilter = [];
+      documentsService.filter = null;
+    };
+
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+
+    $scope.isGroupShown = function(group) {
+      return $scope.shownGroup === group;
+    };
+
+    $scope.search = function(keyCode) {
+      //console.log('search', keyCode, $scope.searchField);
+      if (keyCode == 13) {
+        //total search
+        $state.go('search', {'searchPhrase': $scope.searchField});
+      } else {
+        //filter
+        documentsService.searchFilter = $scope.searchField;
+      }
+
+    };
+
+    $scope.applyFilter = function () {
+
+      //$scope.documentsService.filter = null;
+
+      $scope.collectionFilter = [];
+      $scope.collectionFilterGroupTitles = [];
+
+      if (typeof $scope.filterData.titleIds != 'undefined') {
+        angular.forEach($scope.filterData.titleIds, function (items, groupKey) {
+          angular.forEach(items, function (active, id) {
+            if (active) {
+              if (!$scope.groupFilters[groupKey]) {
+                $scope.groupFilters[groupKey] = id;
+              } else {
+                if ($scope.groupFilters[groupKey] != id) {
+                  $scope.filterData.titleIds[groupKey][$scope.groupFilters[groupKey]] = false;//uncheck previous
+                  $scope.groupFilters[groupKey] = id;//set new
+                }
+              }
+            } else {
+              if ($scope.groupFilters[groupKey] == id) {
+                $scope.groupFilters[groupKey] = null;//none checked
+              }
+            }
+          });
+        });
+      }
+
+      //prepare filter
+      angular.forEach($scope.groupFilters, function (val, key) {
+        if (val) {
+          $scope.collectionFilter.push({collection: val});
+        }
+      });
+
+      //console.log('collectionFilter', $scope.collectionFilter);
+      //pass filter to doc service
+      documentsService.filter = $scope.collectionFilter;
+      documentsService.filterCustomerId = self.params.customerId;
+
+      //console.log('filter', documentsService.filter);
+
+      /*
+      documentsService.callDocumentByOneCollection(self.params.customerId)
+        .then(function(resp) {
+          if (resp.data.response.success) {
+            console.log('response');
+            $scope.docs = resp.data.documents;
+          }
+        });
+      */
+
+      //$mdSidenav('right').close();
+    };
 
   }
 }

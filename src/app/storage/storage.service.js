@@ -101,9 +101,13 @@ export class StorageService {
     if (!storeName) {
       return;
     }
+    let deferred = this.$q.defer();
     this.$indexedDB.openStore(storeName, function(store){
-      store.clear();
+      store.clear().then(function(response) {
+        deferred.resolve(response);
+      });
     });
+    return deferred.promise;
   }
 
   deleteSingleRecord(storeName, recordId) {
