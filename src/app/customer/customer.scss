@@ -385,7 +385,7 @@ md-card-title-media {
   visibility: hidden;
 }
 .docgrid {
-  padding-top: 60px;
+  padding-top: $header-offset + $footer-offset;
   margin: 0 auto;
   width: 100%;
 }

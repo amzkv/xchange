@@ -26,6 +26,9 @@ $document-card-width2: 305px;
 $image-container-w: 165px;
 $image-container-h: 195px;
 
+$header-offset: 64px;
+$footer-offset: 24px;
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -135,8 +138,8 @@ md-content.md-365red-theme {
 }
 
 .list-offsets {
-  margin-top:64px;
-  margin-bottom: 24px;
+  margin-top:$header-offset+$footer-offset;
+  /*margin-bottom: 24px;*/
 }
 
 .filter-box {
