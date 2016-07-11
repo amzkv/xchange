@@ -53,6 +53,11 @@
       "main": [
         "rollups/aes.js"
       ]
+    },
+    "pdfjs-dist": {
+      "main": [
+        "build/pdf.combined.js"
+      ]
     }
   }
 }
