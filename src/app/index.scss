@@ -144,7 +144,7 @@ md-content.md-365red-theme {
 
 .filter-box {
   position: absolute;
-  top: 74px;
+  top: $header-offset + $footer-offset + 10px;
   left: 10px;
   z-index: 1;
   .md-chips {
