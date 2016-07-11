@@ -208,7 +208,157 @@ md-card-title-media {
     .wf-container-sub {
       padding-left: 32px;
     }
+  }
 
+  md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+    /*background-color: $header-color !important;*/
+    background-color: $background-color !important;
+    /*opacity: .0;*/
+  }
+  md-tabs {
+    /*md-tab-item.active {
+      margin-left: 2px;
+      color: $background-color !important;
+      background-color: $header-color !important;
+    }*/
+    /*margin-left: 2px;*/
+    .md-active {
+        /*background-color: $hover-color !important;*/
+        border-radius: 3px;
+        box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+        /*opacity: 0.9;*/
+    }
+
+    background-color: $background-color !important;
+  }
+
+  .pdf-controls {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    height: 50px;
+    width: 334px;
+    border-radius: 5px;
+    background-color: $background-color !important;
+    opacity: 0.67;
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+    padding-left: 5px;
+      .fade {
+        opacity: 0.1 !important;
+      }
+    .md-icon-button {
+      margin: 5px 0 0 0;
+      /*margin: 0;*/
+      /*opacity: 0.67*/;
+
+      &:hover {
+        background-color: $hover-color !important;
+        /*border-radius: 5px;*/
+      }
+    }
+    md-input-container {
+      margin: 5px 0 0 0;
+      padding: 0;
+      input {
+        /*height: 40px;*/
+        min-width: 0;
+        text-align: center;
+        /*line-height: 32px;*/
+
+        /*width: 40px;*/
+        /*border-radius: 50%*/
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+  }
+
+  .pdf-pages {
+    position: absolute;
+    bottom: 12px;
+    right: 10px;
+
+    /*height: 24px;
+    text-align: right;
+    line-height: 24px;*/
+    line-height: 24px;
+    .pdf-all-pages {
+      display: inline-block;
+      border-radius: 5px;
+      text-align: right;
+      padding: 0 5px 0 5px;
+      /*opacity: 0.67;*/
+      box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+    }
+    .pdf-current-page {
+      display: inline-block;
+      height: 22px;
+      text-align: right;
+      md-input-container {
+        display: block;
+        margin: 0;
+      }
+    }
+  }
+
+  pdf-viewer {
+    display: table;
+    margin: 0 auto;
+    canvas {
+      height: calc(100vh - 129px);/*64,48,5+5,6*/
+      margin: 5px;
+      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  .image-view {
+    display: table;
+    margin: 0 auto;
+    padding-top: 5px;
+    img {
+      display: block;
+      width: 100%;
+      /*height: calc(100vh - 118px);*/
+      height: auto;
+      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  .text-view {
+    display: table;
+    margin: 0 auto;
+    div {
+      background: #fff;
+      height: calc(100vh - 131px);/*64,48,5+5,6*/
+      width: calc(100vw - 20px);
+      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  pdf-viewer.unlock, .image-container.unlock {
+    /*display: block;
+    margin: 0;*/
+    canvas {
+      height: auto !important;
+      margin: 5px;
+    }
+  }
+
+  .file-message {
+    display: table;
+    margin: 0 auto;
+    div {
+      line-height: calc(100vh - 123px);
+      height: calc(100vh - 123px);/*64,48,5+5,6*/
+      width: 50vw;
+      font-size: 14px;
+      text-align: center;
+      margin: 5px;
+      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+    }
   }
 
   .wf-container-sub {

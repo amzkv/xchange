@@ -136,8 +136,9 @@ export class CustomerController {
       }
       event.stopPropagation();
       $mdDialog.show({
-          controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService) {
+          controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate) {
           let self = this;
+          $scope.pdfCurrentPage = 1;
 
           //(function () {
               documentsService.callDocumentById(documentId, key).then(function(resp) {
@@ -233,12 +234,186 @@ export class CustomerController {
             $scope.cancel = function () {
               $mdDialog.hide();
             };
+
+            $scope.zoomIn = function() {
+              pdfDelegate.$getByHandle('pdf-container').zoomIn();
+            };
+
+            $scope.zoomOut = function() {
+              pdfDelegate.$getByHandle('pdf-container').zoomOut();
+            };
+
+            $scope.pagePrev = function() {
+              pdfDelegate.$getByHandle('pdf-container').prev();
+              $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+            };
+
+            $scope.pageNext = function() {
+              pdfDelegate.$getByHandle('pdf-container').next();
+              $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+            };
+
+            $scope.getPdfCurrentPage = function() {
+              return pdfDelegate.$getByHandle('pdf-container').getCurrentPage();
+            };
+
+            $scope.pdfGoToPage = function(page) {
+              //console.log(page, $scope.pdfCurrentPage);
+              let value = page || $scope.pdfCurrentPage || 1;
+              value = (value > $scope.pdfTotalPages || !angular.isNumber(value)) ? $scope.pdfTotalPages : value;
+              //console.log(value, $scope.pdfCurrentPage);
+
+              pdfDelegate.$getByHandle('pdf-container').goToPage(value);
+              $scope.pdfCurrentPage = value;
+
+            };
+
+            $scope.unlockToggle = function() {
+              $scope.unlockZoom = !$scope.unlockZoom;
+            };
+
+            $scope.viewFile = function() {
+
+              function isPdfFile(filename) {
+                return (filename.length > 4)  ? (filename.indexOf('.pdf') === (filename.length - 4)) : false;
+              }
+
+              function isImage(filename) {
+                let extensions = ['.png', '.jpg', '.jpeg', '.gif' ];
+                return extensions.some(function(element, index) {
+                  return (filename.length > element.length)  ? (filename.indexOf(element) === (filename.length - element.length)) : false;
+                });
+              }
+
+              function isPlainText(filename) {
+                let extensions = ['.text', '.log', '.md', '.readme' ];
+                return extensions.some(function(element, index) {
+                  return (filename.length > element.length)  ? (filename.indexOf(element) === (filename.length - element.length)) : false;
+                });
+              }
+
+              if ($scope.fileURL) {
+                //TODO: this is pdf case
+                /*$scope.documentLoading = true;
+                pdfDelegate
+                  .$getByHandle('pdf-container')
+                  .load($scope.fileURL).then(function(item) {
+                  $scope.documentLoading = false;
+                });
+                */
+                return;
+              }
+              $scope.documentLoading = true;
+              documentsService.callFileById(documentId).then(function(resp) {
+                if (resp && resp.data.file) {
+
+                  let fileContents = resp.data.file.file;
+                  let fileName = resp.data.file.filename;
+
+                  /*fake text test*/
+                  //fileContents = $scope.toBase64('Hello, guys! \n\r How are you?');
+                  //fileName = 'test.txt';
+
+                    if (isPdfFile(fileName)) {
+                      if (fileContents && fileName) {
+                        fileContents = $scope.base64toBlob(fileContents);
+                        var data = new Blob([fileContents]);
+                        $scope.fileURL = URL.createObjectURL(data);
+                        $scope.documentLoading = true;
+                        pdfDelegate
+                          .$getByHandle('pdf-container')
+                          .load($scope.fileURL)
+                          .then(function(item) {
+                            $scope.pdfTotalPages = pdfDelegate.$getByHandle('pdf-container').getPageCount();
+                            $scope.documentLoading = false;
+                            $scope.fileType = 'PDF';
+                            $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+                        });
+
+                        //FileSaver.saveAs(data, fileName);
+                      } else {
+                        toastr.error('Unable to view file.', 'Error');
+                      }
+                    } else if (isImage(fileName)) {
+                      if (fileContents) {
+                        /*canvas*/
+                        /*
+                        fileContents = $scope.base64toBlob(fileContents);
+                        var data = new Blob([fileContents]);
+                        $scope.fileURL = URL.createObjectURL(data);
+                        $scope.documentLoading = true;
+                        $scope.fileType = 'IMG';
+                        var cnvs = document.getElementById('image_canvas');
+                        var ctx = cnvs.getContext('2d');
+                        var img = new Image;
+                        img.onload = function() {
+
+                          let iW = this.width;
+                          let iH = this.height;
+
+                          let cW =  cnvs.width;
+                          let cH =  cnvs.height;
+                          let coef;
+                          console.log('img:', iW, iH, 'canv:',cW, cH);
+                          if (iW > cW) {
+                            coef = iW / iH;
+                            cW = cH*coef;
+                            ctx.drawImage(img, 0, 0, cW, cH);
+                          } else {
+                            coef = iW / iH;
+                            cH = cW/coef;
+                            ctx.drawImage(img, 0, 0, cW, cH);
+                          }
+                          $scope.documentLoading = false;
+                        };
+                        img.src = $scope.fileURL;
+*/
+                        /*simple*/
+                        $scope.documentLoading = true;
+                        $scope.fileType = 'IMG';
+                        $scope.fileURL = '/';//todo
+                        var img = document.getElementById('view_img');
+                        img.src = $scope.documentUrl;
+                        img.onload = function() {
+                          $scope.documentLoading = false;
+
+                        };
+
+                        //FileSaver.saveAs(data, fileName);
+                      }
+                    } else if (isPlainText(fileName)) {
+                      $scope.fileType = 'TXT';
+                      try {
+                        fileContents = atob(fileContents);
+                        $scope.textData = fileContents;
+                      } catch (e) {
+                        $scope.fileStatus = 'Unsupported';//todo
+                      }
+                      $scope.fileURL ='/';//todo
+                      $scope.documentLoading = false;
+                        /*var img = document.getElementById('view_txt');
+                      img.src = $scope.documentUrl;
+                      img.onload = function() {
+                        $scope.documentLoading = false;
+
+                      };*/
+                    } else {
+                      $scope.fileStatus = 'Unsupported';//todo
+                      $scope.documentLoading = false;//TODO
+                    }
+
+                } else {
+                  toastr.error('Unable to fetch file data.', 'Error');
+                }
+              });
+            };
+
             $scope.docDetailsSections = {
               'mainBlock': true,
               'dataBlock': true,
               'collectionsBlock': true,
               'infoBlock': true,
-              'workflowBlock': true,
+              'workflowBlock': true
             };
 
             $scope.toggleItem = function(elementId) {
@@ -246,6 +421,11 @@ export class CustomerController {
             };
 
             //TODO: move
+
+            $scope.toBase64 = function(text) {
+              return btoa(text);
+            };
+
             $scope.base64toBlob = function(base64Data, contentType) {
               contentType = contentType || '';
               var sliceSize = 1024;
@@ -288,7 +468,7 @@ export class CustomerController {
           },
           templateUrl: 'app/customer/edit.html',
           preserveScope: true,
-          parent: angular.element(document.body),
+          /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
           fullscreen: true

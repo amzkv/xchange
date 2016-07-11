@@ -43,7 +43,8 @@ angular.module('xchange', [
   /*'akoenig.deckgrid',*/
   'infinite-scroll',
   'indexedDB',
-  'ngFileSaver'
+  'ngFileSaver',
+  'pdf'
 ])
   .constant('CONSTANT', constant)
   .config(config)
