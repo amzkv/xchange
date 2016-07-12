@@ -7,7 +7,8 @@ var morgan = require('morgan');
 var app = express();
 
 app.use(morgan('dev'));
-app.use(express.static(__dirname + '/dist'));
+//2 weeks: 1209600000 ms
+app.use(express.static(__dirname + '/dist', {maxAge: 1209600000, clientMaxAge: 1209600000}));
 
 app.get('/*', function(req, res){
   res.sendfile('./dist/index.html');
