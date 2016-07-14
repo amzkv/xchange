@@ -15,18 +15,18 @@
     <md-content class="md-padding">
       <div name="documentInformation" novalidate>
         <!--<h2 class="md-title">Main</h2>-->
-        <div style="padding: 10px 10px 10px 0;">Add a new collection...</div>
-        <div layout="row" layout="left center">
+        <label style="font-weight:600">{{dialog.params.currentClass}}</label>
+        <div layout="row" layout="left center" style="margin-top: 10px">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
             <label class="profile-lable">Value</label>
-            <input type="text" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
+            <input type="text" placeholder="Add a new collection..." name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
             <div ng-messages="dialog.addForm.value.$error">
               <span ng-message="required" class="">Please enter value</span>
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>
             </div>
           </md-input-container>
         </div>
-        <div layout="row" layout-align="left center">
+        <!--<div layout="row" layout-align="left center">
           <md-input-container flex="100">
             <label class="profile-lable">Locale (Deutsch)</label>
             <input type="text" name="locale_DE" data-ng-model="dialog.locale_DE" class="profile-field" required/>
@@ -43,7 +43,7 @@
               <span ng-message="required" class="">Please enter locale</span>
             </div>
           </md-input-container>
-        </div>
+        </div>-->
       </div>
     </md-content>
   </form>

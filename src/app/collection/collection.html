@@ -10,7 +10,7 @@
 <div ng-show="!((collection.docs || search.collections) | filter : documentsService.searchFilter).length" class="no-docs">
   No items found<span ng-show="documentsService.searchFilter">. Filter: "{{documentsService.searchFilter}}"</span>
 </div>
-<flying-button template="addDialog" scope="collection" ng-if="!{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]"></flying-button>
+<flying-button template="addDialog" params="params" scope="collection" ng-if="!{'Monat': true, 'NEW': true, '' : false}[parentClass]"></flying-button>
 <div ng-cloak="" ng-include="cardMode ? 'app/collection/collection.cards.tpl.html' : 'app/collection/collection.list.tpl.html'" ng-class="cardMode ? '' : 'list-box'"></div>
 
 

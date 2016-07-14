@@ -15,6 +15,9 @@ export class CollectionController {
     $scope.parentClass = $stateParams.collectionId;
     let self = this;
 
+    $scope.params = {};
+    $scope.params.currentClass = collection.data.collections.length ? collection.data.collections[0].group.locale : $scope.parentClass;
+
     $scope.toggleMode = {
       thisState: ViewModeService.getState(),
       alterState:  ViewModeService.getAlterState()
@@ -133,8 +136,8 @@ export class CollectionController {
         formData.customErrors = [];
         //console.log(formData.value.$modelValue);
         let value = formData.value.$modelValue;
-        let localeDE = formData.locale_DE.$modelValue;
-        let localeEN = formData.locale_EN.$modelValue;
+        /*let localeDE = formData.locale_DE.$modelValue;
+        let localeEN = formData.locale_EN.$modelValue;*/
 
         formData.resultPromise = deferred.promise;
 
@@ -147,12 +150,12 @@ export class CollectionController {
             self.docs = updatedResponse.data.collections;
             let isUnique = $scope.checkNewItem(value);
             if (isUnique) {
-              let excludedCollections = ['Monat', 'Type', 'NEW', 'WORKFLOW'];//TODO
+              let excludedCollections = ['Monat', 'NEW'];//TODO
               if (excludedCollections.indexOf($scope.parentClass) == -1) {
                 let item = {
-                  'value': value,
+                  'value': value/*,
                   'locale_DE': localeDE,
-                  'locale_EN': localeEN
+                  'locale_EN': localeEN*/
                 };
                 documentsService.callAddCollectionItem(dataId, item).then(function(addResponse) {
                   //add
