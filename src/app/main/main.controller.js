@@ -11,6 +11,53 @@ export class MainController {
     let deferred = this.$q.defer();
     let self = this;
 
+    $scope.creatableClasses = [
+      {
+        value : 'CUSTOMER',
+        locale: 'Kunden'
+      },
+      {
+        value : 'LEAD',
+        locale: 'Lead'
+      },
+      {
+        value : 'VENDOR',
+        locale: 'Lieferanten'
+      },
+      {
+        value : 'PROJECT',
+        locale: 'Projekt'
+      }
+    ];
+
+
+    this.filterClasses = function(classesToAdd, currentClasses) {
+
+      /*function filterFn(item, value) {
+        return (item.indexOf(value) !== -1);
+      }*/
+      currentClasses = currentClasses || self.docs;
+
+      let newClasses = [];
+      angular.forEach(classesToAdd, function (item) {
+        let found = false;
+        angular.forEach(currentClasses, function (citem) {
+          if (citem.group.value == item.value) {
+            found = true;
+          }
+        });
+        if (!found) {
+          newClasses.push(item);
+        }
+      });
+      return newClasses;
+    };
+
+    $scope.fbParams = {};
+    $scope.fbParams.creatableClasses = this.filterClasses($scope.creatableClasses);
+
+
+
     $scope.toggleMode = {
       thisState: ViewModeService.getState(),
       alterState:  ViewModeService.getAlterState()
@@ -49,10 +96,9 @@ export class MainController {
       if (formData) {
         //formData.resultPromise = null;
         formData.customErrors = [];
-        //console.log(formData.value.$modelValue);
-        let value = formData.value.$modelValue;
-        let localeDE = formData.locale_DE.$modelValue;
-        let localeEN = formData.locale_EN.$modelValue;
+        let value = formData.value;
+        /*let localeDE = formData.locale_DE.$modelValue;
+        let localeEN = formData.locale_EN.$modelValue;*/
         formData.resultPromise = deferred.promise;
 
         documentsService.callDocumentsCore(true).then(function (updatedResponse) {
@@ -62,11 +108,16 @@ export class MainController {
             let isUnique = $scope.checkNewCoreItem(value);
             //console.log(isUnique);
             if (isUnique) {
-              let coreItem = {
+              /*let coreItem = {
                 'value': value,
                 'locale_DE': localeDE,
                 'locale_EN': localeEN
+              };*/
+
+              let coreItem = {
+                'value': value
               };
+
               formData.resultPromise = documentsService.callAddCoreItem(coreItem);
               formData.resultPromise.then(function(addResponse) {
                 //add

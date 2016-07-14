@@ -14,8 +14,9 @@
     </md-toolbar>-->
     <md-content class="md-padding">
       <div name="documentInformation" novalidate>
-        <div style="padding: 10px 10px 10px 0;">Add a new class...</div>
-        <div layout="row" layout="left center">
+        <div style="padding: 10px 10px 10px 0;">Select to add new class...</div>
+        <!--{{dialog.params.creatableClasses}}-->
+        <!--<div layout="row" layout="left center">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
             <label class="profile-lable">Value</label>
             <input type="text" autofocus="autofocus" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
@@ -24,8 +25,18 @@
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>
             </div>
           </md-input-container>
-        </div>
+        </div>-->
         <div layout="row" layout-align="left center">
+          <md-input-container class="flex">
+            <label class="profile-lable">{{'Class'}}</label>
+            <md-select ng-change="dialog.delayedSubmit();" ng-model="dialog.addForm.value"><!--ng-init="dialog.addForm.value = dialog.params.creatableClasses[0].value"-->
+              <md-option ng-repeat="group in dialog.params.creatableClasses" value="{{group.value}}">
+                {{group.locale}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <!--<div layout="row" layout-align="left center">
           <md-input-container flex="100">
             <label class="profile-lable">Locale (Deutsch)</label>
             <input type="text" autofocus="autofocus" name="locale_DE" data-ng-model="dialog.locale_DE" class="profile-field" required/>
@@ -42,7 +53,7 @@
               <span ng-message="required" class="">Please enter locale</span>
             </div>
           </md-input-container>
-        </div>
+        </div>-->
       </div>
     </md-content>
   </form>

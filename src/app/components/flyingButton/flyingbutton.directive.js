@@ -6,14 +6,16 @@ export function FlyingButtonDirective() {
     templateUrl: 'app/components/flyingButton/flyingbutton.html',
     scope: {
       creationDate: '=',
-      template: '=template'
+      template: '=template',
+      params: '='
     },
     controller: FlyingButtonController,
     controllerAs: 'flyB',
     bindToController: true,
     link: function ($scope, $element, $attrs) {
       //?
-      $scope.addDialogTemplate = 'app/' + $attrs.scope + '/' + $attrs.template + '.html'
+      $scope.addDialogTemplate = 'app/' + $attrs.scope + '/' + $attrs.template + '.html';
+      $scope.params = $attrs.params;
     }
   };
 
@@ -34,7 +36,7 @@ class FlyingButtonController {
       // Show the dialog
       $mdDialog.show({
         clickOutsideToClose: true,
-        controller: function($mdDialog) {
+        controller: function($mdDialog, $scope, $timeout) {
           // Save the clicked item
           //this.item = item;
           // Setup some handlers
@@ -44,6 +46,10 @@ class FlyingButtonController {
             $mdDialog.cancel();
           };
           //draft
+          //console.log(this, self);
+
+          this.params = self.params;
+
           this.errorMessages = {
             '5001' : 'Collection already exists',
             '5002' : 'Cannot add collection to given class'
@@ -53,7 +59,15 @@ class FlyingButtonController {
 
           let dialog = this;
 
+          this.delayedSubmit = function() {
+            $timeout(function() {
+              //angular.element(this.addForm).triggerHandler('submit');
+              dialog.submit();
+            }, 100);
+          };
+
           this.submit = function() {
+            documentsService.busy = false;
             this.errors = [];
             this.formErrors = [];
             if (this.addForm.$valid) {
