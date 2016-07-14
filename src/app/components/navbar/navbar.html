@@ -56,7 +56,7 @@
   <md-divider></md-divider>
   <ul>
     <li ng-click="$event.stopPropagation();fullScreen();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"></i></span> Full Screen</li><!--mdi-fullscreen-exit-->
-    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span> View Mode</li>
+    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>&nbsp;{{vm.cardMode ? 'Card' : 'List'}} Mode</li>
     <li ng-if="vm.state === 'collection'" ng-click="$event.stopPropagation();vm.toggleEmptyCollectionFiltering();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="!showEmptyCollections ? 'mdi-numeric-0-box-outline' : 'mdi-numeric-0-box'"></i></span> Empty Sets</li><!--mdi-numeric-0-box-->
   </ul>
 </div>

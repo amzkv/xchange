@@ -19,7 +19,7 @@ export class MainController {
     //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
     $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
-    $rootScope.$on('customerStateChanged', function (event, data) {
+    $scope.customerStateChangedListener = $rootScope.$on('customerStateChanged', function (event, data) {
       $scope.toggleMode = {
         thisState: data.thisState,
         alterState:  data.alterState
@@ -101,6 +101,7 @@ export class MainController {
 
     $scope.$on('$destroy', function() {
       $scope.addListener();
+      $scope.customerStateChangedListener();
     });
 
   }

@@ -48,7 +48,7 @@ export class CustomerController {
     //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
     $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
-    $rootScope.$on('customerStateChanged', function (event, data) {
+    $scope.customerStateChangedListener = $rootScope.$on('customerStateChanged', function (event, data) {
         $scope.toggleMode = {
           thisState: data.thisState,
           alterState:  data.alterState
@@ -120,9 +120,10 @@ export class CustomerController {
       }
     };
 
-    /*$scope.$on('$destroy', function(e) {
-      $rootScope.$$destroyed = true;//tmp solution, deckgrid's new bug
-    });*/
+    $scope.$on('$destroy', function() {
+      $scope.customerStateChangedListener();
+    });
+
     /*$scope.typeList = [];
     $scope.$watch('typeList', function (newValue, oldValue, scope) {
       console.log($scope.typeList);

@@ -21,7 +21,7 @@ export class CollectionController {
     };
 
     //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
-    $scope.cardMode = ($scope.toggleMode.thisState === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
+    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $scope.emptyCollectionFilter = function (collection) {
       if (ViewModeService.showEmptyCollections) {
@@ -101,7 +101,7 @@ export class CollectionController {
 
     };
 
-    $rootScope.$on('customerStateChanged', function (event, data) {
+    $scope.customerStateChangedListener = $rootScope.$on('customerStateChanged', function (event, data) {
       $scope.toggleMode = {
         thisState: data.thisState,
         alterState:  data.alterState
@@ -287,6 +287,7 @@ export class CollectionController {
 
     $scope.$on('$destroy', function() {
       $scope.addListener();
+      $scope.customerStateChangedListener();
     });
 
   }
