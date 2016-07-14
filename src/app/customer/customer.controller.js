@@ -128,7 +128,10 @@ export class CustomerController {
       console.log($scope.typeList);
     });*/
 
+    $scope.editForm = {};
+
     $scope.editDocument = function (event, documentId) {
+
       let key = null;
       if ($stateParams.accessKey) {
         key = $stateParams.accessKey;//this doesn't work yet, therefore return
@@ -136,7 +139,7 @@ export class CustomerController {
       }
       event.stopPropagation();
       $mdDialog.show({
-          controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate) {
+          controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
           $scope.pdfCurrentPage = 1;
 
@@ -145,15 +148,15 @@ export class CustomerController {
                 //resp.data.response.success
                 if (resp.data.document) {
                   $scope.basepath = ConfigService.getBaseUrl() + 'file';
-                  $scope.setVisibilityForImage = false;
+                  //$scope.setVisibilityForImage = false;
                   var res = resp.data;
                   $scope.rowDocument = res.document;
-                  $scope.documentTitle = resp.data.document.title;
+                  $scope.documentTitle = resp.data.document.title;//*
                   $scope.selectedItem = {};//$scope.rowDocument;
                   $scope.searchText = "";
 
                   var currentDate = new Date(res.document.date);
-                  $scope.documentDate = currentDate;
+                  $scope.documentDate = currentDate;//*
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
                   $scope.documentName = res.document.filename;
@@ -172,14 +175,15 @@ export class CustomerController {
                   $scope.changedDate = new Date(updatedDate);
                   $scope.largeFilePath = $scope.basepath + '/large/' + res.document.uuid;
                   $scope.documentUrl = $scope.basepath + '/original/' + res.document.uuid;
-                  $scope.setVisibilityForImage = true;
+
+                  /*$scope.setVisibilityForImage = true;
                   $scope.visibilityOfViewer = false;
                   $scope.fileType = res.document.type.locale;
                   if ($scope.documentName.indexOf('pdf') != -1) {
                     $scope.visibilityOfViewer = true;
                   } else {
                     $scope.visibilityOfViewer = false;
-                  }
+                  }*/
 
                   if (res.document.hasOwnProperty('types_available')) {
                     var firstType = res.document.types_available[0]
@@ -188,7 +192,28 @@ export class CustomerController {
                   }
                   $scope.typeList = res.document.collections;
 
+                  //
+                  $scope.editForm = res.document;
+                  $scope.editForm.documentTitle = resp.data.document.title;
+                  $scope.editForm.documentDate = currentDate;
+                  $scope.editForm.currentDate = currentDate;
+                  $scope.editForm.documentName = res.document.filename;
+                  $scope.editForm.payDate = new Date();
+                  $scope.editForm.changedDate = new Date(updatedDate);
+                  $scope.editForm.workflow = resp.data.document.workflow;//
+                  $scope.editForm.workflowTips = resp.data.document.workflowTips;//
+                  $scope.editForm.userType = $scope.userType;//
+                  $scope.editForm.typesavailable = $scope.typesavailable;//
+                  $scope.editForm.typeList = res.document.collections;
+                  //angular.copy($scope.editForm, $scope.initialFormData);
 
+                  $scope.$watch("editForm", function(newVal, oldVal){
+                    if (newVal && newVal!=oldVal) {
+                      $scope.formChanged = true;
+                    }
+                  }, true);
+
+                  //console.log($scope.editForm.workflow, $scope.editForm.workflowTips, res);
 
                   $timeout(function () {
                     $scope.querySearch = function (query) {
@@ -230,6 +255,17 @@ export class CustomerController {
 
               });
             //})();
+
+            $scope.goTo =function(hash) {
+              let oldHash = $location.hash();
+              $location.hash(hash);
+              $anchorScroll();
+              $location.hash(oldHash);
+            };
+
+            $scope.toggleSideMenu = function() {
+              $scope.sideMenu = !$scope.sideMenu;
+            };
 
             $scope.cancel = function () {
               $mdDialog.hide();
@@ -304,7 +340,13 @@ export class CustomerController {
                 return;
               }
               $scope.documentLoading = true;
-              documentsService.callFileById(documentId).then(function(resp) {
+              let docType = null;
+              if ($scope.editForm.hassignature > 0) {
+                docType = 'SIGNEDPDF';//TODO?
+                //console.log('signed');
+              }
+
+              documentsService.callFileById(documentId, docType).then(function(resp) {
                 if (resp && resp.data.file) {
 
                   let fileContents = resp.data.file.file;
@@ -447,7 +489,7 @@ export class CustomerController {
               return new Blob(byteArrays, { type: contentType });
             };
 
-            $scope.save = function () {
+            $scope.downloadDoc = function () {
               documentsService.callFileById(documentId).then(function(resp) {
                 if (resp && resp.data.file) {
                   let fileContents = resp.data.file.file;

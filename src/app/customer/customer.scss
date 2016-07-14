@@ -162,11 +162,14 @@ md-card-title-media {
 
   .category-button {
     padding: 0;
-    margin-left: 0px;
+    margin-left: 5px;
     margin-right: 0px;
-    padding-left: 5px;
+    padding-left: 15px;
     padding-right: 5px;
     width: 100%;
+    text-align: left;
+    text-transform: none;
+    font-size: 18px;
   }
 
   .line-label {
@@ -364,6 +367,78 @@ md-card-title-media {
   .wf-container-sub {
 
   }
+
+  .doc-control-header {
+    font-weight: 500;
+  }
+
+  .side-menu-dot {
+    position: fixed;
+    height: 46px;
+    width: 32px;
+    z-index: 2;
+    i {
+      padding-left: 10px;
+      padding-top: 15px;
+    }
+  }
+
+  .doc-control-button {
+   /* background: -webkit-linear-gradient(top,#fff 0,#f8f9f9 100%);*/
+    background: linear-gradient(to bottom,#fff 0,#f8f9f9 100%);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #e2e4e6;
+    border-radius: 3px;
+    border-bottom-color: #cdd2d4;
+    cursor: pointer;
+    display: block;
+    font-weight: 500;
+    height: 34px;
+    margin-top: 6px;
+    max-width: 300px;
+    overflow: hidden;
+    padding: 7px;
+    position: relative;
+    text-overflow: ellipsis;
+    /*-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;*/
+    white-space: nowrap;
+    line-height: 16px;
+    i {
+      opacity: 0.45;
+    }
+    &:hover {
+      i {
+        opacity: 1;
+      }
+      background: $header-color;
+      color: $background-color;
+      border: 1px solid $primary-color;
+    }
+  }
+
+  .doc-control-container {
+    width: 240px;
+    padding: 15px;
+    .doc-control-fixed {
+      position: fixed;
+      width: 240px;
+    }
+  }
+
+ .mobileMenu {
+   position: fixed;
+   z-index: 1;
+   right: 0;
+   /*top: $header-offset;*/
+   height: 100vh;
+   border-radius: 3px;
+   background-color: $background-color;
+   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+ }
 
 .document-card-container {
   display:flex;
