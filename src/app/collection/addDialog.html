@@ -19,7 +19,7 @@
         <div layout="row" layout="left center">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
             <label class="profile-lable">Value</label>
-            <input type="text" autofocus="autofocus" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
+            <input type="text" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
             <div ng-messages="dialog.addForm.value.$error">
               <span ng-message="required" class="">Please enter value</span>
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>
@@ -29,7 +29,7 @@
         <div layout="row" layout-align="left center">
           <md-input-container flex="100">
             <label class="profile-lable">Locale (Deutsch)</label>
-            <input type="text" autofocus="autofocus" name="locale_DE" data-ng-model="dialog.locale_DE" class="profile-field" required/>
+            <input type="text" name="locale_DE" data-ng-model="dialog.locale_DE" class="profile-field" required/>
             <div ng-messages="dialog.addForm.locale_DE.$error">
               <span ng-message="required" class="">Please enter locale</span>
             </div>
@@ -38,7 +38,7 @@
         <div layout="row" layout-align="left center">
           <md-input-container flex="100">
             <label class="profile-lable">Locale (English)</label>
-            <input type="text" autofocus="autofocus" name="locale_EN" data-ng-model="dialog.locale_EN" class="profile-field" required/>
+            <input type="text" name="locale_EN" data-ng-model="dialog.locale_EN" class="profile-field" required/>
             <div ng-messages="dialog.addForm.locale_EN.$error">
               <span ng-message="required" class="">Please enter locale</span>
             </div>
