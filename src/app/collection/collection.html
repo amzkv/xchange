@@ -7,7 +7,7 @@
     </md-chip>
   </md-chips>
 </div>
-<div ng-show="!((collection.docs || search.collections) | filter : documentsService.searchFilter).length" class="no-docs">
+<div ng-show="!((collection.docs || search.collections) | filter:emptyCollectionFilter | filter : documentsService.searchFilter).length" class="no-docs">
   No items found<span ng-show="documentsService.searchFilter">. Filter: "{{documentsService.searchFilter}}"</span>
 </div>
 <flying-button template="addDialog" params="params" scope="collection" ng-if="!{'Monat': true, 'NEW': true, '' : false}[parentClass]"></flying-button>
