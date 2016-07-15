@@ -26,6 +26,7 @@ export class CheckAuthService {
 
   setUser(user){
     "use strict";
+    this.userid = user.userid;
     return this.storageService.upsertRecord('user',{"user_key": "user", "user": user});
 
     /*this.$indexedDB.openStore('user', function(store){
@@ -39,16 +40,16 @@ export class CheckAuthService {
 
   getUser(){
     "use strict";
-
-    //TODO
+    let deferred = this.$q.defer();
 
     this.$indexedDB.openStore('user', function(user){
       user.find('user').then(function(e){
-        //$scope.user = e['user'];
-        return e['user'];
+        //return e['user'];
+        deferred.resolve(e['user']);
       });
     });
 
+    return deferred.promise;
     /*let user = this.$window.localStorage.getItem('user');
     return JSON.parse(user);*/
 

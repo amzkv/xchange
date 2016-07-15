@@ -52,10 +52,13 @@ export class LocalAccessService {
     this.storageService.clearStorage('user');
     //
 
+
+/*
     this.storageService.clearStorage('core');
     this.storageService.clearStorage('collections');
     this.storageService.clearStorage('documents');
     this.storageService.clearStorage('document_detail');
+*/
 
     //this.$window.localStorage.clear();
   }

@@ -2,7 +2,7 @@
  * Created by decipher on 17.2.16.
  */
 export class DocumentsService {
-  constructor($http, $log, ConfigService, LocalAccessService, StorageService, $window, $q) {
+  constructor($http, $log, ConfigService, LocalAccessService, CheckAuthService, StorageService, $window, $q) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
@@ -12,6 +12,7 @@ export class DocumentsService {
     this.initPagerValues();
     this.localAccessService = LocalAccessService;
     this.storageService = StorageService;
+    this.CheckAuthService = CheckAuthService;
   }
 
   initPagerValues() {
@@ -26,9 +27,36 @@ export class DocumentsService {
     let api = apiName ? apiName : 'document'
     return this.configService.getBaseUrl() + api;
   }
+
   getPageIdHashByValueAndRange(value, start, end) {
     return value + '_' + start + '_' + end;
   }
+
+  getUserCacheId(value) {
+    return value + '/' + this.CheckAuthService.userid;
+  }
+
+  baseAuthCall(configExtension, options, value, skipCache) {
+    let self = this;
+    let deferred = this.$q.defer();
+
+    if (!self.CheckAuthService.userid) {
+      self.CheckAuthService.getUser().then(function(userResponse) {
+        self.CheckAuthService.userid = userResponse.userid;
+        if (userResponse && userResponse.userid) {
+          deferred.resolve(self.baseCall(configExtension, options, value, skipCache));
+        } else {
+          console.log('what?');
+          deferred.resolve(null);
+        }
+      });
+    } else {
+      return self.baseCall(configExtension, options, value, skipCache);
+    }
+
+    return deferred.promise;
+  }
+
   baseCall(configExtension, options, value, skipCache) {
 
     let self = this;
@@ -227,7 +255,7 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options, null, skipCache);
+    return this.baseAuthCall(configExtension, options, null, skipCache);
   }
 
   callAddCoreItem(data) {
@@ -245,7 +273,7 @@ export class DocumentsService {
     };
     //different base method for adding?
     //will it return new collection set?
-    return this.baseCall(configExtension, options, null, true);
+    return this.baseAuthCall(configExtension, options, null, true);
   }
 
   searchDocumentsCore(searchPhrase) {
@@ -261,7 +289,7 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options);
+    return this.baseAuthCall(configExtension, options);
   }
 
   callDocumentRelated(value, skipCache) {
@@ -280,7 +308,7 @@ export class DocumentsService {
       "dataKey": "collections"
     };
 
-    return this.baseCall(configExtension, options, value, skipCache);
+    return this.baseAuthCall(configExtension, options, value, skipCache);
   }
 
   callAddCollectionItem(value, data) {
@@ -299,7 +327,7 @@ export class DocumentsService {
     };
     //different base method for adding?
     //will it return new collection set?
-    return this.baseCall(configExtension, options, null, true);
+    return this.baseAuthCall(configExtension, options, null, true);
   }
 
   callEditCollectionItem(value, data, oldItem) {
@@ -316,7 +344,7 @@ export class DocumentsService {
       "set": true,
       "dataKey": "collections"
     };
-    return this.baseCall(configExtension, options, null, true);
+    return this.baseAuthCall(configExtension, options, null, true);
   }
 
 
@@ -346,7 +374,7 @@ export class DocumentsService {
       "end": end
     };
 
-    return this.baseCall(configExtension, options, id, skipCache);//id??
+    return this.baseAuthCall(configExtension, options, id, skipCache);//id??
   }
 
   callDocumentByAccessKey(accessKey, start, end, skipCache) {
@@ -381,7 +409,7 @@ export class DocumentsService {
       "end": end
     };
 
-    return this.baseCall(configExtension, options, accessKey, skipCache);//id??
+    return this.baseAuthCall(configExtension, options, accessKey, skipCache);//id??
   }
 
   callDocumentById(id, accessKey) {
@@ -407,7 +435,7 @@ export class DocumentsService {
       "useAllData": true,*/
     };
 
-    return this.baseCall(configExtension, options, id);//id??
+    return this.baseAuthCall(configExtension, options, id);//id??
   }
 
   searchDocument(value, start, end, skipCache) {
@@ -432,7 +460,7 @@ export class DocumentsService {
       "end": end
     };
 
-    return this.baseCall(configExtension, options, value, true);
+    return this.baseAuthCall(configExtension, options, value, true);
   }
 
   callFileById(id, type) {
@@ -457,7 +485,7 @@ export class DocumentsService {
       "useAllData": true
     };
 
-    return this.baseCall(configExtension, options, id, true);
+    return this.baseAuthCall(configExtension, options, id, true);
   }
 
 
@@ -468,6 +496,10 @@ export class DocumentsService {
     }
 
     let self = this;
+
+    if (self.CheckAuthService.userid) {
+      cacheId = this.getUserCacheId(cacheId)
+    }
 
     promise.then(function(response) {
 
@@ -510,6 +542,9 @@ export class DocumentsService {
     if (!cacheId) {
       return this.storageService.getAllRecords(scope);
     } else {
+      if (this.CheckAuthService.userid) {
+        cacheId = this.getUserCacheId(cacheId);
+      }
       return this.storageService.getSingleRecordPromise(scope, cacheId, dataKey);
     }
   }
