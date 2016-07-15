@@ -143,9 +143,13 @@ md-content.md-365red-theme {
 }
 
 .filter-box {
-  position: absolute;
-  top: $header-offset + $footer-offset + 10px;
-  left: 10px;
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%) ;
+  opacity: 0.2;
   z-index: 1;
   .md-chips {
     box-shadow: 0 0px rgb(224,224,224) !important;

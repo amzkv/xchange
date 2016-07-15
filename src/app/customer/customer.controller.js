@@ -11,6 +11,7 @@ export class CustomerController {
     $scope.shownGroup = 0;
     //documentsService.filter = null;
     $scope.documentsService = documentsService;
+    $scope.documentsService.searchFilter = '';
 
     $scope.category = $stateParams.collectionId;//category
     $scope.locale = locale;

@@ -8,6 +8,7 @@ export class CollectionController {
     themeProvider.setDefaultTheme('365violet');
 
     $scope.documentsService = documentsService;
+    $scope.documentsService.searchFilter = '';
 
     this.docs = collection.data.collections;
     this.$q = $q;

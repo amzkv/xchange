@@ -6,6 +6,8 @@ export class MainController {
 
     $scope.documentsService = documentsService;
 
+    $scope.documentsService.searchFilter = '';
+
     this.docs = categories.data.collections;
     this.$q = $q;
     let deferred = this.$q.defer();
