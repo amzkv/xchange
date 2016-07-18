@@ -409,7 +409,7 @@ export class DocumentsService {
       "end": end
     };
 
-    return this.baseAuthCall(configExtension, options, accessKey, skipCache);//id??
+    return this.baseCall(configExtension, options, accessKey, skipCache);//id??
   }
 
   callDocumentById(id, accessKey) {
