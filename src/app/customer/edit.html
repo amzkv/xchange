@@ -1,5 +1,5 @@
-<md-dialog style="width:100%;height:100%;min-width:100%;min-height:100%;overflow-y:hidden" aria-label="documentEdit" ng-cloak>
-  <form>
+<md-dialog class="edit-doc" style="top:0;width:100%;height:100%;min-width:100%;min-height:100%;overflow-y:hidden" aria-label="documentEdit" ng-cloak>
+  <form style="width:100%;height:100vh;min-width:100%;min-height:100vh;overflow-y:hidden">
     <md-toolbar style="position:absolute;top:0;">
       <div class="md-toolbar-tools">
         <h2>{{documentTitle}}</h2>
@@ -305,7 +305,7 @@
         </md-content>
       </md-tab>
       <md-tab label="{{'View'}}" ng-click="viewFile();" style="margin-bottom: 64px;">
-        <md-content style="height:calc(100vh - 114px);/*overflow-y:scroll;*/">
+        <md-content style="height:calc(100vh - 114px);/*overflow-y:scroll;*/" ng-click="focusControl($event);">
           <md-progress-linear ng-show="documentLoading" md-mode="indeterminate"></md-progress-linear>
           <pdf-viewer ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'"
             delegate-handle="pdf-container"
@@ -324,7 +324,7 @@
           </div>
 
           <!-- TODO: directive -->
-          <div class="pdf-controls" ng-if="fileType=='PDF'">
+          <div class="pdf-controls" ng-if="fileType=='PDF'" ng-click="focusControl($event);">
             <md-button ng-show="!unlockZoom" class="md-icon-button" ng-click="unlockToggle();">
               <i class="material-icons">lock</i>
             </md-button>

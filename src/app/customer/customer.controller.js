@@ -472,6 +472,14 @@ export class CustomerController {
               $scope.docDetailsSections[elementId] = !$scope.docDetailsSections[elementId];
             };
 
+            $scope.focusControl = function($event) {
+              //this does work
+
+              /*if (angular.element($event.target)[0] && angular.element($event.target)[0].tagName != 'INPUT') {
+                $event.target.focus();
+              }*/
+            };
+
             //TODO: move
 
             $scope.toBase64 = function(text) {
@@ -523,7 +531,10 @@ export class CustomerController {
           /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
-          fullscreen: true
+          fullscreen: true,
+          transformTemplate: function(template) {
+            return '<div class="md-dialog-container edit-doc">' + template + '</div>';
+          }
         })
         .then(function() {
         }, function() {
