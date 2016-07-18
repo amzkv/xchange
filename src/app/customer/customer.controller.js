@@ -143,7 +143,7 @@ export class CustomerController {
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
-          $scope.pdfCurrentPage = 1;
+          $scope.pdfState = {'page': 1};
 
           //(function () {
               documentsService.callDocumentById(documentId, key).then(function(resp) {
@@ -282,13 +282,15 @@ export class CustomerController {
             };
 
             $scope.pagePrev = function() {
-              pdfDelegate.$getByHandle('pdf-container').prev();
-              $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+              if ($scope.getPdfCurrentPage() > 1) {
+                $scope.pdfGoToPage($scope.getPdfCurrentPage() - 1);
+              }
             };
 
             $scope.pageNext = function() {
-              pdfDelegate.$getByHandle('pdf-container').next();
-              $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+              if ($scope.getPdfCurrentPage() < $scope.pdfTotalPages) {
+                $scope.pdfGoToPage($scope.getPdfCurrentPage() + 1);
+              }
             };
 
             $scope.getPdfCurrentPage = function() {
@@ -296,14 +298,20 @@ export class CustomerController {
             };
 
             $scope.pdfGoToPage = function(page) {
-              //console.log(page, $scope.pdfCurrentPage);
-              let value = page || $scope.pdfCurrentPage || 1;
-              value = (value > $scope.pdfTotalPages || !angular.isNumber(value)) ? $scope.pdfTotalPages : value;
-              //console.log(value, $scope.pdfCurrentPage);
+              let value = +page;
+              if (page == '') {
+                return;
+              }
 
+              if (!angular.isNumber(value) || isNaN(value)) {
+                //let lastPageUsed = $scope.getPdfCurrentPage();
+                //$scope.pdfState = {page : lastPageUsed};
+                return;
+              }
+
+              value = (value > $scope.pdfTotalPages) ? $scope.pdfTotalPages : (value>0 ? value : 1);
               pdfDelegate.$getByHandle('pdf-container').goToPage(value);
-              $scope.pdfCurrentPage = value;
-
+              $scope.pdfState = {page:value};
             };
 
             $scope.unlockToggle = function() {

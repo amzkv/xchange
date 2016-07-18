@@ -338,16 +338,26 @@
               <i class="material-icons">zoom_out</i>
             </md-button>
             <span flex="100"></span>
-            <md-button ng-show="pdfTotalPages" ng-class="(pdfCurrentPage > 1) ? '' : 'fade'" class="md-icon-button" ng-click="pagePrev()">
+            <md-button ng-show="pdfTotalPages" ng-class="(pdfState.page > 1) ? '' : 'fade'" class="md-icon-button" ng-click="pagePrev()">
               <i class="material-icons">keyboard_arrow_left</i>
             </md-button>
-            <md-button ng-show="pdfTotalPages" ng-class="(pdfCurrentPage < pdfTotalPages) ? '' : 'fade'" class="md-icon-button" ng-click="pageNext()">
+            <md-button ng-show="pdfTotalPages" ng-class="(pdfState.page < pdfTotalPages) ? '' : 'fade'" class="md-icon-button" ng-click="pageNext()">
               <i class="material-icons">keyboard_arrow_right</i>
             </md-button>
             <div class="pdf-pages">
               <div class="pdf-current-page">
                 <md-input-container placeholder="page">
-                  <input type="text" size="3" ng-maxlength="3" min="1" max="{{pdfTotalPages}}" ng-change="pdfGoToPage(pdfCurrentPage)" name="title" ng-model="pdfCurrentPage" ng-keyup="$event.keyCode == 13 && pdfGoToPage(pdfCurrentPage)" class="profile-field"/>
+                  <input id="pdfPageInput"
+                         type="text"
+                         size="3"
+                         ng-maxlength="3"
+                         min="1"
+                         max="{{pdfTotalPages}}"
+                         name="title"
+                         ng-model="pdfState.page"
+                         ng-keyup="pdfGoToPage(pdfState.page)"
+                         class="profile-field"
+                  />
                 </md-input-container>
               </div><span style="padding:3px;" ng-if="true">/</span>
               <div class="pdf-all-pages">{{pdfTotalPages || 0}}</div>
