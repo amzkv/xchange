@@ -28,6 +28,7 @@ import { TruncateFilter } from './components/truncate/truncate.filter';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
 import { CompareTo } from './components/compareTo/compareTo.directive';
+import { langConf } from './languages/langConf';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -44,9 +45,11 @@ angular.module('xchange', [
   'infinite-scroll',
   'indexedDB',
   'ngFileSaver',
-  'pdf'
+  'pdf',
+  'ngLocalize'
 ])
   .constant('CONSTANT', constant)
+  .value('langConf', langConf)
   .config(config)
   .config(routerConfig)
   .config(indexedDBConfig)

@@ -17,8 +17,8 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span class="nav" ng-if="vm.state === 'accesskey'">Documents By Access Key</span>
-        <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">Search</span>
+        <span class="nav" ng-if="vm.state === 'accesskey'">{{'navbar.documentsByAccessKey' | i18n}}</span>
+        <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">{{'navbar.search' | i18n}}</span>
         <span ng-if="vm.state === 'search'" class="docs-menu-separator-icon" hide-sm hide-md>
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
@@ -55,8 +55,8 @@
   </div>
   <md-divider></md-divider>
   <ul>
-    <li ng-click="$event.stopPropagation();fullScreen();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"></i></span> Full Screen</li><!--mdi-fullscreen-exit-->
-    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>&nbsp;{{vm.cardMode ? 'List' : 'Card'}} Mode</li>
+    <li ng-click="$event.stopPropagation();fullScreen();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"></i></span> {{'navbar.fullscreen' | i18n}}</li><!--mdi-fullscreen-exit-->
+    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>&nbsp;{{vm.cardMode ? ('navbar.list'|i18n) : ('navbar.card'|i18n)}} {{'navbar.mode' | i18n}}</li>
     <li ng-if="vm.state === 'collection'" ng-click="$event.stopPropagation();vm.toggleEmptyCollectionFiltering();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="!showEmptyCollections ? 'mdi-numeric-0-box-outline' : 'mdi-numeric-0-box'"></i></span> Empty Sets</li><!--mdi-numeric-0-box-->
   </ul>
 </div>
@@ -76,7 +76,7 @@
   <md-content>
     <nav class="menu">
       <ul>
-        <li ng-click="vm.closeMenu();"><a ui-sref="home"><i class="material-icons">home</i> Home</a></li>
+        <li ng-click="vm.closeMenu();"><a ui-sref="home"><i class="material-icons">home</i> {{'navbar.home' | i18n}}</a></li>
         <li ng-class="ci.group.value == vm.params.collectionId ? 'nav-menu-selected' : ''" ng-click="vm.closeMenu();" ng-repeat="ci in vm.coreItems">
           <a ui-sref="collection({collectionId: ci.group.value, collectionLocale: ci.group.locale})">
             <i class="material-icons">keyboard_arrow_right</i>{{ci.group.locale}}
@@ -85,17 +85,17 @@
         <md-divider></md-divider>
         <li ng-click="vm.closeMenu();">
           <a ui-sref="changelog">
-            <i class="material-icons">info_outline</i> About
+            <i class="material-icons">info_outline</i> {{'navbar.about' | i18n}}
           </a>
         </li>
         <li ng-if="vm.state!='accesskey'" ng-click="vm.logout();vm.closeMenu();">
             <a ui-sref="login">
-               <i class="material-icons">exit_to_app</i> Logout
+               <i class="material-icons">exit_to_app</i> {{'navbar.logout' | i18n}}
             </a>
         </li>
         <li ng-if="vm.state == 'accesskey'" ng-click="vm.closeMenu();">
           <a ui-sref="login">
-            <i class="material-icons">exit_to_app</i> Log in
+            <i class="material-icons">exit_to_app</i> {{'navbar.login' | i18n}}
           </a>
         </li>
       </ul>
@@ -109,7 +109,7 @@
 <md-sidenav class="md-sidenav-right md-whiteframe-z2 sidenav-pos" md-component-id="right">
   <md-toolbar class="md-theme-light">
     <div class="md-toolbar-tools">
-      <h1>Filter</h1>
+      <h1>{{'navbar.filter' | i18n}}</h1>
       <span flex></span>
       <md-button class="md-icon-button sidenav-right-close" ng-click="closeFilter()">
         <i class="material-icons">close</i>
@@ -118,7 +118,7 @@
   </md-toolbar>
   <md-content layout-padding style="padding-top:72px;">
     <md-input-container flex="100">
-      <label>Search</label>
+      <label>{{'navbar.search' | i18n}}</label>
       <span>
         <input type="search" autofocus="autofocus" name="search" data-ng-model="searchField" ng-keyup="search($event.keyCode);" md-autofocus/>
       </span>

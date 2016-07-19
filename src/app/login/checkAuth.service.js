@@ -2,7 +2,7 @@
  * Created by decipher on 22.4.16.
  */
 export class CheckAuthService {
-  constructor($http, $log, $window, $indexedDB, $q, StorageService) {
+  constructor($http, $log, $window, $indexedDB, $q, StorageService, LocalAccessService, $cookies) {
     'ngInject';
     this.$http = $http;
     this.$log = $log;
@@ -10,6 +10,8 @@ export class CheckAuthService {
     this.$indexedDB = $indexedDB;
     this.$q = $q;
     this.storageService = StorageService;
+    this.localAccess = LocalAccessService;
+    this.cookies = $cookies;
   }
 
   checkAuth(){
@@ -27,6 +29,11 @@ export class CheckAuthService {
   setUser(user){
     "use strict";
     this.userid = user.userid;
+    if (user.locale) {
+      this.localAccess.setUserSetting('locale', user.locale.value);
+      let lang = JSON.stringify(user.locale.value);
+      this.cookies.put('COOKIE_LOCALE_LANG', lang);
+    }
     return this.storageService.upsertRecord('user',{"user_key": "user", "user": user});
 
     /*this.$indexedDB.openStore('user', function(store){
