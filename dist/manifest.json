@@ -1,0 +1,14 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "name": "365xchange",
+  "description": "365 Xchange Web App",
+  "short_name": "365xchange",
+  "icons": [{
+    "src": "assets/images/365f.png",
+    "sizes": "200x200"
+  }],
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone"
+ }
