@@ -318,7 +318,37 @@ export class CustomerController {
               $scope.unlockZoom = !$scope.unlockZoom;
             };
 
-            $scope.viewFile = function() {
+            /*$scope.$watch('showFile', function() {
+              console.log('showFile', $scope.showFile);
+            });
+
+            $scope.onViewFile = function(inview) {
+              if (inview) {
+                //$scope.viewFile();
+                $scope.showFile = true;
+              } else {
+                $scope.showFile = false;
+              }
+            };*/
+
+            $scope.onViewFile = function(inview) {
+              if (inview) {
+                //$scope.viewFile();
+                $scope.showControls = true;
+              } else {
+                $scope.showControls = false;
+              }
+              //console.log($scope.showControls);
+              return true;
+            };
+
+            $scope.documentLoaded = false;
+
+            $scope.viewFile = function(inview) {
+
+              if ($scope.documentLoading) {
+                return;
+              }
 
               function isPdfFile(filename) {
                 return (filename.length > 4)  ? (filename.indexOf('.pdf') === (filename.length - 4)) : false;
@@ -380,7 +410,8 @@ export class CustomerController {
                             $scope.documentLoading = false;
                             $scope.fileType = 'PDF';
                             $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
-                        });
+                            $scope.documentLoaded = true;
+                          });
 
                         //FileSaver.saveAs(data, fileName);
                       } else {
@@ -428,6 +459,7 @@ export class CustomerController {
                         img.src = $scope.documentUrl;
                         img.onload = function() {
                           $scope.documentLoading = false;
+                          $scope.documentLoaded = true;
 
                         };
 
@@ -443,15 +475,18 @@ export class CustomerController {
                       }
                       $scope.fileURL ='/';//todo
                       $scope.documentLoading = false;
-                        /*var img = document.getElementById('view_txt');
-                      img.src = $scope.documentUrl;
-                      img.onload = function() {
-                        $scope.documentLoading = false;
+                      $scope.documentLoaded = true;
 
-                      };*/
+                      /*var img = document.getElementById('view_txt');
+                    img.src = $scope.documentUrl;
+                    img.onload = function() {
+                      $scope.documentLoading = false;
+
+                    };*/
                     } else {
                       $scope.fileStatus = 'Unsupported';//todo
                       $scope.documentLoading = false;//TODO
+                      $scope.documentLoaded = true;
                     }
 
                 } else {

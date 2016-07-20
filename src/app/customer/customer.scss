@@ -241,7 +241,7 @@ md-card-title-media {
 
   .pdf-controls {
     position: fixed;
-    bottom: 10px;
+    bottom: 74px;
     left: 10px;
     height: 50px;
     width: 334px;
@@ -314,23 +314,37 @@ md-card-title-media {
   pdf-viewer {
     display: table;
     margin: 0 auto;
+    /*width: calc(100vw - 32px);*/
+    /*padding: 5px;*/
     canvas {
-      height: calc(100vh - 129px);/*64,48,5+5,6*/
-      margin: 5px;
-      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+      /*height: calc(100vh - 129px);*/
+      /*64,48,5+5,6*/
+      width: 100%;
+      margin: 5px 0px 69px 0px;
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    pdf-viewer {
+      canvas {
+        width: calc(100vw - 42px);
+      }
     }
   }
 
   .image-view {
     display: table;
     margin: 0 auto;
-    padding-top: 5px;
+    padding: 5px;
     img {
       display: block;
       width: 100%;
+      /*width: calc(100vw - 42px);*/
+      margin: 5px 0px 69px 0px;
       /*height: calc(100vh - 118px);*/
       height: auto;
-      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
     }
   }
 
@@ -350,6 +364,7 @@ md-card-title-media {
     margin: 0;*/
     canvas {
       height: auto !important;
+      width: auto !important;
       margin: 5px;
     }
   }
