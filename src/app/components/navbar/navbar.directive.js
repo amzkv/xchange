@@ -132,7 +132,11 @@ class NavbarController {
 
     $scope.isAppFullscreen  = function() {
       //console.log(window.innerHeight == screen.height, window.innerHeight, screen.height, window.outerHeight);
-      return (window.innerHeight == screen.height);
+      return !!(document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement);
+      //return (window.innerHeight == screen.height);
     };
 
     $scope.isFullScreen = $scope.isAppFullscreen();
@@ -171,10 +175,10 @@ class NavbarController {
 
       if ($scope.isFullScreen) {
         exitFullscreen();
-        $scope.isFullScreen = false;
+        $scope.isFullScreen = $scope.isAppFullscreen();
       } else {
         launchIntoFullscreen(document.documentElement);
-        $scope.isFullScreen = true;
+        $scope.isFullScreen = $scope.isAppFullscreen();
       }
     };
 
