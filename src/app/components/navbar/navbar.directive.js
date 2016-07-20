@@ -130,7 +130,12 @@ class NavbarController {
       $mdSidenav('left').toggle();
     };
 
-    $scope.isFullScreen = false;
+    $scope.isAppFullscreen  = function() {
+      //console.log(window.innerHeight == screen.height, window.innerHeight, screen.height, window.outerHeight);
+      return (window.innerHeight == screen.height);
+    };
+
+    $scope.isFullScreen = $scope.isAppFullscreen();
 
     $scope.fullScreen = function() {
 
@@ -148,21 +153,29 @@ class NavbarController {
 
       function exitFullscreen() {
         if(document.exitFullscreen) {
-          document.exitFullscreen();
+          return document.exitFullscreen();
         } else if(document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
+          return document.mozCancelFullScreen();
         } else if(document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
+          return document.webkitExitFullscreen();
         }
       }
 
-      if (exitFullscreen()) {
+      /*if (exitFullscreen()) {
+       launchIntoFullscreen(document.documentElement);
+       }
+       else {
+       launchIntoFullscreen(document.documentElement);
+       }
+       $scope.isFullScreen = !$scope.isFullScreen;*/
+
+      if ($scope.isFullScreen) {
+        exitFullscreen();
+        $scope.isFullScreen = false;
+      } else {
         launchIntoFullscreen(document.documentElement);
+        $scope.isFullScreen = true;
       }
-      else {
-        launchIntoFullscreen(document.documentElement);
-      }
-      $scope.isFullScreen = !$scope.isFullScreen;
     };
 
     this.toggleFilter = function () {

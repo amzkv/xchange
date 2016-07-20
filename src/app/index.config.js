@@ -17,9 +17,9 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
     .accentPalette('red');*/
 
   $mdThemingProvider.definePalette('365xchangeViolet', {
-    '50': '9457c1',//lighter
-    '100': '8430c1',//light
-    '200': '4b0082',
+    '50': 'ffffff',//lighter
+    '100': 'ffffff',//light
+    '200': 'ffffff',
     '300': '4b0082',//main, dark-lighter, more
     '400': '431862',//main, dark-lighter
     '500': '310055',//#main, dark

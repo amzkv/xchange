@@ -52,6 +52,13 @@ md-backdrop {
   position:fixed;
 }
 
+.options-backdrop {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 99;
+}
+
 .options-popup {
   position: fixed;
   top: 75px;

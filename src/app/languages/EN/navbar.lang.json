@@ -11,5 +11,7 @@
   "documentsByAccessKey" : "Documents By Access Key",
   "changelog" : "Change Log",
   "fullscreen" : "Full Screen",
-  "emptysets" : "Empty Sets"
+  "regularscreen" : "Regular screen",
+  "emptysets" : "Show empty sets",
+  "emptysetshid" : "Hide empty sets"
 }
