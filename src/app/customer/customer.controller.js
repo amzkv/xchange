@@ -37,7 +37,7 @@ export class CustomerController {
     $scope.baseUrl = baseUrl;
 
     $scope.groupFilter = function (collection) {
-      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type';
+      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type' && collection.group.value !== 'WORKFLOW';
     };
 
 
