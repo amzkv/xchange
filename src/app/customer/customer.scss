@@ -179,6 +179,15 @@ md-card-title-media {
   .line-label {
     color: rgba(0,0,0,0.54);
     font-size:12px;
+    line-height: 40px;
+    /*display:block*/
+  }
+
+  .date-text {
+    line-height: 40px;
+    font-weight: 500;
+    padding-left: 64px;
+    font-size:14px;
     /*display:block*/
   }
 

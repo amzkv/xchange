@@ -166,15 +166,18 @@
                       </md-input-container>
                     </div>
                     <div layout="row" layout-align="left center">
-                      <div class="documentIcon">
+                      <div class="date-container">
                         <span class="line-label">{{'Created on'}}&nbsp;</span>
-                        <md-datepicker class="ro-datepicker"  disabled="disabled" ng-model="editForm.documentDate" md-min-date="editForm.documentDate" md-max-date="editForm.documentDate" md-placeholder="created date" aria-label="x2" readonly="readonly"></md-datepicker>
+                        <span class="date-text">{{editForm.createdDate | date: 'dd.MM.yyyy HH:mm'}}</span>
+                        <!--<md-datepicker class="ro-datepicker"  disabled="disabled" ng-model="editForm.documentDate" md-min-date="editForm.documentDate" md-max-date="editForm.documentDate" md-placeholder="created date" aria-label="x2" readonly="readonly"></md-datepicker>-->
                       </div>
                     </div>
                     <div layout="row" layout-align="left center">
-                      <div class="documentIcon">
+                      <div class="date-container">
                         <span class="line-label">{{'Updated on'}}</span>
-                        <md-datepicker class="ro-datepicker" disabled="disabled" ng-model="editForm.changedDate" md-placeholder="updated date" aria-label="x3" readonly="readonly"></md-datepicker>
+                        <!--<input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime" placeholder="Date" min-date="date" ng-model="editForm.changedDate" class="ng-pristine ng-valid ng-isolate-scope md-input ng-touched" aria-invalid="false">-->
+                        <!--<md-datepicker class="ro-datepicker" time="true" disabled="disabled" ng-model="editForm.changedDate" md-placeholder="updated date" aria-label="x3" readonly="readonly"></md-datepicker>-->
+                        <span class="date-text">{{editForm.changedDate | date: 'dd.MM.yyyy HH:mm'}}</span>
                       </div>
                     </div>
                   </md-content>

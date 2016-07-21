@@ -159,6 +159,7 @@ export class CustomerController {
 
                   var currentDate = new Date(res.document.date);
                   $scope.documentDate = currentDate;//*
+                  $scope.createdDate = new Date(res.document.created || res.document.date);//for future update?
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
                   $scope.documentName = res.document.filename;
@@ -200,6 +201,7 @@ export class CustomerController {
                   $scope.editForm.documentDate = currentDate;
                   $scope.editForm.currentDate = currentDate;
                   $scope.editForm.documentName = res.document.filename;
+                  $scope.editForm.createdDate = $scope.createdDate;//for future update?
                   $scope.editForm.payDate = new Date();
                   $scope.editForm.changedDate = new Date(updatedDate);
                   $scope.editForm.workflow = resp.data.document.workflow;//
