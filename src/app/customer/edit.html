@@ -120,11 +120,11 @@
                       <md-autocomplete md-selected-item="selectedItem"
                                        md-search-text="searchText"
                                        md-items="item in querySearch(searchText)"
-                                       md-item-text="item.locale"
+                                       md-item-text="item.title.locale"
                                        md-delay="200"
                                        md-no-cache="true"
                                        placeholder="Add collection...">
-                        <span md-highlight-text="searchText">{{item.value}} :: {{item.locale}}</span>
+                        <span md-highlight-text="searchText">{{item.group.locale}} :: {{item.title.locale}}</span>
                       </md-autocomplete>
                       <md-chip-template>
                           <span>

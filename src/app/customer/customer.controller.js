@@ -209,6 +209,10 @@ export class CustomerController {
                   $scope.editForm.userType = $scope.userType;//
                   $scope.editForm.typesavailable = $scope.typesavailable;//
                   $scope.editForm.typeList = res.document.collections;
+
+                  $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
+
+                  console.log(res.document.types_available, res.document.collections, $scope.editForm.allCollections);
                   //angular.copy($scope.editForm, $scope.initialFormData);
 
                   $scope.$watch("editForm", function(newVal, oldVal){
@@ -226,13 +230,13 @@ export class CustomerController {
                   }, 400);
 
                   $scope.transformChip = function (chip) {
-                      if (angular.isObject(chip)) {
+                      /*if (angular.isObject(chip)) {
                         //return chip;
                         return { group: {}, title: { locale: chip.locale} };
-                      }
+                      }*/
                       //return { name: chip, type: 'new' }
-
-                      return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      //return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      return chip;
                   };
 
                   function createFilterFor(query) {
@@ -241,10 +245,10 @@ export class CustomerController {
                     let filteredItems = [];
 
                     function filterFn(item) {
-                      return (angular.lowercase(item.locale).indexOf(lowercaseQuery) !== -1);
+                      return (angular.lowercase(item.title.locale).indexOf(lowercaseQuery) !== -1);
                     };
 
-                    angular.forEach($scope.typesavailable, function (item) {
+                    angular.forEach(documentsService.allCollections, function (item) {
                       if (filterFn(item)) {
                         filteredItems.push(item);
                       }

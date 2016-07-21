@@ -123,6 +123,17 @@ class NavbarController {
           });
         }
       }
+      /*fill all collections(task)*/
+      if (!self.hideHeader && !documentsService.allCollections) {
+        let allCollections = documentsService.callDocumentAllCollections();
+        if (allCollections) {
+          allCollections.then(function (response) {
+            if (response.data) {
+              documentsService.allCollections = response.data.collections;
+            }
+          });
+        }
+      }
     });
 
 
