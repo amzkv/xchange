@@ -19,7 +19,7 @@
           <div flex>
             <div id="main_details">
               <!--md-raised-->
-              <md-button ng-model="docDetailsSections.mainBlock" class="category-button md-button-toggle md-raised">
+              <md-button ng-model="docDetailsSections.mainBlock" class="category-button md-button-toggle md-raised" ng-click="goTo('main_details');">
                 {{'Overview'}}
                 <!--<md-icon aria-label="main"
                          class="material-icons step md-toggle-icon" ng-class="docDetailsSections.mainBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -64,7 +64,7 @@
               </div>
             </div>
             <div id="doc_stats">
-              <md-button class="md-raised category-button">
+              <md-button class="md-raised category-button" ng-click="goTo('doc_stats');">
                 {{'Euro'}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.dataBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -104,7 +104,7 @@
               </div>
             </div>
             <div id="doc_collections">
-              <md-button class="md-raised category-button">
+              <md-button class="md-raised category-button" ng-click="goTo('doc_collections');">
                 {{'Collection'}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.collectionsBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -137,7 +137,7 @@
               </div>
             </div>
             <div id="doc_info">
-              <md-button class="md-raised category-button">
+              <md-button class="md-raised category-button" ng-click="goTo('doc_info');">
                 {{'Info'}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.infoBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -185,7 +185,7 @@
               </div>
             </div>
             <div id="doc_workflow">
-              <md-button class="md-raised category-button">
+              <md-button class="md-raised category-button" ng-click="goTo('doc_workflow');">
                 {{'Workflow'}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -249,7 +249,7 @@
               </div>
             </div>
             <div id="doc_fileview" style="height:350px;">
-              <md-button class="md-raised category-button">
+              <md-button class="md-raised category-button" ng-click="goTo('doc_fileview');">
                 {{'View'}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
