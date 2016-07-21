@@ -65,8 +65,16 @@ md-card-title-media {
 
 .mod-card-text {
   position: relative !important;
-  margin-top: 0px !important;
+  margin-top: 5px !important;
   font-size: 16px !important;
+}
+
+.card-image {
+  background-color: #fefefe;
+  max-height: 100%;
+  max-width: 100%;
+  box-shadow: 1px 0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
 }
 
 .list-item-title {
@@ -74,7 +82,7 @@ md-card-title-media {
   position: absolute;*/
   word-break: break-all;
   font-size: 18px;
-  line-height: 24px;
+  line-height: 16px;
   color: #310055;
   font-weight: bold;
 }
@@ -86,6 +94,17 @@ md-card-title-media {
   font-weight: 400;
   letter-spacing: .010em;
   line-height: 24px;
+}
+
+
+.card-collection-container {
+  padding-left: 5px;
+}
+
+.collection-item-card {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 10px;
 }
 
 .list-item-text-r1 {
@@ -179,6 +198,15 @@ md-card-title-media {
   .line-label {
     color: rgba(0,0,0,0.54);
     font-size:12px;
+    line-height: 40px;
+    /*display:block*/
+  }
+
+  .date-text {
+    line-height: 40px;
+    font-weight: 500;
+    padding-left: 64px;
+    font-size:14px;
     /*display:block*/
   }
 
@@ -241,7 +269,7 @@ md-card-title-media {
 
   .pdf-controls {
     position: fixed;
-    bottom: 10px;
+    bottom: 74px;
     left: 10px;
     height: 50px;
     width: 334px;
@@ -314,23 +342,37 @@ md-card-title-media {
   pdf-viewer {
     display: table;
     margin: 0 auto;
+    /*width: calc(100vw - 32px);*/
+    /*padding: 5px;*/
     canvas {
-      height: calc(100vh - 129px);/*64,48,5+5,6*/
-      margin: 5px;
-      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+      /*height: calc(100vh - 129px);*/
+      /*64,48,5+5,6*/
+      width: 100%;
+      margin: 5px 0px 69px 0px;
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    pdf-viewer {
+      canvas {
+        width: calc(100vw - 42px);
+      }
     }
   }
 
   .image-view {
     display: table;
     margin: 0 auto;
-    padding-top: 5px;
+    padding: 5px;
     img {
       display: block;
       width: 100%;
+      /*width: calc(100vw - 42px);*/
+      margin: 5px 0px 69px 0px;
       /*height: calc(100vh - 118px);*/
       height: auto;
-      box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
     }
   }
 
@@ -350,6 +392,7 @@ md-card-title-media {
     margin: 0;*/
     canvas {
       height: auto !important;
+      width: auto !important;
       margin: 5px;
     }
   }

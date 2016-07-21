@@ -37,7 +37,7 @@ export class CustomerController {
     $scope.baseUrl = baseUrl;
 
     $scope.groupFilter = function (collection) {
-      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type';
+      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type' && collection.group.value !== 'WORKFLOW';
     };
 
 
@@ -159,6 +159,7 @@ export class CustomerController {
 
                   var currentDate = new Date(res.document.date);
                   $scope.documentDate = currentDate;//*
+                  $scope.createdDate = new Date(res.document.created || res.document.date);//for future update?
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
                   $scope.documentName = res.document.filename;
@@ -200,6 +201,7 @@ export class CustomerController {
                   $scope.editForm.documentDate = currentDate;
                   $scope.editForm.currentDate = currentDate;
                   $scope.editForm.documentName = res.document.filename;
+                  $scope.editForm.createdDate = $scope.createdDate;//for future update?
                   $scope.editForm.payDate = new Date();
                   $scope.editForm.changedDate = new Date(updatedDate);
                   $scope.editForm.workflow = resp.data.document.workflow;//
@@ -207,6 +209,10 @@ export class CustomerController {
                   $scope.editForm.userType = $scope.userType;//
                   $scope.editForm.typesavailable = $scope.typesavailable;//
                   $scope.editForm.typeList = res.document.collections;
+
+                  $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
+
+                  console.log(res.document.types_available, res.document.collections, $scope.editForm.allCollections);
                   //angular.copy($scope.editForm, $scope.initialFormData);
 
                   $scope.$watch("editForm", function(newVal, oldVal){
@@ -224,13 +230,13 @@ export class CustomerController {
                   }, 400);
 
                   $scope.transformChip = function (chip) {
-                      if (angular.isObject(chip)) {
+                      /*if (angular.isObject(chip)) {
                         //return chip;
                         return { group: {}, title: { locale: chip.locale} };
-                      }
+                      }*/
                       //return { name: chip, type: 'new' }
-
-                      return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      //return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      return chip;
                   };
 
                   function createFilterFor(query) {
@@ -239,10 +245,10 @@ export class CustomerController {
                     let filteredItems = [];
 
                     function filterFn(item) {
-                      return (angular.lowercase(item.locale).indexOf(lowercaseQuery) !== -1);
+                      return (angular.lowercase(item.title.locale).indexOf(lowercaseQuery) !== -1);
                     };
 
-                    angular.forEach($scope.typesavailable, function (item) {
+                    angular.forEach(documentsService.allCollections, function (item) {
                       if (filterFn(item)) {
                         filteredItems.push(item);
                       }
@@ -318,7 +324,37 @@ export class CustomerController {
               $scope.unlockZoom = !$scope.unlockZoom;
             };
 
-            $scope.viewFile = function() {
+            /*$scope.$watch('showFile', function() {
+              console.log('showFile', $scope.showFile);
+            });
+
+            $scope.onViewFile = function(inview) {
+              if (inview) {
+                //$scope.viewFile();
+                $scope.showFile = true;
+              } else {
+                $scope.showFile = false;
+              }
+            };*/
+
+            $scope.onViewFile = function(inview) {
+              if (inview) {
+                //$scope.viewFile();
+                $scope.showControls = true;
+              } else {
+                $scope.showControls = false;
+              }
+              //console.log($scope.showControls);
+              return true;
+            };
+
+            $scope.documentLoaded = false;
+
+            $scope.viewFile = function(inview) {
+
+              if ($scope.documentLoading) {
+                return;
+              }
 
               function isPdfFile(filename) {
                 return (filename.length > 4)  ? (filename.indexOf('.pdf') === (filename.length - 4)) : false;
@@ -380,7 +416,8 @@ export class CustomerController {
                             $scope.documentLoading = false;
                             $scope.fileType = 'PDF';
                             $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
-                        });
+                            $scope.documentLoaded = true;
+                          });
 
                         //FileSaver.saveAs(data, fileName);
                       } else {
@@ -428,6 +465,7 @@ export class CustomerController {
                         img.src = $scope.documentUrl;
                         img.onload = function() {
                           $scope.documentLoading = false;
+                          $scope.documentLoaded = true;
 
                         };
 
@@ -443,15 +481,18 @@ export class CustomerController {
                       }
                       $scope.fileURL ='/';//todo
                       $scope.documentLoading = false;
-                        /*var img = document.getElementById('view_txt');
-                      img.src = $scope.documentUrl;
-                      img.onload = function() {
-                        $scope.documentLoading = false;
+                      $scope.documentLoaded = true;
 
-                      };*/
+                      /*var img = document.getElementById('view_txt');
+                    img.src = $scope.documentUrl;
+                    img.onload = function() {
+                      $scope.documentLoading = false;
+
+                    };*/
                     } else {
                       $scope.fileStatus = 'Unsupported';//todo
                       $scope.documentLoading = false;//TODO
+                      $scope.documentLoaded = true;
                     }
 
                 } else {

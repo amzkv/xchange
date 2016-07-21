@@ -46,7 +46,8 @@ angular.module('xchange', [
   'indexedDB',
   'ngFileSaver',
   'pdf',
-  'ngLocalize'
+  'ngLocalize',
+  'angular-inview'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)

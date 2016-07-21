@@ -311,6 +311,27 @@ export class DocumentsService {
     return this.baseAuthCall(configExtension, options, value, skipCache);
   }
 
+  callDocumentAllCollections(value, skipCache) {
+
+    skipCache = skipCache || false;
+    value = value || '<all>';
+
+    let configExtension = {
+      "collection": {
+        "method": "all"
+      }
+    };
+    let options = {
+      "fillBy" : "value",
+      "cacheName": "collections",
+      "itemKey": "collectionItems",
+      "dataKey": "collections"
+    };
+
+    return this.baseAuthCall(configExtension, options, value, skipCache);
+
+  }
+
   callAddCollectionItem(value, data) {
     //TODO: when ready
     let configExtension = {
