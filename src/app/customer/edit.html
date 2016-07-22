@@ -259,7 +259,7 @@
               <div in-view="onViewFile($inview) && !documentLoaded && viewFile($inview);">
                 <md-content style="/*overflow-y:scroll;*/" ng-click="focusControl($event);">
                   <!--<md-progress-linear ng-show="documentLoading" md-mode="indeterminate"></md-progress-linear>-->
-                  <div ng-if="documentLoading && fileType=='PDF'" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">
+                  <div ng-if="documentLoading && fileType!='IMG' && fileType!='TXT'" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">
                     <md-progress-circular  md-mode="indeterminate"></md-progress-circular>
                   </div>
                   <!--<div ng-if="documentLoading" style="text-align: center;padding: 25px 0 0 0;">Loading...</div>-->

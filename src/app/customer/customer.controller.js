@@ -22,6 +22,7 @@ export class CustomerController {
     $rootScope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
+    $scope.accessKey = $stateParams.accessKey;
 
     documentsService.startValue = ConfigService.getDocumentStartValue();
     documentsService.endValue = ConfigService.getDocumentOffsetValue();
@@ -104,7 +105,12 @@ export class CustomerController {
         endValue = endValue + offset;
         endValue = (endValue > $scope.totalDocCount) ? $scope.totalDocCount : endValue;
         //console.log(startValue, endValue);
-        var newdocs = documentsService.callDocumentByOneCollection($stateParams.customerId, startValue, endValue);
+        var newdocs;
+        if ($scope.accessKey) {
+          newdocs = documentsService.callDocumentByAccessKey($scope.accessKey, startValue, endValue);
+        } else {
+          newdocs = documentsService.callDocumentByOneCollection($stateParams.customerId, startValue, endValue);
+        }
         newdocs.then(function(resp) {
           //console.log('newdocs:', resp);
           if (resp.data.response && resp.data.response.success) {
@@ -136,8 +142,8 @@ export class CustomerController {
 
       let key = null;
       if ($stateParams.accessKey) {
-        key = $stateParams.accessKey;//this doesn't work yet, therefore return
-        return;
+        key = $stateParams.accessKey;
+        //return;
       }
       event.stopPropagation();
       $mdDialog.show({
@@ -212,7 +218,6 @@ export class CustomerController {
 
                   $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
 
-                  console.log(res.document.types_available, res.document.collections, $scope.editForm.allCollections);
                   //angular.copy($scope.editForm, $scope.initialFormData);
 
                   $scope.$watch("editForm", function(newVal, oldVal){
@@ -392,7 +397,7 @@ export class CustomerController {
                 //console.log('signed');
               }
 
-              documentsService.callFileById(documentId, docType).then(function(resp) {
+              documentsService.callFileById(documentId, docType, key).then(function(resp) {
                 if (resp && resp.data.file) {
 
                   let fileContents = resp.data.file.file;
@@ -549,7 +554,7 @@ export class CustomerController {
             };
 
             $scope.downloadDoc = function () {
-              documentsService.callFileById(documentId).then(function(resp) {
+              documentsService.callFileById(documentId, null, key).then(function(resp) {
                 if (resp && resp.data.file) {
                   let fileContents = resp.data.file.file;
                   let fileName = resp.data.file.filename;

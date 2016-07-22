@@ -39,6 +39,10 @@ export class DocumentsService {
   baseAuthCall(configExtension, options, value, skipCache) {
     let self = this;
     let deferred = this.$q.defer();
+    let accesskey = configExtension.auth ? configExtension.auth.accesskey : null;
+    if (accesskey) {
+      return self.baseCall(configExtension, options, value, skipCache);
+    }
 
     if (!self.CheckAuthService.userid) {
       self.CheckAuthService.getUser().then(function(userResponse) {
@@ -401,7 +405,7 @@ export class DocumentsService {
   callDocumentByAccessKey(accessKey, start, end, skipCache) {
 
 
-    skipCache = true;//for now
+    //skipCache = true;//for now
 
     let configExtension =
     {
@@ -484,7 +488,7 @@ export class DocumentsService {
     return this.baseAuthCall(configExtension, options, value, true);
   }
 
-  callFileById(id, type) {
+  callFileById(id, type, accessKey) {
     /*
     * types:
     *  "ORIGINAL", "THUMBNAIL", "SIGNATURE", "SIGNEDPDF", "REPORT", "OPENTRANS2"
@@ -499,6 +503,12 @@ export class DocumentsService {
           "filetype" :  type
       }
     };
+
+    if (accessKey) {
+      configExtension.auth = {
+        "accesskey": { "longkey": accessKey }
+      }
+    }
 
     let options = {
       "itemKey": "fileItems",
