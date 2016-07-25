@@ -28,6 +28,7 @@ import { TruncateFilter } from './components/truncate/truncate.filter';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
 import { CompareTo } from './components/compareTo/compareTo.directive';
+import { DocumentDataValidate } from './components/documentDataValidate/documentDataValidate.directive';
 import { langConf } from './languages/langConf';
 
 angular.module('xchange', [
@@ -79,5 +80,6 @@ angular.module('xchange', [
   .directive('validateEmail', ValidateEmail)
   .directive('appTitle', AppTitle)
   .directive('compareTo', CompareTo)
+  .directive('documentDataValidate', DocumentDataValidate)
   .directive('flyingButton', FlyingButtonDirective)
   .filter('truncate', TruncateFilter);

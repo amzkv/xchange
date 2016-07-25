@@ -10,6 +10,12 @@
   height: auto !important;
 }
 
+.edit-doc-error {
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
 .footer-bar {
   display: block;
 }
@@ -466,6 +472,17 @@ md-card-title-media {
       border: 1px solid $primary-color;
     }
   }
+
+ .control-disabled, .control-disabled:hover {
+   i {
+     opacity: 0.4;
+   }
+   cursor: auto;
+   opacity: 0.5;
+   background: linear-gradient(to bottom,#fff 0,#f8f9f9 100%);
+   color: $font-color;
+   border: 1px solid #dcdcdc;
+ }
 
   .doc-control-container {
     width: 240px;

@@ -1,5 +1,5 @@
 <md-dialog class="edit-doc" style="top:0;width:100%;height:100%;min-width:100%;min-height:100%;overflow-y:hidden" aria-label="documentEdit" ng-cloak>
-  <form>
+  <form id="saveForm" name="saveForm">
     <md-toolbar style="position:relative;">
       <div class="md-toolbar-tools">
         <h2>{{documentTitle}}</h2>
@@ -32,19 +32,25 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Title'}}</label>
-                        <input type="text" name="title" data-ng-model="editForm.title" class="profile-field"/>
+                        <input type="text" name="title" data-ng-model="editForm.title" document-data-validate="documentTitle" class="profile-field"/>
+                        <div ng-messages="saveForm.title.$error">
+                          <div class="" ng-message="documentDataValidate">Title is not valid (Length should be more than 0 and less than 256)</div>
+                        </div>
                       </md-input-container>
                     </div>
                     <div layout="row" layout-align="left center">
                       <div class="documentIcon">
                         <span style="font-size:13px;font-weight:600;display:block">{{'Date'}}</span>
-                        <md-datepicker ng-model="editForm.documentDate" md-placeholder="Enter date" aria-label="x"></md-datepicker>
+                        <md-datepicker name="date" ng-model="editForm.documentDate" document-data-validate="documentDate" md-placeholder="Enter date" aria-label="documentDate"></md-datepicker>
+                        <div ng-messages="saveForm.date.$error">
+                          <div class="edit-doc-error" ng-message="documentDataValidate">Date is not valid</div>
+                        </div>
                       </div>
                     </div>
                     <div layout="row" layout-align="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Type'}}</label>
-                        <md-select ng-model="editForm.type.value">
+                        <md-select name="type" ng-model="editForm.type.value">
                           <md-option ng-repeat="type in editForm.types_available" value="{{type.value}}">
                             {{type.locale}}
                           </md-option>
@@ -53,11 +59,11 @@
                     </div>
                     <md-input-container style="margin-top:28px">
                       <label class="profile-lable">{{'Work Status'}}</label>
-                      <input type="text" name="displayname" data-ng-model="editForm.workstatus" class="profile-field"  readonly="readonly"/>
+                      <input type="text" name="workstatus" data-ng-model="editForm.workstatus" class="profile-field"  readonly="readonly"/>
                     </md-input-container>
                     <div style="margin-top:7px">
                       <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;" class="profile-lable">{{'Description'}}</label>
-                      <textarea data-ng-model="editForm.description" columns="1" name="remarks" style="height:15.4vh !important;width:300px">{{editForm.description}}</textarea>
+                      <textarea data-ng-model="editForm.text" columns="1" name="text" style="height:15.4vh !important;width:300px">{{editForm.text}}</textarea>
                     </div>
                   </md-content>
                 </div>
@@ -77,26 +83,35 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Supplier ID'}}</label>
-                        <input type="text"  name="title" data-ng-model="editForm.supplierID" class="profile-field"/>
+                        <input type="text"  name="supplierId" data-ng-model="editForm.supplierID" class="profile-field"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Net Amount'}}</label>
-                        <input type="text"  name="title" value="{{editForm.netvaluegoods|currency:''}}" class="profile-field" readonly="readonly"/>
+                        <input type="text"  name="netvaluegoods" ng-model="editForm.netvaluegoods" document-data-validate="documentAmount" class="profile-field"/>
+                        <div ng-messages="saveForm.netvaluegoods.$error">
+                          <div class="" ng-message="documentDataValidate">Wrong Net Amount value</div>
+                        </div>
                       </md-input-container>
                     </div>
 
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Tax Amount'}}</label>
-                        <input type="text"  name="title" value="{{editForm.totaltax | currency:''}}" class="profile-field"  readonly="readonly"/>
+                        <input type="text"  name="totaltax" ng-model="editForm.totaltax" document-data-validate="documentAmount" class="profile-field"/>
+                        <div ng-messages="saveForm.totaltax.$error">
+                          <div class="" ng-message="documentDataValidate">Wrong Tax Amount value</div>
+                        </div>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Total Amount'}}</label>
-                        <input type="text"  name="title" value="{{editForm.totalamount | currency:''}}" class="profile-field"  readonly="readonly"/>
+                        <input type="text"  name="totalamount" ng-model="editForm.totalamount" document-data-validate="documentAmount" class="profile-field"/>
+                        <div ng-messages="saveForm.totalamount.$error">
+                          <div class="" ng-message="documentDataValidate">Wrong Total Amount value</div>
+                        </div>
                       </md-input-container>
                     </div>
                   </md-content>
@@ -113,9 +128,10 @@
               </md-button>
               <div ng-class="docDetailsSections.collectionsBlock ? 'block-expanded' : 'block-collapsed'">
                 <div ng-cloak>
-                    <md-chips ng-model="editForm.typeList"
+                    <md-chips name="collections" ng-model="editForm.typeList"
                               md-autocomplete-snap
                               md-require-match="true"
+                              md-on-remove="removeChip($chip)"
                               md-transform-chip="transformChip($chip)">
                       <md-autocomplete md-selected-item="selectedItem"
                                        md-search-text="searchText"
@@ -150,19 +166,19 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Filename'}}</label>
-                        <input type="text" name="title" data-ng-model="editForm.filename" class="profile-field" ng-readonly="true"/>
+                        <input type="text" name="filename" data-ng-model="editForm.filename" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Signature Filename'}}</label>
-                        <input type="text" name="title"  data-ng-model="editForm.filenamesig" class="profile-field" ng-readonly="true"/>
+                        <input type="text" name="filenamesig"  data-ng-model="editForm.filenamesig" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Creator'}}</label>
-                        <input type="text" name="title" data-ng-model="editForm.creator_name" class="profile-field" ng-readonly="true"/>
+                        <input type="text" name="creator" data-ng-model="editForm.creator_name" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout-align="left center">
@@ -262,6 +278,7 @@
                   <div ng-if="documentLoading && fileType!='IMG' && fileType!='TXT'" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">
                     <md-progress-circular  md-mode="indeterminate"></md-progress-circular>
                   </div>
+                  <div ng-if="documentError" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">Error loading the file</div>
                   <!--<div ng-if="documentLoading" style="text-align: center;padding: 25px 0 0 0;">Loading...</div>-->
                   <pdf-viewer ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'"
                               delegate-handle="pdf-container"
@@ -309,7 +326,7 @@
                                  ng-maxlength="3"
                                  min="1"
                                  max="{{pdfTotalPages}}"
-                                 name="title"
+                                 name="page"
                                  ng-model="pdfState.page"
                                  ng-keyup="pdfGoToPage(pdfState.page)"
                                  class="profile-field"
@@ -334,7 +351,7 @@
               <div class="doc-control-header">
                 {{'Actions'}}
               </div>
-              <div class="doc-control-button" ng-show="formChanged">
+              <div class="doc-control-button" ng-class="saveForm.$valid && formChanged ? '' : 'control-disabled'" ng-click="formChanged && save(editForm);">
                 <i class="mdi mdi-content-save" role="button"></i>
                 {{'Save'}}
               </div>

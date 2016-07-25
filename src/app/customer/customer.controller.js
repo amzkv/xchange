@@ -162,7 +162,7 @@ export class CustomerController {
                   $scope.documentTitle = resp.data.document.title;//*
                   $scope.selectedItem = {};//$scope.rowDocument;
                   $scope.searchText = "";
-
+                  //console.log(res.document.date);
                   var currentDate = new Date(res.document.date);
                   $scope.documentDate = currentDate;//*
                   $scope.createdDate = new Date(res.document.created || res.document.date);//for future update?
@@ -204,6 +204,7 @@ export class CustomerController {
                   //
                   $scope.editForm = res.document;
                   $scope.editForm.documentTitle = resp.data.document.title;
+                  $scope.editForm.text = resp.data.document.text;
                   $scope.editForm.documentDate = currentDate;
                   $scope.editForm.currentDate = currentDate;
                   $scope.editForm.documentName = res.document.filename;
@@ -241,7 +242,12 @@ export class CustomerController {
                       }*/
                       //return { name: chip, type: 'new' }
                       //return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      this.saveForm.collections.$dirty = true;//??
                       return chip;
+                  };
+
+                  $scope.removeChip = function (chip) {
+                    this.saveForm.collections.$dirty = true;//??
                   };
 
                   function createFilterFor(query) {
@@ -502,6 +508,9 @@ export class CustomerController {
 
                 } else {
                   toastr.error('Unable to fetch file data.', 'Error');
+                  $scope.documentLoading = false;//TODO
+                  $scope.documentLoaded = true;
+                  $scope.documentError = true;
                 }
               });
             };
@@ -569,6 +578,94 @@ export class CustomerController {
                   toastr.error('Unable to fetch file data.', 'Error');
                 }
               });
+              //$mdDialog.hide();
+            };
+
+            /*$scope.fixAmount = function(field,val) {
+              $scope.saveForm[field].$setViewValue((+val).toFixed(2));
+            };*/
+
+            $scope.save = function (editForm) {
+              function prepareCollections(collections) {
+                let colsToSave = [];
+                angular.forEach(collections, function (item) {
+                  if (item.id) {
+                    colsToSave.push({"id": item.id});
+                    //colsToSave.push(item);
+                  }
+                });
+                  //return collections;
+                  return colsToSave;
+              }
+
+              //console.log('editForm', editForm, this.saveForm);
+              let form = this.saveForm;
+              let permissionType = 'change';
+              let data = {};
+              if (editForm.authorized && editForm.authorized.indexOf(permissionType) !== -1 && form.$valid) {
+                //title
+                if (form.title.$dirty && form.title.$modelValue) {
+                  let title = form.title.$modelValue;
+                  data.title = title;
+                }
+                if (form.date && form.date.$dirty && form.date.$modelValue) {
+                  let date = form.date.$modelValue;
+                  let formattedDate = $filter('date')(date, 'yyyy-MM-dd');
+                  data.date = formattedDate;
+                }
+
+                /*if (form.title.$dirty && form.title.$modelValue) {
+                  let workstatus = form.workstatus.$modelValue;
+                  data.workstatus = workstatus;
+                }*/
+
+                if (form.type.$dirty && form.type.$modelValue) {
+                  let type = form.type.$modelValue;
+                  data.type = {'value' : type};
+                }
+
+                if (form.text.$dirty) {
+                  let text = form.text.$modelValue;
+                  data.text = text;
+                }
+
+                if (form.netvaluegoods.$dirty && form.netvaluegoods.$modelValue) {
+                  let netvaluegoods = form.netvaluegoods.$modelValue;
+                  data.netvaluegoods = netvaluegoods;
+                }
+
+                if (form.totalamount.$dirty && form.totalamount.$modelValue) {
+                  let totalamount = form.totalamount.$modelValue;
+                  data.totalamount = totalamount;
+                }
+
+                if (form.totaltax.$dirty && form.totaltax.$modelValue) {
+                  let totaltax = form.totaltax.$modelValue;
+                  data.totaltax = totaltax;
+                }
+
+                if (form.collections.$dirty && form.collections.$modelValue) {
+                  let collections = form.collections.$modelValue;
+                  data.collections = prepareCollections(collections);
+                }
+                let savedata = documentsService.callSaveDocumentById(documentId, data, key);
+                savedata.then(function(saveResp) {
+
+                  //console.log(saveResp);
+                  if (saveResp.data && saveResp.data.response && saveResp.data.response.errorcode == '200') {
+                    toastr.success('File has been updated successfully', 'Success');//translate
+                    //clear view document cache
+                    documentsService.callDocumentById(documentId, key, true);//reload, TODO: just clear db
+                    //clear documents list cache
+                    documentsService.cleanupRelatedLists('documents',documentId);//TODO: investigate, lists are not updated from service
+                  } else {
+                    //?
+                    toastr.error('Unable to save file' + ':' + saveResp.error, 'Error');//translate
+                  }
+                });
+              }
+              /*documentsService.callSaveDocumentById(documentId, null, key).then(function(resp) {
+              });*/
               //$mdDialog.hide();
             }
           },
