@@ -89,7 +89,7 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Net Amount'}}</label>
-                        <input type="text"  name="netvaluegoods" ng-model="editForm.netvaluegoods" document-data-validate="documentAmount" class="profile-field"/>
+                        <input type="text"  name="netvaluegoods" ng-model="editForm.netvaluegoods" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.netvaluegoods.$error">
                           <div class="" ng-message="documentDataValidate">Wrong Net Amount value</div>
                         </div>
@@ -99,7 +99,7 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Tax Amount'}}</label>
-                        <input type="text"  name="totaltax" ng-model="editForm.totaltax" document-data-validate="documentAmount" class="profile-field"/>
+                        <input type="text"  name="totaltax" ng-model="editForm.totaltax" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.totaltax.$error">
                           <div class="" ng-message="documentDataValidate">Wrong Tax Amount value</div>
                         </div>
@@ -108,7 +108,7 @@
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
                         <label class="profile-lable">{{'Total Amount'}}</label>
-                        <input type="text"  name="totalamount" ng-model="editForm.totalamount" document-data-validate="documentAmount" class="profile-field"/>
+                        <input type="text"  name="totalamount" ng-model="editForm.totalamount" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.totalamount.$error">
                           <div class="" ng-message="documentDataValidate">Wrong Total Amount value</div>
                         </div>

@@ -164,7 +164,18 @@ export class CustomerController {
                   $scope.searchText = "";
                   //console.log(res.document.date);
                   var currentDate = new Date(res.document.date);
-                  $scope.documentDate = currentDate;//*
+                  //convert if invalid
+                  //console.log(currentDate, res.document.date, isNaN(Date.parse(currentDate)));
+                  if (isNaN(Date.parse(currentDate))) {
+                    //yyyyMMdd case
+                    let datePattern = /(\d{4})(\d{2})(\d{2})/;
+                    $scope.documentDate = new Date(res.document.date.replace(datePattern, '$1-$2-$3'));
+                    //console.log($scope.documentDate);
+                  } else {
+                    $scope.documentDate = currentDate;//*
+                  }
+
+
                   $scope.createdDate = new Date(res.document.created || res.document.date);//for future update?
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
@@ -205,8 +216,8 @@ export class CustomerController {
                   $scope.editForm = res.document;
                   $scope.editForm.documentTitle = resp.data.document.title;
                   $scope.editForm.text = resp.data.document.text;
-                  $scope.editForm.documentDate = currentDate;
-                  $scope.editForm.currentDate = currentDate;
+                  $scope.editForm.documentDate = $scope.documentDate;
+                  $scope.editForm.currentDate = $scope.documentDate;
                   $scope.editForm.documentName = res.document.filename;
                   $scope.editForm.createdDate = $scope.createdDate;//for future update?
                   $scope.editForm.payDate = new Date();
