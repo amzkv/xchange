@@ -7,12 +7,22 @@
         <!--<md-button class="md-icon-button" style="padding-left: 15px;" ng-click="downloadDoc()">
           <i class="material-icons">save</i>
         </md-button>-->
-        <md-button class="md-icon-button" ng-click="cancel()">
+        <md-button class="md-icon-button" ng-click="cancel($event)">
           <i class="material-icons">close</i>
         </md-button>
       </div>
     </md-toolbar>
-
+    <!--working draft-->
+    <div ng-if="showSaveConfirmation" class="save-confirmation">
+      <span class="save-confirmation-text" style="">Save changes?</span>
+      <md-button class="md-icon-button" ng-click="save(editForm);hideDialog($event);">
+        <i class="material-icons" style="color: #00AA00">done</i>
+      </md-button>
+      <md-button class="md-icon-button" ng-click="hideDialog($event)">
+        <i class="material-icons" style="color: #aa0000">cancel</i>
+      </md-button>
+      <!--save(editForm)-->
+    </div>
     <div style="overflow-y:scroll;height: 100vh;" in-view-container>
       <div style="/*height:calc(100vh - 150px);*/">
         <md-content layout="row">

@@ -146,6 +146,9 @@ export class CustomerController {
         //return;
       }
       event.stopPropagation();
+      $scope.etc = function() {
+        return !$scope.formChanged;
+      };
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
@@ -297,8 +300,33 @@ export class CustomerController {
               $scope.sideMenu = !$scope.sideMenu;
             };
 
-            $scope.cancel = function () {
+            $scope.hideDialog = function() {
               $mdDialog.hide();
+            };
+
+            $scope.cancel = function (ev) {
+              /*if ($scope.formChanged) {
+                var confirm = $mdDialog.confirm()
+                  .title('Save changes and quit?')
+                  .textContent('Modified data found')
+                  .ariaLabel('Save changes')
+                  .targetEvent(ev)
+                  .ok('Save')
+                  .cancel('Cancel');
+                $mdDialog.show(confirm).then(function() {
+                  //$scope.status = 'You decided to get rid of your debt.';
+                }, function() {
+                  //$scope.status = 'You decided to keep your debt.';
+                });
+              } else {
+                //$mdDialog.hide();
+              }*/
+
+              if ($scope.formChanged) {
+                $scope.showSaveConfirmation = true;
+              } else {
+               $mdDialog.hide();
+              }
             };
 
             $scope.zoomIn = function() {
@@ -669,6 +697,12 @@ export class CustomerController {
                     documentsService.callDocumentById(documentId, key, true);//reload, TODO: just clear db
                     //clear documents list cache
                     documentsService.cleanupRelatedLists('documents',documentId);//TODO: investigate, lists are not updated from service
+
+                    $scope.saveForm.$setPristine();
+                    $scope.saveForm.$setSubmitted();
+                    $scope.formChanged = false;
+                    //console.log($scope.saveForm);
+
                   } else {
                     //?
                     toastr.error('Unable to save file' + ':' + saveResp.error, 'Error');//translate
@@ -685,6 +719,7 @@ export class CustomerController {
           /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
+          escapeToClose: false,
           fullscreen: true,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
