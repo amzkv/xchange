@@ -146,6 +146,9 @@ export class CustomerController {
         //return;
       }
       event.stopPropagation();
+      $scope.etc = function() {
+        return !$scope.formChanged;
+      };
       $mdDialog.show({
           controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
@@ -162,9 +165,20 @@ export class CustomerController {
                   $scope.documentTitle = resp.data.document.title;//*
                   $scope.selectedItem = {};//$scope.rowDocument;
                   $scope.searchText = "";
-
+                  //console.log(res.document.date);
                   var currentDate = new Date(res.document.date);
-                  $scope.documentDate = currentDate;//*
+                  //convert if invalid
+                  //console.log(currentDate, res.document.date, isNaN(Date.parse(currentDate)));
+                  if (isNaN(Date.parse(currentDate))) {
+                    //yyyyMMdd case
+                    let datePattern = /(\d{4})(\d{2})(\d{2})/;
+                    $scope.documentDate = new Date(res.document.date.replace(datePattern, '$1-$2-$3'));
+                    //console.log($scope.documentDate);
+                  } else {
+                    $scope.documentDate = currentDate;//*
+                  }
+
+
                   $scope.createdDate = new Date(res.document.created || res.document.date);//for future update?
                   $scope.currentDate = currentDate;//(languageCode == "de" ? moment(currentDate).format(configService.DateFormatInGerman) : moment(currentDate).format(configService.DateFormatInEnglish));
                   var updatedDate = res.document.updated;//(languageCode == "de" ? moment(res.document.updated).format(configService.DateFormatInGerman) : moment(res.document.updated).format(configService.DateFormatInEnglish));
@@ -204,8 +218,9 @@ export class CustomerController {
                   //
                   $scope.editForm = res.document;
                   $scope.editForm.documentTitle = resp.data.document.title;
-                  $scope.editForm.documentDate = currentDate;
-                  $scope.editForm.currentDate = currentDate;
+                  $scope.editForm.text = resp.data.document.text;
+                  $scope.editForm.documentDate = $scope.documentDate;
+                  $scope.editForm.currentDate = $scope.documentDate;
                   $scope.editForm.documentName = res.document.filename;
                   $scope.editForm.createdDate = $scope.createdDate;//for future update?
                   $scope.editForm.payDate = new Date();
@@ -241,7 +256,12 @@ export class CustomerController {
                       }*/
                       //return { name: chip, type: 'new' }
                       //return { group: { locale: chip.value}, title: { locale: chip.locale} };
+                      this.saveForm.collections.$dirty = true;//??
                       return chip;
+                  };
+
+                  $scope.removeChip = function (chip) {
+                    this.saveForm.collections.$dirty = true;//??
                   };
 
                   function createFilterFor(query) {
@@ -280,8 +300,33 @@ export class CustomerController {
               $scope.sideMenu = !$scope.sideMenu;
             };
 
-            $scope.cancel = function () {
+            $scope.hideDialog = function() {
               $mdDialog.hide();
+            };
+
+            $scope.cancel = function (ev) {
+              /*if ($scope.formChanged) {
+                var confirm = $mdDialog.confirm()
+                  .title('Save changes and quit?')
+                  .textContent('Modified data found')
+                  .ariaLabel('Save changes')
+                  .targetEvent(ev)
+                  .ok('Save')
+                  .cancel('Cancel');
+                $mdDialog.show(confirm).then(function() {
+                  //$scope.status = 'You decided to get rid of your debt.';
+                }, function() {
+                  //$scope.status = 'You decided to keep your debt.';
+                });
+              } else {
+                //$mdDialog.hide();
+              }*/
+
+              if ($scope.formChanged) {
+                $scope.showSaveConfirmation = true;
+              } else {
+               $mdDialog.hide();
+              }
             };
 
             $scope.zoomIn = function() {
@@ -502,6 +547,9 @@ export class CustomerController {
 
                 } else {
                   toastr.error('Unable to fetch file data.', 'Error');
+                  $scope.documentLoading = false;//TODO
+                  $scope.documentLoaded = true;
+                  $scope.documentError = true;
                 }
               });
             };
@@ -570,6 +618,100 @@ export class CustomerController {
                 }
               });
               //$mdDialog.hide();
+            };
+
+            /*$scope.fixAmount = function(field,val) {
+              $scope.saveForm[field].$setViewValue((+val).toFixed(2));
+            };*/
+
+            $scope.save = function (editForm) {
+              function prepareCollections(collections) {
+                let colsToSave = [];
+                angular.forEach(collections, function (item) {
+                  if (item.id) {
+                    colsToSave.push({"id": item.id});
+                    //colsToSave.push(item);
+                  }
+                });
+                  //return collections;
+                  return colsToSave;
+              }
+
+              //console.log('editForm', editForm, this.saveForm);
+              let form = this.saveForm;
+              let permissionType = 'change';
+              let data = {};
+              if (editForm.authorized && editForm.authorized.indexOf(permissionType) !== -1 && form.$valid) {
+                //title
+                if (form.title.$dirty && form.title.$modelValue) {
+                  let title = form.title.$modelValue;
+                  data.title = title;
+                }
+                if (form.date && form.date.$dirty && form.date.$modelValue) {
+                  let date = form.date.$modelValue;
+                  let formattedDate = $filter('date')(date, 'yyyy-MM-dd');
+                  data.date = formattedDate;
+                }
+
+                /*if (form.title.$dirty && form.title.$modelValue) {
+                  let workstatus = form.workstatus.$modelValue;
+                  data.workstatus = workstatus;
+                }*/
+
+                if (form.type.$dirty && form.type.$modelValue) {
+                  let type = form.type.$modelValue;
+                  data.type = {'value' : type};
+                }
+
+                if (form.text.$dirty) {
+                  let text = form.text.$modelValue;
+                  data.text = text;
+                }
+
+                if (form.netvaluegoods.$dirty && form.netvaluegoods.$modelValue) {
+                  let netvaluegoods = form.netvaluegoods.$modelValue;
+                  data.netvaluegoods = netvaluegoods;
+                }
+
+                if (form.totalamount.$dirty && form.totalamount.$modelValue) {
+                  let totalamount = form.totalamount.$modelValue;
+                  data.totalamount = totalamount;
+                }
+
+                if (form.totaltax.$dirty && form.totaltax.$modelValue) {
+                  let totaltax = form.totaltax.$modelValue;
+                  data.totaltax = totaltax;
+                }
+
+                if (form.collections.$dirty && form.collections.$modelValue) {
+                  let collections = form.collections.$modelValue;
+                  data.collections = prepareCollections(collections);
+                }
+                let savedata = documentsService.callSaveDocumentById(documentId, data, key);
+                savedata.then(function(saveResp) {
+
+                  //console.log(saveResp);
+                  if (saveResp.data && saveResp.data.response && saveResp.data.response.errorcode == '200') {
+                    toastr.success('File has been updated successfully', 'Success');//translate
+                    //clear view document cache
+                    documentsService.callDocumentById(documentId, key, true);//reload, TODO: just clear db
+                    //clear documents list cache
+                    documentsService.cleanupRelatedLists('documents',documentId);//TODO: investigate, lists are not updated from service
+
+                    $scope.saveForm.$setPristine();
+                    $scope.saveForm.$setSubmitted();
+                    $scope.formChanged = false;
+                    //console.log($scope.saveForm);
+
+                  } else {
+                    //?
+                    toastr.error('Unable to save file' + ':' + saveResp.error, 'Error');//translate
+                  }
+                });
+              }
+              /*documentsService.callSaveDocumentById(documentId, null, key).then(function(resp) {
+              });*/
+              //$mdDialog.hide();
             }
           },
           templateUrl: 'app/customer/edit.html',
@@ -577,6 +719,7 @@ export class CustomerController {
           /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
+          escapeToClose: false,
           fullscreen: true,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';

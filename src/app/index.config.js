@@ -7,7 +7,8 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
   toastrConfig.allowHtml = true;
   toastrConfig.timeOut = 3000;
   toastrConfig.positionClass = 'toast-bottom-right';
-  toastrConfig.preventDuplicates = true;
+  toastrConfig.preventDuplicates = false;
+  /*toastrConfig.maxOpened = 1;*/
   toastrConfig.progressBar = true;
 
   /*$mdThemingProvider.theme('default')

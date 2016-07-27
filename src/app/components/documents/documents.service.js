@@ -437,7 +437,9 @@ export class DocumentsService {
     return this.baseCall(configExtension, options, accessKey, skipCache);//id??
   }
 
-  callDocumentById(id, accessKey) {
+  callDocumentById(id, accessKey, skipCache) {
+
+    skipCache = skipCache || false;
 
     let configExtension =
     {
@@ -460,7 +462,130 @@ export class DocumentsService {
       "useAllData": true,*/
     };
 
-    return this.baseAuthCall(configExtension, options, id);//id??
+    return this.baseAuthCall(configExtension, options, id, skipCache);//id??
+  }
+
+  callSaveDocumentById(id, data) {
+
+    let configExtension =
+    {
+      "document": {
+        "method" : "change",//TODO rename to change
+        "id" : id
+      }
+    };
+
+    if (data) {
+      if (data.persist) {
+        configExtension.document.persist = data.persist;// "lasting" is default. If "long-lasting" it can not be deleted or modified to a different "persist" type.
+      }
+      if (data.no) {
+        configExtension.document.no = data.no; // a running number for all documents of type receipt+invoice
+      }
+      if (data.title) {
+        configExtension.document.title = data.title; // optional title, if null we use the filename without extention
+      }
+      if (data.type && data.type.value) {
+        configExtension.document.type = data.type; //{ "value":"INVOICE" }, optional document type
+      }
+      if (data.date) {
+        configExtension.document.date = data.date; // "2014-01-01", optional document date, if null system_date or recognized document date is used
+      }
+      if (angular.isDefined(data.text)) {
+        configExtension.document.text = data.text;// optional free text
+      }
+      //receipt_status dropped
+      if (data.netvaluegoods) {
+        configExtension.document.netvaluegoods = data.netvaluegoods; //0.0, optional net in money
+      }
+      if (data.totalamount) {
+        configExtension.document.totalamount = data.totalamount;//0.0, optional gross in money
+      }
+      if (data.totaltax) {
+        configExtension.document.totaltax = data.totaltax; //0.0, optional tax in money
+      }
+      if (data.payment_days) {
+        configExtension.document.payment_days = data.payment_days;//14, an optional number of days payment terms on invoices
+      }
+      if (data.payment_date) {
+        configExtension.document.payment_date = data.payment_date;//"2014-01-15", an optional payment term date on invoices (=date+payment_days=payment_date)
+      }
+      if (data.discount_factor) {
+        configExtension.document.discount_factor = data.discount_factor; //0.3, optional for 3% discount on payment before payment_date
+      }
+      if (data.post_date) {
+        configExtension.document.post_date = data.post_date; //"2014-01-15", optional date when money transfer hit account
+      }
+      if (data.deleted) {
+        configExtension.document.deleted = data.deleted; // "timestamp", if this is set this document moves to the trash. From trash it can be deleted or recovered
+      }
+      /*collections sample:*/
+
+      /*
+        "collections" : [
+            // collection tagging part is optional.
+            // If not avail -> no change on collections.
+            // if empty, all collections other then "Monat", "Type" and "NEW" are removed
+        {
+              "group" : {
+                  "value" : „INBOX“
+              },
+              "title" : {
+                  "value" : „LETTERBOX“
+              }
+        },
+          // any new or existing collection. service manage Insert/Delete
+          {
+            "id" : 4
+          }, // ids only since collection must be avail on doc change
+          {
+            "id" : 13
+          }, {
+            "id" : 7
+          }, {
+            "id" : 9
+          }
+        ]
+      */
+
+      if (data.collections && angular.isArray(data.collections)) {
+        configExtension.document.collections = data.collections; // see above
+      }
+
+      /*"workflow" : { } // see wiki/WorkflowNotes*/
+      if (data.workflow) {
+        configExtension.document.workflow = data.workflow; // {}??? // see wiki/WorkflowNotes
+      }
+    }
+
+    /*if (accessKey) {
+      configExtension.auth = {
+        "accesskey": { "longkey": accessKey }
+      }
+    }*/
+
+    //???
+    let options = {
+      "itemKey": "documentItem",
+      "dataKey": "document"/*,
+       "useAllData": true,*/
+    };
+
+    //console.log(configExtension, options, id, true);
+    //return;
+
+    return this.baseAuthCall(configExtension, options, id, true);
+  }
+
+  cleanupRelatedLists(storeName, documentId) {
+    /*let subSetName = 'documents';//??
+    let innerId = 'id';*/
+    let cleanupOptions = {
+      'subSetName': 'documents',
+      'innerIdName' : 'id',
+      'innerIdValue' : documentId
+    };
+    this.storageService.cleanSelectedRecords(storeName, cleanupOptions);
   }
 
   searchDocument(value, start, end, skipCache) {

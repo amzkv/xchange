@@ -24,6 +24,41 @@ export class StorageService {
     return deferred.promise;
   }
 
+  cleanSelectedRecords(storeName, options) {
+    if (!storeName) {
+      return;
+    }
+    let recordIds = [];
+    let self = this;
+    this.getAllRecords(storeName).then(function(topics) {
+      angular.forEach(topics, function(item) {
+        if (item[options.subSetName]) {
+          angular.forEach(item[options.subSetName], function(subitem) {
+            if (subitem[options.innerIdName] == options.innerIdValue) {
+              if (recordIds.indexOf(item.id) == -1) {
+                recordIds.push(item.id);
+              }
+            }
+          });
+        }
+      });
+
+      if (recordIds.length>0) {
+        angular.forEach(recordIds, function(recordId) {
+          self.deleteSingleRecord(storeName, recordId);
+        });
+      }
+    });
+  }
+
+  /*this.$indexedDB.openStore('people', function(store){
+    store.getAllKeys().then(function(e){
+      $scope.primaryKeys = e;
+    });
+  });*/
+
+
+
   getSingleRecordPromise(storeName, name, subKey) {
     if (!storeName || !name) {
       return;

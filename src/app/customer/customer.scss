@@ -10,6 +10,12 @@
   height: auto !important;
 }
 
+.edit-doc-error {
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(221,44,0);
+}
+
 .footer-bar {
   display: block;
 }
@@ -19,7 +25,8 @@
 }*/
 
 .ie-fix {
-  height:320px;
+  /*height:266px;*/
+  display: block;
 }
 
 .card-upper-bar {
@@ -59,7 +66,7 @@ md-card-title-media {
 }
 
 .mod-card-title {
-  padding-left:20px;
+  padding-left:16px;
   padding-top:0px;
 }
 
@@ -104,7 +111,7 @@ md-card-title-media {
 .collection-item-card {
   display: inline-block;
   font-size: 10px;
-  line-height: 10px;
+  line-height: 14px;
 }
 
 .list-item-text-r1 {
@@ -467,6 +474,17 @@ md-card-title-media {
     }
   }
 
+ .control-disabled, .control-disabled:hover {
+   i {
+     opacity: 0.4;
+   }
+   cursor: auto;
+   opacity: 0.5;
+   background: linear-gradient(to bottom,#fff 0,#f8f9f9 100%);
+   color: $font-color;
+   border: 1px solid #dcdcdc;
+ }
+
   .doc-control-container {
     width: 240px;
     padding: 15px;
@@ -496,6 +514,27 @@ md-card-title-media {
   width:100%;
   justify-content:space-between;
   font-size:1.3em
+}
+
+.save-confirmation {
+  position: absolute;
+  background-color: $background-color;
+  top: 5px;
+  right: 5px;
+  z-index: 101;
+  border: 1px solid #aaaaaa;
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+
+  .save-confirmation-text {
+    display: inline-block;
+    padding: 0 6px 2px 6px;
+    margin: 3px;
+    font-size: 14px;
+    overflow: hidden;
+    outline: none;
+    line-height: 14px;
+  }
 }
 
 .card-container-cell{
@@ -759,6 +798,13 @@ md-card-title-media {
   }
 
   .docgrid {
+    /*background-color: #00AA00;*/
+    .mod-card-text {
+      white-space: nowrap;
+      width: $document-card-width2 - 130;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     width: $document-card-width2;
   }
 

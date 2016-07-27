@@ -1,26 +1,36 @@
 <md-content class="md-padding" ng-if="docs.length">
   <div docgrid class="docgrid">
     <div grid ng-repeat="card in docs | filter:documentsService.searchFilter" class="column">
-      <md-card class="main-card view-module" ng-click="editDocument($event, card.id);">
+      <md-card class="main-card view-module ie-fix" ng-click="editDocument($event, card.id);">
         <!--<div class="card-upper-bar"></div>-->
         <md-card-title>
           <md-card-title-media>
             <img class="card-image" ng-src="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
           </md-card-title-media>
           <md-card-title-text class="mod-card-title">
-            <span class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</span>
-            <span class="md-subhead">{{card.type.locale|truncate:true:28:'...'}}</span>
-            <span class="md-subhead">{{card.workstatus|truncate:true:28:'...'}}</span>
-            <span class="md-subhead" ng-if="card.totalamount">{{card.totalamount|currency:''}}</span>
-            <span class="md-subhead">{{card.date | date: "dd.MM.yyyy" }}</span>
-            <span class="md-subhead secondary-subhead">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
+            <div class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</div>
+            <div layout="row">
+              <span class="md-subhead" flex>{{card.type.locale|truncate:true:28:'...'}}</span>
+              <span class="md-subhead" flex>{{card.workstatus|truncate:true:28:'...'}}</span>
+            </div>
+            <div layout="row">
+              <span class="md-subhead"  flex style="">{{card.date | date: "dd.MM.yyyy" }}</span>
+              <span class="md-subhead" flex style="" ng-if="card.totalamount">{{card.totalamount|currency:''}}</span>
+            </div>
+            <div layout="row" layout-align="left center" style="padding: 10px 0 12px 0;">
+              <span class="md-subhead secondary-subhead" style="font-size: 16px !important;">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
+            </div>
+            <div class="list-item-text collection-item-card" ng-repeat="collection in card.collections | filter: groupFilter">
+              {{collection.title.locale || collection.title.value}}<span class="">{{$last ? '' : ', '}}&nbsp;</span>
+            </div>
+
           </md-card-title-text>
         </md-card-title>
-        <div class="card-collection-container">
+        <!--<div class="card-collection-container">
           <div class="list-item-text collection-item-card" ng-repeat="collection in card.collections | filter: groupFilter">
             {{collection.title.locale || collection.title.value}}<span class="">{{$last ? '' : ', '}}&nbsp;</span>
           </div>
-        </div>
+        </div>-->
 
       </md-card>
       <md-card style="height:322px;" class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
