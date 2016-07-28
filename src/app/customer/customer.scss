@@ -354,8 +354,8 @@ md-card-title-media {
     canvas {
       /*height: calc(100vh - 129px);*/
       /*64,48,5+5,6*/
-      width: 100%;
-      margin: 5px 0px 69px 0px;
+      width: calc(100% - 10px);
+      margin: 5px 5px 69px 5px;
       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
     }
   }
@@ -496,10 +496,40 @@ md-card-title-media {
     padding-left: 0px;
     background-color: $background-color;
     top: $header-offset;
-    right: 18px;
+    /*top: $header-offset + 70px;*/
+    /*right: 18px;*/
+    right: calc(18px + (40%)/2);
     position: fixed !important;
     width: 240px !important;
   }
+
+  /*md-dialog.edit-doc {
+    md-input-container.flex .profile-field {
+      width: 50%;
+      min-width: 320px;
+    }
+  }*/
+
+  @media screen and (max-width: 1280px) {
+    .doc-control-fixed {
+      right: 18px;
+    }
+    md-dialog.edit-doc {
+      min-width: 100% !important;
+      width: 100% !important;
+      top: 0 !important;
+    }
+  }
+
+  /*@media screen and (min-width: 601px) and (max-width: 900px)  {
+    .doc-control-fixed {
+      right: calc(18px + (20%)/2);
+    }
+    md-dialog.edit-doc {
+      min-width: 80% !important;
+      width: 80% !important;
+    }
+  }*/
 
   .edit-dialog-container {
     background-color: $background-color !important;
@@ -522,7 +552,7 @@ md-card-title-media {
   top: $header-offset;
   padding-left: 18px;
   padding-right: 18px;
-  height: 100vh;
+  height: 414px;
   border-radius: 3px;
   background-color: $background-color;
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);

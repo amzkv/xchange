@@ -289,11 +289,14 @@ export class CustomerController {
               });
             //})();
 
-            $scope.goTo =function(hash) {
+            $scope.goTo =function(event, hash) {
               let oldHash = $location.hash();
               $location.hash(hash);
+              //$anchorScroll.yOffset = 64;
               $anchorScroll();
               $location.hash(oldHash);
+              event.stopPropagation();
+              event.preventDefault();
             };
 
             $scope.toggleSideMenu = function() {
@@ -720,8 +723,8 @@ export class CustomerController {
           /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
-          escapeToClose: false,
-          fullscreen: true,
+          /*escapeToClose: false,*/
+          /*fullscreen: true,*/
           hasBackdrop: false,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
