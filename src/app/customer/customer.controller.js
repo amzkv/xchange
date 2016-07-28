@@ -305,6 +305,7 @@ export class CustomerController {
             };
 
             $scope.cancel = function (ev) {
+              $scope.mdClosing = true;
               /*if ($scope.formChanged) {
                 var confirm = $mdDialog.confirm()
                   .title('Save changes and quit?')
@@ -721,12 +722,16 @@ export class CustomerController {
           clickOutsideToClose:true,
           escapeToClose: false,
           fullscreen: true,
+          hasBackdrop: false,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
           }
         })
         .then(function() {
+          $scope.mdClosing = true;
         }, function() {
+          $scope.mdClosing = true;
+          //console.log('close2');
         });
     };
   }
