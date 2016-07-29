@@ -23,6 +23,9 @@ export class CustomerController {
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
     $scope.accessKey = $stateParams.accessKey;
+    if ($scope.accessKey && docs.data && docs.data.accesskey_user) {
+      LocalAccessService.accessKeyUser = docs.data.accesskey_user;
+    }
 
     documentsService.startValue = ConfigService.getDocumentStartValue();
     documentsService.endValue = ConfigService.getDocumentOffsetValue();
@@ -309,23 +312,6 @@ export class CustomerController {
 
             $scope.cancel = function (ev) {
               $scope.mdClosing = true;
-              /*if ($scope.formChanged) {
-                var confirm = $mdDialog.confirm()
-                  .title('Save changes and quit?')
-                  .textContent('Modified data found')
-                  .ariaLabel('Save changes')
-                  .targetEvent(ev)
-                  .ok('Save')
-                  .cancel('Cancel');
-                $mdDialog.show(confirm).then(function() {
-                  //$scope.status = 'You decided to get rid of your debt.';
-                }, function() {
-                  //$scope.status = 'You decided to keep your debt.';
-                });
-              } else {
-                //$mdDialog.hide();
-              }*/
-
               if ($scope.formChanged) {
                 $scope.showSaveConfirmation = true;
               } else {

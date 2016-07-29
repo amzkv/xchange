@@ -36,6 +36,7 @@ class NavbarController {
     }
 
     $scope.documentsService = documentsService;
+    $scope.localAccessService = LocalAccessService;
     $scope.busy = documentsService.busy;
 
     $scope.$watch('documentsService.busy', function (newValue, oldValue, scope) {
@@ -44,6 +45,7 @@ class NavbarController {
 
     let self = this;
     self.coreItems = null;
+    self.accessKeyUser = {};
 
     $scope.$watch('documentsService.coreItems', function (newValue, oldValue) {
       if (newValue && newValue != oldValue) {
@@ -55,6 +57,11 @@ class NavbarController {
       $scope.searchField = newValue;
     });
 
+    $scope.$watch('localAccessService.accessKeyUser', function (newValue, oldValue, scope) {
+      if (newValue && newValue != oldValue) {
+        self.accessKeyUser = newValue;
+      }
+    }, true);
     //requests remote server only once
 
     /*let coreItemsP = documentsService.callDocumentsCore();
