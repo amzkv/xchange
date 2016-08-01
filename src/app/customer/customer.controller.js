@@ -466,7 +466,8 @@ export class CustomerController {
 
                         //FileSaver.saveAs(data, fileName);
                       } else {
-                        toastr.error('Unable to view file.', 'Error');
+                        let error = $filter('i18n')('error.5005');
+                        toastr.error(error, 'Error');
                       }
                     } else if (isImage(fileName)) {
                       if (fileContents) {
@@ -541,7 +542,8 @@ export class CustomerController {
                     }
 
                 } else {
-                  toastr.error('Unable to fetch file data.', 'Error');
+                  let error = $filter('i18n')('error.5006');
+                  toastr.error(error, 'Error');
                   $scope.documentLoading = false;//TODO
                   $scope.documentLoaded = true;
                   $scope.documentError = true;
@@ -606,10 +608,12 @@ export class CustomerController {
                     var data = new Blob([fileContents]);
                     FileSaver.saveAs(data, fileName);
                   } else {
-                    toastr.error('Unable to save file.', 'Error');
+                    let error = $filter('i18n')('error.5007');
+                    toastr.error(error, 'Error');
                   }
                 } else {
-                  toastr.error('Unable to fetch file data.', 'Error');
+                  let error = $filter('i18n')('error.5006');
+                  toastr.error(error, 'Error');
                 }
               });
               //$mdDialog.hide();
@@ -743,7 +747,8 @@ export class CustomerController {
 
                   } else {
                     //?
-                    toastr.error('Unable to save file' + ':' + saveResp.error, 'Error');//translate
+                    let error = $filter('i18n')('error.5007');
+                    toastr.error(error, 'Error');
                   }
                 });
               }

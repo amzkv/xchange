@@ -14,8 +14,8 @@
             <label class="login-validation-color">Username</label>
             <input type="email" validate-email style="color:white !important;border-color: rgb(250, 245, 245) !important;" name="userId" data-ng-model="login.userInfo.userId" required />
             <div ng-messages="login.loginForm.userId.$error">
-              <span ng-message="required" class="login-validation-color">Please enter your email address</span>
-              <div ng-message="email" class="login-validation-color">Please enter a VALID email address</div>
+              <span ng-message="required" class="login-validation-color">{{'error.5021' | i18n}}</span>
+              <div ng-message="email" class="login-validation-color">{{'error.5022' | i18n}}</div>
             </div>
           </md-input-container>
         </div>
@@ -24,7 +24,7 @@
             <label class="login-validation-color">Password</label>
             <input type="password" style="color:white !important;border-color: rgb(250, 245, 245) !important;"  name="passWord" data-ng-model="login.userInfo.passWord" required server />
             <div ng-messages="login.loginForm.passWord.$error">
-              <span ng-message="required" class="login-validation-color">Password doesn't match</span>
+              <span ng-message="required" class="login-validation-color">{{'error.5024' | i18n}}</span>
               <div ng-message="server" class="login-validation-color" style="opacity: 1; margin-top: 0px;">{{login.loginForm.serviceErrorMessage}}</div>
             </div>
         </div>

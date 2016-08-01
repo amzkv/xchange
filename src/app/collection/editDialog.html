@@ -21,7 +21,7 @@
             <label class="profile-lable">Value</label>
             <input type="text"  name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
             <div ng-messages="dialog.editForm.value.$error">
-              <span ng-message="required" class="">Please enter value</span>
+              <span ng-message="required" class="">{{'error.5014'|i18n}}</span>
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>
             </div>
           </md-input-container>
@@ -31,7 +31,7 @@
             <label class="profile-lable">Locale</label>
             <input type="text"  name="locale" data-ng-model="dialog.locale" class="profile-field" required/>
             <div ng-messages="dialog.editForm.locale.$error">
-              <span ng-message="required" class="">Please enter locale</span>
+              <span ng-message="required" class="">{{'error.5015'|i18n}}</span>
             </div>
           </md-input-container>
         </div>

@@ -36,7 +36,7 @@ class FlyingButtonController {
       // Show the dialog
       $mdDialog.show({
         clickOutsideToClose: true,
-        controller: function($mdDialog, $scope, $timeout) {
+        controller: function($mdDialog, $scope, $timeout, $filter) {
           // Save the clicked item
           //this.item = item;
           // Setup some handlers
@@ -50,10 +50,9 @@ class FlyingButtonController {
 
           this.params = self.params;
 
-          this.errorMessages = {
-            '5001' : 'Collection already exists',
-            '5002' : 'Cannot add collection to given class'
-          };
+          this.errorMessages = {};
+          this.errorMessages['5001'] = $filter('i18n')('error.5001');
+          this.errorMessages['5002'] = $filter('i18n')('error.5002');
 
           this.errors = [];
 
