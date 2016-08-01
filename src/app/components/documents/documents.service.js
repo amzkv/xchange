@@ -588,6 +588,16 @@ export class DocumentsService {
     this.storageService.cleanSelectedRecords(storeName, cleanupOptions);
   }
 
+  updateRelatedRelatedDocumentCache(storeName, documentId, data) {
+    let options = {
+      'subSetName': 'documents',
+      'innerIdName' : 'id',
+      'innerIdValue' : documentId,
+      'data' : data
+    };
+    this.storageService.updateSelectedRecords(storeName, options);
+  }
+
   searchDocument(value, start, end, skipCache) {
     /*Do not use. not implemented yet.*/
     let configExtension =

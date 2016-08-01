@@ -25,7 +25,7 @@
           <label class="login-validation-color">Company Name</label>
           <input type="text" class="login-validation-border-color" data-ng-model="registration.person.companyName" name="companyName" required  />
           <div ng-messages="registration.registrationForm.companyName.$error">
-            <span class="login-validation-color" ng-message="required">This field is Required</span>
+            <span class="login-validation-color" ng-message="required">{{'error.5016'|i18n}}</span>
           </div>
         </md-input-container>
       </div>
@@ -34,8 +34,8 @@
           <label class="login-validation-color">Email</label>
           <input type="email" class="login-validation-border-color" data-ng-model="registration.person.eMailName" name="eMailName" required />
           <div ng-messages="registration.registrationForm.eMailName.$error">
-            <span class="login-validation-color" ng-message="required">Please enter your email address</span>
-            <div class="login-validation-color" ng-message="email">Please enter a valid email address</div>
+            <span class="login-validation-color" ng-message="required">{{'error.5021'|i18n}}</span>
+            <div class="login-validation-color" ng-message="email">{{'error.5022'|i18n}}</div>
           </div>
         </md-input-container>
       </div>
@@ -44,8 +44,8 @@
           <label class="login-validation-color">Password</label>
           <input type="password" class="login-validation-border-color" data-ng-model="registration.person.passWord" minlength="3" name="passWord" required />
           <div ng-messages="registration.registrationForm.passWord.$error">
-            <span class="login-validation-color" ng-message="required">Please enter your password</span>
-            <div class="login-validation-color" ng-message="minlength">Please enter at least 3 characters</div>
+            <span class="login-validation-color" ng-message="required">{{'error.5023'|i18n}}</span>
+            <div class="login-validation-color" ng-message="minlength">{{'error.5025'|i18n}}</div>
           </div>
         </md-input-container>
       </div>
@@ -54,9 +54,9 @@
           <label class="login-validation-color">Confirm Password</label>
           <input type="password" class="login-validation-border-color" data-ng-model="registration.person.confirmPassWord" minlength="3" compare-to="registration.person.passWord" name="confirmPassWord" required />
           <div ng-messages="registration.registrationForm.confirmPassWord.$error">
-            <span class="login-validation-color" ng-message="required">Please enter your password</span>
-            <div class="login-validation-color" ng-message="minlength">Please enter at least 3 characters</div>
-            <div class="login-validation-color" ng-message="compareTo">Password and Confirmation are not equal</div>
+            <span class="login-validation-color" ng-message="required">{{'error.5023'|i18n}}</span>
+            <div class="login-validation-color" ng-message="minlength">{{'error.5025'|i18n}}</div>
+            <div class="login-validation-color" ng-message="compareTo">{{'error.5024'|i18n}}</div>
           </div>
         </md-input-container>
       </div>

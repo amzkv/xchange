@@ -8,7 +8,7 @@
           <label class="login-validation-color">Confirmation Code</label>
           <input type="text" class="login-validation-border-color" data-ng-model="registration.confirmCode" name="confirmCode" required  />
           <div ng-messages="registration.confirmForm.confirmCode.$error">
-            <span class="login-validation-color" ng-message="required">This field is Required</span>
+            <span class="login-validation-color" ng-message="required">{{'error.5016'|i18n}}</span>
           </div>
         </md-input-container>
       </div>

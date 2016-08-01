@@ -1,5 +1,5 @@
 export class ConfirmController {
-  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr) {
+  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $filter) {
     'ngInject';
 
     $scope.submitToServer = function () {
@@ -8,7 +8,8 @@ export class ConfirmController {
         confirmUserRegistration(this.registration);
       } else {
         //console.log('invalid');
-        toastr.error('Invalid data submitted', 'Error');//TODO
+        let error = $filter('i18n')('error.5004');
+        toastr.error(error, 'Error');
       }
     };
 

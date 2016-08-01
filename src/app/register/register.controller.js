@@ -2,7 +2,7 @@
  * Created by decipher on 19.5.16.
  */
 export class RegisterController {
-  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr) {
+  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $filter) {
     'ngInject';
 
     $scope.submitToServer = function () {
@@ -11,11 +11,13 @@ export class RegisterController {
         if (this.registration.person.iagreewith) {
           registerUser(this.registration);
         } else {
-          toastr.error('You must agree with the Terms and Conditions', 'Error');//TODO
+          let error = $filter('i18n')('error.5010');
+          toastr.error(error, 'Error');
         }
       } else {
         //console.log('invalid');
-        toastr.error('Invalid data submitted', 'Error');//TODO
+        let error = $filter('i18n')('error.5004');
+        toastr.error(error, 'Error');
       }
     };
 

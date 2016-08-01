@@ -2,7 +2,7 @@
  * Created by decipher on 22.4.16.
  */
 export class LoginController {
-  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $rootScope, $location) {
+  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $rootScope, $location, $filter) {
     'ngInject';
     this.onClickForRegistration = function () {
       $state.go('register');
@@ -36,9 +36,12 @@ export class LoginController {
             $state.go('home');
           }
         } else {
-          toastr.error('email or password is wrong / eMail oder Passswort ist falsch', 'Error');
-          $scope.login.loginForm.passWord.$error.server = response.data.response.errormessage;
+          let error = $filter('i18n')('error.5009');
+          toastr.error(error);
+          //$scope.login.loginForm.passWord.$error.server = response.data.response.errormessage;
+          $scope.login.loginForm.passWord.$error.server = error;
 
+          //$scope.login.loginForm.serviceErrorMessage = error;
           $scope.login.loginForm.serviceErrorMessage = response.data.response.errormessage;
           $scope.login.loginForm.serviceErrorCode = response.data.response.errorcode;
         }

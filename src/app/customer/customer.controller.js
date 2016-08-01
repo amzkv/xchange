@@ -23,6 +23,9 @@ export class CustomerController {
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
     $scope.accessKey = $stateParams.accessKey;
+    if ($scope.accessKey && docs.data && docs.data.accesskey_user) {
+      LocalAccessService.accessKeyUser = docs.data.accesskey_user;
+    }
 
     documentsService.startValue = ConfigService.getDocumentStartValue();
     documentsService.endValue = ConfigService.getDocumentOffsetValue();
@@ -149,10 +152,15 @@ export class CustomerController {
       $scope.etc = function() {
         return !$scope.formChanged;
       };
+
+      let thatScope = $scope;
+
       $mdDialog.show({
-          controller: function ($scope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
+          controller: function ($scope, $rootScope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
           $scope.pdfState = {'page': 1};
+
+          //thatScope.docs[0].title = 'test';
 
           //(function () {
               documentsService.callDocumentById(documentId, key).then(function(resp) {
@@ -289,11 +297,14 @@ export class CustomerController {
               });
             //})();
 
-            $scope.goTo =function(hash) {
+            $scope.goTo =function(event, hash) {
               let oldHash = $location.hash();
               $location.hash(hash);
+              //$anchorScroll.yOffset = 64;
               $anchorScroll();
               $location.hash(oldHash);
+              event.stopPropagation();
+              event.preventDefault();
             };
 
             $scope.toggleSideMenu = function() {
@@ -305,23 +316,7 @@ export class CustomerController {
             };
 
             $scope.cancel = function (ev) {
-              /*if ($scope.formChanged) {
-                var confirm = $mdDialog.confirm()
-                  .title('Save changes and quit?')
-                  .textContent('Modified data found')
-                  .ariaLabel('Save changes')
-                  .targetEvent(ev)
-                  .ok('Save')
-                  .cancel('Cancel');
-                $mdDialog.show(confirm).then(function() {
-                  //$scope.status = 'You decided to get rid of your debt.';
-                }, function() {
-                  //$scope.status = 'You decided to keep your debt.';
-                });
-              } else {
-                //$mdDialog.hide();
-              }*/
-
+              $scope.mdClosing = true;
               if ($scope.formChanged) {
                 $scope.showSaveConfirmation = true;
               } else {
@@ -471,7 +466,8 @@ export class CustomerController {
 
                         //FileSaver.saveAs(data, fileName);
                       } else {
-                        toastr.error('Unable to view file.', 'Error');
+                        let error = $filter('i18n')('error.5005');
+                        toastr.error(error, 'Error');
                       }
                     } else if (isImage(fileName)) {
                       if (fileContents) {
@@ -546,7 +542,8 @@ export class CustomerController {
                     }
 
                 } else {
-                  toastr.error('Unable to fetch file data.', 'Error');
+                  let error = $filter('i18n')('error.5006');
+                  toastr.error(error, 'Error');
                   $scope.documentLoading = false;//TODO
                   $scope.documentLoaded = true;
                   $scope.documentError = true;
@@ -611,10 +608,12 @@ export class CustomerController {
                     var data = new Blob([fileContents]);
                     FileSaver.saveAs(data, fileName);
                   } else {
-                    toastr.error('Unable to save file.', 'Error');
+                    let error = $filter('i18n')('error.5007');
+                    toastr.error(error, 'Error');
                   }
                 } else {
-                  toastr.error('Unable to fetch file data.', 'Error');
+                  let error = $filter('i18n')('error.5006');
+                  toastr.error(error, 'Error');
                 }
               });
               //$mdDialog.hide();
@@ -623,6 +622,35 @@ export class CustomerController {
             /*$scope.fixAmount = function(field,val) {
               $scope.saveForm[field].$setViewValue((+val).toFixed(2));
             };*/
+
+            $scope.updateCurrentDocumentList = function(id, data) {
+
+              function changeValue(fieldName, data, item, key, subKey) {
+                if (data[fieldName] && data[fieldName] != item[fieldName]) {
+                  if (subKey) {
+                    thatScope.docs[key][fieldName] = data[fieldName][subKey];
+                  } else {
+                    thatScope.docs[key][fieldName] = data[fieldName];
+                  }
+                }
+              }
+
+              angular.forEach(thatScope.docs, function (item, key) {
+                //manual list for now
+                if (item.id == id) {
+                  changeValue('title', data, item, key);
+                  changeValue('date', data, item, key);
+                  changeValue('type', data, item, key);
+                  changeValue('text', data, item, key);
+                  //changeValue('workstatus', data, item, key);
+                  changeValue('netvaluegoods', data, item, key);
+                  changeValue('totalamount', data, item, key);
+                  changeValue('taxamount', data, item, key);
+                  changeValue('collections', data, item, key);
+                  //todo
+                }
+              });
+            };
 
             $scope.save = function (editForm) {
               function prepareCollections(collections) {
@@ -641,6 +669,7 @@ export class CustomerController {
               let form = this.saveForm;
               let permissionType = 'change';
               let data = {};
+              let updateData = {};
               if (editForm.authorized && editForm.authorized.indexOf(permissionType) !== -1 && form.$valid) {
                 //title
                 if (form.title.$dirty && form.title.$modelValue) {
@@ -660,7 +689,15 @@ export class CustomerController {
 
                 if (form.type.$dirty && form.type.$modelValue) {
                   let type = form.type.$modelValue;
+                  let locale = type;
+                  let typeF = editForm.types_available.filter(function(item) {
+                    return item.value === type;
+                  });
+                  if (typeF && typeF[0]) {
+                    locale = typeF[0].locale;
+                  }
                   data.type = {'value' : type};
+                  updateData.type = {'value' : type, 'locale' : locale};
                 }
 
                 if (form.text.$dirty) {
@@ -686,26 +723,32 @@ export class CustomerController {
                 if (form.collections.$dirty && form.collections.$modelValue) {
                   let collections = form.collections.$modelValue;
                   data.collections = prepareCollections(collections);
+                  updateData.collections = form.collections.$modelValue;//TODO:test
                 }
                 let savedata = documentsService.callSaveDocumentById(documentId, data, key);
                 savedata.then(function(saveResp) {
-
-                  //console.log(saveResp);
                   if (saveResp.data && saveResp.data.response && saveResp.data.response.errorcode == '200') {
                     toastr.success('File has been updated successfully', 'Success');//translate
                     //clear view document cache
                     documentsService.callDocumentById(documentId, key, true);//reload, TODO: just clear db
                     //clear documents list cache
-                    documentsService.cleanupRelatedLists('documents',documentId);//TODO: investigate, lists are not updated from service
+
+                    //documentsService.cleanupRelatedLists('documents',documentId);//do not cleanup for now - we use modified cache
 
                     $scope.saveForm.$setPristine();
                     $scope.saveForm.$setSubmitted();
                     $scope.formChanged = false;
+                    let viewData = angular.merge(data, updateData);
+                    $scope.updateCurrentDocumentList(documentId, viewData);
+
+                    documentsService.updateRelatedRelatedDocumentCache('documents',documentId, viewData);
+
                     //console.log($scope.saveForm);
 
                   } else {
                     //?
-                    toastr.error('Unable to save file' + ':' + saveResp.error, 'Error');//translate
+                    let error = $filter('i18n')('error.5007');
+                    toastr.error(error, 'Error');
                   }
                 });
               }
@@ -719,14 +762,18 @@ export class CustomerController {
           /*parent: angular.element(document.body),*/
           targetEvent: event,
           clickOutsideToClose:true,
-          escapeToClose: false,
-          fullscreen: true,
+          /*escapeToClose: false,*/
+          /*fullscreen: true,*/
+          hasBackdrop: false,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
           }
         })
         .then(function() {
+          $scope.mdClosing = true;
         }, function() {
+          $scope.mdClosing = true;
+          //console.log('close2');
         });
     };
   }

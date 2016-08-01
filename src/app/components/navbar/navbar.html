@@ -17,7 +17,13 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span class="nav" ng-if="vm.state === 'accesskey'">{{'navbar.documentsByAccessKey' | i18n}}</span>
+        <span class="nav" ng-if="vm.state === 'accesskey'">
+          {{vm.accessKeyUser.company || 'Company'}}
+          <span class="docs-menu-separator-icon" hide-sm hide-md>
+            <i class="material-icons">keyboard_arrow_right</i>
+          </span>
+          {{vm.accessKeyUser.name || 'Name'}}
+        </span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">{{'navbar.search' | i18n}}</span>
         <span ng-if="vm.state === 'search'" class="docs-menu-separator-icon" hide-sm hide-md>
           <i class="material-icons">keyboard_arrow_right</i>
