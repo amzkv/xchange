@@ -687,7 +687,7 @@ export class DocumentsService {
         });*/
 
       } else {
-        let timeOffset = self.configService.getCacheExpirationPeriod() * 24 * 60 * 60 * 1000;//right
+        let timeOffset = self.configService.getCacheExpirationPeriod();//right
         //let timeOffset = 60*1000;//test
         let expireDate = new Date().getTime() + timeOffset;
         let data = {
