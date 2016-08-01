@@ -30,13 +30,13 @@
         </span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.toggleFilter()">{{vm.params.searchPhrase}}</span>
         <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">Change Log</span>
-        <span class="nav" ng-if="vm.state === 'collection' && (vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
-        <span class="nav" ng-if="vm.state === 'customer' && (vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId])" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.storageCache.core[vm.params.collectionId].locale}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && ( vm.params.collectionLocale || vm.storageCache.collections[vm.params.customerId])">
+        <span class="nav" ng-if="vm.state === 'collection'" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.currentClass.locale}}</span>
+        <span class="nav" ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.currentClass.locale}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer'">
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span class="nav" ng-if="vm.state === 'customer' && (vm.params.locale || vm.storageCache.collections[vm.params.customerId])" ng-click="vm.navigateUp()">{{vm.params.locale || vm.storageCache.collections[vm.params.customerId].locale}}</span>
+        <span class="nav" ng-if="vm.state === 'customer' && (vm.params.locale || vm.currentCollection.locale)" ng-click="vm.navigateUp()">{{vm.params.locale || vm.currentCollection.locale}}</span>
 
       </span>
     </h2>

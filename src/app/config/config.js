@@ -59,7 +59,8 @@ export class ConfigService {
 
   getCacheExpirationPeriod(){
     "use strict";
-    return 3 //days for now
+    //return 3 * 24 * 60 * 60 * 1000; //3 days for now
+    return 20 * 60 * 1000; //20 minutes days for testing
   }
 
 
