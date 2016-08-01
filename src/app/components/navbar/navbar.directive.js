@@ -27,13 +27,13 @@ class NavbarController {
     $scope.groupFilters = [];
     $scope.filterData = {};
 
-    //TODO
+    /*//TODO
     try {
       this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
       this.storageCache.collections = JSON.parse($window.localStorage.getItem('collections'));
     } catch (e) {
       //console.log('error:', e)
-    }
+    }*/
 
     $scope.documentsService = documentsService;
     $scope.localAccessService = LocalAccessService;
@@ -46,6 +46,43 @@ class NavbarController {
     let self = this;
     self.coreItems = null;
     self.accessKeyUser = {};
+    self.currentClass = {};
+    self.currentCollection = {};
+
+    this.populateCurrentClass = function() {
+      //console.log('populate params:',self.params);
+      if (self.params.collectionId) {
+        let collectionsbyClass = documentsService.allCollections.filter(function (item) {
+          return item.group.value == self.params.collectionId;
+        });
+
+        if (collectionsbyClass.length > 0) {
+          self.currentClass = collectionsbyClass[0].group;
+          //console.log('class:', self.currentClass);
+        }
+      }
+    };
+
+    this.populateCurrentCollection = function() {
+      //console.log('populate params:',self.params);
+      if (self.params.customerId) {
+        let collectionById = documentsService.allCollections.filter(function (item) {
+          return item.id == self.params.customerId;
+        });
+
+        if (collectionById.length > 0) {
+          self.currentCollection = collectionById[0].title;
+          //console.log('collection:', self.currentCollection);
+        }
+      }
+    };
+
+    $scope.$watch('documentsService.allCollections', function (newValue, oldValue, scope) {
+      if (newValue) {
+        self.populateCurrentClass();
+        self.populateCurrentCollection();
+      }
+    }, true);
 
     $scope.$watch('documentsService.coreItems', function (newValue, oldValue) {
       if (newValue && newValue != oldValue) {
@@ -244,6 +281,11 @@ class NavbarController {
         $scope.filters = $rootScope.filters;
       } else {
         $scope.filters = null;
+      }
+
+      if (documentsService.allCollections) {
+        self.populateCurrentClass();
+        self.populateCurrentCollection();
       }
     }
 
