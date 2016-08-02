@@ -2,7 +2,7 @@
   <div layout="row" flex class="fill-height">
       <span class="footer-fix">
         <span ng-if="fm.state === 'changelog'" ng-click="fm.navigateHome()">change log</span>
-        <span ng-if="fm.state === 'accesskey'">
+        <span ng-if="fm.state === 'accesskeyHome' || fm.state === 'accesskeyDocument'">
           {{fm.accessKeyUser.company || 'Company'}}
           <span>
             <i class="material-icons breadcrumb-footer">keyboard_arrow_right</i>

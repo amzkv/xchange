@@ -96,8 +96,37 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('accesskey', {
-      url: '/ak/:accessKey',
+    .state('accesskeyHome', {
+      url: '/ak/home/:accessKey',
+      templateUrl: 'app/accesskey/home.html',
+      controller: 'AccesskeyController',
+      controllerAs: 'accesskey',
+      params: {
+        category: 'CUSTOMER',
+        collectionLocale: null,
+        locale: ''
+      },
+      data : { pageTitle: '365 | Access Key User Home' },
+      resolve: {
+        docs: function (documentsService, $stateParams) {
+          documentsService.filter = null;
+          return documentsService.callDocumentByAccessKey($stateParams.accessKey);//just to test, TODO
+        },
+        category: function ($stateParams) {
+          return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
+    })
+
+    .state('accesskeyDocument', {
+      url: '/ak/document/:accessKey',
       templateUrl: 'app/accesskey/accesskey.html',
       controller: 'AccesskeyController',
       controllerAs: 'accesskey',
@@ -169,7 +198,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         }
       }
 
-    })
+    });
 
   $locationProvider.html5Mode(true);
 

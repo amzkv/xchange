@@ -17,7 +17,7 @@
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
 
-        <span class="nav" ng-if="vm.state === 'accesskey'">
+        <span class="nav" ng-if="vm.state === 'accesskeyHome' || vm.state === 'accesskeyDocument'">
           {{vm.accessKeyUser.company || 'Company'}}
           <span class="docs-menu-separator-icon" hide-sm hide-md>
             <i class="material-icons">keyboard_arrow_right</i>
@@ -94,12 +94,12 @@
             <i class="material-icons">info_outline</i> {{'navbar.about' | i18n}}
           </a>
         </li>
-        <li ng-if="vm.state!='accesskey'" ng-click="vm.logout();vm.closeMenu();">
+        <li ng-if="vm.coreItems" ng-click="vm.logout();vm.closeMenu();">
             <a ui-sref="login">
                <i class="material-icons">exit_to_app</i> {{'navbar.logout' | i18n}}
             </a>
         </li>
-        <li ng-if="vm.state == 'accesskey'" ng-click="vm.closeMenu();">
+        <li ng-if="!vm.coreItems && (vm.state == 'accesskeyDocument' || vm.state == 'accesskeyHome')" ng-click="vm.closeMenu();">
           <a ui-sref="login">
             <i class="material-icons">exit_to_app</i> {{'navbar.login' | i18n}}
           </a>

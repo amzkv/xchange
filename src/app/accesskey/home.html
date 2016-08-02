@@ -1,0 +1,34 @@
+<div ng-cloak="" ng-class="cardMode ? '' : 'list-box'">
+  <md-content ng-if="cardMode" class="md-padding">
+    <div docgrid class="deckgrid">
+      <div grid class="a-card column">
+        <a ui-sref="accesskeyDocument({accessKey: accessKey})">
+          <md-card>
+            <md-card-title>
+              <div class="card-count count-other">
+                {{totalDocCount || '?'}}
+              </div>
+              <md-card-title-text>
+                <span class="md-headline">{{'Documents'}}</span>
+              </md-card-title-text>
+            </md-card-title>
+          </md-card>
+        </a>
+      </div>
+    </div>
+  </md-content>
+  <ons-list ng-if="!cardMode" class="list-offsets">
+    <ons-list-item class="a-card">
+      <div class="a-card">
+        <a ui-sref="accesskeyDocument({accessKey: accessKey})">
+          <div>
+            <div class="card-count-list count-other">
+              {{totalDocCount || '?'}}
+            </div>
+            <span>{{'Documents'}}</span>
+          </div>
+        </a>
+      </div>
+    </ons-list-item>
+  </ons-list>
+</div>
