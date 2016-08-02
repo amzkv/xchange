@@ -1,4 +1,7 @@
 <div ng-cloak="" class="list-box">
+  <md-button ng-click="clearLocalData()" style="cursor: hand;position: fixed;z-index: 2; bottom: 0;right: 0" class="md-raised">
+    {{'Clear DB'}}
+  </md-button>
   <ons-list class="list-offsets">
     <ons-list-header>v 0.0.19</ons-list-header>
     <ons-list-item>Bug fixes</ons-list-item>
@@ -14,9 +17,5 @@
     <ons-list-item>Mobile list fix</ons-list-item>
     <ons-list-item>Browser issues</ons-list-item>
   </ons-list>
-  <ons-button ng-click="clearLocalData()" style="margin-top: 10px;" modifier="material">
-    <ons-ripple></ons-ripple>
-    {{'Clear local DB'}}
-  </ons-button>
 </div>
 
