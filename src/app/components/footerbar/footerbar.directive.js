@@ -16,25 +16,50 @@ export function FooterbarDirective() {
 }
 
 class FooterbarController {
-  constructor ($mdSidenav, $rootScope, $log, $state, $stateParams, $http, $scope, $window) {
+  constructor ($mdSidenav, $rootScope, $log, $state, $stateParams, $http, $scope, $window, LocalAccessService, documentsService) {
     'ngInject';
 
-    $http.get('app/config.json').success(function(data) {
-      $scope.appConfig = data.appConfig;//todo
-      //$scope['appConfig'] = {"appName":"Home"};
-    });
+    $scope.documentsService = documentsService;
+    $scope.localAccessService = LocalAccessService;
     var self = this;
-    this.storageCache = {};
-    //TODO
-    try {
-      this.storageCache.core = JSON.parse($window.localStorage.getItem('core'));
-      this.storageCache.collections = JSON.parse($window.localStorage.getItem('collections'));
-    } catch (e) {
-      //console.log('error:', e)
-    }
+
 
     self.state = $state.current.name;
     self.parentState = $state.current.parentState;
+    self.accessKeyUser = {};
+    self.currentClass = {};
+    self.currentCollection = {};
+
+    this.populateCurrentClass = function() {
+      if (self.params.collectionId) {
+        let collectionsbyClass = documentsService.allCollections.filter(function (item) {
+          return item.group.value == self.params.collectionId;
+        });
+
+        if (collectionsbyClass.length > 0) {
+          self.currentClass = collectionsbyClass[0].group;
+        }
+      }
+    };
+
+    this.populateCurrentCollection = function() {
+      if (self.params.customerId) {
+        let collectionById = documentsService.allCollections.filter(function (item) {
+          return item.id == self.params.customerId;
+        });
+
+        if (collectionById.length > 0) {
+          self.currentCollection = collectionById[0].title;
+        }
+      }
+    };
+
+    $scope.$watch('documentsService.allCollections', function (newValue, oldValue, scope) {
+      if (newValue) {
+        self.populateCurrentClass();
+        self.populateCurrentCollection();
+      }
+    }, true);
 
     this.toggle = function () {
       $mdSidenav('left').toggle();
@@ -60,6 +85,11 @@ class FooterbarController {
       if (toParams) {
         self.params = toParams
       }
+
+      if (documentsService.allCollections) {
+        self.populateCurrentClass();
+        self.populateCurrentCollection();
+      }
     }
 
     var listener = $rootScope.$on('$stateChangeSuccess',
@@ -73,6 +103,12 @@ class FooterbarController {
         $state.go(self.previousState, {id: self.previousStateParams.id})
       }
     };
+
+    $scope.$watch('localAccessService.accessKeyUser', function (newValue, oldValue, scope) {
+      if (newValue && newValue != oldValue) {
+        self.accessKeyUser = newValue;
+      }
+    }, true);
 
     this.navigateUp = function(){
       "use strict";

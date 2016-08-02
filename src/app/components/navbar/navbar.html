@@ -32,10 +32,9 @@
         <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">Change Log</span>
         <span class="nav" ng-if="vm.state === 'collection'" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.currentClass.locale}}</span>
         <span class="nav" ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.currentClass.locale}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer'">
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && (vm.params.collectionLocale || vm.currentCollection.locale)">
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
-
         <span class="nav" ng-if="vm.state === 'customer' && (vm.params.locale || vm.currentCollection.locale)" ng-click="vm.navigateUp()">{{vm.params.locale || vm.currentCollection.locale}}</span>
 
       </span>
