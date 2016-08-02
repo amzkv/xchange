@@ -63,6 +63,19 @@ export class LocalAccessService {
     //this.$window.localStorage.clear();
   }
 
+  clearLocalData () {
+    //localStorage
+    this.$window.localStorage.clear();
+
+    //indexedDB
+    this.storageService.clearStorage('user');
+    this.storageService.clearStorage('core');
+    this.storageService.clearStorage('collections');
+    this.storageService.clearStorage('documents');
+    this.storageService.clearStorage('document_detail');
+    this.storageService.clearStorage('document_detail');
+  }
+
   setViewSettings(settings) {
     this.$window.localStorage.setItem('viewSetting', settings);
   }
