@@ -18,18 +18,18 @@
         </span>
 
         <span class="nav" ng-if="vm.state === 'accesskeyHome' || vm.state === 'accesskeyDocument'">
-          {{vm.accessKeyUser.company || 'Company'}}
+          {{vm.accessKeyUser.company || ('common.company'|i18n)}}
           <span class="docs-menu-separator-icon" hide-sm hide-md>
             <i class="material-icons">keyboard_arrow_right</i>
           </span>
-          {{vm.accessKeyUser.name || 'Name'}}
+          {{vm.accessKeyUser.name || ('common.name'|i18n)}}
         </span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.navigateHome()">{{'navbar.search' | i18n}}</span>
         <span ng-if="vm.state === 'search'" class="docs-menu-separator-icon" hide-sm hide-md>
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.toggleFilter()">{{vm.params.searchPhrase}}</span>
-        <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">Change Log</span>
+        <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">{{'navbar.changelog' | i18n}}</span>
         <span class="nav" ng-if="vm.state === 'collection'" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.currentClass.locale}}</span>
         <span class="nav" ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.currentClass.locale}}</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && (vm.params.collectionLocale || vm.currentCollection.locale)">

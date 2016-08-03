@@ -18,8 +18,8 @@
         <label style="font-weight:600">{{dialog.params.currentClass}}</label>
         <div layout="row" layout="left center" style="margin-top: 10px">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
-            <label class="profile-lable">Value</label>
-            <input type="text" placeholder="Add a new collection..." name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
+            <label class="profile-lable">{{'common.value'|i18n}}</label>
+            <input type="text" placeholder="{{'collection.addANewCollection'|i18n}}" name="value" data-ng-model="dialog.value" class="profile-field" required customError/>
             <div ng-messages="dialog.addForm.value.$error">
               <span ng-message="required" class="">{{'error.5014'|i18n}}</span>
               <span ng-message="customError" class="">{{dialog.formErrors.customError}}</span>

@@ -2,10 +2,10 @@
   <div class="" layout="column" flex-gt-xs="33"></div>
   <div class="confirm-form" layout="column" flex="66">
     <form class="registration-form" name="registration.confirmForm" id="confirmForm" ng-keyup="$event.keyCode == 13 && submitToServer()" novalidate>
-      <div class="confirmation-label">Registration confirmation</div>
+      <div class="confirmation-label">{{'user.registrationConfirmation' | i18n}}</div>
       <div>
         <md-input-container>
-          <label class="login-validation-color">Confirmation Code</label>
+          <label class="login-validation-color">{{'user.confirmationCode' | i18n}}</label>
           <input type="text" class="login-validation-border-color" data-ng-model="registration.confirmCode" name="confirmCode" required  />
           <div ng-messages="registration.confirmForm.confirmCode.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5016'|i18n}}</span>
@@ -14,7 +14,7 @@
       </div>
       <div>
         <span></span>
-        <md-button class="md-raised login-sample-button" data-ng-click="submitToServer()">Confirm</md-button>
+        <md-button class="md-raised login-sample-button" data-ng-click="submitToServer()">{{'user.confirm' | i18n}}</md-button>
       </div>
     </form>
   </div>

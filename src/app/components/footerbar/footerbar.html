@@ -1,15 +1,15 @@
 <md-toolbar layout="row" layout-align="center center" class="footer-bar footer" ng-if="!fm.hideFooter">
   <div layout="row" flex class="fill-height">
       <span class="footer-fix">
-        <span ng-if="fm.state === 'changelog'" ng-click="fm.navigateHome()">change log</span>
+        <span ng-if="fm.state === 'changelog'" ng-click="fm.navigateHome()">{{'navbar.changelog' | i18n | lowercase}}</span>
         <span ng-if="fm.state === 'accesskeyHome' || fm.state === 'accesskeyDocument'">
-          {{fm.accessKeyUser.company || 'Company'}}
+          {{fm.accessKeyUser.company || ('common.company'|i18n|lowercase)}}
           <span>
             <i class="material-icons breadcrumb-footer">keyboard_arrow_right</i>
           </span>
-          {{fm.accessKeyUser.name || 'Name'}}
+          {{fm.accessKeyUser.name || ('common.name'|i18n|lowercase)}}
         </span>
-        <span ng-if="fm.state === 'search'" ng-click="fm.navigateHome()">search : "{{fm.params.searchPhrase}}"</span>
+        <span ng-if="fm.state === 'search'" ng-click="fm.navigateHome()">{{'navbar.search' | i18n | lowercase}} : "{{fm.params.searchPhrase}}"</span>
         <span ng-if="fm.state === 'collection'" ng-click="fm.navigateUp()">{{fm.params.collectionLocale  || fm.currentClass.locale}}</span>
         <span ng-if="fm.state === 'customer' " ng-click="fm.navigateUp()">{{fm.previousStateParams.collectionLocale || fm.currentClass.locale}}</span>
         <span ng-if="fm.state === 'customer' && (fm.params.collectionLocale || fm.currentCollection.locale)">

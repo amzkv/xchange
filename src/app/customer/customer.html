@@ -8,7 +8,7 @@
   </md-chips>
 </div>
 <div ng-show="!(docs | filter : documentsService.searchFilter).length" class="no-docs">
-  No documents found<span ng-show="documentsService.searchFilter">. Filter: "{{documentsService.searchFilter}}"</span>
+  {{'error.5011' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
 </div>
 <div ng-cloak=""
      infinite-scroll="totalDocCount > pageSize ? more() : null"

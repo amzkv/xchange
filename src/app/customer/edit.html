@@ -32,7 +32,7 @@
             <div id="main_details">
               <!--md-raised-->
               <md-button ng-model="docDetailsSections.mainBlock" class="category-button md-button-toggle md-raised" ng-click="goTo($event, $event, 'main_details');">
-                {{'Overview'}}
+                {{'customer.overview' | i18n}}
                 <!--<md-icon aria-label="main"
                          class="material-icons step md-toggle-icon" ng-class="docDetailsSections.mainBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -43,7 +43,7 @@
                   <md-content class="md-padding" style="padding-bottom: 10px">
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Title'}}</label>
+                        <label class="profile-lable">{{'common.title' | i18n}}</label>
                         <input type="text" name="title" data-ng-model="editForm.title" document-data-validate="documentTitle" class="profile-field"/>
                         <div ng-messages="saveForm.title.$error">
                           <div class="" ng-message="documentDataValidate">{{'error.5017'|i18n}}</div>
@@ -52,7 +52,7 @@
                     </div>
                     <div layout="row" layout-align="left center">
                       <div class="documentIcon">
-                        <span style="font-size:13px;font-weight:600;display:block">{{'Date'}}</span>
+                        <span style="font-size:13px;font-weight:600;display:block">{{'common.date' | i18n}}</span>
                         <md-datepicker name="date" ng-model="editForm.documentDate" document-data-validate="documentDate" md-placeholder="Enter date" aria-label="documentDate"></md-datepicker>
                         <div ng-messages="saveForm.date.$error">
                           <div class="edit-doc-error" ng-message="documentDataValidate">{{'error.5013'|i18n}}</div>
@@ -61,7 +61,7 @@
                     </div>
                     <div layout="row" layout-align="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Type'}}</label>
+                        <label class="profile-lable">{{'common.type' | i18n}}</label>
                         <md-select name="type" ng-model="editForm.type.value">
                           <md-option ng-repeat="type in editForm.types_available" value="{{type.value}}">
                             {{type.locale}}
@@ -70,11 +70,11 @@
                       </md-input-container>
                     </div>
                     <md-input-container style="margin-top:28px">
-                      <label class="profile-lable">{{'Work Status'}}</label>
+                      <label class="profile-lable">{{'customer.workStatus' | i18n}}</label>
                       <input type="text" name="workstatus" data-ng-model="editForm.workstatus" class="profile-field"  readonly="readonly"/>
                     </md-input-container>
                     <div style="margin-top:7px">
-                      <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;" class="profile-lable">{{'Description'}}</label>
+                      <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;" class="profile-lable">{{'customer.description' | i18n}}</label>
                       <textarea data-ng-model="editForm.text" columns="1" name="text" style="height:15.4vh !important;width:300px">{{editForm.text}}</textarea>
                     </div>
                   </md-content>
@@ -83,7 +83,7 @@
             </div>
             <div id="doc_stats">
               <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_stats');">
-                {{'Euro'}}
+                {{'customer.euro' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.dataBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -94,13 +94,13 @@
                   <md-content class="md-padding" style="padding-bottom: 10px">
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Supplier ID'}}</label>
+                        <label class="profile-lable">{{'customer.supplierId' | i18n}}</label>
                         <input type="text"  name="supplierId" data-ng-model="editForm.supplierID" class="profile-field"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Net Amount'}}</label>
+                        <label class="profile-lable">{{'customer.netAmount' | i18n}}</label>
                         <input type="text"  name="netvaluegoods" ng-model="editForm.netvaluegoods" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.netvaluegoods.$error">
                           <div class="" ng-message="documentDataValidate">{{'error.5018'|i18n}}</div>
@@ -110,7 +110,7 @@
 
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Tax Amount'}}</label>
+                        <label class="profile-lable">{{'customer.taxAmount' | i18n}}</label>
                         <input type="text"  name="totaltax" ng-model="editForm.totaltax" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.totaltax.$error">
                           <div class="" ng-message="documentDataValidate">{{'error.5019'|i18n}}</div>
@@ -119,7 +119,7 @@
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Total Amount'}}</label>
+                        <label class="profile-lable">{{'customer.totalAmount' | i18n}}</label>
                         <input type="text"  name="totalamount" ng-model="editForm.totalamount" ng-currency currency-symbol="" document-data-validate="documentAmount" class="profile-field"/>
                         <div ng-messages="saveForm.totalamount.$error">
                           <div class="" ng-message="documentDataValidate">{{'error.5020'|i18n}}</div>
@@ -132,7 +132,7 @@
             </div>
             <div id="doc_collections">
               <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_collections');">
-                {{'Collection'}}
+                {{'customer.collection' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.collectionsBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -151,7 +151,7 @@
                                        md-item-text="item.title.locale"
                                        md-delay="200"
                                        md-no-cache="true"
-                                       placeholder="Add collection...">
+                                       placeholder="{{'customer.addCollection' | i18n}}...">
                         <span md-highlight-text="searchText">{{item.group.locale}} :: {{item.title.locale}}</span>
                       </md-autocomplete>
                       <md-chip-template>
@@ -166,7 +166,7 @@
             </div>
             <div id="doc_info">
               <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_info');">
-                {{'Info'}}
+                {{'customer.info' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.infoBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -177,32 +177,32 @@
                   <md-content class="md-padding" style="padding-bottom: 10px">
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Filename'}}</label>
+                        <label class="profile-lable">{{'customer.filename' | i18n}}</label>
                         <input type="text" name="filename" data-ng-model="editForm.filename" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Signature Filename'}}</label>
+                        <label class="profile-lable">{{'customer.filenamesig' | i18n}}</label>
                         <input type="text" name="filenamesig"  data-ng-model="editForm.filenamesig" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout="left center">
                       <md-input-container class="flex">
-                        <label class="profile-lable">{{'Creator'}}</label>
+                        <label class="profile-lable">{{'customer.creator' | i18n}}</label>
                         <input type="text" name="creator" data-ng-model="editForm.creator_name" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
                     <div layout="row" layout-align="left center">
                       <div class="date-container">
-                        <span class="line-label">{{'Created on'}}&nbsp;</span>
+                        <span class="line-label">{{'customer.createdOn' | i18n}}&nbsp;</span>
                         <span class="date-text">{{editForm.createdDate | date: 'dd.MM.yyyy HH:mm'}}</span>
                         <!--<md-datepicker class="ro-datepicker"  disabled="disabled" ng-model="editForm.documentDate" md-min-date="editForm.documentDate" md-max-date="editForm.documentDate" md-placeholder="created date" aria-label="x2" readonly="readonly"></md-datepicker>-->
                       </div>
                     </div>
                     <div layout="row" layout-align="left center">
                       <div class="date-container">
-                        <span class="line-label">{{'Updated on'}}</span>
+                        <span class="line-label">{{'customer.updatedOn' | i18n}}</span>
                         <!--<input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime" placeholder="Date" min-date="date" ng-model="editForm.changedDate" class="ng-pristine ng-valid ng-isolate-scope md-input ng-touched" aria-invalid="false">-->
                         <!--<md-datepicker class="ro-datepicker" time="true" disabled="disabled" ng-model="editForm.changedDate" md-placeholder="updated date" aria-label="x3" readonly="readonly"></md-datepicker>-->
                         <span class="date-text">{{editForm.changedDate | date: 'dd.MM.yyyy HH:mm'}}</span>
@@ -214,7 +214,7 @@
             </div>
             <div id="doc_workflow">
               <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_workflow');">
-                {{'Workflow'}}
+                {{'customer.workflow' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -225,34 +225,34 @@
                   <md-content class="" style="padding-bottom: 10px">
                     <div ng-if="editForm.workflow" layout="row" style="padding: 10px;" layout-align="left center">
                       <div class="breadcrumb flat">
-                        <a href="#" ng-class="editForm.workflow.startable ? 'active' : ''">{{'Past'}}</a>
-                        <a href="#" ng-class="editForm.workflow.running ? 'active' : ''">{{'Current'}}</a>
-                        <a href="#">{{'Next'}}</a>
+                        <a href="#" ng-class="editForm.workflow.startable ? 'active' : ''">{{'customer.past' | i18n}}</a>
+                        <a href="#" ng-class="editForm.workflow.running ? 'active' : ''">{{'customer.current' | i18n}}</a>
+                        <a href="#">{{'customer.next' | i18n}}</a>
                       </div>
                     </div>
                     <md-content class="md-padding" style="padding-bottom: 0;" layout="column">
-                        <label ng-if="editForm.workflow.startable" class="wf-process">{{'Workflow Process'}}</label>
+                        <label ng-if="editForm.workflow.startable" class="wf-process">{{'customer.workflowProcess' | i18n}}</label>
                         <div ng-if="editForm.workflow.startable" flex>
                           <div class="wf-container" ng-repeat="wfItem in editForm.workflow.startable" ng-click="null">
                             <div class="wf-container-inner">
                               <div>{{wfItem.process}}</div>
                               <p>{{ wfItem.desc }}</p>
                               <div class="wf-container-sub" ng-if="wfItem.first_step">
-                                <label ng-if="editForm.workflow.startable" class="wf-process">{{'Workflow Status'}}</label>
+                                <label ng-if="editForm.workflow.startable" class="wf-process">{{'customer.workflowStatus' | i18n}}</label>
                                 <div>{{ wfItem.first_step.status }}</div>
                                 <p>{{ wfItem.first_step.desc }}</p>
                               </div>
                             </div>
                           </div>
                         </div>
-                      <label ng-if="editForm.workflow.running" class="wf-process">{{'Workflow Process'}}</label>
+                      <label ng-if="editForm.workflow.running" class="wf-process">{{'customer.workflowProcess' | i18n}}</label>
                       <div ng-if="editForm.workflow.running" flex>
                         <div class="wf-container" ng-click="null">
                           <div class="wf-container-inner">
                             <div>{{editForm.workflow.running.process}}</div>
                             <p>{{ editForm.workflow.running.desc }}</p>
                             <div class="wf-container-sub" ng-if="editForm.workflow.running.first_step">
-                              <label ng-if="editForm.workflow.running" class="wf-process">{{'Workflow Status'}}</label>
+                              <label ng-if="editForm.workflow.running" class="wf-process">{{'customer.workflowStatus' | i18n}}</label>
                               <div>{{ editForm.workflow.running.first_step.status }}</div>
                               <p>{{ editForm.workflow.running.first_step.desc }}</p>
                             </div>
@@ -260,7 +260,7 @@
                         </div>
                       </div>
                       <div ng-if="editForm.workflow && editForm.workflowTips && !editForm.workflow.running && !editForm.workflow.startable" flex>
-                        <label class="wf-process">{{'Workflow'}}</label>
+                        <label class="wf-process">{{'customer.workflow' | i18n}}</label>
                         <div class="wf-container" ng-click="null">
                           <div class="wf-container-inner">
                             <div>{{editForm.workflow}}</div>
@@ -278,7 +278,7 @@
             </div>
             <div id="doc_fileview" style="height:350px;">
               <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_fileview');">
-                {{'View'}}
+                {{'customer.view' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
@@ -350,7 +350,7 @@
                   </div>
 
                   <div class="file-message" ng-if="fileStatus=='Unsupported'">
-                    <div>Unsupported file</div>
+                    <div>{{'error.5026' | i18n}}</div>
                   </div>
                   <!--show toolbat for test-->
                 </md-content>
@@ -373,46 +373,46 @@
 <div ng-class="{'hide-xs':!sideMenu, 'mobile-menu-inner': sideMenu}" class="doc-control-fixed" ng-if="!mdClosing && editForm">
   <div style="height: 16px;"></div>
   <div class="doc-control-header">
-    {{'Actions'}}
+    {{'customer.actions' | i18n}}
   </div>
   <div class="doc-control-button" ng-class="saveForm.$valid && formChanged ? '' : 'control-disabled'" ng-click="formChanged && save(editForm);">
     <i class="mdi mdi-content-save" role="button"></i>
-    {{'Save'}}
+    {{'customer.save' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="downloadDoc()">
     <i class="mdi mdi-download" role="button"></i>
-    {{'Download'}}
+    {{'customer.download' | i18n}}
   </div>
   <div class="doc-control-button" ng-if="(editForm && editForm.hassignature < 1)" ng-click="signDocument()">
     <i class="mdi mdi-pen" role="button"></i>
-    {{'Sign'}}
+    {{'customer.sign' | i18n}}
   </div>
   <div style="height: 16px;"></div>
   <div class="doc-control-header">
-    {{'Navigation'}}
+    {{'customer.navigation' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'main_details');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'Overview'}}
+    {{'customer.overview' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'doc_stats');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'Euro'}}
+    {{'customer.euro' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'doc_collections');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'Collection'}}
+    {{'customer.collection' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'doc_info');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'Info'}}
+    {{'customer.info' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'doc_workflow');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'Workflow'}}
+    {{'customer.workflow' | i18n}}
   </div>
   <div class="doc-control-button" ng-click="goTo($event, 'doc_fileview');">
     <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'View'}}
+    {{'customer.view' | i18n}}
   </div>
 </div>
