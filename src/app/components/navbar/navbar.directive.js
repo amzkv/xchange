@@ -45,7 +45,7 @@ class NavbarController {
 
     let self = this;
     self.coreItems = null;
-    self.accessKeyUser = {};
+    self.accessKeyUser = null;
     self.currentClass = {};
     self.currentCollection = {};
 
