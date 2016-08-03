@@ -354,7 +354,7 @@ md-card-title-media {
     canvas {
       /*height: calc(100vh - 129px);*/
       /*64,48,5+5,6*/
-      width: calc(100% - 10px);
+      width: calc(#{100%} - #{10px});
       margin: 5px 5px 69px 5px;
       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
     }
@@ -363,7 +363,7 @@ md-card-title-media {
   @media screen and (max-width: 360px) {
     pdf-viewer {
       canvas {
-        width: calc(100vw - 42px);
+        width: calc(#{100vw} - #{42px});
       }
     }
   }
@@ -388,8 +388,8 @@ md-card-title-media {
     margin: 0 auto;
     div {
       background: #fff;
-      height: calc(100vh - 131px);/*64,48,5+5,6*/
-      width: calc(100vw - 20px);
+      height: calc(#{100vh} - #{131px});/*64,48,5+5,6*/
+      width: calc(#{100vw} - #{20px});
       box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
     }
   }
@@ -408,8 +408,8 @@ md-card-title-media {
     display: table;
     margin: 0 auto;
     div {
-      line-height: calc(100vh - 123px);
-      height: calc(100vh - 123px);/*64,48,5+5,6*/
+      line-height: calc(#{100vh} - #{123px});
+      height: calc(#{100vh} - #{123px});/*64,48,5+5,6*/
       width: 50vw;
       font-size: 14px;
       text-align: center;
@@ -498,7 +498,7 @@ md-card-title-media {
     top: $header-offset;
     /*top: $header-offset + 70px;*/
     /*right: 18px;*/
-    right: calc(18px + (40%)/2);
+    right: calc(#{18px} + #{20%});
     position: fixed !important;
     width: 240px !important;
   }
@@ -552,7 +552,7 @@ md-card-title-media {
   top: $header-offset;
   padding-left: 18px;
   padding-right: 18px;
-  height: 414px;
+  height: 454px;
   border-radius: 3px;
   background-color: $background-color;
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);

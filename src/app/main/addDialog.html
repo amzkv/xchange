@@ -14,7 +14,7 @@
     </md-toolbar>-->
     <md-content class="md-padding">
       <div name="documentInformation" novalidate>
-        <div style="padding: 10px 10px 10px 0;">Select to add a new class...</div>
+        <div style="padding: 10px 10px 10px 0;">{{'main.selectToAddNewClass'|i18n}}</div>
         <!--{{dialog.params.creatableClasses}}-->
         <!--<div layout="row" layout="left center">
           <md-input-container flex="100" ng-class="dialog.errors.length ? 'md-input-invalid' : ''">
@@ -28,7 +28,7 @@
         </div>-->
         <div layout="row" layout-align="left center">
           <md-input-container class="flex">
-            <label class="profile-lable">{{'Class'}}</label>
+            <label class="profile-lable">{{'main.class'|i18n}}</label>
             <md-select ng-change="dialog.delayedSubmit();" ng-model="dialog.addForm.value"><!--ng-init="dialog.addForm.value = dialog.params.creatableClasses[0].value"-->
               <md-option ng-repeat="group in dialog.params.creatableClasses" value="{{group.value}}">
                 {{group.locale}}

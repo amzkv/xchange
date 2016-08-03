@@ -143,9 +143,9 @@ export class DocumentsService {
             promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
             promise.then(function(response) {
-              if (options['cacheName']) {
+              /*if (options['cacheName']) {
                 self.storeCache(options['cacheName'], response);
-              }
+              }*/
               self[options['itemKey']] = response.data[options['dataKey']];
               self.busy = false;
               deferred.resolve(response);
@@ -208,9 +208,9 @@ export class DocumentsService {
       promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
 
       promise.then(function(response) {
-        if (options['cacheName'] && !options['set']) {
+        /*if (options['cacheName'] && !options['set']) {
           self.storeCache(options['cacheName'], response);
-        }
+        }*/
         self[options['itemKey']] = response.data[options['dataKey']];
         self.busy = false;
 
@@ -714,7 +714,7 @@ export class DocumentsService {
       return this.storageService.getSingleRecordPromise(scope, cacheId, dataKey);
     }
   }
-
+  /*deprecated*/
   storeCache(cacheName, response) {
     /*this one is used for navigation caching*/
     let data = {};

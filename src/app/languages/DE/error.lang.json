@@ -24,5 +24,6 @@
   "5022" : "Please enter a VALID email address",
   "5023" : "Please enter your password",
   "5024" : "Password doesn't match",
-  "5025" : "Please enter at least 3 characters"
+  "5025" : "Please enter at least 3 characters",
+  "5026" : "Unsupported file type"
 }

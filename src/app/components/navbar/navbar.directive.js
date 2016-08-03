@@ -45,7 +45,7 @@ class NavbarController {
 
     let self = this;
     self.coreItems = null;
-    self.accessKeyUser = {};
+    self.accessKeyUser = null;
     self.currentClass = {};
     self.currentCollection = {};
 
@@ -317,10 +317,16 @@ class NavbarController {
 
     this.navigateHome = function(){
       "use strict";
-      if (self.state !== 'home'){
-        $state.go('home');
+      if (self.accessKeyUser) {
+        if (self.state !== 'accesskeyHome'){
+          $state.go('accesskeyHome', {'accessKey' : self.params.accessKey});
+        }
+      } else {
+        if (self.state !== 'home'){
+          $state.go('home');
+        }
       }
-    }
+    };
 
     //filter funcs
 

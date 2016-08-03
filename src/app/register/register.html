@@ -1,28 +1,28 @@
-<div class="content-container register-container" style="margin-top:0vh" layout="row" layout-sm="column">
+<div class="content-container register-container" style="margin-top:0vh;height:100vh;overflow-y: scroll" layout="row" layout-sm="column">
   <div flex class="content-left-border">
     <div class="login-left-content-settings">
-      <span id="isAlreadyregistered" style="display: block; font-size: 12px;">Already a member?</span>
-      <md-button class="md-raised login-sample-button" ui-sref="login">SIGN IN</md-button>
+      <span id="isAlreadyregistered" style="display: block; font-size: 12px;">{{'user.alreadyMember' | i18n}}</span>
+      <md-button class="md-raised login-sample-button" ui-sref="login">{{'user.signin' | i18n}}</md-button>
     </div>
   </div>
   <div flex class="content-right">
-    <div id="signin">Registration is FREE*</div>
+    <div id="signin">{{'user.registrationIsFree' | i18n}}*</div>
     <form class="registration-form" name="registration.registrationForm" id="registrationForm" ng-keyup="$event.keyCode == 13 && submitToServer()" novalidate>
       <div>
         <md-input-container>
-          <label style="color:white !important">First Name</label>
+          <label style="color:white !important">{{'user.firstName' | i18n}}</label>
           <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="registration.person.firstName"  />
         </md-input-container>
       </div>
       <div>
         <md-input-container>
-          <label style="color:white !important">Last Name</label>
+          <label style="color:white !important">{{'user.lastName' | i18n}}</label>
           <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="registration.person.lastName"  />
         </md-input-container>
       </div>
       <div>
         <md-input-container>
-          <label class="login-validation-color">Company Name</label>
+          <label class="login-validation-color">{{'user.companyName' | i18n}}</label>
           <input type="text" class="login-validation-border-color" data-ng-model="registration.person.companyName" name="companyName" required  />
           <div ng-messages="registration.registrationForm.companyName.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5016'|i18n}}</span>
@@ -31,7 +31,7 @@
       </div>
       <div>
         <md-input-container>
-          <label class="login-validation-color">Email</label>
+          <label class="login-validation-color">{{'user.email' | i18n}}</label>
           <input type="email" class="login-validation-border-color" data-ng-model="registration.person.eMailName" name="eMailName" required />
           <div ng-messages="registration.registrationForm.eMailName.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5021'|i18n}}</span>
@@ -41,7 +41,7 @@
       </div>
       <div>
         <md-input-container>
-          <label class="login-validation-color">Password</label>
+          <label class="login-validation-color">{{'user.password' | i18n}}</label>
           <input type="password" class="login-validation-border-color" data-ng-model="registration.person.passWord" minlength="3" name="passWord" required />
           <div ng-messages="registration.registrationForm.passWord.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5023'|i18n}}</span>
@@ -51,7 +51,7 @@
       </div>
       <div>
         <md-input-container>
-          <label class="login-validation-color">Confirm Password</label>
+          <label class="login-validation-color">{{'user.confirmPassword' | i18n}}</label>
           <input type="password" class="login-validation-border-color" data-ng-model="registration.person.confirmPassWord" minlength="3" compare-to="registration.person.passWord" name="confirmPassWord" required />
           <div ng-messages="registration.registrationForm.confirmPassWord.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5023'|i18n}}</span>
@@ -63,10 +63,10 @@
       <div>
                 <span>
                     <md-checkbox data-ng-model="registration.person.iagreewith" class="md-warn">
-                      <span>I agree with the Terms and Conditions</span>
+                      <span>{{'user.iagreewTnC' | i18n}}</span>
                     </md-checkbox>
                 </span>
-        <md-button class="md-raised login-sample-button" data-ng-click="submitToServer()">Register</md-button>
+        <md-button class="md-raised login-sample-button" data-ng-click="submitToServer()">{{'user.register' | i18n}}</md-button>
       </div>
     </form>
   </div>
