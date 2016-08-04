@@ -61,6 +61,68 @@ export class DocumentsService {
     return deferred.promise;
   }
 
+  dataPromise(deferred, configExtension, options, value) {
+
+    let self = this;
+    let credentialsPromise = self.localAccessService.getCredentails();
+
+    credentialsPromise.then(function(credentials) {
+      if (!credentials && !configExtension.auth) {
+        //credentialsPromise.reject();
+        //?
+        return;
+      }
+
+      let baseConfig = {
+        contentType: 'application/json',
+        datatype: 'json'
+      };
+      if (credentials && !configExtension.auth) {
+        credentials = self.localAccessService.decryptCredentials(credentials);
+        baseConfig.auth = {
+          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
+        }
+      }
+
+      let finalConfig = angular.merge(baseConfig, configExtension);
+
+      let promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
+
+      promise.then(function(response) {
+        self[options['itemKey']] = response.data[options['dataKey']];
+        self.busy = false;
+        //deferred.resolve(response);
+        if (options['dataKey'] && response.data[options['dataKey']]) {
+          deferred.resolve(response);
+        } else {
+          //no data
+          let dataResponse = {"data": {}};
+          if (response.data.response && !response.data.response.success) {
+            dataResponse.error = response.data.response.errormessage;
+          }
+          deferred.resolve(dataResponse);
+        }
+      });
+      if (options['cacheName']) {
+
+        if (!value) {
+          value = options['cacheName'];
+        }
+        if (options['start'] && options['end']) {
+          value = self.getPageIdHashByValueAndRange(value, options['start'], options['end']);
+        }
+
+        if (options['useAllData']) {
+          self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
+        } else {
+          self.setCache(promise, options['cacheName'], value, options['dataKey']);
+        }
+      }
+    });
+
+    return deferred;
+  }
+
   baseCall(configExtension, options, value, skipCache) {
 
     let self = this;
@@ -118,129 +180,17 @@ export class DocumentsService {
           deferred.resolve(dataContainer);
         } else {
           //set case
-          let credentialsPromise = self.localAccessService.getCredentails();
-
-          credentialsPromise.then(function(credentials) {
-            if (!credentials && !configExtension.auth) {
-              //credentialsPromise.reject();
-              //?
-              return;
-            }
-
-            let baseConfig = {
-              contentType: 'application/json',
-              datatype: 'json'
-            };
-            if (credentials && !configExtension.auth) {
-              credentials = self.localAccessService.decryptCredentials(credentials);
-              baseConfig.auth = {
-                "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-              }
-            }
-
-            let finalConfig = angular.merge(baseConfig, configExtension);
-
-            promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
-
-            promise.then(function(response) {
-              /*if (options['cacheName']) {
-                self.storeCache(options['cacheName'], response);
-              }*/
-              self[options['itemKey']] = response.data[options['dataKey']];
-              self.busy = false;
-              deferred.resolve(response);
-              if (options['dataKey'] && response.data[options['dataKey']]) {
-                deferred.resolve(response);
-              } else {
-                //no data
-                let dataResponse = {"data": {}};
-                if (response.data.response && !response.data.response.success) {
-                  dataResponse.error = response.data.response.errormessage;
-                }
-                deferred.resolve(dataResponse);
-              }
-            });
-            if (options['cacheName']) {
-
-              if (!value) {
-                value = options['cacheName'];
-              }
-              if (options['start'] && options['end']) {
-                value = self.getPageIdHashByValueAndRange(value, options['start'], options['end']);
-              }
-              if (options['useAllData']) {
-                self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
-              } else {
-                self.setCache(promise, options['cacheName'], value, options['dataKey']);
-
-              }
-            }
-          });
+          deferred = self.dataPromise(deferred, configExtension, options, value);
+          //deferred.resolve(self.dataPromise());
         }
       });
 
       return deferred.promise;
     }
 
-    let credentialsPromise = self.localAccessService.getCredentails();
+    //forced skipcache case
+    deferred = self.dataPromise(deferred, configExtension, options, value);
 
-    credentialsPromise.then(function(credentials) {
-      if (!credentials && !configExtension.auth) {
-        //credentialsPromise.reject();
-        //?
-          return;
-      }
-
-      let baseConfig = {
-        contentType: 'application/json',
-        datatype: 'json'
-      };
-
-      if (credentials && !configExtension.auth) {
-        credentials = self.localAccessService.decryptCredentials(credentials);
-        baseConfig.auth = {
-          "user" : { "username" : credentials.userId, "password" : credentials.passWord }
-        }
-      }
-
-      let finalConfig = angular.merge(baseConfig, configExtension);
-
-      promise =  self.$http.post(self.getBasePath(options['apiName']), finalConfig);
-
-      promise.then(function(response) {
-        /*if (options['cacheName'] && !options['set']) {
-          self.storeCache(options['cacheName'], response);
-        }*/
-        self[options['itemKey']] = response.data[options['dataKey']];
-        self.busy = false;
-
-        if (options['dataKey'] && response.data[options['dataKey']]) {
-          deferred.resolve(response);
-        } else {
-          let dataResponse = {"data": {}};
-          if (response.data.response && !response.data.response.success) {
-            dataResponse.error = response.data.response.errormessage;
-          }
-          deferred.resolve(dataResponse);
-        }
-      });
-
-      if (options['cacheName']) {
-
-       // self.setCache(promise, options['cacheName'], value, options['dataKey']);
-
-        if (!value) {
-          value = options['cacheName'];
-        }
-
-        if (options['useAllData']) {
-          self.setCache(promise, options['cacheName'], value, options['dataKey'], true);
-        } else {
-          self.setCache(promise, options['cacheName'], value, options['dataKey']);
-        }
-
-      }
-    });
     return deferred.promise;
   }
 

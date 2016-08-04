@@ -498,7 +498,7 @@ md-card-title-media {
     top: $header-offset;
     /*top: $header-offset + 70px;*/
     /*right: 18px;*/
-    right: calc(#{18px} + #{20%});
+    right: calc(#{18px} + #{50%} - #{500px});
     position: fixed !important;
     width: 240px !important;
   }
@@ -510,7 +510,7 @@ md-card-title-media {
     }
   }*/
 
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1000px) {
     .doc-control-fixed {
       right: 18px;
     }

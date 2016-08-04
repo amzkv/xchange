@@ -26,8 +26,8 @@ export function DocumentDataValidate() {
                   return modelValue!=null && !isNaN(Date.parse(date));
             case 'documentAmount':
               let amount = (+modelValue).toFixed(2);
-              //console.log(amount);
-              return modelValue!='' && !isNaN(+modelValue) && angular.isNumber(+modelValue);
+              //console.log(modelValue, modelValue!='', !isNaN(+modelValue), angular.isNumber(+modelValue));
+              return modelValue!=='' && !isNaN(+modelValue) && angular.isNumber(+modelValue);
             default:
                   return true;
           }

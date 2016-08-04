@@ -9,6 +9,7 @@ export function runBlock (CheckAuthService, $state, $rootScope) {
       if (!checkAuth && toState.name != 'login'
         && toState.name != 'register'
         && toState.name != 'confirm'
+        && toState.name != 'changelog'
         && toState.name != 'accesskeyHome'
         && toState.name != 'accesskeyDocument') {
         event.preventDefault();
