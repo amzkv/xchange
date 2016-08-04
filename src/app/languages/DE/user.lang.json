@@ -17,5 +17,6 @@
   "checkEmail" : "Thank You! Please, check your e-mail inbox!",
   "registrationConfirmation" : "Registration confirmation",
   "confirmationCode" : "Confirmation Code",
-  "confirm" : "Confirm"
+  "confirm" : "Confirm",
+  "clearLocalStorage" : "Clear Local Storage"
 }
