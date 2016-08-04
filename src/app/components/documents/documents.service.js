@@ -91,7 +91,7 @@ export class DocumentsService {
       promise.then(function(response) {
         self[options['itemKey']] = response.data[options['dataKey']];
         self.busy = false;
-        deferred.resolve(response);
+        //deferred.resolve(response);
         if (options['dataKey'] && response.data[options['dataKey']]) {
           deferred.resolve(response);
         } else {
