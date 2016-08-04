@@ -18,5 +18,6 @@
   "registrationConfirmation" : "Registration confirmation",
   "confirmationCode" : "Confirmation Code",
   "confirm" : "Confirm",
-  "clearLocalStorage" : "Clear Local Storage"
+  "clearLocalStorage" : "Clear Local Storage",
+  "loggedIn" : "Logged in successfully"
 }

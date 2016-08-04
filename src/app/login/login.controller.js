@@ -27,10 +27,9 @@ export class LoginController {
         //$log.log(response);
         if (response.data.response.errorcode == "200") {
           LocalAccessService.setCredentails(self.userInfo);
-          toastr.success('Logged in successfully', 'Success');
+          toastr.success($filter('i18n')('user.loggedIn'), 'Success');
           CheckAuthService.setUser(response.data.user);
-
-          if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register') {
+          if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register' && $rootScope.previousPage.indexOf('/ak/') == -1) {
             $location.path($rootScope.previousPage);
           } else {
             $state.go('home');
