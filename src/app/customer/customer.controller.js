@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
+  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
     'ngInject';
 
     //$scope.filterData = {};
@@ -22,7 +22,7 @@ export class CustomerController {
     $rootScope.filters = docs.data.avail_filter;
 
     $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
-    $scope.accessKey = $stateParams.accessKey;
+    $scope.accessKey = $scope.accessKey || $stateParams.accessKey;
     if ($scope.accessKey && docs.data && docs.data.accesskey_user) {
       LocalAccessService.accessKeyUser = docs.data.accesskey_user;
     }

@@ -12,6 +12,10 @@ export class CheckAuthService {
     this.storageService = StorageService;
     this.localAccess = LocalAccessService;
     this.cookies = $cookies;
+    this.userTypes = {
+      'ru' : 'Regular User',
+      'ak' : 'Access Key User',
+    };
   }
 
   checkAuth(){
@@ -24,6 +28,32 @@ export class CheckAuthService {
 
     return this.storageService.getSingleRecordPromise('user','info', 'data')
 
+  }
+
+  isStateAccessible(state, params) {
+    let accessible = false;
+    if (state.data && state.data.accessSettings) {
+      if (state.data.accessSettings.customPerms) {
+        //todo
+        //return isCustomAccessible;
+      }
+      if (state.data.accessSettings.accesskey) {
+        //if has access key defined
+        this.userType = 'ak';
+        if (params.accessKey) {
+          this.accessKey = params.accessKey;
+          this.localAccess.setAccessKeyUserData(this.accessKey);
+        }
+        if (this.accessKey) {
+          return true;
+        }
+        return true;
+      }
+      if (state.data.accessSettings.public) {
+        return true;
+      }
+      this.userType = 'ru';
+    }
   }
 
   setUser(user){

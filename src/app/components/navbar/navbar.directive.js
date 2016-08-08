@@ -22,6 +22,7 @@ class NavbarController {
     this.constant = CONSTANT;
     this.displayOptions = false;
     this.version = this.constant.VERSION;
+    this.hideHeader = true;
     this.storageCache = {};
 
     $scope.groupFilters = [];
