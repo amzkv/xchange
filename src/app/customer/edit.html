@@ -3,7 +3,7 @@
       <div class="md-toolbar-tools">
         <h2>{{documentTitle}}</h2>
         <span flex></span>
-        <md-button class="md-icon-button hide-gt-xs" style="" ng-click="$event.stopPropagation();toggleSideMenu();">
+        <md-button class="md-icon-button hide-gt-xs" aria-label="editDocSideMenu" ng-click="$event.stopPropagation();toggleSideMenu();">
           <i class="mdi mdi-dots-vertical" style="top: 14px;right: 70px;font-size: 1.9em;"></i>
         </md-button>
         <!--hide-gt-xs<div style="cursor: pointer;" class="" hide-gt-xs ng-click="$event.stopPropagation();toggleSideMenu();">
@@ -31,7 +31,7 @@
           <form id="saveForm" name="saveForm">
             <div id="main_details">
               <!--md-raised-->
-              <md-button ng-model="docDetailsSections.mainBlock" class="category-button md-button-toggle md-raised" ng-click="goTo($event, $event, 'main_details');">
+              <md-button ng-model="docDetailsSections.mainBlock" aria-label="documentOverviewBtn" class="category-button md-button-toggle md-raised" ng-click="goTo($event, $event, 'main_details');">
                 {{'customer.overview' | i18n}}
                 <!--<md-icon aria-label="main"
                          class="material-icons step md-toggle-icon" ng-class="docDetailsSections.mainBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div id="doc_stats">
-              <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_stats');">
+              <md-button class="md-raised category-button" aria-label="documentEuroBtn" ng-click="goTo($event, 'doc_stats');">
                 {{'customer.euro' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.dataBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -131,7 +131,7 @@
               </div>
             </div>
             <div id="doc_collections">
-              <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_collections');">
+              <md-button class="md-raised category-button" aria-label="documentCollectionsBtn" ng-click="goTo($event, 'doc_collections');">
                 {{'customer.collection' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.collectionsBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -165,7 +165,7 @@
               </div>
             </div>
             <div id="doc_info">
-              <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_info');">
+              <md-button class="md-raised category-button" aria-label="documentInfoBtn" ng-click="goTo($event, 'doc_info');">
                 {{'customer.info' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.infoBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -213,7 +213,7 @@
               </div>
             </div>
             <div id="doc_workflow">
-              <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_workflow');">
+              <md-button class="md-raised category-button" aria-label="documentWorkflowBtn" ng-click="goTo($event, 'doc_workflow');">
                 {{'customer.workflow' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -277,7 +277,7 @@
               </div>
             </div>
             <div id="doc_fileview" style="height:350px;">
-              <md-button class="md-raised category-button" ng-click="goTo($event, 'doc_fileview');">
+              <md-button class="md-raised category-button" aria-label="documentViewBtn" ng-click="goTo($event, 'doc_fileview');">
                 {{'customer.view' | i18n}}
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
@@ -341,6 +341,7 @@
                                  name="page"
                                  ng-model="pdfState.page"
                                  ng-keyup="pdfGoToPage(pdfState.page)"
+                                 aria-label="documentPdfPageInput"
                                  class="profile-field"
                           />
                         </md-input-container>

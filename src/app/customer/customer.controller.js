@@ -9,6 +9,7 @@ export class CustomerController {
 
     //$scope.groupFilters = [];
     $scope.shownGroup = 0;
+    $scope.mdClosing = false;
     //documentsService.filter = null;
     $scope.documentsService = documentsService;
     $scope.documentsService.searchFilter = '';
@@ -159,6 +160,8 @@ export class CustomerController {
           controller: function ($scope, $rootScope, documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
           let self = this;
           $scope.pdfState = {'page': 1};
+          $scope.formChanged = false;
+          $scope.mdClosing = false;
 
           //thatScope.docs[0].title = 'test';
 
@@ -246,6 +249,7 @@ export class CustomerController {
                   $scope.$watch("editForm", function(newVal, oldVal){
                     if (newVal && newVal!=oldVal) {
                       $scope.formChanged = true;
+                      thatScope.formChanged = true;
                     }
                   }, true);
 
@@ -759,20 +763,27 @@ export class CustomerController {
           },
           templateUrl: 'app/customer/edit.html',
           preserveScope: true,
-          /*parent: angular.element(document.body),*/
+          parent: angular.element(document.body),
           targetEvent: event,
           clickOutsideToClose:true,
           /*escapeToClose: false,*/
           /*fullscreen: true,*/
           hasBackdrop: true,
+          /*scope: $scope,*/
+          onRemoving: function(element, promise) {
+            //console.log('removing', $mdDialog);
+            $scope.mdClosing = true;
+            //promise.resolve($mdDialog.hide());
+            thatScope.mdClosing = true;
+          },
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
           }
         })
         .then(function() {
-          $scope.mdClosing = true;
+          //$scope.mdClosing = true;
         }, function() {
-          $scope.mdClosing = true;
+          //$scope.mdClosing = true;
           //console.log('close2');
         });
     };
