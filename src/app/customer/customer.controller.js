@@ -764,7 +764,7 @@ export class CustomerController {
           clickOutsideToClose:true,
           /*escapeToClose: false,*/
           /*fullscreen: true,*/
-          hasBackdrop: false,
+          hasBackdrop: true,
           transformTemplate: function(template) {
             return '<div class="md-dialog-container edit-doc">' + template + '</div>';
           }

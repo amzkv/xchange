@@ -101,6 +101,7 @@ class FlyingButtonController {
         },
         controllerAs: 'dialog',
         templateUrl: $scope.addDialogTemplate,
+        hasBackdrop: false,
         targetEvent: $event
       });
     }

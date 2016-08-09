@@ -97,6 +97,7 @@ export class CollectionController {
         },
         controllerAs: 'dialog',
         templateUrl: 'app/collection/editDialog.html',
+        hasBackdrop: false,
         targetEvent: $event
       });
 
