@@ -63,6 +63,17 @@ export class LocalAccessService {
     //this.$window.localStorage.clear();
   }
 
+  setAccessKeyUserData(ak) {
+    //console.log('set ak', ak);
+    var encrypted = this.encryptCredentials(ak);
+    this.storageService.upsertRecord('user',{"user_key": "accesskey", "data": encrypted});
+  }
+
+  getAccessKeyUserDataEncodedPromise() {
+    //console.log('set ak', ak);
+    return this.storageService.getSingleRecordPromise('user','accesskey', 'data')
+  }
+
   clearLocalData () {
     //localStorage
     this.$window.localStorage.clear();

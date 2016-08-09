@@ -8,7 +8,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main',
-      data : { pageTitle: '365' },
+      data : {
+        pageTitle: '365',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
       resolve: {
         categories: function (documentsService) {
           return documentsService.callDocumentsCore();
@@ -21,7 +28,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/login/login.html',
       controller: 'LoginController',
       controllerAs: 'login',
-      data : { pageTitle: '365 | Login' }
+      data : {
+        pageTitle: '365 | Login' ,
+        accessSettings: {
+          public: true,
+          accesskey: false,
+          customPerms: null
+        }
+      }
     })
 
     .state('register', {
@@ -29,7 +43,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/register/register.html',
       controller: 'RegisterController',
       controllerAs: 'register',
-      data : { pageTitle: '365 | Register' }
+      data : {
+        pageTitle: '365 | Register' ,
+        accessSettings: {
+          public: true,
+          accesskey: false,
+          customPerms: null
+        }
+      }
     })
 
     .state('confirm', {
@@ -41,7 +62,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         confirmCode: null,
         squash: true
       },
-      data : { pageTitle: '365 | Confirm Registration' },
+      data : {
+        pageTitle: '365 | Confirm Registration',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
       resolve: {
         info: function (LoginService, $stateParams) {
           if ($stateParams.confirmCode) {
@@ -57,7 +85,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/changelog/changelog.html',
       controller: 'ChangeLogController',
       controllerAs: 'log',
-      data : { pageTitle: 'changelog' }
+      data : {
+        pageTitle: 'changelog',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      }
     })
 
 
@@ -68,7 +103,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/search/search.html',
       controller: 'SearchController',
       controllerAs: 'search',
-      data : { pageTitle: '365 | Search' },
+      data : {
+        pageTitle: '365 | Search',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
       resolve: {
         core_docs: function (documentsService, $stateParams) {
           return documentsService.searchDocumentsCore($stateParams.searchPhrase);
@@ -106,11 +148,22 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         collectionLocale: null,
         locale: ''
       },
-      data : { pageTitle: '365 | Access Key User Home' },
+      data : {
+        pageTitle: '365 | Access Key User Home',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
       resolve: {
-        docs: function (documentsService, $stateParams) {
+        docs: function (storedAccessKey, documentsService, LocalAccessService, $stateParams) {
           documentsService.filter = null;
-          return documentsService.callDocumentByAccessKey($stateParams.accessKey);//just to test, TODO
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        },
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
         },
         category: function ($stateParams) {
           return $stateParams.category;
@@ -135,12 +188,25 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         collectionLocale: null,
         locale: ''
       },
-      data : { pageTitle: '365 | Documents By Access Key' },
+      data : {
+        pageTitle: '365 | Documents By Access Key',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
       resolve: {
-        docs: function (documentsService, $stateParams) {
-          documentsService.filter = null;
-          return documentsService.callDocumentByAccessKey($stateParams.accessKey);//just to test, TODO
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
         },
+
+        docs: function (storedAccessKey, LocalAccessService, documentsService, $stateParams) {
+          documentsService.filter = null;
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        },
+
         category: function ($stateParams) {
           return $stateParams.category;
         },
@@ -163,6 +229,14 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       params: {
         collectionLocale: null
       },
+      data : {
+        pageTitle: '365 | Collections',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
       resolve: {
         collection: function (documentsService, $stateParams) {
           return documentsService.callDocumentRelated($stateParams.collectionId);
@@ -181,10 +255,21 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         collectionLocale: null,
         locale: ''
       },
+      data : {
+        pageTitle: '365 | Documents',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
       resolve: {
         docs: function (documentsService, $stateParams) {
           documentsService.filter = null;
           return documentsService.callDocumentByOneCollection($stateParams.customerId);
+        },
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
         },
         category: function ($stateParams) {
           return $stateParams.category;
