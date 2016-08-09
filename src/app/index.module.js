@@ -25,6 +25,7 @@ import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
 import { TruncateFilter } from './components/truncate/truncate.filter';
+import { SearchService } from './components/search/search.service';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
 import { CompareTo } from './components/compareTo/compareTo.directive';
@@ -83,4 +84,5 @@ angular.module('xchange', [
   .directive('compareTo', CompareTo)
   .directive('documentDataValidate', DocumentDataValidate)
   .directive('flyingButton', FlyingButtonDirective)
-  .filter('truncate', TruncateFilter);
+  .filter('truncate', TruncateFilter)
+  .service('SearchService', SearchService);

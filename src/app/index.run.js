@@ -1,5 +1,6 @@
-export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessService) {
+export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessService, SearchService) {
   'ngInject';
+  $rootScope.searchService = SearchService;
   let stateChangeStartEvent = $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
     //update title
     $rootScope.title = toState.data ? toState.data.pageTitle : toParams.locale || toParams.collectionLocale || '';

@@ -7,7 +7,7 @@
     </md-chip>
   </md-chips>
 </div>
-<div ng-show="!(docs | filter : documentsService.searchFilter).length" class="no-docs">
+<div ng-show="!(docs | filter:searchService.searchCriteria(documentsService.searchFilter)).length" class="no-docs">
   {{'error.5011' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
 </div>
 <div ng-cloak=""
