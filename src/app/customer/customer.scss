@@ -6,9 +6,13 @@
   margin: 20px auto;
 }
 
-/*.edit-doc {
+.edit-doc {
   height: auto !important;
-}*/
+}
+
+md-backdrop {
+  height: auto !important;
+}
 
 .edit-doc-error {
   font-size: 12px;
