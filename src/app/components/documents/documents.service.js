@@ -538,7 +538,7 @@ export class DocumentsService {
     this.storageService.cleanSelectedRecords(storeName, cleanupOptions);
   }
 
-  updateRelatedRelatedDocumentCache(storeName, documentId, data) {
+  updateRelatedDocumentCache(storeName, documentId, data) {
     let options = {
       'subSetName': 'documents',
       'innerIdName' : 'id',

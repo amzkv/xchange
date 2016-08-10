@@ -1,7 +1,7 @@
 <md-dialog ng-click="$event.stopPropagation();sideMenu=false;" class="edit-doc" style="background-color: #f5f5f5;min-width:1000px;width:1000px;height:100%;min-height:100%;overflow:hidden;" aria-label="documentEdit" ng-cloak>
     <md-toolbar style="position:relative;">
       <div class="md-toolbar-tools">
-        <h2>{{documentTitle}}</h2>
+        <h2>{{editForm.title}}</h2>
         <span flex></span>
         <md-button class="md-icon-button hide-gt-xs" aria-label="editDocSideMenu" ng-click="$event.stopPropagation();toggleSideMenu();">
           <i class="mdi mdi-dots-vertical" style="top: 14px;right: 70px;font-size: 1.9em;"></i>
@@ -17,7 +17,7 @@
     </md-toolbar>
     <!--working draft-->
     <div ng-if="showSaveConfirmation" class="save-confirmation">
-      <span class="save-confirmation-text" style="">Save changes?</span>
+      <span class="save-confirmation-text" style="">{{'customer.saveChanges' | i18n}}</span>
       <md-button class="md-icon-button" ng-click="save(editForm);hideDialog($event);">
         <i class="material-icons" style="color: #00AA00">done</i>
       </md-button>
@@ -26,7 +26,7 @@
       </md-button>
       <!--save(editForm)-->
     </div>
-    <div layout="row" in-view-container class="edit-dialog-container" style="overflow-y: scroll;height: 100vh;">
+    <div layout="row" in-view-container class="edit-dialog-container" style="overflow-y: scroll;height: calc(100vh - 64px);">
         <div class="" flex>
           <form id="saveForm" name="saveForm">
             <div id="main_details">
@@ -284,7 +284,7 @@
                   keyboard_arrow_down
                 </md-icon>-->
               </md-button>
-              <div in-view="onViewFile($inview) && !documentLoaded && viewFile($inview);">
+              <div style="position: relative;" in-view="onViewFile($inview) && !documentLoaded && viewFile($inview);">
                 <md-content style="/*overflow-y:scroll;*/" ng-click="focusControl($event);">
                   <!--<md-progress-linear ng-show="documentLoading" md-mode="indeterminate"></md-progress-linear>-->
                   <div ng-if="documentLoading && fileType!='IMG' && fileType!='TXT'" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">
