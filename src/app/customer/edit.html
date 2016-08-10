@@ -360,8 +360,54 @@
           </form>
         </div>
         <div ng-class="{'hide-xs':!sideMenu, 'mobileMenu': sideMenu}" class="doc-control-container">
-          <!-- control menu was here-->
+          <div ng-class="{'hide-xs':!sideMenu, 'mobile-menu-inner': sideMenu}" class="doc-control-fixed" ng-if="!mdClosing && editForm">
+            <div style="height: 16px;"></div>
+            <div class="doc-control-header">
+              {{'customer.actions' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-class="saveForm.$valid && formChanged ? '' : 'control-disabled'" ng-click="formChanged && save(editForm);">
+              <i class="mdi mdi-content-save" role="button"></i>
+              {{'customer.save' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="downloadDoc()">
+              <i class="mdi mdi-download" role="button"></i>
+              {{'customer.download' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-if="(editForm && editForm.hassignature < 1)" ng-click="signDocument()">
+              <i class="mdi mdi-pen" role="button"></i>
+              {{'customer.sign' | i18n}}
+            </div>
+            <div style="height: 16px;"></div>
+            <div class="doc-control-header">
+              {{'customer.navigation' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'main_details');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.overview' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'doc_stats');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.euro' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'doc_collections');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.collection' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'doc_info');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.info' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'doc_workflow');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.workflow' | i18n}}
+            </div>
+            <div class="doc-control-button" ng-click="goTo($event, 'doc_fileview');">
+              <i class="mdi mdi-arrow-right" role="button"></i>
+              {{'customer.view' | i18n}}
+            </div>
+          </div>
         </div>
+
         <div style="width:10px;"></div>
           <!--<div hide-gt-xs style="width:32px;">
             <div class="side-menu-dot" ng-click="toggleSideMenu();">
@@ -371,49 +417,4 @@
     </div>
 </md-dialog>
 <!-- the only way? control menu -->
-<div ng-class="{'hide-xs':!sideMenu, 'mobile-menu-inner': sideMenu}" class="doc-control-fixed" ng-if="!mdClosing && editForm">
-  <div style="height: 16px;"></div>
-  <div class="doc-control-header">
-    {{'customer.actions' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-class="saveForm.$valid && formChanged ? '' : 'control-disabled'" ng-click="formChanged && save(editForm);">
-    <i class="mdi mdi-content-save" role="button"></i>
-    {{'customer.save' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="downloadDoc()">
-    <i class="mdi mdi-download" role="button"></i>
-    {{'customer.download' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-if="(editForm && editForm.hassignature < 1)" ng-click="signDocument()">
-    <i class="mdi mdi-pen" role="button"></i>
-    {{'customer.sign' | i18n}}
-  </div>
-  <div style="height: 16px;"></div>
-  <div class="doc-control-header">
-    {{'customer.navigation' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'main_details');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.overview' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'doc_stats');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.euro' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'doc_collections');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.collection' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'doc_info');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.info' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'doc_workflow');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.workflow' | i18n}}
-  </div>
-  <div class="doc-control-button" ng-click="goTo($event, 'doc_fileview');">
-    <i class="mdi mdi-arrow-right" role="button"></i>
-    {{'customer.view' | i18n}}
-  </div>
-</div>
+
