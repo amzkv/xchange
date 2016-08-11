@@ -292,12 +292,15 @@
                   </div>
                   <div ng-if="documentError" layout="row" layout-sm="column" layout-align="space-around" style="padding-top: 30px;">{{'error.5008'|i18n}}</div>
                   <!--<div ng-if="documentLoading" style="text-align: center;padding: 25px 0 0 0;">Loading...</div>-->
-                  <pdf-viewer ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'"
+                  <!--<pdf-viewer ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'"
                               delegate-handle="pdf-container"
                               url=""
                               scale="1.5"
                               show-toolbar="false">
-                  </pdf-viewer>
+                  </pdf-viewer>-->
+                  <div class="pdf-viewer" ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'">
+                    <embed ng-src="{{trustSrc(documentUrl)}}" type="application/pdf">
+                  </div>
                   <!--<div class="image-container" ng-show="fileType=='IMG'">
                     <canvas id="image_canvas"></canvas>
                   </div>-->
@@ -309,7 +312,7 @@
                   </div>
 
                   <!-- TODO: directive -->
-                  <div class="pdf-controls" ng-if="fileType=='PDF' && showControls" ng-click="focusControl($event);">
+                  <div ng-if="false" class="pdf-controls" ng-if="fileType=='PDF' && showControls" ng-click="focusControl($event);">
                     <md-button ng-show="!unlockZoom" class="md-icon-button" ng-click="unlockToggle();">
                       <i class="material-icons">lock</i>
                     </md-button>
