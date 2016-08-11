@@ -28,5 +28,6 @@
   "overview" : "Overview",
   "save" : "Save",
   "download" : "Download",
-  "sign": "Sign"
+  "sign": "Sign",
+  "saveChanges" : "Save changes?"
 }
