@@ -27,6 +27,7 @@ export class LoginController {
         //$log.log(response);
         if (response.data.response.errorcode == "200") {
           StorageService.clearStorage('user');
+          LocalAccessService.accessKeyUser = null;
           LocalAccessService.setCredentails(self.userInfo);
           toastr.success($filter('i18n')('user.loggedIn'), 'Success');
           CheckAuthService.setUser(response.data.user);
