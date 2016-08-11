@@ -9,6 +9,7 @@ import { LoginController } from './login/login.controller';
 import { RegisterController } from './register/register.controller';
 import { ConfirmController } from './confirm/confirm.controller';
 import { CollectionController } from './collection/collection.controller';
+import { EditDocumentController } from './customer/editDocument.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
 import { ChangeLogController } from './changelog/changelog.controller';
@@ -73,6 +74,7 @@ angular.module('xchange', [
   .controller('CollectionController', CollectionController)
   .controller('SearchController', SearchController)
   .controller('CustomerController', CustomerController)
+  .controller('EditDocumentController', EditDocumentController)
   .controller('ChangeLogController', ChangeLogController)
   .controller('AccesskeyController', AccesskeyController)
   .directive('acmeNavbar', NavbarDirective)
