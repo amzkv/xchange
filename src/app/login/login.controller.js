@@ -2,7 +2,7 @@
  * Created by decipher on 22.4.16.
  */
 export class LoginController {
-  constructor ($state, LoginService, LocalAccessService, CheckAuthService, $scope, toastr, $rootScope, $location, $filter) {
+  constructor ($state, LoginService, LocalAccessService, CheckAuthService, StorageService, $scope, toastr, $rootScope, $location, $filter) {
     'ngInject';
     this.onClickForRegistration = function () {
       $state.go('register');
@@ -26,6 +26,7 @@ export class LoginController {
       LoginService.authenticateUser(self.userInfo).then(function (response) {
         //$log.log(response);
         if (response.data.response.errorcode == "200") {
+          StorageService.clearStorage('user');
           LocalAccessService.setCredentails(self.userInfo);
           toastr.success($filter('i18n')('user.loggedIn'), 'Success');
           CheckAuthService.setUser(response.data.user);
