@@ -1,3 +1,15 @@
+<div class="filter-box" ng-show="documentsService.searchFilter">
+  <md-chips>
+    <md-chip ng-click="documentsService.searchFilter=''">
+        <span>
+            <strong>{{documentsService.searchFilter}}</strong>
+        </span>
+    </md-chip>
+  </md-chips>
+</div>
+<div ng-show="!(docs | filter:searchService.searchCriteria(documentsService.searchFilter)).length" class="no-docs">
+  {{'error.5011' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
+</div>
 <div ng-cloak=""
      infinite-scroll="totalDocCount > pageSize ? more() : null"
      infinite-scroll-disabled='documentService.busy'

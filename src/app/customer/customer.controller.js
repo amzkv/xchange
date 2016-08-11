@@ -77,19 +77,31 @@ export class CustomerController {
 
     $scope.$watch('documentsService.filter', function (newValue, oldValue, scope) {
       if (newValue && newValue != oldValue) {
-        if (documentsService.filterCustomerId) {
-          documentsService.callDocumentByOneCollection(documentsService.filterCustomerId)
-            .then(function (resp) {
-              if (resp.data.response.success) {
-                //console.log('response');
-                scope.docs = resp.data.documents;
-                scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
-
-                if (scope.totalDocCount < documentsService.endValue) {
-                  documentsService.endValue = scope.totalDocCount;
-                }
+        if (documentsService.filterCustomerId || documentsService.filterAccessKey) {
+          //todo
+          let docsPromise;
+          if (documentsService.filterCustomerId) {
+            docsPromise = documentsService.callDocumentByOneCollection(documentsService.filterCustomerId);
+          }
+          if (documentsService.filterAccessKey) {
+            docsPromise = documentsService.callDocumentByAccessKey(documentsService.filterAccessKey);
+          }
+          docsPromise.then(function (resp) {
+            if (resp.data.response.success) {
+              //console.log('response');
+              scope.docs = resp.data.documents;
+              //scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
+              if (resp.data.control && resp.data.control.filtered_documents) {
+                scope.totalDocCount = resp.data.control.filtered_documents;
+              } else {
+                scope.totalDocCount = resp.data.control ? resp.data.control.total_documents : 0;
               }
-            });
+              if (scope.totalDocCount < documentsService.endValue) {
+                documentsService.endValue = scope.totalDocCount;
+              }
+              //console.log(resp.data.control, resp.data.control.filtered_documents ,scope.totalDocCount, documentsService.endValue);
+            }
+          });
         }
       }
     });
@@ -121,7 +133,19 @@ export class CustomerController {
             //request
             let source = resp.data.documents || resp.data.collections;
             $scope.addMoreItems(source);
-            $scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
+            //$scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
+            //fix
+            if (resp.data.control && resp.data.control.filtered_documents) {
+              $scope.totalDocCount = resp.data.control.filtered_documents;
+            } else {
+              $scope.totalDocCount = resp.data.control ? resp.data.control.total_documents : 0;
+            }
+
+            if ($scope.totalDocCount < documentsService.endValue) {
+              documentsService.endValue = $scope.totalDocCount;
+            }
+            //end fix
+
           } else if (resp.data.control) {
             //cache
             $scope.addMoreItems(resp.data.collections);

@@ -221,7 +221,7 @@
                 </md-icon>-->
               </md-button>
               <div ng-accordion-body ng-class="docDetailsSections.workflowBlock ? 'block-expanded' : 'block-collapsed'">
-                <div ng-cloak>
+                <div ng-if="editForm.workflow" ng-cloak>
                   <md-content class="" style="padding-bottom: 10px">
                     <div ng-if="editForm.workflow" layout="row" style="padding: 10px;" layout-align="left center">
                       <div class="breadcrumb flat">
