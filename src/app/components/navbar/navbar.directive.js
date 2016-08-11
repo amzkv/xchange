@@ -273,7 +273,7 @@ class NavbarController {
         self.params = toParams;
       }
 
-      if (self.state == 'customer') {
+      if (self.state == 'customer' || self.state == 'accesskeyDocument') {
 
         $scope.groupFilters = [];
         $scope.filterData = {};
@@ -405,7 +405,14 @@ class NavbarController {
       //console.log('collectionFilter', $scope.collectionFilter);
       //pass filter to doc service
       documentsService.filter = $scope.collectionFilter;
-      documentsService.filterCustomerId = self.params.customerId;
+      if (self.params.customerId) {
+        documentsService.filterCustomerId = self.params.customerId;
+      }
+      if (self.params.accessKey) {
+        //console.log($rootScope, self.params.accessKey);
+        documentsService.filterAccessKey = self.params.accessKey;
+      }
+
 
       //console.log('filter', documentsService.filter);
 
