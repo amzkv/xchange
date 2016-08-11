@@ -54,7 +54,7 @@ export class ConfigService {
 
   getDocumentOffsetValue(){
     "use strict";
-    return 10
+    return 25
   }
 
   getCacheExpirationPeriod(){

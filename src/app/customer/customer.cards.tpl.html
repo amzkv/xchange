@@ -5,7 +5,7 @@
         <!--<div class="card-upper-bar"></div>-->
         <md-card-title>
           <md-card-title-media>
-            <img class="card-image" ng-src="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
+            <img class="card-image" lazy-img="{{baseUrl}}file{{card.thumb}}" class="image-container" alt="{{card.title | truncate:true:16:'...'}}">
           </md-card-title-media>
           <md-card-title-text class="mod-card-title">
             <div class="md-headline mod-card-text">{{card.title|truncate:true:28:'...'}}</div>

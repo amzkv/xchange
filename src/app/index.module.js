@@ -51,7 +51,8 @@ angular.module('xchange', [
   'pdf',
   'ngLocalize',
   'angular-inview',
-  'ng-currency'
+  'ng-currency',
+  'angularLazyImg'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)
