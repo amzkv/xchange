@@ -28,7 +28,8 @@
     "angular-localization": "^1.2.1",
     "angular-inview": "^1.5.7",
     "angular-i18n": "^1.5.8",
-    "ng-currency": "^0.10.1"
+    "ng-currency": "^0.10.1",
+    "angular-lazy-img": "^1.2.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.2"

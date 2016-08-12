@@ -1,10 +1,14 @@
 export class EditDocumentController {
-  constructor (thatScope, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
+  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
     'ngInject';
 
     let self = this;
     $scope.pdfState = {'page': 1};
     $scope.formChanged = false;
+
+    $scope.trustSrc = function(src) {
+      return $sce.trustAsResourceUrl(src);
+    };
 
     //get document
     documentsService.callDocumentById(documentId, key).then(function(resp) {
@@ -225,13 +229,66 @@ export class EditDocumentController {
         //console.log('signed');
       }
 
-      documentsService.callFileById(documentId, docType, key).then(function(resp) {
+      //console.log($scope.editForm.filename);
+
+      let fileName = $scope.editForm.filename;
+        if (isPdfFile(fileName)) {
+          if (fileName) {
+            $scope.documentLoading = false;
+            $scope.fileType = 'PDF';
+            //$scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+            $scope.documentLoaded = true;
+            //FileSaver.saveAs(data, fileName);
+          } else {
+            let error = $filter('i18n')('error.5005');
+            toastr.error(error, 'Error');
+          }
+        } else if (isImage(fileName)) {
+            /*simple*/
+            $scope.documentLoading = true;
+            $scope.fileType = 'IMG';
+            $scope.fileURL = '/';//todo
+            var img = document.getElementById('view_img');
+            img.src = $scope.documentUrl;
+            img.onload = function() {
+              $scope.documentLoading = false;
+              $scope.documentLoaded = true;
+
+            };
+
+            //FileSaver.saveAs(data, fileName);
+        } else if (isPlainText(fileName)) {
+          $scope.fileType = 'TXT';
+          /*try {
+            fileContents = atob(fileContents);
+            $scope.textData = fileContents;
+          } catch (e) {
+            $scope.fileStatus = 'Unsupported';//todo
+          }*/
+          $scope.fileURL ='/';//todo
+          $scope.documentLoading = false;
+          $scope.documentLoaded = true;
+
+          /*var img = document.getElementById('view_txt');
+           img.src = $scope.documentUrl;
+           img.onload = function() {
+           $scope.documentLoading = false;
+
+           };*/
+        } else {
+          $scope.fileStatus = 'Unsupported';//todo
+          $scope.documentLoading = false;//TODO
+          $scope.documentLoaded = true;
+        }
+
+
+      /*documentsService.callFileById(documentId, docType, key).then(function(resp) {
         if (resp && resp.data.file) {
 
           let fileContents = resp.data.file.file;
           let fileName = resp.data.file.filename;
 
-          /*fake text test*/
+          /!*fake text test*!/
           //fileContents = $scope.toBase64('Hello, guys! \n\r How are you?');
           //fileName = 'test.txt';
 
@@ -240,17 +297,23 @@ export class EditDocumentController {
               fileContents = $scope.base64toBlob(fileContents);
               var data = new Blob([fileContents]);
               $scope.fileURL = URL.createObjectURL(data);
-              $scope.documentLoading = true;
-              pdfDelegate
-                .$getByHandle('pdf-container')
-                .load($scope.fileURL)
-                .then(function(item) {
-                  $scope.pdfTotalPages = pdfDelegate.$getByHandle('pdf-container').getPageCount();
-                  $scope.documentLoading = false;
-                  $scope.fileType = 'PDF';
-                  $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
-                  $scope.documentLoaded = true;
-                });
+              //$scope.documentLoading = true;
+
+              /!*pdfDelegate
+               .$getByHandle('pdf-container')
+               .load($scope.fileURL)
+               .then(function(item) {
+               $scope.pdfTotalPages = pdfDelegate.$getByHandle('pdf-container').getPageCount();
+               $scope.documentLoading = false;
+               $scope.fileType = 'PDF';
+               $scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+               $scope.documentLoaded = true;
+               });*!/
+
+              $scope.documentLoading = false;
+              $scope.fileType = 'PDF';
+              //$scope.pdfCurrentPage = $scope.getPdfCurrentPage();
+              $scope.documentLoaded = true;
 
               //FileSaver.saveAs(data, fileName);
             } else {
@@ -259,7 +322,7 @@ export class EditDocumentController {
             }
           } else if (isImage(fileName)) {
             if (fileContents) {
-              /*simple*/
+              /!*simple*!/
               $scope.documentLoading = true;
               $scope.fileType = 'IMG';
               $scope.fileURL = '/';//todo
@@ -285,12 +348,12 @@ export class EditDocumentController {
             $scope.documentLoading = false;
             $scope.documentLoaded = true;
 
-            /*var img = document.getElementById('view_txt');
+            /!*var img = document.getElementById('view_txt');
              img.src = $scope.documentUrl;
              img.onload = function() {
              $scope.documentLoading = false;
 
-             };*/
+             };*!/
           } else {
             $scope.fileStatus = 'Unsupported';//todo
             $scope.documentLoading = false;//TODO
@@ -304,7 +367,7 @@ export class EditDocumentController {
           $scope.documentLoaded = true;
           $scope.documentError = true;
         }
-      });
+      });*/
     };
 
     $scope.docDetailsSections = {

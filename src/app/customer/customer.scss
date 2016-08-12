@@ -351,23 +351,25 @@ md-card-title-media {
     }
   }
 
-  pdf-viewer {
-    display: table;
+  .pdf-viewer {
+    /*display: table;*/
     margin: 0 auto;
     /*width: calc(100vw - 32px);*/
     /*padding: 5px;*/
-    canvas {
+    canvas, embed {
       /*height: calc(100vh - 129px);*/
+      height: calc(#{100vh} - #{129px});
       /*64,48,5+5,6*/
       width: calc(#{100%} - #{10px});
-      margin: 5px 5px 69px 5px;
+      /*margin: 5px 5px 69px 5px;*/
+      margin: 5px;
       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.35);
     }
   }
 
   @media screen and (max-width: 360px) {
-    pdf-viewer {
-      canvas {
+    .pdf-viewer {
+      canvas, embed {
         width: calc(#{100vw} - #{42px});
       }
     }
@@ -399,10 +401,10 @@ md-card-title-media {
     }
   }
 
-  pdf-viewer.unlock, .image-container.unlock {
+  .pdf-viewer.unlock, .image-container.unlock {
     /*display: block;
     margin: 0;*/
-    canvas {
+    canvas, embed {
       height: auto !important;
       width: auto !important;
       margin: 5px;
