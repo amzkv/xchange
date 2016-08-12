@@ -10,9 +10,40 @@ export class EditDocumentController {
       return $sce.trustAsResourceUrl(src);
     };
 
-    //get document
-    documentsService.callDocumentById(documentId, key).then(function(resp) {
+    $scope.createFilterFor = function(query) {
 
+      let lowercaseQuery = angular.lowercase(query);
+      let filteredItems = [];
+
+      function filterFn(item) {
+        return (angular.lowercase(item.title.locale).indexOf(lowercaseQuery) !== -1);
+      }
+
+      angular.forEach(documentsService.allCollections, function (item) {
+        if (filterFn(item)) {
+          filteredItems.push(item);
+        }
+      });
+
+      return filteredItems;
+    };
+
+    $timeout(function () {
+      $scope.querySearch = function (query) {
+        return query ? $scope.createFilterFor(query) : $scope.typesavailable;
+      };
+    }, 400);
+
+    $scope.transformChip = function (chip) {
+      this.saveForm.collections.$dirty = true;//??
+      return chip;
+    };
+
+    $scope.removeChip = function (chip) {
+      this.saveForm.collections.$dirty = true;//??
+    };
+
+    $scope.populateData = function(resp) {
       if (resp.data.document) {
         var res = resp.data;
         $scope.selectedItem = {};//$scope.rowDocument;
@@ -59,47 +90,22 @@ export class EditDocumentController {
 
         $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
 
-        $scope.$watch("editForm", function(newVal, oldVal){
-          if (newVal && newVal!=oldVal) {
-            $scope.formChanged = true;
-            thatScope.formChanged = true;
-          }
-        }, true);
-
-        $timeout(function () {
-          $scope.querySearch = function (query) {
-            return query ? createFilterFor(query) : $scope.typesavailable;
-          };
-        }, 400);
-
-        $scope.transformChip = function (chip) {
-          this.saveForm.collections.$dirty = true;//??
-          return chip;
-        };
-
-        $scope.removeChip = function (chip) {
-          this.saveForm.collections.$dirty = true;//??
-        };
-
-        function createFilterFor(query) {
-
-          let lowercaseQuery = angular.lowercase(query);
-          let filteredItems = [];
-
-          function filterFn(item) {
-            return (angular.lowercase(item.title.locale).indexOf(lowercaseQuery) !== -1);
-          }
-
-          angular.forEach(documentsService.allCollections, function (item) {
-            if (filterFn(item)) {
-              filteredItems.push(item);
-            }
-          });
-
-          return filteredItems;
-        }
       }
 
+      if ($scope.editFormWatch) {
+        $scope.editFormWatch();
+      }
+
+      $scope.editFormWatch = $scope.$watch("editForm", function(newVal, oldVal){
+        if (newVal && newVal!=oldVal) {
+          $scope.formChanged = true;
+          thatScope.formChanged = true;
+        }
+      }, true);
+    };
+
+    documentsService.callDocumentById(documentId, key).then(function(resp) {
+      $scope.populateData(resp);
     });
 
     //go to section
@@ -131,18 +137,18 @@ export class EditDocumentController {
     };
 
     $scope.zoomIn = function() {
-    pdfDelegate.$getByHandle('pdf-container').zoomIn();
-  };
+      pdfDelegate.$getByHandle('pdf-container').zoomIn();
+    };
 
     $scope.zoomOut = function() {
-    pdfDelegate.$getByHandle('pdf-container').zoomOut();
-  };
+      pdfDelegate.$getByHandle('pdf-container').zoomOut();
+    };
 
     $scope.pagePrev = function() {
-    if ($scope.getPdfCurrentPage() > 1) {
-      $scope.pdfGoToPage($scope.getPdfCurrentPage() - 1);
-    }
-  };
+      if ($scope.getPdfCurrentPage() > 1) {
+        $scope.pdfGoToPage($scope.getPdfCurrentPage() - 1);
+      }
+    };
 
     $scope.pageNext = function() {
       if ($scope.getPdfCurrentPage() < $scope.pdfTotalPages) {
@@ -383,39 +389,39 @@ export class EditDocumentController {
     };
 
     $scope.focusControl = function($event) {
-    //this does work
+      //this does work
 
-    /*if (angular.element($event.target)[0] && angular.element($event.target)[0].tagName != 'INPUT') {
-     $event.target.focus();
-     }*/
-  };
+      /*if (angular.element($event.target)[0] && angular.element($event.target)[0].tagName != 'INPUT') {
+       $event.target.focus();
+       }*/
+    };
 
     //TODO: move
 
     $scope.toBase64 = function(text) {
-    return btoa(text);
-  };
+      return btoa(text);
+    };
 
     $scope.base64toBlob = function(base64Data, contentType) {
-    contentType = contentType || '';
-    var sliceSize = 1024;
-    var byteCharacters = atob(base64Data);
-    var bytesLength = byteCharacters.length;
-    var slicesCount = Math.ceil(bytesLength / sliceSize);
-    var byteArrays = new Array(slicesCount);
+      contentType = contentType || '';
+      var sliceSize = 1024;
+      var byteCharacters = atob(base64Data);
+      var bytesLength = byteCharacters.length;
+      var slicesCount = Math.ceil(bytesLength / sliceSize);
+      var byteArrays = new Array(slicesCount);
 
-    for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-      var begin = sliceIndex * sliceSize;
-      var end = Math.min(begin + sliceSize, bytesLength);
+      for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
 
-      var bytes = new Array(end - begin);
-      for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
-        bytes[i] = byteCharacters[offset].charCodeAt(0);
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+          bytes[i] = byteCharacters[offset].charCodeAt(0);
+        }
+        byteArrays[sliceIndex] = new Uint8Array(bytes);
       }
-      byteArrays[sliceIndex] = new Uint8Array(bytes);
-    }
-    return new Blob(byteArrays, { type: contentType });
-  };
+      return new Blob(byteArrays, { type: contentType });
+    };
 
     $scope.downloadDoc = function () {
       documentsService.callFileById(documentId, null, key).then(function(resp) {
@@ -440,32 +446,32 @@ export class EditDocumentController {
 
     $scope.updateCurrentDocumentList = function(id, data) {
 
-    function changeValue(fieldName, data, item, key, subKey) {
-      if (data[fieldName] && data[fieldName] != item[fieldName]) {
-        if (subKey) {
-          thatScope.docs[key][fieldName] = data[fieldName][subKey];
-        } else {
-          thatScope.docs[key][fieldName] = data[fieldName];
-        }
+      function changeValue(fieldName, data, item, key, subKey) {
+          if (data[fieldName] && data[fieldName] != item[fieldName]) {
+            if (subKey) {
+              thatScope.docs[key][fieldName] = data[fieldName][subKey];
+            } else {
+              thatScope.docs[key][fieldName] = data[fieldName];
+            }
+          }
       }
-    }
 
-    angular.forEach(thatScope.docs, function (item, key) {
-      //manual list for now
-      if (item.id == id) {
-        changeValue('title', data, item, key);
-        changeValue('date', data, item, key);
-        changeValue('type', data, item, key);
-        changeValue('text', data, item, key);
-        //changeValue('workstatus', data, item, key);
-        changeValue('netvaluegoods', data, item, key);
-        changeValue('totalamount', data, item, key);
-        changeValue('taxamount', data, item, key);
-        changeValue('collections', data, item, key);
-        //todo
-      }
-    });
-  };
+      angular.forEach(thatScope.docs, function (item, key) {
+        //manual list for now
+        if (item.id == id) {
+          changeValue('title', data, item, key);
+          changeValue('date', data, item, key);
+          changeValue('type', data, item, key);
+          changeValue('text', data, item, key);
+          //changeValue('workstatus', data, item, key);
+          changeValue('netvaluegoods', data, item, key);
+          changeValue('totalamount', data, item, key);
+          changeValue('taxamount', data, item, key);
+          changeValue('collections', data, item, key);
+          //todo
+        }
+      });
+    };
 
     $scope.save = function (editForm) {
 
@@ -550,10 +556,11 @@ export class EditDocumentController {
             //clear documents list cache
 
             //documentsService.cleanupRelatedLists('documents',documentId);//do not cleanup for now - we use modified cache
-
+            $scope.populateData(saveResp);//update form from response
+            $scope.formChanged = false;
             $scope.saveForm.$setPristine();
             $scope.saveForm.$setSubmitted();
-            $scope.formChanged = false;
+
             let viewData = angular.merge(data, updateData);
             $scope.updateCurrentDocumentList(documentId, viewData);
 
