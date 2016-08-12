@@ -51,6 +51,7 @@ export class EditDocumentController {
 
         $scope.basepath = ConfigService.getBaseUrl() + 'file';
         $scope.documentUrl = $scope.basepath + '/original/' + res.document.uuid;
+        $scope.documentUrlLarge = $scope.basepath + '/large/' + res.document.uuid;
 
         let currentDate = new Date(res.document.date);
         let documentDate;
