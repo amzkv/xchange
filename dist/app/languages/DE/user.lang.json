@@ -1,0 +1,23 @@
+{
+  "needAnAccount" : "Need an account?",
+  "forgotYourPassword" : "Forgot Your Password?",
+  "alreadyMember" : "Already a member?",
+  "username" : "Username",
+  "password" : "Password",
+  "createAccount" : "Create Account",
+  "signin" : "Sign In",
+  "registrationIsFree" : "Registration is FREE",
+  "iagreewTnC" : "I agree with the Terms and Conditions",
+  "firstName" : "First Name",
+  "lastName" : "Last Name",
+  "companyName" : "Company Name",
+  "email": "Email",
+  "confirmPassword" : "Confirm Password",
+  "register" : "Register",
+  "checkEmail" : "Thank You! Please, check your e-mail inbox!",
+  "registrationConfirmation" : "Registration confirmation",
+  "confirmationCode" : "Confirmation Code",
+  "confirm" : "Confirm",
+  "clearLocalStorage" : "Clear Local Storage",
+  "loggedIn" : "Logged in successfully"
+}

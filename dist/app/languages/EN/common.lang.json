@@ -1,0 +1,16 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "open" : "Open",
+  "close" : "Close",
+  "error": "Error",
+  "warning" : "Warning",
+  "company" : "Company",
+  "name" : "Name",
+  "count" : "Count",
+  "title" : "Title",
+  "date" : "Date",
+  "type" : "Type",
+  "filter" : "Filter",
+  "value" : "Value"
+}
