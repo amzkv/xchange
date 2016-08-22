@@ -91,6 +91,111 @@ md-backdrop {
   }
 }
 
+.notification-box {
+  /*position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 13px;
+  text-align: left;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;*/
+  width: 300px;
+}
+
+.box-item {
+  /*padding: 12px 20px;*/
+  padding: 10px;
+  position: relative;
+  display: block;
+  -webkit-transition: background-color;
+  -o-transition: background-color;
+  transition: background-color;
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
+
+  .media:first-child {
+    margin-top: 0;
+  }
+  .media {
+    overflow: visible;
+  }
+  .media, .media-body {
+    zoom: 1;
+    overflow: hidden;
+  }
+
+  .media {
+    margin-top: 15px;
+  }
+  .media > .pull-left {
+    padding-right: 15px;
+  }
+  .media-left, .media > .pull-left {
+    padding-right: 10px;
+  }
+  .pull-left {
+    float: left !important;
+  }
+
+  .box-img-sm {
+    width: 35px;
+    height: 35px;
+  }
+
+  .box-title {
+    font-size: 12px;
+    /*overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;*/
+    display: block;
+  }
+
+  .box-small {
+    font-size: 12px;
+    color: #A9A9A9;
+    /*overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;*/
+    word-break: normal;
+    display: block;
+    width: 100%;
+  }
+}
+
+.clearfix {
+  clear: both;
+}
+
+.box-footer {
+  display: block;
+  text-align: center;
+  padding: 7px 10px 8px;
+  border-top: 1px solid #F0F0F0;
+  line-height: 100%;
+  font-size: 11px;
+  margin-top: 20px;
+  color: #828282;
+}
+
+.box-header .box-actions {
+  position: absolute;
+  top: 1px;
+  /*font-size: 1.9em;*/
+  right: 8px;
+  z-index: 10;
+}
+
 .hamburger-header-items {
   position:absolute;
   top: 16px;
@@ -143,11 +248,58 @@ md-divider {
   top: 5px;
 }
 
+.box-header {
+  text-align: center;
+  padding: 15px 10px 13px;
+  line-height: 100%;
+  text-transform: uppercase;
+  border-bottom: 1px solid #F0F0F0;
+  font-weight: 500;
+  color: #4C4C4C;
+  margin-bottom: 10px;
+}
+
+.box-body {
+  overflow-x: hidden;
+  min-height: 295px;
+  box-sizing: border-box;
+}
+
 .nav-filter {
   position: absolute;
   top: 14px;
   right: 10px;
   font-size: 1.9em;
+}
+.nav-counts {
+  position: absolute;
+  font-style: normal;
+  background: #f44336;
+  padding: 1px 5px;
+  border-radius: 2px;
+  right: 0px;
+  top: -3px;
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.nav-reload {
+  position: absolute;
+  top: 14px;
+  right: 170px;
+  font-size: 1.9em;
+}
+
+.nav-notifications {
+  position: absolute;
+  top: 14px;
+  right: 120px;
+  font-size: 1.9em;
+}
+
+.nav-notification-box-icon {
+  font-size: 1.9em;
+  color:#f44336;
 }
 
 .nav-options {

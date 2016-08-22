@@ -16,6 +16,14 @@ gulp.task('inject-reload', ['inject'], function() {
 });
 
 gulp.task('inject', ['scripts', 'styles'], function () {
+
+  var injectLib = gulp.src([conf.paths.src + '/app/lib/**/*.js'], {read: false});
+  var libOptions = {
+    starttag: '<!-- inject:lib -->',
+    ignorePath: [conf.paths.src, conf.paths.tmp + '/serve'],
+    addRootSlash: false
+  };
+
   var injectStyles = gulp.src([
     path.join(conf.paths.tmp, '/serve/app/**/*.css'),
     path.join('!' + conf.paths.tmp, '/serve/app/vendor.css')
@@ -34,6 +42,7 @@ gulp.task('inject', ['scripts', 'styles'], function () {
   return gulp.src(path.join(conf.paths.src, '/*.html'))
     .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))
+    .pipe($.inject(injectLib, libOptions))
     .pipe(replace({global:config, preserveUnknownTokens: true}))
     .pipe(wiredep(_.extend({}, conf.wiredep)))
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));

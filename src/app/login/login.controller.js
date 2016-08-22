@@ -31,6 +31,11 @@ export class LoginController {
           LocalAccessService.setCredentails(self.userInfo);
           toastr.success($filter('i18n')('user.loggedIn'), 'Success');
           CheckAuthService.setUser(response.data.user);
+          //todo??
+          if ($rootScope.infinicast) {
+            $rootScope.infinicast.setUser(response.data.user);
+            $rootScope.infinicast.listen();
+          }
           if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register' && $rootScope.previousPage.indexOf('/ak/') == -1) {
             $location.path($rootScope.previousPage);
           } else {

@@ -44,6 +44,14 @@
   <!--<span class="nav-mode-switch" ng-click="$event.stopPropagation(); vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);">
     <i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i>
   </span>-->
+
+  <!--<div style="position:fixed;right:30px;top:100px;cursor: pointer" ng-click="vm.testDataUpdate();">test</div>-->
+
+  <!--<i ng-show="dataChanged" class="mdi mdi-reload nav-reload" ng-click="$event.stopPropagation();vm.reloadData();"></i>
+  <i class="mdi mdi-bell nav-notifications" ng-click="$event.stopPropagation();vm.displayNotifications = !vm.displayNotifications">
+    <i ng-show="vm.notifications.length" class="nav-counts">{{vm.notifications.length}}</i>
+  </i>-->
+
   <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"></i>
   <i class="mdi mdi-magnify nav-filter" ng-click="vm.displayOptions = false;vm.toggleFilter()"></i>
   <i class="nav-home" ng-click="vm.navigateHome()">
@@ -51,21 +59,9 @@
   </i>
 </md-toolbar>
 
-<div class="options-backdrop" ng-show="vm.displayOptions" ng-click="vm.displayOptions=false"></div>
-<div class="options-popup" ng-show="vm.displayOptions">
-  <!--test-->
-  <div style="text-align: center;padding:5px;">
-    <i class="mdi mdi-checkbox-blank-circle" style="color: #310055;"></i>
-    <i class="mdi mdi-checkbox-blank-circle" style="color: #212121;"></i>
-    <i class="mdi mdi-checkbox-blank-circle" style="color: #727272;"></i>
-  </div>
-  <md-divider></md-divider>
-  <ul>
-    <li ng-click="$event.stopPropagation();fullScreen();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"></i></span> {{!isFullScreen ? ('navbar.fullscreen'|i18n) : ('navbar.regularscreen'|i18n)}}</li><!--mdi-fullscreen-exit-->
-    <li ng-click="$event.stopPropagation();vm.changeState(vm.toggleMode.alterState, vm.toggleMode.thisState);vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i></span>&nbsp;{{vm.cardMode ? ('navbar.list'|i18n) : ('navbar.card'|i18n)}} {{'navbar.mode' | i18n}}</li>
-    <li ng-if="vm.state === 'collection'" ng-click="$event.stopPropagation();vm.toggleEmptyCollectionFiltering();vm.displayOptions = !vm.displayOptions"><span class="popup-icon"><i class="mdi" ng-class="!showEmptyCollections ? 'mdi-numeric-0-box-outline' : 'mdi-numeric-0-box'"></i></span> {{!showEmptyCollections ? ('navbar.emptysets'|i18n) : ('navbar.emptysetshid'|i18n)}}</li><!--mdi-numeric-0-box-->
-  </ul>
-</div>
+<div class="options-backdrop" ng-show="vm.anyBoxIsShown()" ng-click="vm.hideBoxes();"></div>
+<ng-include src="'app/components/navbar/navbar.box.options.html'"></ng-include>
+<ng-include src="'app/components/navbar/navbar.box.notifications.html'"></ng-include>
 
 <!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 

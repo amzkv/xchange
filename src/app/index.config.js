@@ -1,6 +1,22 @@
-export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide) {
+export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide, InfinicastWrapperProvider) {
   'ngInject';
   // Enable log
+  InfinicastWrapperProvider.setConfig({
+    'host': 'https://ws.demo.infinicast.io',
+    'scope' : '365xchange',
+    'role' : 'myRole',
+    'paths' : [
+      {
+        name: 'userCollection',
+        pathType: InfinicastWrapperProvider.pathTypes.userCollection,
+        pathConfig: {
+          type: 'user',
+          dataType: 'collection'
+        }
+      }
+    ]
+  });
+
   $logProvider.debugEnabled(true);
 
   // Set options third-party lib

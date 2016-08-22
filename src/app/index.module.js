@@ -32,6 +32,8 @@ import { AppTitle } from './components/appTitle/appTitle.directive.js';
 import { CompareTo } from './components/compareTo/compareTo.directive';
 import { DocumentDataValidate } from './components/documentDataValidate/documentDataValidate.directive';
 import { langConf } from './languages/langConf';
+import { InfinicastWrapper } from './components/infinicast/infinicast.wrapper.provider';
+import { NotificationService } from './notification/notification.service';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -88,4 +90,6 @@ angular.module('xchange', [
   .directive('documentDataValidate', DocumentDataValidate)
   .directive('flyingButton', FlyingButtonDirective)
   .filter('truncate', TruncateFilter)
-  .service('SearchService', SearchService);
+  .service('SearchService', SearchService)
+  .provider('InfinicastWrapper', InfinicastWrapper)
+  .service('NotificationService', NotificationService);

@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr) {
     'ngInject';
 
     this.constant = CONSTANT;
@@ -37,8 +37,10 @@ class NavbarController {
     }*/
 
     $scope.documentsService = documentsService;
+    $scope.notificationService = NotificationService;
     $scope.localAccessService = LocalAccessService;
     $scope.busy = documentsService.busy;
+    $scope.dataChanged = false;
 
     $scope.$watch('documentsService.busy', function (newValue, oldValue, scope) {
       scope.busy = newValue;
@@ -49,6 +51,7 @@ class NavbarController {
     self.accessKeyUser = null;
     self.currentClass = {};
     self.currentCollection = {};
+    this.notifications = $scope.notificationService.notifications;
 
     this.populateCurrentClass = function() {
       //console.log('populate params:',self.params);
@@ -76,6 +79,67 @@ class NavbarController {
           //console.log('collection:', self.currentCollection);
         }
       }
+    };
+
+    /////////////////////notifications//////////////////
+    //draft//
+    this.reloadData = function() {
+      $state.go($state.current, {}, {reload: true});
+    };
+
+    if ($rootScope.infinicast) {
+      //collections changes
+      $rootScope.infinicast.setRootScope($rootScope);
+      //can be refactored like this:
+      // getPathNames -> addNotificationListenerByName(pathName);
+      $rootScope.$watch('infinicast.dataPool.userCollection', function (newValue, oldValue, scope) {
+        //console.log(newValue, oldValue, scope);
+        if (newValue != null) {
+          let notification = $scope.notificationService.processNotificationData('userCollection', newValue, $rootScope.infinicast.user.userid);
+          $scope.notificationService.addNotification(notification);
+          if ($state.href($state.current.name, $state.params).indexOf(notification.url) !== -1) {
+            $scope.dataChanged = true;
+            //toastr.success($filter('i18n')('user.loggedIn'), 'Success');
+            toastr.warning('Displayed data has been changed', 'Attention');
+          }
+          //console.log('state', $state, );
+        }
+      }, true);
+    }
+
+    this.testDataUpdate = function() {
+      console.log('test');
+      let time = new Date();
+      //$rootScope.infinicast.setDataByUser('user', 'collection', {"test":time});
+      $rootScope.infinicast.setDataByPathName('userCollection',
+      { "id" : 394247,
+        "title" : "invoice received",
+        "group" : {
+          "locale" : "Workflow",
+          "value" : "WORKFLOW"
+        }
+      });
+
+      /*$rootScope.infinicast.setDataByUser('user', 'collection',
+        { "id" : 394247,
+          "title" : "invoice received #2",
+          "group" : {
+            "locale" : "Workflow",
+            "value" : "WORKFLOW"
+          }
+      });*/
+
+    };
+
+    //////////////////end notifications///////
+
+    this.hideBoxes = function() {
+      self.displayOptions = false;
+      self.displayNotifications = false;
+    };
+
+    this.anyBoxIsShown = function() {
+      return (self.displayOptions || self.displayNotifications);
     };
 
     $scope.$watch('documentsService.allCollections', function (newValue, oldValue, scope) {
@@ -156,6 +220,7 @@ class NavbarController {
 
     $rootScope.$on('$stateChangeSuccess', function(){
       "use strict";
+      $scope.dataChanged = false;
       self.documentsView = ($state.current.name === 'customer');
       self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'confirm');
       if (!self.hideHeader && !self.coreItems) {

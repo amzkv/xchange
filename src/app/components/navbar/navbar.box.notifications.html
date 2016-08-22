@@ -1,0 +1,40 @@
+<div class="options-popup notification-box" ng-show="vm.displayNotifications">
+  <div class="box-header">{{'Notifications'}}
+    <ul class="box-actions">
+      <li>
+        <a href="" ng-click="vm.clearNotifications($event)">
+          <i class="mdi mdi-check-all">
+          </i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="box-body">
+    <!--ng-href="" ng-repeat="w in hctrl.messageResult.list"-->
+    <div class="box-item" ng-repeat="notification in vm.notifications">
+      <div class="media">
+        <div class="pull-left">
+          <i class="mdi mdi-alert-box nav-notification-box-icon"></i>
+          <!--<img class="box-img-sm" ng-src="" alt="" src="">-->
+        </div>
+        <div class="media-body">
+          <small class="box-small ng-binding">
+            {{notification.entityName}} <a style="color:#444444;" href="{{notification.url}}">{{notification.title}}</a> {{notification.action}},
+            {{notification.header | date: "dd.MM.yyyy - hh:mm"}}
+          </small>
+          <small class="box-title ng-binding"></small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <a class="box-footer" href="">{{''}}</a>
+  <!--test-->
+  <!--<div style="text-align: center;padding:5px;">
+    {{'Notifications'}}
+  </div>
+  <md-divider></md-divider>
+  <ul>
+    <li ng-click="$event.stopPropagation();"><span class="popup-icon"><i class="mdi" ng-class="'mdi-fullscreen'"></i></span> text</li>
+  </ul>-->
+</div>

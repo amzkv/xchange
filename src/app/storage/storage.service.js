@@ -51,6 +51,49 @@ export class StorageService {
     });
   }
 
+  cleanSelectedRecordsByCollectionForUser(storeName, entityId, userId) {
+    if (!storeName) {
+      return;
+    }
+    let recordIds = [];
+    let self = this;
+
+    let filterFunc = function(entityId, userId, strId) {
+      let re;
+      if (storeName == 'documents') {
+        re = /^(\w+)_\d+_\d+\/(\d+)$/gmi;
+        //hash ak
+        //todo
+        //$re = "/^(.+)_\\d+_\\d+$/mi"; //example: 4f8b8a53-8a6_11_20
+      } else {
+        re = /^([\/<all\/>|\w]+)\/(\d+)$/gmi;
+      }
+      let match = re.exec(strId);
+      //console.log('match', match, entityId, userId, strId);
+      if (match && match.length && (match[1] == entityId) && (match[2] == userId)) {
+        return true;
+      }
+      return false;
+    };
+
+    this.getAllRecords(storeName).then(function(topics) {
+      if (topics.length) {
+        topics.filter(function(item){
+          if (filterFunc(entityId, userId, item.id)) {
+            recordIds.push(item.id);
+          }
+          return true;
+        });
+      }
+
+      if (recordIds.length>0) {
+        angular.forEach(recordIds, function(recordId) {
+          self.deleteSingleRecord(storeName, recordId);
+        });
+      }
+    });
+  }
+
   updateSelectedRecords(storeName, options) {
 
     if (!storeName) {
