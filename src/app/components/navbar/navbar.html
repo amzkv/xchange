@@ -122,11 +122,11 @@
     <md-input-container flex="100">
       <label>{{'navbar.search' | i18n}}</label>
       <span>
-        <input type="search" autofocus="autofocus" name="search" data-ng-model="searchField" ng-keyup="search($event.keyCode);" md-autofocus/>
+        <input type="search" autofocus="autofocus" name="search" data-ng-model="searchField"  ng-keyup="search($event.keyCode);" md-autofocus/>
       </span>
     </md-input-container>
     <span ng-if="searchField">
-        <md-button class="md-icon-button " ng-click="searchField='';documentsService.searchFilter=''">
+        <md-button class="md-icon-button " ng-click="clearSearchField();">
           <i class="material-icons">close</i>
         </md-button>
     </span>

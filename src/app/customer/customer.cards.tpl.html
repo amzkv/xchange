@@ -1,6 +1,7 @@
 <md-content class="md-padding" ng-if="docs.length">
   <div docgrid class="docgrid">
-    <div grid ng-repeat="card in docs | filter:searchService.searchCriteria(documentsService.searchFilter)" class="column">
+    <!-- | filter:searchService.searchCriteria(documentsService.searchFilter)-->
+    <div grid ng-repeat="card in (filteredDocs || docs)" class="column">
       <md-card class="main-card view-module ie-fix" ng-click="editDocument($event, card.id);">
         <!--<div class="card-upper-bar"></div>-->
         <md-card-title>
@@ -20,7 +21,7 @@
             <div layout="row" layout-align="left center" style="padding: 10px 0 12px 0;">
               <span class="md-subhead secondary-subhead" style="font-size: 16px !important;">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
             </div>
-            <div class="list-item-text collection-item-card" ng-repeat="collection in card.collections | filter: groupFilter">
+            <div class="list-item-text collection-item-card" ng-repeat="collection in card.collections | collectionFilter:excludeCollections">
               {{collection.title.locale || collection.title.value}}<span class="">{{$last ? '' : ', '}}&nbsp;</span>
             </div>
 
@@ -32,28 +33,6 @@
           </div>
         </div>-->
 
-      </md-card>
-      <md-card style="height:322px;" class="card-details {{{'Lieferanten': 'count-customer', 'Kunden': 'count-customer', 'CUSTOMER': 'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
-                'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-other', 'Monat': 'count-other', 'Belegart': 'count-other', 'Datum': 'count-other',
-                'Project': 'count-project', '':'count-other'}[category]}}" ng-show="card.details" ng-click="showDetails(card)">
-        <!--ng-class="{'CUSTOMER':'first-level','VENDOR':'first-level', 'Lead':'first-level', 'Monat': 'second-level', 'Datum': 'second-level', 'Lieferanten' : 'second-level', 'customer': 'second-level', 'Belegart': 'second-level', 'Workflow': 'second-level', 'Type': 'second-level', 'Inbox': 'second-level', 'Project': 'third-level', '':'first-level'}[category]"-->
-        <md-card-actions layout="row" layout-align="end center">
-          <button class="md-button md-icon-button card-details-button download-button" type="button" aria-label="Download" ng-click="$event.stopPropagation()">
-            <i class="mdi mdi-download"></i>
-          </button>
-          <button class="md-button md-icon-button card-details-button edit-button" type="button" aria-label="Edit" ng-click="editDocument($event, card.id);">
-            <i class="mdi mdi-pencil"></i>
-          </button>
-        </md-card-actions>
-        <md-card-title>
-          <md-card-title-text class="mod-card-title">
-            <span class="md-headline md-headline-selected mod-card-text" title="{{card.title}}">{{card.title|truncate:true:20:'...'}}</span>
-            <!--<div class="md-subhead-selected" no-scope-repeat items="card.collections" value="title.locale" defaultvalue="title.value"></div>-->
-            <div class="md-subhead-selected" ng-repeat="collection in card.collections">
-              {{collection.title.locale || collection.title.value}}
-            </div>
-          </md-card-title-text>
-        </md-card-title>
       </md-card>
     </div>
   </div>

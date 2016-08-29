@@ -26,6 +26,7 @@ import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
 import { NoScopeRepeatDirective } from './components/noScopeRepeat/noscoperepeat.directive';
 import { TruncateFilter } from './components/truncate/truncate.filter';
+import { CollectionFilter } from './components/collectionFilter/collection.filter';
 import { SearchService } from './components/search/search.service';
 import { ValidateEmail } from './components/validateEmail/validateEmail.directive';
 import { AppTitle } from './components/appTitle/appTitle.directive.js';
@@ -90,6 +91,7 @@ angular.module('xchange', [
   .directive('documentDataValidate', DocumentDataValidate)
   .directive('flyingButton', FlyingButtonDirective)
   .filter('truncate', TruncateFilter)
+  .filter('collectionFilter', CollectionFilter)
   .service('SearchService', SearchService)
   .provider('InfinicastWrapper', InfinicastWrapper)
   .service('NotificationService', NotificationService);

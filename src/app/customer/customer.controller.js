@@ -41,9 +41,28 @@ export class CustomerController {
 
     $scope.baseUrl = baseUrl;
 
-    $scope.groupFilter = function (collection) {
-      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type' && collection.group.value !== 'WORKFLOW';
+    $scope.applySearchFilter = function() {
+      $scope.filteredDocs = $filter('filter')($scope.docs, $scope.searchService.searchCriteria(documentsService.searchFilter));
     };
+
+    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      //$scope.searchField = newValue;
+
+      if (newValue == '') {
+        $scope.filteredDocs = null;
+      }
+      if (newValue === oldValue) {
+        return;
+      }
+      $scope.applySearchFilter();
+
+    });
+
+    $scope.excludeCollections = ['Monat', 'NEW', 'INBOX', 'Type', 'WORKFLOW'];
+
+    /*$scope.groupFilter = function (collection) {
+      return collection.group.value !== 'Monat' && collection.group.value !== 'NEW' && collection.group.value !== 'INBOX' && collection.group.value !== 'Type' && collection.group.value !== 'WORKFLOW';
+    };*/
 
 
     $scope.toggleMode = {
@@ -72,6 +91,7 @@ export class CustomerController {
 
     $scope.addMoreItems = function(items) {
       $scope.docs = $scope.docs.concat(items);
+      //$scope.applySearchFilter();
       //angular.extend($scope.docs, items);
     };
 
@@ -133,6 +153,9 @@ export class CustomerController {
             //request
             let source = resp.data.documents || resp.data.collections;
             $scope.addMoreItems(source);
+            if (documentsService.searchFilter) {
+              $scope.applySearchFilter();
+            }
             //$scope.totalDocCount = docs.data.control ? docs.data.control.total_documents : 0;
             //fix
             if (resp.data.control && resp.data.control.filtered_documents) {

@@ -2,12 +2,13 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog) {
+  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter) {
     'ngInject';
 
-    themeProvider.setDefaultTheme('365violet');
+    //themeProvider.setDefaultTheme('365violet');
 
     $scope.documentsService = documentsService;
+    $scope.viewModeService = ViewModeService;
     $scope.documentsService.searchFilter = '';
 
     this.docs = collection.data.collections;
@@ -24,16 +25,41 @@ export class CollectionController {
       alterState:  ViewModeService.getAlterState()
     };
 
-    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
-    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
+    $scope.applySearchFilter = function() {
+      self.filteredDocs = $filter('filter')(self.docs, $scope.searchService.searchCriteria(documentsService.searchFilter, !$scope.viewModeService.showEmptyCollections));
+    };
 
-    $scope.emptyCollectionFilter = function (collection) {
-      if (ViewModeService.showEmptyCollections) {
-        return true;
-      } else {
-        return collection.count > 0;
+    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      //$scope.searchField = newValue;
+
+      /*if (newValue == '') {
+        $scope.filteredDocs = null;
+      }
+      if (newValue === oldValue) {
+        return;
+      }*/
+      $scope.applySearchFilter();
+    });
+
+    $scope.emptyCollectionFilter = function () {
+      return function(item) {
+        if ($scope.viewModeService.showEmptyCollections) {
+          return true;
+        } else {
+          return item.count > 0;
+        }
       }
     };
+
+    $scope.$watch('viewModeService.showEmptyCollections', function (newValue, oldValue) {
+      if (newValue != oldValue) {
+        $scope.applySearchFilter();
+      }
+      //self.filteredDocs = $filter('filter')(self.docs, $scope.emptyCollectionFilter());
+    });
+
+    //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
 
     $scope.editTitle = function(event) {
       event.stopPropagation();

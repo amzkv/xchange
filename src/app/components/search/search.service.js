@@ -4,9 +4,13 @@ export class SearchService {
     this.filter = $filter;
   }
 
-  searchCriteria(query) {
+  searchCriteria(query, hideEmptyCollections) {
     let self = this;
     return function( item ) {
+      //console.log('filter searchCriteria');
+      if (hideEmptyCollections && item.count < 1 ) {
+        return false;
+      }
       let itemMod = angular.copy(item);
       if (itemMod.thumb) {
         itemMod.thumb = '';//skip this for search

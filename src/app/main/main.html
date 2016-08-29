@@ -7,7 +7,7 @@
     </md-chip>
   </md-chips>
 </div>
-<div ng-show="!((main.docs || search.coreDocs) | filter : documentsService.searchFilter).length" class="no-docs">
+<div ng-show="!((main.filteredDocs || main.docs) || search.coreDocs).length" class="no-docs">
   {{'error.5012' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
 </div>
 <flying-button template="addDialog" scope="main" params="fbParams" ng-if="fbParams.creatableClasses.length"></flying-button>

@@ -1,6 +1,6 @@
 <md-content class="md-padding">
   <div docgrid class="deckgrid">
-    <div grid ng-repeat="card in (collection.docs || search.collections) |filter:emptyCollectionFilter |filter:documentsService.searchFilter" class="a-card column">
+    <div grid ng-repeat="card in ((collection.filteredDocs || collection.docs) || (search.filteredDocs || search.collections))" class="a-card column">
       <a ui-sref="customer({collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale})">
         <md-card>
           <md-button ng-if="!{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">

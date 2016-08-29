@@ -1,5 +1,5 @@
 export class MainController {
-  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q) {
+  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q, $filter) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
@@ -54,6 +54,22 @@ export class MainController {
       });
       return newClasses;
     };
+
+    $scope.applySearchFilter = function() {
+      self.filteredDocs = $filter('filter')(self.docs, $scope.searchService.searchCriteria(documentsService.searchFilter));
+    };
+
+    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      //$scope.searchField = newValue;
+      if (newValue == '') {
+        $scope.filteredDocs = null;
+      }
+      if (newValue === oldValue) {
+        return;
+      }
+      $scope.applySearchFilter();
+
+    });
 
     $scope.fbParams = {};
     $scope.fbParams.creatableClasses = this.filterClasses($scope.creatableClasses);

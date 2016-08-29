@@ -1,5 +1,5 @@
   <div class="list-offsets doc-list-table" ng-if="docs.length">
-    <div grid ng-repeat-start="card in docs | filter:searchService.searchCriteria(documentsService.searchFilter)" class="grid-item main-card view-list a-card doc-list-row" ng-click="editDocument($event, card.id);">
+    <div grid ng-repeat-start="card in (filteredDocs || docs)" class="grid-item main-card view-list a-card doc-list-row" ng-click="editDocument($event, card.id);">
 
       <div class="grid-column main-card column list-item-title mod-card-text list-column-1" title="{{card.title}}">{{card.title}}</div>
       <div class="grid-column list-item-text list-column-2" title="{{card.type.locale || card.type.value}} {{card.workstatus}}">{{card.type.locale || card.type.value }} {{card.workstatus}}</div>
@@ -9,11 +9,11 @@
       <div class="grid-column list-item-text list-item-text-r4 list-column-6">{{card.totalamount | currency:""}}</div>
 
       <!--<md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>-->
-      <div class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></div>
+      <div class="col-ruler" ng-if="(card.collections | collectionFilter:excludeCollections).length"></div>
     </div>
     <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="editDocument($event, card.id);">
       <div class="grid-column">
-        <div class="list-item-text collection-item" ng-repeat="collection in card.collections | filter: groupFilter">
+        <div class="list-item-text collection-item" ng-repeat="collection in card.collections | collectionFilter:excludeCollections">
           {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ', '}}&nbsp;</span>
         </div>
       </div>

@@ -1,5 +1,5 @@
-<ons-list ng-if="((main.docs || search.coreDocs) | filter : documentsService.searchFilter).length > 0" class="list-offsets main-list">
-  <ons-list-item grid ng-repeat="card in (main.docs || search.coreDocs) | filter : documentsService.searchFilter" class="a-card">
+<ons-list ng-if="((main.filteredDocs || main.docs) || (search.coreDocs)).length > 0" class="list-offsets main-list">
+  <ons-list-item grid ng-repeat="card in ((main.filteredDocs || main.docs) || search.coreDocs)" class="a-card">
     <div class="a-card">
       <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <div>

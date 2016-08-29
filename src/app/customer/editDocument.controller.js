@@ -2,6 +2,8 @@ export class EditDocumentController {
   constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
     'ngInject';
 
+    console.log('edit');
+
     let self = this;
     $scope.pdfState = {'page': 1};
     $scope.formChanged = false;

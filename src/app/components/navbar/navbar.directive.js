@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr, $timeout) {
     'ngInject';
 
     this.constant = CONSTANT;
@@ -155,9 +155,23 @@ class NavbarController {
       }
     });
 
-    $scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
-      $scope.searchField = newValue;
-    });
+    this.applySearchQuery =function(value) {
+      $scope.searchField = value;
+    };
+
+    $scope.clearSearchField = function () {
+      $scope.searchField = '';
+      documentsService.searchFilter = '';
+    };
+
+
+    /*$scope.$watch('documentsService.searchFilter', function (newValue, oldValue) {
+      //$scope.searchField = newValue;
+      console.log('doc.sf');
+      if (newValue === oldValue) { return; }
+      //$scope.searchField = newValue;
+      //$timeout(self.applySearchQuery, 350);
+    });*/
 
     $scope.$watch('localAccessService.accessKeyUser', function (newValue, oldValue, scope) {
       if (newValue && newValue != oldValue) {
@@ -218,7 +232,7 @@ class NavbarController {
 
 
 
-    $rootScope.$on('$stateChangeSuccess', function(){
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, from, fromState){
       "use strict";
       $scope.dataChanged = false;
       self.documentsView = ($state.current.name === 'customer');
@@ -241,8 +255,13 @@ class NavbarController {
             if (response.data) {
               documentsService.allCollections = response.data.collections;
             }
+            setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
           });
+        } else {
+          setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
         }
+      } else {
+        setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
       }
     });
 
@@ -355,10 +374,11 @@ class NavbarController {
       }
     }
 
-    let listener = $rootScope.$on('$stateChangeSuccess',
+    /*let listener = $rootScope.$on('$stateChangeSuccess',
       function(event, toState, toParams, from, fromState){
+        console.log('NavbarController listener $stateChangeSuccess');
         setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
-      });
+      });*/
 
     this.navigateBack = function(){
       "use strict";
