@@ -95,6 +95,20 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
+    /*.state('upload', {
+      url: '/upload',
+      templateUrl: 'app/upload/upload.html',
+      controller: 'UploadController',
+      controllerAs: 'upload',
+      data : {
+        pageTitle: 'upload',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      }
+    })*/
 
     /*should be last*/
 

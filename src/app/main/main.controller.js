@@ -1,10 +1,29 @@
 export class MainController {
-  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q, $filter) {
+  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q, $filter, UploadService) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
 
     $scope.documentsService = documentsService;
+
+    let acceptH = function (file, done, dropzone) {
+      UploadService.dropzone = $scope.dzMethods.getDropzone();
+      return UploadService.localAcceptHandler(file, done);
+    };
+
+    $scope.dzOptions = {
+      url : '/',
+      paramName : 'files',
+      maxFilesize : '30',
+      /*acceptedFiles : 'image/jpeg, images/jpg, image/png',*/
+      addRemoveLinks : true,
+      dictInvalidFileType: 'Invalid file',
+      /* autoProcessQueue:false,*/
+      accept: acceptH,
+      dictDefaultMessage: '<span class="dz-drop-file"><strong>Drop file</strong> or click to upload</span>',
+      previewTemplate: UploadService.template/*,
+       dictDefaultMessage: '<img src="assets/images/dropzone.png" />'*/
+    };
 
     $scope.documentsService.searchFilter = '';
 

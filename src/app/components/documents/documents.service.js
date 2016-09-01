@@ -415,6 +415,29 @@ export class DocumentsService {
     return this.baseAuthCall(configExtension, options, id, skipCache);//id??
   }
 
+  callUploadFile(base64data, uploadOptions) {
+
+    let type = uploadOptions.type ? uploadOptions.type : 'LETTERBOX';
+    let configExtension =
+    {
+      "document": {
+        "method" : "new123",//TODO rename to change
+        "fileName" : uploadOptions.name,
+        "file" : base64data
+      },
+      "activity": {
+        "type": type
+      }
+    };
+
+    let options = {
+      "itemKey": "documentItem",
+      "dataKey": "document"
+    };
+
+    return this.baseAuthCall(configExtension, options, null, true);
+  }
+
   callSaveDocumentById(id, data) {
 
     let configExtension =

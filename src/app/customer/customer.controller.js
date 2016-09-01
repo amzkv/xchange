@@ -2,12 +2,32 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr) {
+  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr, UploadService) {
     'ngInject';
 
     //$scope.filterData = {};
 
     //$scope.groupFilters = [];
+
+    let acceptH = function (file, done, dropzone) {
+      UploadService.dropzone = $scope.dzMethods.getDropzone();
+      return UploadService.localAcceptHandler(file, done);
+    };
+
+    $scope.dzOptions = {
+      url : '/',
+      paramName : 'files',
+      maxFilesize : '30',
+      /*acceptedFiles : 'image/jpeg, images/jpg, image/png',*/
+      addRemoveLinks : true,
+      dictInvalidFileType: 'Invalid file',
+      /* autoProcessQueue:false,*/
+      accept: acceptH,
+      dictDefaultMessage: '<span class="dz-drop-file"><strong>Drop file</strong> or click to upload</span>',
+      previewTemplate: UploadService.template/*,
+       dictDefaultMessage: '<img src="assets/images/dropzone.png" />'*/
+    };
+
     $scope.shownGroup = 0;
     $scope.mdClosing = false;
     //documentsService.filter = null;

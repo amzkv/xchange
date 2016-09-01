@@ -35,6 +35,7 @@ import { DocumentDataValidate } from './components/documentDataValidate/document
 import { langConf } from './languages/langConf';
 import { InfinicastWrapper } from './components/infinicast/infinicast.wrapper.provider';
 import { NotificationService } from './notification/notification.service';
+import { UploadService } from './components/upload/upload.service';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -55,7 +56,8 @@ angular.module('xchange', [
   'ngLocalize',
   'angular-inview',
   'ng-currency',
-  'angularLazyImg'
+  'angularLazyImg',
+  'thatisuday.dropzone'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)
@@ -94,4 +96,5 @@ angular.module('xchange', [
   .filter('collectionFilter', CollectionFilter)
   .service('SearchService', SearchService)
   .provider('InfinicastWrapper', InfinicastWrapper)
-  .service('NotificationService', NotificationService);
+  .service('NotificationService', NotificationService)
+  .service('UploadService', UploadService);

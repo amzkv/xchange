@@ -2,10 +2,29 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter) {
+  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter, UploadService) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
+
+    let acceptH = function (file, done, dropzone) {
+      UploadService.dropzone = $scope.dzMethods.getDropzone();
+      return UploadService.localAcceptHandler(file, done);
+    };
+
+    $scope.dzOptions = {
+      url : '/',
+      paramName : 'files',
+      maxFilesize : '30',
+      /*acceptedFiles : 'image/jpeg, images/jpg, image/png',*/
+      addRemoveLinks : true,
+      dictInvalidFileType: 'Invalid file',
+      /* autoProcessQueue:false,*/
+      accept: acceptH,
+      dictDefaultMessage: '<span class="dz-drop-file"><strong>Drop file</strong> or click to upload</span>',
+      previewTemplate: UploadService.template/*,
+       dictDefaultMessage: '<img src="assets/images/dropzone.png" />'*/
+    };
 
     $scope.documentsService = documentsService;
     $scope.viewModeService = ViewModeService;
