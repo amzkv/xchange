@@ -1,8 +1,6 @@
 export class EditDocumentController {
-  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll) {
+  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll, ViewerService, uiGridConstants) {
     'ngInject';
-
-    console.log('edit');
 
     let self = this;
     $scope.pdfState = {'page': 1};
@@ -93,6 +91,13 @@ export class EditDocumentController {
 
         $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
 
+      } else {
+        let error = $filter('i18n')('error.5005');
+        //console.log(resp);
+        if (resp.error) {
+          error = resp.error;
+        }
+        toastr.error(error, 'Error');
       }
 
       if ($scope.editFormWatch) {
@@ -184,6 +189,50 @@ export class EditDocumentController {
       $scope.unlockZoom = !$scope.unlockZoom;
     };
 
+    //$scope.xlsheetNames = jsonSheets.names;
+    //$scope.xldataSheets = jsonSheets.data;
+
+    $scope.useSheet = function (index) {
+      if ($scope.xldataSheets[index]) {
+        $scope.xlsheetIndex = index;
+        $scope.xldata = $scope.xldataSheets[index];
+      }
+    };
+    $scope.hasSheetByIndex = function(index) {
+      if ($scope.xldataSheets[index]) {
+        return true;
+      }
+      return false;
+    };
+
+    $scope.applyXLIndex = function (index) {
+      if ($scope.xldataSheets[index]) {
+        $scope.xlprocessing = true;
+        $scope.xlsheetIndex = index;
+        $scope.xldata = $scope.xldataSheets[index];
+
+        $scope.gridOptions.columnDefs = [];
+        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+        $scope.gridOptions.data = $scope.xldata;
+        $scope.xlsheet = $scope.xlsheetNames[index];
+
+        $scope.xlprocessing = false;
+      }
+    };
+
+    $scope.prevSheet = function () {
+      if (index == 0) {
+        return;
+      }
+      let index = $scope.xlsheetIndex - 1;
+      $scope.applyXLIndex(index);
+    };
+
+    $scope.nextSheet = function () {
+      let index = $scope.xlsheetIndex + 1;
+        $scope.applyXLIndex(index);
+    };
+
     $scope.onViewFile = function(inview) {
       if (inview) {
         $scope.showControls = true;
@@ -196,6 +245,10 @@ export class EditDocumentController {
     $scope.documentLoaded = false;
 
     $scope.viewFile = function(inview) {
+
+      if (!$scope.editForm) {
+        return;
+      }
 
       if ($scope.documentLoading) {
         return;
@@ -213,7 +266,14 @@ export class EditDocumentController {
       }
 
       function isPlainText(filename) {
-        let extensions = ['.text', '.log', '.md', '.readme' ];
+        let extensions = ['.txt', '.log', '.md', '.readme' ];
+        return extensions.some(function(element, index) {
+          return (filename.length > element.length)  ? (filename.indexOf(element) === (filename.length - element.length)) : false;
+        });
+      }
+
+      function isXLFile(filename) {
+        let extensions = ['.xml', '.report', '.xl', '.xls', '.xlsx', '.ods' ];
         return extensions.some(function(element, index) {
           return (filename.length > element.length)  ? (filename.indexOf(element) === (filename.length - element.length)) : false;
         });
@@ -241,6 +301,11 @@ export class EditDocumentController {
       //console.log($scope.editForm.filename);
 
       let fileName = $scope.editForm.filename;
+      //for test
+      if (self.base64data && self.base64file) {
+        fileName = self.base64file;
+      }
+
         if (isPdfFile(fileName)) {
           if (fileName) {
             $scope.documentLoading = false;
@@ -268,6 +333,21 @@ export class EditDocumentController {
             //FileSaver.saveAs(data, fileName);
         } else if (isPlainText(fileName)) {
           $scope.fileType = 'TXT';
+
+          documentsService.callFileById(documentId, docType, key).then(
+            function(resp) {
+              if (resp && resp.data.file) {
+                let fileContents = resp.data.file.file;
+                if (self.base64data && self.base64file) {
+                  fileContents = self.base64data;
+                }
+                fileContents = atob(fileContents);
+                //fileContents = fileContents.replace(/(?:\r\n|\r|\n)/g, '<br />');//test
+                //$scope.textData = $sce.trustAsHtml(fileContents);
+                $scope.textData = fileContents;
+              }
+            }
+          );
           /*try {
             fileContents = atob(fileContents);
             $scope.textData = fileContents;
@@ -277,6 +357,75 @@ export class EditDocumentController {
           $scope.fileURL ='/';//todo
           $scope.documentLoading = false;
           $scope.documentLoaded = true;
+
+          /*var img = document.getElementById('view_txt');
+           img.src = $scope.documentUrl;
+           img.onload = function() {
+           $scope.documentLoading = false;
+
+           };*/
+        } else if (isXLFile(fileName)) {
+          $scope.fileType = 'XL';
+          /*try {
+           fileContents = atob(fileContents);
+           $scope.textData = fileContents;
+           } catch (e) {
+           $scope.fileStatus = 'Unsupported';//todo
+          }*/
+          self.initXLViewer();
+          $scope.xlprocessing = true;
+
+
+          documentsService.callFileById(documentId, docType, key).then(
+            function(resp) {
+              if (resp && resp.data.file) {
+                let fileContents = resp.data.file.file;
+                if (self.base64data && self.base64file) {
+                  fileContents = self.base64data;
+                }
+                fileContents = atob(fileContents);
+                //console.log(fileContents);
+
+                let workbook = ViewerService.readXLdata(fileContents);
+                //console.log(workbook);
+                let jsonSheets = {};
+                if (workbook) {
+                  jsonSheets = ViewerService.workbooktoJson(workbook);
+                  self.resetGrid();
+
+                  $scope.xlsheetIndex = 0;//default
+
+                  if (jsonSheets.data && jsonSheets.data[$scope.xlsheetIndex]) {
+                    $scope.xldata = jsonSheets.data[$scope.xlsheetIndex];
+                    $scope.xlsheet = jsonSheets.names[$scope.xlsheetIndex];
+
+                    $scope.xlsheetNames = jsonSheets.names;
+                    $scope.xldataSheets = jsonSheets.data;
+
+                    $scope.gridOptions.columnDefs = [];
+                    $scope.gridOptions.data = $scope.xldata;
+
+                    $scope.xlprocessing = false;
+                  }
+                } else {
+                  //error
+                  console.log('error');
+                }
+
+                $scope.documentLoading = false;
+                $scope.documentLoaded = true;
+                //console.log(fileContents);
+              }
+          },
+            function (resp) {
+              $scope.documentLoading = false;
+              $scope.documentLoaded = true;
+            }
+          );
+
+          /*$scope.fileURL ='/';//todo
+          $scope.documentLoading = false;
+          $scope.documentLoaded = true;*/
 
           /*var img = document.getElementById('view_txt');
            img.src = $scope.documentUrl;
@@ -426,8 +575,79 @@ export class EditDocumentController {
       return new Blob(byteArrays, { type: contentType });
     };
 
-    $scope.downloadDoc = function () {
-      documentsService.callFileById(documentId, null, key).then(function(resp) {
+    this.initXLViewer = function() {
+      $scope.xldata = [];
+      $scope.columnDefs = [];
+      $scope.gridApi = {};
+
+      $scope.gridOptions = {
+        /*columnDefs: $scope.columnDefs,*/
+        /*data: 'xldata',*/
+        onRegisterApi: function(gridApi){
+          $scope.gridApi = gridApi;
+        }
+      };
+    };
+
+    this.resetGrid = function () {
+      //$scope.$apply(function () {
+        $scope.gridOptions.columnDefs = [];
+        /*$scope.gridOptions = {
+         columnDefs: [],
+         data: []
+         };*/
+      //});
+    };
+
+    $scope.getFile = function (element) {
+      $scope.xlprocessing = true;
+      /*console.log(element, element.files);*/
+      if (element.files && element.files[0]) {
+        var fileReader = new FileReader();
+        fileReader.onload = function (file) {
+          let data = fileReader.result;
+          let workbook = ViewerService.readXLdata(data);
+          let jsonSheets = {};
+          if (workbook) {
+            jsonSheets = ViewerService.workbooktoJson(workbook);
+          } else {
+            //error
+          }
+
+          self.resetGrid();
+          if (jsonSheets.data && jsonSheets.data[0]) {
+            $scope.$apply(function () {
+              $scope.xldata = jsonSheets.data[0];
+              $scope.xlprocessing = false;
+            });
+          }
+        };
+        fileReader.readAsBinaryString(element.files[0]);
+        //fileReader.readAsDataURL(element.files[0]);
+      }
+    };
+
+    $scope.updateFileContents = function (element) {
+      //debug and test only
+      //$scope.xlprocessing = true;
+      /*console.log(element, element.files);*/
+      if (element.files && element.files[0]) {
+        var fileReader = new FileReader();
+        fileReader.onload = function (file) {
+          self.base64data = btoa(fileReader.result);
+          self.base64file = element.files[0].name;
+        };
+        fileReader.readAsBinaryString(element.files[0]);
+        //fileReader.readAsDataURL(element.files[0]);
+      }
+    };
+
+    $scope.downloadDoc = function (type) {
+      $scope.showDLdBox = false;
+      if (!type && $scope.editForm && $scope.editForm.filetypes) {
+        type = $scope.editForm.filetypes['SIGNEDPDF'] || $scope.editForm.filetypes['ORIGINAL'];
+      }
+      documentsService.callFileById(documentId, type, key).then(function(resp) {
         if (resp && resp.data.file) {
           let fileContents = resp.data.file.file;
           let fileName = resp.data.file.filename;
@@ -445,6 +665,10 @@ export class EditDocumentController {
         }
       });
       //$mdDialog.hide();
+    };
+
+    $scope.toggleDownloadBox = function() {
+      $scope.showDLdBox = !$scope.showDLdBox;
     };
 
     $scope.updateCurrentDocumentList = function(id, data) {

@@ -95,13 +95,13 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    /*.state('upload', {
-      url: '/upload',
-      templateUrl: 'app/upload/upload.html',
-      controller: 'UploadController',
-      controllerAs: 'upload',
+    /*.state('test', {
+      url: '/test',
+      templateUrl: 'app/test/test.html',
+      controller: 'TestController',
+      controllerAs: 'test',
       data : {
-        pageTitle: 'upload',
+        pageTitle: 'test',
         accessSettings: {
           public: false,
           accesskey: false,

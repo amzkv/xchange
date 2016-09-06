@@ -1,4 +1,4 @@
-<md-dialog ng-click="$event.stopPropagation();sideMenu=false;" class="edit-doc" style="background-color: #f5f5f5;min-width:1000px;width:1000px;height:100%;min-height:100%;overflow:hidden;" aria-label="documentEdit" ng-cloak>
+<md-dialog ng-click="$event.stopPropagation();sideMenu=false;showDLdBox=false;" class="edit-doc" style="background-color: #f5f5f5;min-width:1000px;width:1000px;height:100%;min-height:100%;overflow:hidden;" aria-label="documentEdit" ng-cloak>
     <md-toolbar style="position:relative;">
       <div class="md-toolbar-tools">
         <h2>{{editForm.title}}</h2>
@@ -38,6 +38,7 @@
                   keyboard_arrow_down
                 </md-icon>-->
               </md-button>
+              <!--<input type="file" id="file" name="testFile" onchange="angular.element(this).scope().updateFileContents(this)">-->
               <div ng-accordion-body ng-class="docDetailsSections.mainBlock ? 'block-expanded' : 'block-collapsed'">
                 <div ng-cloak>
                   <md-content class="md-padding" style="padding-bottom: 10px">
@@ -309,8 +310,26 @@
                   <div class="image-view" ng-show="fileType=='IMG'">
                     <img id="view_img"/>
                   </div>
-                  <div class="text-view" ng-show="fileType=='TXT'">
-                    <div id="view_txt"><pre style="padding: 20px;">{{textData}}</pre></div>
+                  <div class="text-view" style="padding:10px;" ng-show="fileType=='TXT'">
+                    <div id="view_txt" style="overflow: scroll;">
+                      <pre style="padding: 20px;">{{textData}}</pre>
+                    </div>
+                  </div>
+
+                  <div class="xl-view" ng-if="fileType=='XL'">
+                    <div ng-if="!xlprocessing" ui-grid="gridOptions" class="grid"></div>
+                  </div>
+
+                  <div ng-if="showControls && fileType=='XL'" class="pdf-controls" ng-click="focusControl($event);">
+                    <md-button ng-show="xlsheetNames[xlsheetIndex-1]" class="md-icon-button" ng-click="prevSheet();">
+                      <i class="material-icons">keyboard_arrow_left</i>
+                    </md-button>
+                    <md-button ng-show="true" class="md-icon-sheet" ng-click="useSheet();">
+                      {{xlsheet}}
+                    </md-button>
+                    <md-button ng-show="xlsheetNames[xlsheetIndex+1]" class="md-icon-button" ng-click="nextSheet();">
+                      <i class="material-icons">keyboard_arrow_right</i>
+                    </md-button>
                   </div>
 
                   <!-- TODO: directive -->
@@ -374,9 +393,19 @@
               <i class="mdi mdi-content-save" role="button"></i>
               {{'customer.save' | i18n}}
             </div>
-            <div class="doc-control-button" ng-click="downloadDoc()">
+            <div style="display: inline-block" class="doc-control-button" ng-click="$event.stopPropagation();toggleDownloadBox()">
+              <i class="mdi mdi-menu-down" role="button"></i>
+            </div>
+            <div style="display: inline-block;width:203px;" class="doc-control-button" ng-click="downloadDoc()">
               <i class="mdi mdi-download" role="button"></i>
               {{'customer.download' | i18n}}
+            </div>
+            <div ng-show="showDLdBox" class="doc-control-left-menu" style="">
+              <div class="doc-control-button" ng-repeat="dlType in editForm.filetypes" ng-click="downloadDoc(dlType)">
+                <i class="mdi mdi-download" role="button"></i>
+                <!--todo when locales avail-->
+                {{dlType}}
+              </div>
             </div>
             <div class="doc-control-button" ng-if="(editForm && editForm.hassignature < 1)" ng-click="signDocument()">
               <i class="mdi mdi-pen" role="button"></i>
