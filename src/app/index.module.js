@@ -13,6 +13,7 @@ import { EditDocumentController } from './customer/editDocument.controller';
 import { CustomerController } from './customer/customer.controller';
 import { DocumentsService } from './components/documents/documents.service';
 import { ChangeLogController } from './changelog/changelog.controller';
+import { TestController } from './test/test.controller';
 import { SearchController } from './search/search.controller';
 import { AccesskeyController } from './accesskey/accesskey.controller';
 import { ConfigService } from './config/config';
@@ -36,6 +37,7 @@ import { langConf } from './languages/langConf';
 import { InfinicastWrapper } from './components/infinicast/infinicast.wrapper.provider';
 import { NotificationService } from './notification/notification.service';
 import { UploadService } from './components/upload/upload.service';
+import { ViewerService } from './components/viewer/viewer.service';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -57,7 +59,9 @@ angular.module('xchange', [
   'angular-inview',
   'ng-currency',
   'angularLazyImg',
-  'thatisuday.dropzone'
+  'thatisuday.dropzone',
+  'ui.grid',
+  'ui.grid.importer'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)
@@ -83,6 +87,7 @@ angular.module('xchange', [
   .controller('EditDocumentController', EditDocumentController)
   .controller('ChangeLogController', ChangeLogController)
   .controller('AccesskeyController', AccesskeyController)
+  .controller('TestController', TestController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)
@@ -97,4 +102,5 @@ angular.module('xchange', [
   .service('SearchService', SearchService)
   .provider('InfinicastWrapper', InfinicastWrapper)
   .service('NotificationService', NotificationService)
-  .service('UploadService', UploadService);
+  .service('UploadService', UploadService)
+  .service('ViewerService', ViewerService);
