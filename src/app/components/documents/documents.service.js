@@ -99,6 +99,8 @@ export class DocumentsService {
           let dataResponse = {"data": {}};
           if (response.data.response && !response.data.response.success) {
             dataResponse.error = response.data.response.errormessage;
+          } else if (response.data.response && response.data.response.errormessage) {
+            dataResponse.error = response.data.response.errormessage;//for irregular case response
           }
           deferred.resolve(dataResponse);
         }
@@ -421,7 +423,7 @@ export class DocumentsService {
     let configExtension =
     {
       "document": {
-        "method" : "new123",//TODO rename to change
+        "method" : "new",
         "fileName" : uploadOptions.name,
         "file" : base64data
       },
@@ -431,8 +433,9 @@ export class DocumentsService {
     };
 
     let options = {
-      "itemKey": "documentItem",
-      "dataKey": "document"
+      /*"itemKey": "documentItem",*/
+      /*"dataKey": "document",*/
+      "useAllData": true,
     };
 
     return this.baseAuthCall(configExtension, options, null, true);

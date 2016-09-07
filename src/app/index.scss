@@ -242,6 +242,63 @@ md-content.md-365red-theme {
   }
 }
 
+.dz-fixed-large {
+  position: fixed !important;
+  height: 120px;
+  bottom: 0px;
+  .dz-preview {
+    min-height: 64px;
+    margin: 5px;
+  }
+  .dz-filename {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 240px;
+  }
+  .dz-message {
+    margin: 20px 0;
+  }
+}
+
+.dz-fixed {
+  min-height: 60px;
+  position: fixed !important;
+  height: 30px;
+  bottom: 0px;
+  .dz-preview {
+    min-height: 20px;
+    margin: 0 5px 0 5px;
+  }
+  .dz-filename {
+    display: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 240px;
+  }
+
+  .dz-remove {
+    display: none;
+  }
+  /*.dz-error{
+    a {
+      visibility: hidden;
+    }
+  }*/
+  .dz-complete {
+    a {
+      visibility: hidden;
+    }
+  }
+
+  .dz-message {
+    font-size: 12px;
+    margin: 0px;
+  }
+}
+
 .dz-drag-hover {
   border: dashed 1px $divider-color !important;
   background-color: $hover-color !important;

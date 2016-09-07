@@ -267,7 +267,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       params: {
         category: 'CUSTOMER',
         collectionLocale: null,
-        locale: ''
+        locale: '',
+        currentCollection: null
       },
       data : {
         pageTitle: '365 | Documents',
