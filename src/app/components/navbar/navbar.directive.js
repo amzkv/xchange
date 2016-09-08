@@ -62,6 +62,7 @@ class NavbarController {
 
         if (collectionsbyClass.length > 0) {
           self.currentClass = collectionsbyClass[0].group;
+          documentsService.currentClass = self.currentClass;
           //console.log('class:', self.currentClass);
         }
       }
@@ -76,6 +77,7 @@ class NavbarController {
 
         if (collectionById.length > 0) {
           self.currentCollection = collectionById[0].title;
+          documentsService.currentCollection = self.currentCollection;
           //console.log('collection:', self.currentCollection);
         }
       }

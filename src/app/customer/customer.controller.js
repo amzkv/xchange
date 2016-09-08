@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr, UploadService) {
+  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr, UploadService, StorageService, CheckAuthService) {
     'ngInject';
 
     //$scope.filterData = {};
@@ -11,6 +11,10 @@ export class CustomerController {
 
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
+      let currentCollection = $stateParams.currentCollection;// || documentsService.currentCollection;
+      if ($stateParams.collectionId == 'Type' && currentCollection) {
+        UploadService.uploadType = currentCollection.value;
+      }
       return UploadService.localAcceptHandler(file, done);
     };
 
@@ -26,6 +30,30 @@ export class CustomerController {
       dictDefaultMessage: '<span class="dz-drop-file"><strong>Drop file</strong> or click to upload</span>',
       previewTemplate: UploadService.template/*,
        dictDefaultMessage: '<img src="assets/images/dropzone.png" />'*/
+    };
+
+    $scope.dzCallbacks = {
+      'addedfile' : function(file){
+        //console.log(file);
+        //$scope.newFile = file;
+      },
+      'success' : function(file, xhr){
+        //console.log(file, xhr);
+        //console.log(CheckAuthService.userid);
+        if (CheckAuthService.userid) {
+          //console.log('documents', $stateParams.customerId, CheckAuthService.userid);
+          StorageService.cleanSelectedRecordsByCollectionForUser('documents', $stateParams.customerId, CheckAuthService.userid);
+
+          //todo: use notifications
+
+          /*documentsService.filter = null;
+          documentsService.callDocumentByOneCollection($stateParams.customerId, null, null, true).then(function(ndocs) {
+            $scope.docs = ndocs.data.documents || ndocs.data.collections;//todo
+          });*/
+
+        }
+        //StorageService.cleanSelectedRecordsByCollectionForUser('documents', notification.id, userId);
+      },
     };
 
     $scope.shownGroup = 0;

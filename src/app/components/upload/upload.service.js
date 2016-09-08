@@ -42,7 +42,8 @@ export class UploadService {
     this.setError = function(file, errorMessage) {
       file.status = 'error';
       file.processing = false;
-      self.dropzone.emit("error", file, errorMessage || 'error');
+      errorMessage = errorMessage || 'error';
+      self.dropzone.emit("error", file, errorMessage);
     };
 
     this.sendInterceptPromise = function(file, done) {
@@ -56,6 +57,10 @@ export class UploadService {
         let uploadOptions = {
           'name': file.name
         };
+
+        if (self.uploadType) {
+          uploadOptions.type = self.uploadType;
+        }
 
         //let starttime = new Date();
 
@@ -72,8 +77,16 @@ export class UploadService {
           documentsService.callUploadFile(base64contents, uploadOptions).then(
             function(response) {
               //success
-              self.dropzone.emit("uploadprogress", file, 100, file.upload.bytesSent);
-              self.setSuccess(file);
+              //console.log(response, angular.isUndefined(response.error));
+              if (angular.isUndefined(response.error)) {
+                self.dropzone.emit("uploadprogress", file, 100, file.upload.bytesSent);
+                self.setSuccess(file);
+              } else if (response.error) {
+                self.dropzone.emit("uploadprogress", file, 100, file.upload.bytesSent);
+                //console.log(response);
+                self.setError(file,response.error);
+                self.dropzone.emit("complete", file);
+              }
             },
             function (response) {
               //error
