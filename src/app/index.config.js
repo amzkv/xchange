@@ -1,6 +1,7 @@
 export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide, InfinicastWrapperProvider) {
   'ngInject';
   // Enable log
+
   InfinicastWrapperProvider.setConfig({
     'host': 'https://ws.demo.infinicast.io',
     'scope' : '365xchange',
@@ -9,9 +10,32 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
       {
         name: 'userCollection',
         pathType: InfinicastWrapperProvider.pathTypes.userCollection,
+        viewType: 'notification',
         pathConfig: {
           type: 'user',
           dataType: 'collection'
+        }
+      },
+      {
+        name: 'userChat',
+        pathType: InfinicastWrapperProvider.pathTypes.userChat,
+        viewType: 'chat',
+        pathConfig: {
+          type: 'chat',
+          checkMultipleIds: true,
+          ids: []
+        }
+      },
+      {
+        name: 'userOnline',
+        pathType: InfinicastWrapperProvider.pathTypes.userOnline,
+        viewType: 'online',
+        pathConfig: {
+          type: 'online',
+          getData: true,
+          recurrent: true,
+          checkMultipleIds: true,
+          ids: []
         }
       }
     ]

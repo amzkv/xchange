@@ -24,6 +24,24 @@ export class LocalAccessService {
     return 'xC3r6y5ptK';//todo
   }
 
+  getPartnerIds() {
+    let ids = [];
+    //console.log('partners',this.accessKeyUser);
+    if (this.accessKeyUser && this.accessKeyUser.partners) {
+
+      angular.forEach(this.accessKeyUser.partners, function (partner) {
+        if (partner.uuid) {
+          ids.push(partner.uuid);
+        }
+      });
+    }
+
+    //TODO: remove this
+    //ids = ['a0dd085d-a8a1-4380-9085-fadf969ff384'];//for test only
+
+    return ids;
+  }
+
   encryptCredentials(UserInfo) {
     return CryptoJS.AES.encrypt(JSON.stringify(UserInfo), this.getCKey()).toString();
   }

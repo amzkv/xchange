@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr, $timeout) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr, $timeout, $anchorScroll, $location) {
     'ngInject';
 
     this.constant = CONSTANT;
@@ -42,6 +42,14 @@ class NavbarController {
     $scope.busy = documentsService.busy;
     $scope.dataChanged = false;
 
+    $scope.onExit = function() {
+      if ($rootScope.infinicast) {
+        $rootScope.infinicast.goOffline();
+      }
+    };
+
+    $window.onbeforeunload =  $scope.onExit;
+
     $scope.$watch('documentsService.busy', function (newValue, oldValue, scope) {
       scope.busy = newValue;
     });
@@ -51,7 +59,8 @@ class NavbarController {
     self.accessKeyUser = null;
     self.currentClass = {};
     self.currentCollection = {};
-    this.notifications = $scope.notificationService.notifications;
+    self.chatMessages = [];
+    //this.notifications = $scope.notificationService.notifications;
 
     this.populateCurrentClass = function() {
       //console.log('populate params:',self.params);
@@ -89,24 +98,213 @@ class NavbarController {
       $state.go($state.current, {}, {reload: true});
     };
 
+    this.scrollToLastMessage = function () {
+      if (self.displayChat) {
+        $timeout(function () {
+          let oldHash = $location.hash();
+          $location.hash('chat-bottom');
+          $anchorScroll.yOffset = 64;
+          $anchorScroll();
+          $location.hash(oldHash);
+        }, 300);
+      }
+    };
+
+    this.togglePartners =function() {
+
+      if (!this.partners) {
+        if (self.accessKeyUser && self.accessKeyUser.partners) {
+          this.partners = self.accessKeyUser.partners;
+          //$rootScope.infinicast.getData
+          if (this.partners && angular.isArray(this.partners)) {
+            angular.forEach(this.partners, function (partner) {
+              //partner.uuid = 'a0dd085d-a8a1-4380-9085-fadf969ff384';//TODO: remove , test
+              //console.log('userOnline', partner.uuid);
+              let partnerStatus = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', partner.uuid);
+              partner.online = null;
+              if (partnerStatus.status == 'online') {
+                partner.online = true;
+              }
+              if (self.currentRemotePartner && self.currentRemotePartner.uuid == partner.uuid) {
+                self.currentRemotePartner.online = partner.online;
+              }
+              partner.lastSeen = partnerStatus.time;
+              //$rootScope.infinicast.getDataByPathName('userOnline', null, partner.uuid)
+            });
+          }
+        }
+        this.displayPartners = !this.displayPartners;
+      } else {
+        this.displayPartners = !this.displayPartners;
+      }
+    };
+
+    this.chatPartner = function (partner) {
+      //console.log(partner);
+      //let remoteUuid = partner.uuid;//to test it
+      //partner.uuid = 'a0dd085d-a8a1-4380-9085-fadf969ff384';//TODO: remove after test
+      this.currentRemotePartner = partner;
+      self.displayPartners = false;
+    };
+
+    this.sendMessage = function() {
+      if (!self.currentMessage) {
+        return;
+      }
+      if (self.accessKeyUser && self.accessKeyUser.partners) {
+        if (self.currentRemotePartner) {
+          $rootScope.infinicast.setDataByPathName('userChat',
+            {
+              "fromUserType" : "accessKey",
+              "idForPath" : self.currentRemotePartner.uuid,
+              "partnerName" : self.currentRemotePartner.name,/*send it to partner...*/
+              "name" : self.accessKeyUser.name,
+              "company" : self.accessKeyUser.company,
+              'text' : self.currentMessage,
+              'time' : new Date().getTime()
+            }
+          );
+        }
+      } else {
+        $rootScope.infinicast.setDataByPathName('userChat',
+          {
+            "fromUserType" : "partner",
+            /*"idForPath" : self.currentRemotePartner.uuid,*/
+            'text' : self.currentMessage,
+            'time' : new Date().getTime()
+          }
+        );
+      }
+
+      $timeout(function(){
+        self.currentMessage = '';
+      },100);
+
+    };
+
+    this.handleCtrlEnter = function (event) {
+      if (event.keyCode == 13 && event.ctrlKey) {
+        this.sendMessage();
+      }
+    };
+
     if ($rootScope.infinicast) {
       //collections changes
       $rootScope.infinicast.setRootScope($rootScope);
       //can be refactored like this:
       // getPathNames -> addNotificationListenerByName(pathName);
-      $rootScope.$watch('infinicast.dataPool.userCollection', function (newValue, oldValue, scope) {
-        //console.log(newValue, oldValue, scope);
-        if (newValue != null) {
-          let notification = $scope.notificationService.processNotificationData('userCollection', newValue, $rootScope.infinicast.user.userid);
-          $scope.notificationService.addNotification(notification);
-          if ($state.href($state.current.name, $state.params).indexOf(notification.url) !== -1) {
-            $scope.dataChanged = true;
-            //toastr.success($filter('i18n')('user.loggedIn'), 'Success');
-            toastr.warning('Displayed data has been changed', 'Attention');
+
+      function addChatMessage(incMsg, me) {
+
+        /*if (!incMsg.uuid) {
+          self.chatIncomingUser = {
+            name: incMsg.name,
+            company: incMsg.company
           }
-          //console.log('state', $state, );
+        }*/
+        //TODO: constants
+        let message = angular.copy(incMsg);
+
+        if (incMsg.fromUserType) {
+          if (incMsg.fromUserType == 'accessKey' && !me) {
+            //console.log('ak message');
+            self.chatIncomingUser = {
+              name: incMsg.name,
+              company: incMsg.company,
+              partnerName: incMsg.partnerName
+            };
+            //message.partnerName = incMsg.partnerName;
+          }
+          if (incMsg.fromUserType == 'partner') {
+            //console.log('partner message');
+            /*self.chatIncomingUser = {
+              name: incMsg.name,
+              company: incMsg.company
+            }*/
+            if (self.chatIncomingUser) {
+              message.partnerName = self.chatIncomingUser.partnerName;
+            } else {
+              if (self.currentRemotePartner) {
+                message.partnerName = self.currentRemotePartner.name;
+              }
+            }
+            //message.partnerName = self.chatIncomingUser.partnerName;
+          }
+          if (me) {
+            message.me = true;
+          }
+          self.chatMessages.push(message);
+          self.scrollToLastMessage();
         }
-      }, true);
+      }
+
+      angular.forEach($rootScope.infinicast.getPaths(), function (item) {
+        if (item.viewType == 'notification') {
+          let scopeWatch = 'infinicast.dataPool.' + item.name;
+          $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
+            if (newValue != null) {
+              let notification = $scope.notificationService.processNotificationData(item.name, newValue, $rootScope.infinicast.user.userid);
+              $scope.notificationService.addNotification(notification);
+              if ($state.href($state.current.name, $state.params).indexOf(notification.url) !== -1) {
+                $scope.dataChanged = true;
+                toastr.warning('Displayed data has been changed', 'Attention');
+              }
+            }
+          }, true);
+        }
+        if (item.viewType == 'chat') {
+          let scopeWatch = 'infinicast.dataPool.' + item.name;
+          $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
+            if (newValue != null) {
+              //console.log('incoming chat message', newValue);
+              if (self.currentRemotePartner) {
+                //me
+                var messageForPartner = newValue[self.currentRemotePartner.uuid];
+                if (messageForPartner) {
+                  //console.log('add Message:', messageForPartner);
+                  if (messageForPartner.fromUserType == 'partner') {
+                    addChatMessage(messageForPartner);
+                  } else {
+                    addChatMessage(messageForPartner, true);
+                  }
+                }
+              } else {
+                if (newValue.fromUserType == 'accessKey') {
+                  addChatMessage(newValue);
+                } else {
+                  addChatMessage(newValue, true);
+                }
+              }
+            }
+          }, true);
+        }
+
+        if (item.viewType == 'online') {
+          let scopeWatch = 'infinicast.dataPool.' + item.name;
+          $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
+            if (newValue != null) {
+              //console.log('incoming online status', newValue, self.partners);
+              if (self.partners) {
+                //newValue[self.currentRemotePartner.uuid];
+                //multiple case
+                angular.forEach(newValue, function(partnerStatus, partnerUuid) {
+                  //console.log(partnerUuid, partnerStatus);
+                  angular.forEach(self.partners, function (partner) {
+                    partner.online = false;
+                    if (partnerStatus.status == 'online') {
+                      partner.online = true;
+                    }
+                    if (self.currentRemotePartner && self.currentRemotePartner.uuid == partner.uuid) {
+                      self.currentRemotePartner.online = partner.online;
+                    }
+                    partner.lastSeen = partnerStatus.time;
+                  });
+                });
+              }
+            }
+          }, true);
+        }
+      });
     }
 
     this.testDataUpdate = function() {
@@ -133,15 +331,55 @@ class NavbarController {
 
     };
 
+    this.testChatUpdate = function() {
+      console.log('test');
+      let time = new Date();
+      $rootScope.infinicast.setDataByPathName('userChat',
+        { "name" : 'n3m0',
+          "company" : "n3m0 c0mpany",
+          'text' : 'Hello there!',
+          'time' : new Date().getTime()
+        });
+
+
+      $rootScope.infinicast.setDataByPathName('userChat',
+        { "name" : 'Namename Namenamenamename',
+          "company" : "name company",
+          'text' : 'Curabitur congue lorem quis dolor blandit hendrerit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;Vivamus bibendum efficitur tortor, non porttitor magna imperdiet in.',
+          'time' : new Date().getTime()
+        });
+
+      /*$rootScope.infinicast.setDataByUser('user', 'collection',
+       { "id" : 394247,
+       "title" : "invoice received #2",
+       "group" : {
+       "locale" : "Workflow",
+       "value" : "WORKFLOW"
+       }
+       });*/
+
+    };
+
+    this.testOnlineUpdate = function(status) {
+      console.log('test online');
+      let time = new Date();
+      status = status || 'online';
+      $rootScope.infinicast.setDataByPathName('userOnline',
+        { 'status' : status,
+          'time' : new Date().getTime()
+        });
+    };
+
     //////////////////end notifications///////
 
     this.hideBoxes = function() {
       self.displayOptions = false;
       self.displayNotifications = false;
+      self.displayChat = false;
     };
 
     this.anyBoxIsShown = function() {
-      return (self.displayOptions || self.displayNotifications);
+      return (self.displayOptions || self.displayNotifications || self.displayChat);
     };
 
     $scope.$watch('documentsService.allCollections', function (newValue, oldValue, scope) {

@@ -1,9 +1,8 @@
-export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessService, SearchService, InfinicastWrapper) {
+export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessService, SearchService, InfinicastWrapper, $window) {
   'ngInject';
   $rootScope.searchService = SearchService;
 
-  //$rootScope.infinicast = InfinicastWrapper;
-  //turn it on later
+  $rootScope.infinicast = InfinicastWrapper;
 
   let stateChangeStartEvent = $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
     //update title
@@ -14,6 +13,12 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
     CheckAuthService.checkAuth().then(function(checkAuth) {
       if (!checkAuth) {
         if (CheckAuthService.isStateAccessible(toState, toParams)) {
+
+          /*if ($rootScope.infinicast) {
+            //$rootScope.infinicast.listen();
+            console.log('infinicast', LocalAccessService.getPartnerIds());
+          }*/
+
           stateChangeStartEvent();
           $state.go(toState, toParams, options);
         } else {
@@ -26,10 +31,12 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
         if ($rootScope.infinicast) {
           if ($rootScope.infinicast.isUserValid(true)) {
             $rootScope.infinicast.listen();
+            //$rootScope.infinicast.goOnline();
           } else {
             CheckAuthService.getUser().then(function (user) {
               $rootScope.infinicast.setUser(user);
               $rootScope.infinicast.listen();
+              //$rootScope.infinicast.goOnline();
             });
           }
         }

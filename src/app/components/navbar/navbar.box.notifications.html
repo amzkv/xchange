@@ -2,7 +2,7 @@
   <div class="box-header">{{'Notifications'}}
     <ul class="box-actions">
       <li>
-        <a href="" ng-click="vm.clearNotifications($event)">
+        <a href="#" ng-click="notificationService.clearNotifications($event)">
           <i class="mdi mdi-check-all">
           </i>
         </a>
@@ -11,7 +11,7 @@
   </div>
   <div class="box-body">
     <!--ng-href="" ng-repeat="w in hctrl.messageResult.list"-->
-    <div class="box-item" ng-repeat="notification in vm.notifications">
+    <div class="box-item" ng-repeat="notification in notificationService.notifications">
       <div class="media">
         <div class="pull-left">
           <i class="mdi mdi-alert-box nav-notification-box-icon"></i>

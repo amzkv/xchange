@@ -35,6 +35,7 @@ export class LoginController {
           if ($rootScope.infinicast) {
             $rootScope.infinicast.setUser(response.data.user);
             $rootScope.infinicast.listen();
+            //$rootScope.infinicast.goOnline();
           }
           if ($rootScope.previousPage && !$rootScope.loggedOut && $rootScope.previousPage!='/login' && $rootScope.previousPage!='/register' && $rootScope.previousPage.indexOf('/ak/') == -1) {
             $location.path($rootScope.previousPage);
