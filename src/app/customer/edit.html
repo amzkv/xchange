@@ -300,7 +300,7 @@
                               show-toolbar="false">
                   </pdf-viewer>-->
                   <div class="pdf-viewer" ng-class="unlockZoom ? 'unlock' : ''" ng-show="fileType=='PDF'">
-                    <object data="{{trustSrc(documentUrl)}}" type="application/pdf">
+                    <object data="{{trustSrc(documentUrl + '#zoom=page-width')}}" type="application/pdf">
                       <img src="{{trustSrc(documentUrlLarge)}}">
                     </object>
                   </div>
