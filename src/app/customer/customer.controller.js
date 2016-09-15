@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CustomerController {
-  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr, UploadService, StorageService, CheckAuthService) {
+  constructor ($scope, docs, storedAccessKey, category, locale, baseUrl, $stateParams, ViewModeService, documentsService, LocalAccessService, ConfigService, $rootScope, $mdDialog, $mdSidenav, $filter, FileSaver, Blob, toastr, UploadService, StorageService, CheckAuthService, $timeout, $location, $state) {
     'ngInject';
 
     //$scope.filterData = {};
@@ -249,19 +249,41 @@ export class CustomerController {
 
     $scope.editForm = {};
 
-    $scope.editDocument = function (event, documentId) {
+    $scope.goToDocument = function(event, documentId) {
+      //$state.go($state.current, {documentId: documentId}, {reload: false, notify: false});
+      $scope.editDocument(event, documentId);
+      //console.log($state.current);
+      //if ($stateParams)
+      $stateParams.documentId = documentId;
+      let state = 'document';
+      if ($stateParams.accessKey) {
+        state = 'accesskeyDocumentView';
+      }
+      $state.go(state, $stateParams, {reload: false, notify: false});
+    };
+
+    $scope.editDocument = function (event, documentId, skipChangeState) {
 
       let key = null;
       if ($stateParams.accessKey) {
         key = $stateParams.accessKey;
         //return;
       }
-      event.stopPropagation();
+      if (event) {
+        event.stopPropagation();
+      }
       $scope.etc = function() {
         return !$scope.formChanged;
       };
 
       let parentScope = $scope;
+      $scope.returnPath = function () {
+        let stateName = 'customer';
+        if ($stateParams.accessKey) {
+          stateName = 'accesskeyDocument';
+        }
+        $state.go(stateName, $stateParams, {reload: false, notify: false});
+      };
 
       $mdDialog.show({
           controller: 'EditDocumentController' ,
@@ -269,6 +291,7 @@ export class CustomerController {
           preserveScope: true,
           parent: angular.element(document.body),
           targetEvent: event,
+          disableParentScroll: true,
           clickOutsideToClose:true,
           /*escapeToClose: false,*/
           /*fullscreen: true,*/
@@ -291,10 +314,21 @@ export class CustomerController {
         })
         .then(function() {
           //$scope.mdClosing = true;
+          //$scope.returnPath();
         }, function() {
+          $scope.returnPath();
           //$scope.mdClosing = true;
           //console.log('close2');
         });
     };
+
+    if ($stateParams.documentId) {
+      $timeout(
+        function() {
+          $scope.editDocument(null, $stateParams.documentId, true);
+        },
+        100
+      );
+    }
   }
 }
