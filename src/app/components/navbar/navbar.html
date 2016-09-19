@@ -45,12 +45,19 @@
     <i class="mdi" ng-class="vm.cardMode ? 'mdi-view-list' : 'mdi-view-module'"></i>
   </span>-->
 
-  <!--<div style="position:fixed;right:30px;top:100px;cursor: pointer" ng-click="vm.testDataUpdate();">test</div>-->
+  <!--<div style="position:fixed;right:30px;top:100px;cursor: pointer; color: blue;" ng-click="vm.testDataUpdate();">notifSend</div>-->
 
-  <!--<i ng-show="dataChanged" class="mdi mdi-reload nav-reload" ng-click="$event.stopPropagation();vm.reloadData();"></i>
+  <!--<div style="position:fixed;right:120px;top:100px;cursor: pointer; color: black;" ng-click="vm.testChatUpdate();">chatSend</div>-->
+  <!--<div style="position:fixed;right:120px;top:100px;cursor: pointer; color: black;" ng-click="vm.testOnlineUpdate();">online Send</div>
+  <div style="position:fixed;right:30px;top:100px;cursor: pointer; color: blue;" ng-click="vm.testOnlineUpdate('offline');">offline Send</div>-->
+
+  <i ng-show="dataChanged" class="mdi mdi-reload nav-reload" ng-click="$event.stopPropagation();vm.reloadData();"></i>
   <i class="mdi mdi-bell nav-notifications" ng-click="$event.stopPropagation();vm.displayNotifications = !vm.displayNotifications">
-    <i ng-show="vm.notifications.length" class="nav-counts">{{vm.notifications.length}}</i>
-  </i>-->
+    <i ng-show="notificationService.notifications.length" class="nav-counts">{{notificationService.notifications.length}}</i>
+  </i>
+  <i class="mdi mdi-comment nav-chat" ng-click="$event.stopPropagation();vm.displayChat = !vm.displayChat;vm.scrollToLastMessage();">
+    <i ng-show="vm.chatMessages.length && !vm.displayChat" class="nav-counts">{{vm.chatMessages.length}}</i>
+  </i>
 
   <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"></i>
   <i class="mdi mdi-magnify nav-filter" ng-click="vm.displayOptions = false;vm.toggleFilter()"></i>
@@ -62,6 +69,7 @@
 <div class="options-backdrop" ng-show="vm.anyBoxIsShown()" ng-click="vm.hideBoxes();"></div>
 <ng-include src="'app/components/navbar/navbar.box.options.html'"></ng-include>
 <ng-include src="'app/components/navbar/navbar.box.notifications.html'"></ng-include>
+<ng-include src="'app/components/navbar/navbar.box.chat.html'"></ng-include>
 
 <!--<div class="options-backdrop" ng-show="displayOptions" ng-click="displayOptions = !displayOptions" style="height: 24px;"></div>--></br><!--remove br, revise padding-top-->
 

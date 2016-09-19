@@ -74,6 +74,18 @@ export class CustomerController {
     $scope.accessKey = $scope.accessKey || $stateParams.accessKey;
     if ($scope.accessKey && docs.data && docs.data.accesskey_user) {
       LocalAccessService.accessKeyUser = docs.data.accesskey_user;
+      if ($rootScope.infinicast) {
+        //$rootScope.infinicast.listen();
+        //console.log('infinicast', LocalAccessService.getPartnerIds());
+
+        let partners = LocalAccessService.getPartnerIds();
+        //dynamically inject ids to subscribe
+        $rootScope.infinicast.updatePathConfig('userChat', 'ids', partners);
+        $rootScope.infinicast.updatePathConfig('userOnline', 'ids', partners);
+        $rootScope.infinicast.isAccessKeyUser = true;
+        $rootScope.infinicast.listen();
+        //console.log($rootScope.infinicast);
+      }
     }
 
     documentsService.startValue = ConfigService.getDocumentStartValue();

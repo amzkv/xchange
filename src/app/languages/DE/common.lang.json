@@ -1,16 +1,16 @@
 {
   "yes": "Ja",
   "no": "Nein",
-  "open" : "Open",
-  "close" : "Close",
-  "error": "Error",
-  "warning" : "Warning",
-  "company" : "Company",
+  "open" : "Öffnen",
+  "close" : "Schliessen",
+  "error": "Fehler",
+  "warning" : "Warnung",
+  "company" : "Firma",
   "name" : "Name",
-  "count" : "Count",
-  "title" : "Title",
-  "date" : "Date",
-  "type" : "Type",
+  "count" : "Anzahl",
+  "title" : "Titel",
+  "date" : "Datum",
+  "type" : "Typ",
   "filter" : "Filter",
-  "value" : "Value"
+  "value" : "Wert"
 }

@@ -57,6 +57,7 @@ export class NotificationService {
   }
 
   clearNotifications(){
+    //console.log('clear');
     this.notifications = [];
   }
 
