@@ -9,7 +9,26 @@
                 {{totalDocCount || '?'}}
               </div>
               <md-card-title-text>
-                <span class="md-headline">{{'Documents'}}</span>
+                <span class="md-headline">{{'All Documents'}}</span>
+              </md-card-title-text>
+            </md-card-title>
+          </md-card>
+        </a>
+      </div>
+      <div grid ng-repeat="card in akCoreItems" class="a-card column">
+        <a ui-sref="accesskeyCollection({accessKey: accessKey, collectionId: card.group.value, collectionLocale: card.group.locale})">
+          <md-card>
+            <md-card-title>
+              <!--<div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+              'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
+              'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
+                {{card.count || '?'}}
+              </div>-->
+              <md-card-title-text>
+                <!--<span class="md-subhead">
+                  {{card.count}}
+                </span>-->
+                <span class="md-headline">{{card.group.locale}}</span>
               </md-card-title-text>
             </md-card-title>
           </md-card>
@@ -26,6 +45,20 @@
               {{totalDocCount || '?'}}
             </div>
             <span>{{'Documents'}}</span>
+          </div>
+        </a>
+      </div>
+    </ons-list-item>
+    <ons-list-item grid ng-repeat="card in akCoreItems" class="a-card">
+      <div class="a-card">
+        <a ui-sref="accesskeyCollection({accessKey: accessKey, collectionId: card.group.value, collectionLocale: card.group.locale})">
+          <div>
+            <!--<div class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+          'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
+          'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
+              {{card.count || '?'}}
+            </div>-->
+            <span>{{card.group.locale}}</span>
           </div>
         </a>
       </div>

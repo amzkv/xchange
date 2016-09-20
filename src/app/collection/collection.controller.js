@@ -7,6 +7,9 @@ export class CollectionController {
 
     //themeProvider.setDefaultTheme('365violet');
 
+    $scope.ak = $stateParams.accessKey;
+    $scope.params = {};
+
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
       return UploadService.localAcceptHandler(file, done);
@@ -30,14 +33,24 @@ export class CollectionController {
     $scope.viewModeService = ViewModeService;
     $scope.documentsService.searchFilter = '';
 
-    this.docs = collection.data.collections;
+    if (collection.data && collection.data.collections) {
+      this.docs = collection.data.collections;
+      $scope.params.currentClass = collection.data.collections.length ? collection.data.collections[0].group.locale : $scope.parentClass;
+    } else {
+      //console.log(documentsService.akCollections);
+      //ak
+      this.docs = [];
+      if (collection.data && collection.data.avail_filter) {
+        this.docs = documentsService.filterToCollections(collection.data.avail_filter, $stateParams.collectionId);
+        documentsService.akCollections = this.docs;
+        $scope.params.currentClass = this.docs.length ? this.docs[0].group.locale : $scope.parentClass;
+      }
+    }
+
     this.$q = $q;
     let deferred = this.$q.defer();
     $scope.parentClass = $stateParams.collectionId;
     let self = this;
-
-    $scope.params = {};
-    $scope.params.currentClass = collection.data.collections.length ? collection.data.collections[0].group.locale : $scope.parentClass;
 
     $scope.toggleMode = {
       thisState: ViewModeService.getState(),

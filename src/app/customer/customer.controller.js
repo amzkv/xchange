@@ -160,7 +160,7 @@ export class CustomerController {
         if (documentsService.filterCustomerId || documentsService.filterAccessKey) {
           //todo
           let docsPromise;
-          if (documentsService.filterCustomerId) {
+          if (!documentsService.filterAccessKey && documentsService.filterCustomerId) {
             docsPromise = documentsService.callDocumentByOneCollection(documentsService.filterCustomerId);
           }
           if (documentsService.filterAccessKey) {
@@ -191,6 +191,7 @@ export class CustomerController {
       //console.log('more', documentsService.busy,  documentsService.startValue, documentsService.endValue, $scope.totalDocCount, $scope.cacheStart);
 
       if (documentsService.busy) return;
+      //console.log('more');
 
       var startValue = documentsService.startValue;
       var endValue = documentsService.endValue;
@@ -257,7 +258,11 @@ export class CustomerController {
       $stateParams.documentId = documentId;
       let state = 'document';
       if ($stateParams.accessKey) {
-        state = 'accesskeyDocumentView';
+        if ($stateParams.collectionId && $stateParams.customerId) {
+          state = 'accesskeyDocumentViewLong';
+        } else {
+          state = 'accesskeyDocumentView';
+        }
       }
       $state.go(state, $stateParams, {reload: false, notify: false});
     };
@@ -280,7 +285,11 @@ export class CustomerController {
       $scope.returnPath = function () {
         let stateName = 'customer';
         if ($stateParams.accessKey) {
-          stateName = 'accesskeyDocument';
+          if ($stateParams.collectionId && $stateParams.customerId) {
+            stateName = 'accesskeyDocumentFromCollection';
+          } else {
+            stateName = 'accesskeyDocument';
+          }
         }
         $state.go(stateName, $stateParams, {reload: false, notify: false});
       };

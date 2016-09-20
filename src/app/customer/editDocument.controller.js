@@ -761,7 +761,12 @@ export class EditDocumentController {
           $stateParams.documentId = offsetdocumentId;
           let state = 'document';
           if ($stateParams.accessKey) {
-            state = 'accesskeyDocumentView';
+            //state = 'accesskeyDocumentView';
+            if ($stateParams.collectionId && $stateParams.customerId) {
+              state = 'accesskeyDocumentViewLong';
+            } else {
+              state = 'accesskeyDocumentView';
+            }
           }
           $state.go(state, $stateParams, {reload: false, notify: false});
         }

@@ -45,7 +45,9 @@ export class DocumentsService {
     }
 
     if (!self.CheckAuthService.userid) {
-      self.CheckAuthService.getUser().then(function(userResponse) {
+      self.CheckAuthService.getUser().then(
+      function(userResponse) {
+        //success
         self.CheckAuthService.userid = userResponse.userid;
         if (userResponse && userResponse.userid) {
           deferred.resolve(self.baseCall(configExtension, options, value, skipCache));
@@ -53,7 +55,11 @@ export class DocumentsService {
           console.log('what?');
           deferred.resolve(null);
         }
-      });
+      },
+      function(errResp) {
+        //error
+      }
+      );
     } else {
       return self.baseCall(configExtension, options, value, skipCache);
     }
@@ -730,6 +736,33 @@ export class DocumentsService {
 
     //clear Data Cache only
     this.dataCache = null;
+  }
+
+  filterToCollections(avail_filter, collectionId) {
+    let collections = [];
+    angular.forEach(avail_filter, function (item, key) {
+      if (item.group.value == collectionId) {
+        angular.forEach(item.title, function (title, tkey) {
+          collections.push(
+            {
+              count: '?',
+              ak: 1,
+              id: title.id,
+              group: {
+                value: item.group.value,
+                locale: item.group.value
+              },
+              title: {
+                value: title.value,
+                locale: title.locale,
+              }
+            }
+          );
+        });
+        return;
+      }
+    });
+    return collections;
   }
 
 }
