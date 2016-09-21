@@ -17,6 +17,7 @@
   "createdOn" : "Erstellt am",
   "updatedOn" : "Geändert am",
   "deletedOn" : "Deleted on",
+  "archivedOn" : "Archived on",
   "workflow": "Arbeitsablauf",
   "workflowProcess" : "Arbeitsablauf Prozess",
   "workflowStatus" : "Arbeitsablauf Status",
