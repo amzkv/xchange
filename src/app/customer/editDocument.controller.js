@@ -782,6 +782,58 @@ export class EditDocumentController {
 
     };
 
+    $scope.archiveOrRestore = function(editForm) {
+      let form = this.saveForm;
+      let permissionType = 'change';
+      let data = {};
+      let updateData = {};
+      if (editForm.authorized && editForm.authorized.indexOf(permissionType) !== -1) {
+        if (editForm.deleted) {
+          //restore
+          data.deleted = null;
+        } else {
+          //archive
+          data.deleted = new Date().getTime();
+        }
+
+        let savedata = documentsService.callSaveDocumentById(documentId, data);
+        savedata.then(function (saveResp) {
+          if (saveResp.data && saveResp.data.response && saveResp.data.response.errorcode == '200') {
+            if (!editForm.deleted) {
+              toastr.success($filter('i18n')('customer.fileArchivedMsg'), 'Success');//translate
+            } else {
+              toastr.success($filter('i18n')('customer.fileRestoredMsg'), 'Success');//translate
+            }
+
+            editForm.deleted = data.deleted;
+
+            //clear view document cache
+            documentsService.callDocumentById(documentId, key, true);//reload, TODO: just clear db
+            //clear documents list cache
+
+            //documentsService.cleanupRelatedLists('documents',documentId);//do not cleanup for now - we use modified cache
+            $scope.populateData(saveResp);//update form from response
+            $scope.formChanged = false;
+            $scope.saveForm.$setPristine();
+            $scope.saveForm.$setSubmitted();
+
+            let viewData = angular.merge(data, updateData);
+            $scope.updateCurrentDocumentList(documentId, viewData);
+
+            documentsService.updateRelatedDocumentCache('documents', documentId, viewData);
+
+            //console.log($scope.saveForm);
+
+          } else {
+            //?
+            let error = $filter('i18n')('error.5007');
+            toastr.error(error, 'Error');
+          }
+        });
+    }
+
+    };
+
     $scope.save = function (editForm) {
 
       function prepareCollections(collections) {

@@ -402,6 +402,10 @@
               <i class="mdi mdi-pen" role="button"></i>
               {{'customer.sign' | i18n}}
             </div>
+            <div ng-if="!accessKey" class="doc-control-button" ng-click="archiveOrRestore(editForm);">
+              <i class="mdi" ng-class="editForm.deleted ? 'mdi-backup-restore' : 'mdi-archive'" role="button"></i>
+              {{editForm.deleted ? ('customer.restore' | i18n) : ('customer.archive' | i18n)}}
+            </div>
             <div style="height: 16px;"></div>
             <div class="doc-control-header">
               {{'customer.navigation' | i18n}}

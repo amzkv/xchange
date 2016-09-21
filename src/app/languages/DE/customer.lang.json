@@ -27,6 +27,10 @@
   "navigation" : "Navigation",
   "overview" : "Übersicht",
   "save" : "Speichern",
+  "archive" : "Archive",
+  "restore" : "Restore",
+  "fileRestoredMsg" : "File has been restored successfully",
+  "fileArchivedMsg" : "File has been archived successfully",
   "download" : "Herunterladen",
   "sign": "Signieren",
   "saveChanges" : "Änderungen speichern?"

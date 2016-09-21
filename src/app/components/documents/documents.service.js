@@ -498,8 +498,8 @@ export class DocumentsService {
       if (data.post_date) {
         configExtension.document.post_date = data.post_date; //"2014-01-15", optional date when money transfer hit account
       }
-      if (data.deleted) {
-        configExtension.document.deleted = data.deleted; // "timestamp", if this is set this document moves to the trash. From trash it can be deleted or recovered
+      if (angular.isDefined(data.deleted)) {
+        configExtension.document.deleted = data.deleted || 'null'; // "timestamp", if this is set this document moves to the trash. From trash it can be deleted or recovered
       }
       /*collections sample:*/
 
