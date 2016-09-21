@@ -261,18 +261,17 @@
 
                   <div class="xl-view" ng-if="fileType=='XL'">
                     <div ng-if="!xlprocessing" ui-grid="gridOptions" class="grid"></div>
-                  </div>
-
-                  <div ng-if="showControls && fileType=='XL'" class="pdf-controls" ng-click="focusControl($event);">
-                    <md-button ng-show="xlsheetNames[xlsheetIndex-1]" class="md-icon-button" ng-click="prevSheet();">
-                      <i class="material-icons">keyboard_arrow_left</i>
-                    </md-button>
-                    <md-button ng-show="true" class="md-icon-sheet" ng-click="useSheet();">
-                      {{xlsheet}}
-                    </md-button>
-                    <md-button ng-show="xlsheetNames[xlsheetIndex+1]" class="md-icon-button" ng-click="nextSheet();">
-                      <i class="material-icons">keyboard_arrow_right</i>
-                    </md-button>
+                    <div ng-if="showControls && fileType=='XL'" class="pdf-controls" ng-click="focusControl($event);">
+                      <md-button ng-show="xlsheetNames[xlsheetIndex-1]" class="md-icon-button" ng-click="prevSheet();">
+                        <i class="material-icons">keyboard_arrow_left</i>
+                      </md-button>
+                      <md-button ng-show="true" class="md-icon-sheet" ng-click="useSheet();">
+                        {{xlsheet}}
+                      </md-button>
+                      <md-button ng-show="xlsheetNames[xlsheetIndex+1]" class="md-icon-button" ng-click="nextSheet();">
+                        <i class="material-icons">keyboard_arrow_right</i>
+                      </md-button>
+                    </div>
                   </div>
 
                   <!-- TODO: directive -->
@@ -353,20 +352,29 @@
                         <input type="text" name="creator" data-ng-model="editForm.creator_name" class="profile-field" ng-readonly="true"/>
                       </md-input-container>
                     </div>
-                    <div layout="row" layout-align="left center">
+                    <!--<div layout="row" layout-align="left center">
                       <div class="date-container">
                         <span class="line-label">{{'customer.createdOn' | i18n}}&nbsp;</span>
-                        <span class="date-text">{{editForm.createdDate | date: 'dd.MM.yyyy HH:mm'}}</span>
-                        <!--<md-datepicker class="ro-datepicker"  disabled="disabled" ng-model="editForm.documentDate" md-min-date="editForm.documentDate" md-max-date="editForm.documentDate" md-placeholder="created date" aria-label="x2" readonly="readonly"></md-datepicker>-->
+                        <span class="new-date-text">{{editForm.createdDate | date: 'dd.MM.yyyy HH:mm'}}</span>
                       </div>
+                    </div>-->
+                    <div layout="row" layout="left center">
+                      <md-input-container class="flex">
+                        <label class="profile-lable">{{'customer.createdOn' | i18n}}</label>
+                        <input type="text" name="createdon"  value="{{editForm.createdDate | date: 'dd.MM.yyyy   HH:mm'}}" class="profile-field" ng-readonly="true"/>
+                      </md-input-container>
                     </div>
-                    <div layout="row" layout-align="left center">
-                      <div class="date-container">
-                        <span class="line-label">{{'customer.updatedOn' | i18n}}</span>
-                        <!--<input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime" placeholder="Date" min-date="date" ng-model="editForm.changedDate" class="ng-pristine ng-valid ng-isolate-scope md-input ng-touched" aria-invalid="false">-->
-                        <!--<md-datepicker class="ro-datepicker" time="true" disabled="disabled" ng-model="editForm.changedDate" md-placeholder="updated date" aria-label="x3" readonly="readonly"></md-datepicker>-->
-                        <span class="date-text">{{editForm.changedDate | date: 'dd.MM.yyyy HH:mm'}}</span>
-                      </div>
+                    <div layout="row" layout="left center">
+                      <md-input-container class="flex">
+                        <label class="profile-lable">{{'customer.updatedOn' | i18n}}</label>
+                        <input type="text" name="updatedon"  value="{{editForm.changedDate | date: 'dd.MM.yyyy   HH:mm'}}" class="profile-field" ng-readonly="true"/>
+                      </md-input-container>
+                    </div>
+                    <div ng-if="editForm.deleted" layout="row" layout="left center">
+                      <md-input-container class="flex">
+                        <label class="profile-lable">{{'customer.deletedOn' | i18n}}</label>
+                        <input type="text" name="deletedon"  value="{{editForm.deleted | date: 'dd.MM.yyyy   HH:mm'}}" class="profile-field" ng-readonly="true"/>
+                      </md-input-container>
                     </div>
                   </md-content>
                 </div>
@@ -385,9 +393,9 @@
               <i class="mdi mdi-content-save" role="button"></i>
               {{'customer.save' | i18n}}
             </div>
-            <div style="display: inline-block; width: 32px" class="doc-control-button" ng-click="$event.stopPropagation();toggleDownloadBox()">
+            <div style="display: inline-block; width: 32px;vertical-align: top;" class="doc-control-button" ng-click="$event.stopPropagation();toggleDownloadBox()">
               <i class="mdi mdi-menu-down" role="button"></i>
-            </div><div style="display: inline-block;width: 168px" class="doc-control-button" ng-click="downloadDoc()">
+            </div><div style="display: inline-block;width: 168px;vertical-align: top;" class="doc-control-button" ng-click="downloadDoc()">
               <i class="mdi mdi-download" role="button"></i>
               {{'customer.download' | i18n}}
             </div>

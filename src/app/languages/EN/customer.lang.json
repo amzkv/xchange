@@ -16,6 +16,7 @@
   "creator" : "Creator",
   "createdOn" : "Created on",
   "updatedOn" : "Updated on",
+  "deletedOn" : "Deleted on",
   "workflow": "Workflow",
   "workflowProcess" : "Workflow Process",
   "workflowStatus" : "Workflow Status",

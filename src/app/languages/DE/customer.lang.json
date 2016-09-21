@@ -16,6 +16,7 @@
   "creator" : "Erstellt von",
   "createdOn" : "Erstellt am",
   "updatedOn" : "Geändert am",
+  "deletedOn" : "Deleted on",
   "workflow": "Arbeitsablauf",
   "workflowProcess" : "Arbeitsablauf Prozess",
   "workflowStatus" : "Arbeitsablauf Status",
