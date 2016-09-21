@@ -5,6 +5,7 @@ export class EditDocumentController {
     let self = this;
     $scope.pdfState = {'page': 1};
     $scope.formChanged = false;
+    $scope.accessKey = key;
 
     $scope.trustSrc = function(src) {
       return $sce.trustAsResourceUrl(src);
@@ -138,7 +139,7 @@ export class EditDocumentController {
 
     $scope.cancel = function (ev) {
       //$scope.mdClosing = true;
-      if ($scope.formChanged) {
+      if ($scope.formChanged && !key) {
         $scope.showSaveConfirmation = true;
       } else {
         $mdDialog.hide();

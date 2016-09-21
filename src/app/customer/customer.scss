@@ -403,7 +403,8 @@ md-card-title-media {
     /*padding: 5px;*/
     canvas, embed, object, img {
       /*height: calc(100vh - 129px);*/
-      height: calc(#{100vh} - #{129px});
+      /*height: calc(#{100vh} - #{129px});*//*actual*/
+      height: 100vh;
       /*64,48,5+5,6*/
       width: calc(#{100%} - #{10px});
       /*margin: 5px 5px 69px 5px;*/
@@ -528,6 +529,7 @@ md-card-title-media {
     height: 34px;
     margin-top: 6px;
     max-width: 300px;
+    width: 200px;
     overflow: hidden;
     padding: 7px;
     position: relative;
@@ -551,6 +553,33 @@ md-card-title-media {
     }
   }
 
+  .amount-label {
+    /*text-align: right !important;*/
+
+  }
+
+  @media screen and (min-width: 960px) {
+    .amount-container {
+      margin-left: auto !important;
+      label {
+        right: 0 !important;
+        left: auto !important;
+      }
+      input {
+        text-align: right;
+      }
+    }
+    .md-input-has-value.amount-container {
+      label {
+        right: -22px !important;
+      }
+    }
+  }
+
+  .md-datepicker-input-container {
+    min-width: 185px;
+  }
+
  .control-disabled, .control-disabled:hover {
    i {
      opacity: 0.4;
@@ -565,8 +594,8 @@ md-card-title-media {
   .doc-control-container {
     height: 100vh;
     /*height: calc(#{100vh} - #{74px});*/
-    width: 240px;
-    padding: 15px;
+    width: 200px;
+    padding: 30px;
   }
 
   .doc-control-fixed {
@@ -577,7 +606,33 @@ md-card-title-media {
     /*right: 18px;*/
     /*right: calc(#{18px} + #{50%} - #{500px});*/
     position: fixed !important;
-    width: 240px !important;
+    /*width: 210px !important;*/
+  }
+
+  .edit-header-workstatus {
+    padding: 5px;
+    margin-left: 15px;
+    background-color: $primary-color;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  .form-block-container {
+    padding: 0 10px 10px 20px;
+    /*label {
+      font: inherit;
+    }*/
+    input, .md-text {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .mdic-mw {
+      max-width: 250px
+    }
+    .md-padding {
+      padding-bottom: 0;
+    }
   }
 
   /*md-dialog.edit-doc {
