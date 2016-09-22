@@ -6,7 +6,7 @@
 
       <div class="grid-column list-item-text list-item-text-r1 list-column-4">{{card.date | date: "dd.MM.yyyy" }}</div>
       <div class="grid-column list-item-text list-item-text-r2 list-column-5"  title="{{(card.user.firstname + ' ' + card.user.lastname)}}">{{(card.user.firstname + ' ' + card.user.lastname)}}</div>
-      <div class="grid-column list-item-text list-item-text-r4 list-column-6">{{card.totalamount | currency:""}}</div>
+      <div class="grid-column list-item-text list-item-text-r4 list-column-6" ng-if="card.totalamount">€{{card.totalamount | currency:''}}</div>
 
       <!--<md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>-->
       <div class="col-ruler" ng-if="(card.collections | collectionFilter:excludeCollections).length"></div>
@@ -14,7 +14,7 @@
     <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="goToDocument($event, card.id);">
       <div class="grid-column">
         <div class="list-item-text collection-item" ng-repeat="collection in card.collections | collectionFilter:excludeCollections">
-          {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ', '}}&nbsp;</span>
+          {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ' '}}&nbsp;</span>
         </div>
       </div>
       <div class="grid-column fake-col"></div>

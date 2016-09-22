@@ -114,7 +114,8 @@ md-card-title-media {
 .mod-card-text {
   position: relative !important;
   margin-top: 5px !important;
-  font-size: 16px !important;
+  font-size: $card-title-size !important;
+  color: $header-color-darker;
 }
 
 .card-image {
@@ -129,14 +130,14 @@ md-card-title-media {
   /*bottom: 15px;
   position: absolute;*/
   word-break: break-all;
-  font-size: 18px;
-  line-height: 16px;
-  color: #310055;
-  font-weight: bold;
+  font-size: $card-title-size;
+  line-height: $card-title-size;
+  color: $header-color-darker;
+  /*font-weight: 600;*/
 }
 
 .list-item-text {
-  color: rgba(0,0,0,0.54);
+  color: rgba(0,0,0,0.64);
   padding-top: 0;
   font-size: 14px;
   font-weight: 400;
@@ -151,8 +152,8 @@ md-card-title-media {
 
 .collection-item-card {
   display: inline-block;
-  font-size: 10px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .list-item-text-r1 {
@@ -194,6 +195,10 @@ md-card-title-media {
 
 .md-secondary-subhead-selected {
   color: #CCCCCC !important;
+}
+
+.md-subhead {
+  color: $card-text-color-default !important;
 }
 
 .md-toolbar-tools {

@@ -8,7 +8,7 @@
           'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
             {{card.count}}
           </div>
-          <span>{{card.title.locale}}</span>
+          <span class="card-title">{{card.title.locale}}</span>
             <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">
               <i class="material-icons">edit</i>
             </md-button>

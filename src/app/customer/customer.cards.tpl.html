@@ -16,13 +16,13 @@
             </div>
             <div layout="row">
               <span class="md-subhead"  flex style="">{{card.date | date: "dd.MM.yyyy" }}</span>
-              <span class="md-subhead" flex style="" ng-if="card.totalamount">{{card.totalamount|currency:''}}</span>
+              <span class="md-subhead" flex style="" ng-if="card.totalamount">€{{card.totalamount|currency:''}}</span>
             </div>
             <div layout="row" layout-align="left center" style="padding: 10px 0 12px 0;">
               <span class="md-subhead secondary-subhead" style="font-size: 16px !important;">{{(card.user.firstname + ' ' + card.user.lastname)|truncate:false:28:'...'}}</span>
             </div>
             <div class="list-item-text collection-item-card" ng-repeat="collection in card.collections | collectionFilter:excludeCollections">
-              {{collection.title.locale || collection.title.value}}<span class="">{{$last ? '' : ', '}}&nbsp;</span>
+              {{collection.title.locale || collection.title.value}}<span class="">{{$last ? '' : ' '}}&nbsp;</span>
             </div>
 
           </md-card-title-text>
