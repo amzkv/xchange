@@ -123,20 +123,47 @@
             </div>
             <div id="doc_workflow">
               <md-button class="md-raised category-button" aria-label="documentWorkflowBtn" ng-click="goTo($event, 'doc_workflow');">
-                {{'customer.workflow' | i18n}}
+                {{'customer.workflow' | i18n}}<!--TODO-->
+                <span ng-if="newWorkFlow && editForm.workflow && editForm.workflow.process" style="overflow: hidden;font-size:14px;opacity: 0.87">&nbsp;{{editForm.workflow.process.name}}</span>&nbsp;<span style="font-size: 12px;opacity: 0.87">{{editForm.workflow.process.description}}</span>
                 <!--<md-icon aria-label="details"
                          class="material-icons step" ng-class="docDetailsSections.workflowBlock ? 'icon-expanded' : 'icon-collapsed'">
                   keyboard_arrow_down
                 </md-icon>-->
               </md-button>
               <div class="form-block-container" ng-accordion-body ng-class="docDetailsSections.workflowBlock ? 'block-expanded' : 'block-collapsed'">
-                <div ng-if="editForm.workflow" ng-cloak>
+                <div ng-if="newWorkFlow" ng-cloak>
+                  <md-content class="" style="padding-bottom: 10px">
+                    <!--workprocess case-->
+                    <div ng-if="editForm.workprocess" layout="row" style="padding: 10px;" layout-align="left center">
+                      <md-input-container class="flex mdic-mw">
+                        <div ng-if="editForm.workprocessToStart" class="profile-lable" style="font-size: 14px;color: rgba(0,0,0, 0.61);padding: 5px 0 5px 0;">{{editForm.workprocessToStart.description}}</div>
+                        <label class="profile-lable">Workflow process to start</label>
+                        <md-select class="mdic-mw" name="workprocessToStart" ng-model="editForm.workprocessToStart">
+                          <md-option ng-value="wfprocess" ng-repeat="wfprocess in editForm.workprocess">
+                            {{wfprocess.name}}
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+                    <!--workflow case-->
+                    <div ng-if="editForm.workflow" layout="row" style="padding: 10px;" layout-align="left center">
+                      <div class="breadcrumb flat">
+                        <!--<a ng-class="editForm.workflow.startable ? 'active' : ''">{{'customer.past' | i18n}}</a>
+                        <a ng-class="editForm.workflow.running ? 'active' : ''">{{'customer.current' | i18n}}</a>
+                        <a>{{'customer.next' | i18n}}</a>-->
+                        <a ng-if="editForm.workflow.done" ng-value="dwf" ng-repeat="dwf in editForm.workflow.done" ng-class="$last && !editForm.workflowNextStep ? 'active' : ''" ng-click="$last && resetWorkflowStep()" title="{{dwf.desc}}">{{dwf.step}}</a>
+                        <a ng-if="editForm.workflow.next" ng-value="nwf" ng-repeat="nwf in editForm.workflow.next" title="{{nwf.desc}}" ng-click="$first && workflowGoNextStep()" ng-class="(editForm.workflowNextStep == nwf.step) ? 'active' : ''" >{{nwf.step}}</a>
+                      </div>
+                    </div>
+                  </md-content>
+                </div>
+                <div ng-if="!newWorkFlow && editForm.workflow" ng-cloak>
                   <md-content class="" style="padding-bottom: 10px">
                     <div ng-if="editForm.workflow" layout="row" style="padding: 10px;" layout-align="left center">
                       <div class="breadcrumb flat">
-                        <a href="#" ng-class="editForm.workflow.startable ? 'active' : ''">{{'customer.past' | i18n}}</a>
-                        <a href="#" ng-class="editForm.workflow.running ? 'active' : ''">{{'customer.current' | i18n}}</a>
-                        <a href="#">{{'customer.next' | i18n}}</a>
+                        <a ng-class="editForm.workflow.startable ? 'active' : ''">{{'customer.past' | i18n}}</a>
+                        <a ng-class="editForm.workflow.running ? 'active' : ''">{{'customer.current' | i18n}}</a>
+                        <a>{{'customer.next' | i18n}}</a>
                       </div>
                     </div>
                     <md-content class="md-padding" style="padding-bottom: 0;" layout="column">

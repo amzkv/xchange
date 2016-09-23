@@ -33,6 +33,8 @@ $footer-offset: 24px;
 $card-title-size: 20px;
 $card-text-color-default: #727272;
 
+$workflow-item-color-active: #731c5d;
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -143,6 +145,10 @@ section.jumbotron {
 md-content.md-365violet-theme,
 md-content.md-365red-theme {
   background-color: $background-color;
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  color: rgba(255,255,255,1);
 }
 
 .list-offsets {

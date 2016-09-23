@@ -44,6 +44,36 @@ export class EditDocumentController {
       this.saveForm.collections.$dirty = true;//??
     };
 
+    $scope.getCurrentType = function () {
+      return $scope.editForm.type.value;
+    };
+
+    $scope.hasCollection =function(collectionValue) {
+      let found = false;
+      angular.forEach($scope.editForm.typeList, function (item) {
+        if (item.group.value == collectionValue) {
+          found = true;
+          return;
+        }
+      });
+      return found;
+    };
+
+    $scope.autoFillWFProcess = function () {
+      if ($scope.newWorkFlow && $scope.editForm.workprocess) {
+        if ($scope.hasCollection('CUSTOMER') && $scope.getCurrentType() == 'INVOICE') {
+          let oiProcess = $scope.editForm.workprocess.filter(function(item) {
+            return item.name === 'outgoing invoice';
+          });
+          if (oiProcess.length == 1) {
+            $scope.editForm.workprocessToStart = oiProcess[0];
+            $scope.formChanged = true;
+            toastr.success('Applying default workflow process [outgoing invoice]', 'Notice');//??
+          }
+        }
+      }
+    };
+
     $scope.populateData = function(resp) {
       if (resp.data.document) {
         var res = resp.data;
@@ -92,6 +122,73 @@ export class EditDocumentController {
 
         $scope.editForm.allCollections = documentsService.allCollections || res.document.collections;
 
+        //console.log($scope.editForm.workflow);
+        //TODO: test, remove when backend ready and leave newWorkFlow = true; remove deprecated layout (!newWorkflow)
+        let newWorkFlow = false;
+
+        if (newWorkFlow) {
+          let workprocess = [{
+                "id": 123,
+                "name": "outgoing unilever invoice",
+                "description": "Ausgangsrechnung an Unilever-Kunden",
+                "type": "INVOICE",
+                "direction": "OUT",
+                "scope": "private"
+              },
+              {
+                "id": 1,
+                "name": "outgoing invoice",
+                "description": "Ausgangsrechnung an den Kunden",
+                "type": "INVOICE",
+                "direction": "OUT",
+                "scope": "public"
+              },
+              {
+                "id": 2,
+                "name": "incoming invoice",
+                "description": "Eingangsrechnung vom Lieferanten",
+                "type": "INVOICE",
+                "direction": "IN",
+                "scope": "public"
+              }
+          ];
+
+          let workflow =  {
+            "id" : 34,  // id of workflow
+            "process" : {
+              "id" : 1,
+              "name" : "outgoing invoice",
+              "description" : "an invoice is send to an customer"
+            },
+            "done" : [
+              {  "step" : "sent", "desc" : "document has been sent", "when" : "2014-01-07 11:11:11", "who" : "John Doe" },
+              {  "step" : "started", "desc" : "workflow has been started", "when" : "2014-01-07 11:11:11", "who" : "John Doe" }
+            ],
+            "next" : [
+              {  "step" : "received", "desc" : "document has been received"  },
+              {  "step" : "booked", "desc" : "document has been booked"  }
+            ]
+          };
+
+          let wfcase = 1;
+
+          if (wfcase == 1) {
+            $scope.editForm.workprocess = workprocess;
+            $scope.editForm.workflow = null;
+          }
+
+          if (wfcase == 2) {
+            $scope.editForm.workprocess = null;
+            $scope.editForm.workflow = workflow;
+          }
+          $scope.newWorkFlow = newWorkFlow;
+        }
+
+        //console.log($scope.editForm.workprocess);
+        //console.log($scope.editForm.workflow);
+
+        $scope.originalEditForm = angular.copy($scope.editForm);
+
       } else {
         let error = $filter('i18n')('error.5005');
         //console.log(resp);
@@ -108,10 +205,28 @@ export class EditDocumentController {
 
       $scope.editFormWatch = $scope.$watch("editForm", function(newVal, oldVal){
         if (newVal && newVal!=oldVal) {
-          $scope.formChanged = true;
-          thatScope.formChanged = true;
+          if ($scope.originalEditForm) {
+            if (angular.equals($scope.editForm, $scope.originalEditForm)) {
+              //same data
+              $scope.formChanged = false;
+              thatScope.formChanged = false;
+            } else {
+              //changed
+              $scope.formChanged = true;
+              thatScope.formChanged = true;
+            }
+          } else {
+            $scope.formChanged = true;
+            thatScope.formChanged = true;
+          }
+
         }
       }, true);
+
+      //autofills:
+
+      $scope.autoFillWFProcess();
+
     };
 
     documentsService.callDocumentById(documentId, key).then(function(resp) {
@@ -834,6 +949,17 @@ export class EditDocumentController {
 
     };
 
+    $scope.resetWorkflowStep = function () {
+      delete $scope.editForm.workflowNextStep;
+    };
+
+    $scope.workflowGoNextStep = function() {
+      if ($scope.editForm.workflow && $scope.editForm.workflow.next && $scope.editForm.workflow.next[0]) {
+        let nextStep = $scope.editForm.workflow.next[0];
+        $scope.editForm.workflowNextStep = nextStep.step;
+      }
+    };
+
     $scope.save = function (editForm) {
 
       function prepareCollections(collections) {
@@ -854,6 +980,13 @@ export class EditDocumentController {
       let data = {};
       let updateData = {};
       if (editForm.authorized && editForm.authorized.indexOf(permissionType) !== -1 && form.$valid) {
+
+        if ($scope.editForm.workflowNextStep) {
+          if ($scope.editForm.workflow.next && $scope.editForm.workflow.next[0] && $scope.editForm.workflow.next[0].step == $scope.editForm.workflowNextStep) {
+            data.workflow = {'step': $scope.editForm.workflowNextStep};
+          }
+        }
+
         //title
         if (form.title.$dirty && form.title.$modelValue) {
           let title = form.title.$modelValue;
@@ -881,6 +1014,12 @@ export class EditDocumentController {
           }
           data.type = {'value' : type};
           updateData.type = {'value' : type, 'locale' : locale};
+        }
+
+        if (form.workprocessToStart && form.workprocessToStart.$dirty && form.workprocessToStart.$modelValue) {
+          let wpToStart = form.workprocessToStart.$modelValue;
+          data.workflow = {'process' : {'id' : wpToStart.id }};
+          //updateData.type = {'value' : type, 'locale' : locale};
         }
 
         if (form.text.$dirty) {

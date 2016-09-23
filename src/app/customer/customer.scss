@@ -1064,14 +1064,14 @@ md-card-title-media {
   font-size: 12px;
   line-height: 36px;
   color: white;
-  padding: 0 10px 0 60px;
+  padding: 0 10px 0 35px;
   background: #666;
   background: linear-gradient(#666, #333);
   position: relative;
 }
 
 .breadcrumb a:first-child {
-  padding-left: 35px;
+  padding-left: 25px;
   border-radius: 5px 0 0 5px;
 }
 
@@ -1114,10 +1114,10 @@ md-card-title-media {
   content: none;
 }
 
-.breadcrumb a:before {
+/*.breadcrumb a:before {
   content: counter(flag);
   counter-increment: flag;
-  /*some styles now*/
+  !*some styles now*!
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -1130,7 +1130,7 @@ md-card-title-media {
   background: #444;
   background: linear-gradient(#444, #222);
   font-weight: bold;
-}
+}*/
 
 .flat a, .flat a:after {
   background: white;
@@ -1140,10 +1140,21 @@ md-card-title-media {
 .flat a:before {
   background: white;
   box-shadow: 0 0 0 1px #ccc;
+  color: black;
 }
-.flat a:hover, .flat a.active,
-.flat a:hover:after, .flat a.active:after{
-  background: #9EEB62;
+
+.flat a.active, .flat a.active:after{
+  /*background: #9EEB62;*/
+  background: $workflow-item-color-active;
+  color: $background-color;
+}
+
+.flat a:hover,
+.flat a:hover:after{
+  /*background: #9EEB62;*/
+  background: $header-color;
+  color: $background-color;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 0px) and (max-width: 400px) {
