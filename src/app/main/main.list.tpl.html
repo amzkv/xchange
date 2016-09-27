@@ -1,7 +1,7 @@
 <ons-list ng-if="((main.filteredDocs || main.docs) || (search.coreDocs)).length > 0" class="list-offsets main-list">
   <ons-list-item grid ng-repeat="card in ((main.filteredDocs || main.docs) || search.coreDocs)" class="a-card">
     <div class="a-card">
-      <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
+      <a ui-sref="home.collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <div>
           <div class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
           'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',

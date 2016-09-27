@@ -6,6 +6,15 @@ export class CustomerController {
     'ngInject';
 
     //$scope.filterData = {};
+    if ($stateParams.currentCollection) {
+      if (!$rootScope.stateInfo) {
+        $rootScope.stateInfo = {};
+      }
+      $rootScope.stateInfo.currentCollection = $stateParams.currentCollection;
+    }
+    //$rootScope.globalState = $state.current.name;
+    $rootScope.globalState = 'home.collection.customer';
+    $rootScope.currentCustomerId = $stateParams.customerId;
 
     //$scope.groupFilters = [];
 
@@ -256,7 +265,7 @@ export class CustomerController {
       //console.log($state.current);
       //if ($stateParams)
       $stateParams.documentId = documentId;
-      let state = 'document';
+      let state = 'home.collection.document';
       if ($stateParams.accessKey) {
         if ($stateParams.collectionId && $stateParams.customerId) {
           state = 'accesskeyDocumentViewLong';
@@ -283,7 +292,7 @@ export class CustomerController {
 
       let parentScope = $scope;
       $scope.returnPath = function () {
-        let stateName = 'customer';
+        let stateName = 'home.collection.customer';
         if ($stateParams.accessKey) {
           if ($stateParams.collectionId && $stateParams.customerId) {
             stateName = 'accesskeyDocumentFromCollection';

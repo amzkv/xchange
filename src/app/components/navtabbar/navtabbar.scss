@@ -1,0 +1,18 @@
+:checked + .tab-bar__button {
+  background-color: #ffffff;
+  color: #8430c1
+}
+
+:checked + .tab-bar__button > .tab-bar__icon {
+  color: #8430c1
+}
+
+.ons-tab-bar__content, .tab-bar__content, .tab-bar--top__content {
+  height: 0;
+  display: none;
+}
+
+.tab-bar__label {
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}

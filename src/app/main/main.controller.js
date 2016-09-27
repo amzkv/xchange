@@ -1,8 +1,10 @@
 export class MainController {
-  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q, $filter, UploadService) {
+  constructor(categories, themeProvider, $scope, $rootScope, ViewModeService, documentsService, LocalAccessService, $q, $filter, UploadService, $state, $stateParams) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
+    //$rootScope.globalState = $state.current.name;
+    $rootScope.globalState = 'home';
 
     $scope.documentsService = documentsService;
 
@@ -112,6 +114,12 @@ export class MainController {
       $scope.cardMode = ('Card' === (LocalAccessService.getUserSetting('viewMode') || ViewModeService.getDefaultViewMode()));
     });
 
+    /*$scope.globalStateChangedListener = $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+      //console.log(event, toState, toParams, fromState, fromParams, options);
+      $rootScope.globalState = toState.name;//???
+      //$scope.cardMode = ($scope.toggleMode.thisState === 'Card');
+    });*/
+
     $scope.addListener = $rootScope.$on("CallAddMethod", function(scope, formData){
       $scope.addItem(scope, formData);
     });
@@ -190,6 +198,7 @@ export class MainController {
     $scope.$on('$destroy', function() {
       $scope.addListener();
       $scope.customerStateChangedListener();
+      $scope.globalStateChangedListener();
     });
 
   }

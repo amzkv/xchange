@@ -875,7 +875,7 @@ export class EditDocumentController {
           $scope.saveForm.$setPristine();
           $scope.saveForm.$setSubmitted();
           $stateParams.documentId = offsetdocumentId;
-          let state = 'document';
+          let state = 'home.collection.document';
           if ($stateParams.accessKey) {
             //state = 'accesskeyDocumentView';
             if ($stateParams.collectionId && $stateParams.customerId) {

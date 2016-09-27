@@ -395,8 +395,8 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('collection', {
-      url: '/:collectionId',
+    .state('home.collection', {
+      url: ':collectionId',
       parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
@@ -419,9 +419,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('customer', {
-      url: '/:collectionId/:customerId',
-      parentState: 'collection',
+    .state('home.collection.customer', {
+      url: '/:customerId',
+      parentState: 'home.collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
@@ -462,9 +462,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
 
     })
 
-    .state('document', {
-      url: '/:collectionId/:customerId/:documentId',
-      parentState: 'customer',
+    .state('home.collection.document', {
+      url: '/:customerId/:documentId',
+      parentState: 'home.collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',

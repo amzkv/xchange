@@ -28,7 +28,8 @@ $image-container-w: 165px;
 $image-container-h: 195px;
 
 $header-offset: 64px;
-$footer-offset: 24px;
+$footer-offset: 74px;/*24+50tabbar*/
+$tabbar-offset: 50px;
 
 $card-title-size: 20px;
 $card-text-color-default: #727272;
@@ -152,8 +153,18 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 }
 
 .list-offsets {
-  margin-top:$header-offset+$footer-offset;
+  margin-top:$header-offset+49px !important;
+  margin-bottom: 50px !important;
   /*margin-bottom: 24px;*/
+}
+
+.visible-block {
+  /*visibility: visible;*/
+  display: block;
+}
+.hidden-block {
+  /*visibility: hidden;*/
+  display: none;
 }
 
 .filter-box {

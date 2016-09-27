@@ -10,13 +10,13 @@
           {{fm.accessKeyUser.name || ('common.name'|i18n|lowercase)}}
         </span>
         <span ng-if="fm.state === 'search'" ng-click="fm.navigateHome()">{{'navbar.search' | i18n | lowercase}} : "{{fm.params.searchPhrase}}"</span>
-        <span ng-if="fm.state === 'collection'" ng-click="fm.navigateUp()">{{fm.params.collectionLocale  || fm.currentClass.locale}}</span>
-        <span ng-if="fm.state === 'customer' " ng-click="fm.navigateUp()">{{fm.previousStateParams.collectionLocale || fm.currentClass.locale}}</span>
-        <span ng-if="fm.state === 'customer' && (fm.params.collectionLocale || fm.currentCollection.locale)">
+        <span ng-if="fm.state === 'home.collection'" ng-click="fm.navigateUp()">{{fm.params.collectionLocale  || fm.currentClass.locale}}</span>
+        <span ng-if="fm.state === 'home.collection.customer' " ng-click="fm.navigateUp()">{{fm.previousStateParams.collectionLocale || fm.currentClass.locale}}</span>
+        <span ng-if="fm.state === 'home.collection.customer' && (fm.params.collectionLocale || fm.currentCollection.locale)">
           <i class="material-icons breadcrumb-footer" >keyboard_arrow_right</i>
         </span>
 
-        <span ng-if="fm.state === 'customer'" ng-click="fm.navigateUp()">{{fm.params.locale || fm.currentCollection.locale}}</span>
+        <span ng-if="fm.state === 'home.collection.customer'" ng-click="fm.navigateUp()">{{fm.params.locale || fm.currentCollection.locale}}</span>
       </span>
   </div>
 

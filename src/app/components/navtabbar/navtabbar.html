@@ -1,0 +1,13 @@
+<div ng-if="!tb.hideHeader">
+  <ons-tabbar style="position: fixed;top: 64px; height: 50px;z-index: 10" var="tabbar" position="top">
+    <!--page='core.html'-->
+    <ons-tab persistent no-reload label="Core" icon="fa-home" ng-click="tb.goToCore()">
+    </ons-tab>
+    <!--page='collection.html'-->
+    <ons-tab persistent no-reload label="Related {{(currentClass.locale || documentsService.currentClass.locale) ? '('+(currentClass.locale || documentsService.currentClass.locale)+')': ''}}" icon="fa-list" ng-click="tb.goToRelated(tb.collectionId)">
+    </ons-tab>
+    <!--page='document.html'-->
+    <ons-tab persistent no-reload label="Documents {{(currentCollection.locale || documentsService.currentCollection.locale) ? '('+(currentCollection.locale || documentsService.currentCollection.locale)+')': ''}}" icon="fa-list-alt" ng-click="tb.goToDocuments(tb.customerId)">
+    </ons-tab>
+  </ons-tabbar>
+</div>

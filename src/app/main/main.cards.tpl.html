@@ -1,7 +1,7 @@
 <md-content class="md-padding">
   <div docgrid class="deckgrid">
     <div grid ng-repeat="card in ((main.filteredDocs || main.docs) || search.coreDocs)" class="a-card column">
-      <a ui-sref="collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
+      <a ui-sref="home.collection({collectionId: card.group.value, collectionLocale: card.group.locale})">
         <md-card>
           <md-card-title>
             <div class="card-count {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',

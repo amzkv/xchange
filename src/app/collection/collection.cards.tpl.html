@@ -1,7 +1,7 @@
 <md-content class="md-padding">
   <div docgrid class="deckgrid">
     <div grid ng-repeat="card in ((collection.filteredDocs || collection.docs) || (search.filteredDocs || search.collections))" class="a-card column">
-      <a ui-sref="{{ak ? 'accesskeyDocumentFromCollection' : 'customer'}}({accessKey: ak, collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale, currentCollection: card.title})">
+      <a ui-sref="{{ak ? 'accesskeyDocumentFromCollection' : 'home.collection.customer'}}({accessKey: ak, collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale, currentCollection: card.title})">
         <md-card>
           <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">
             <i class="material-icons">edit</i>

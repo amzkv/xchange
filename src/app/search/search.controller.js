@@ -7,6 +7,8 @@ export class SearchController {
 
     //TODO:REDO, when API is ready
 
+    $scope.excludeCollections = ['Monat', 'NEW', 'INBOX', 'Type', 'WORKFLOW'];
+
     this.coreDocs = core_docs.data.collections;
     this.collections = collections.data.collections;
     $scope.docs = docs.data.documents;

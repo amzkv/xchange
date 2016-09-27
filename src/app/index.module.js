@@ -22,6 +22,7 @@ import { CheckAuthService } from './login/checkAuth.service';
 import { LocalAccessService } from './login/localAccess.service';
 import { ViewModeService } from './customer/viewMode.service.js';
 import { NavbarDirective } from './components/navbar/navbar.directive';
+import { NavtabbarDirective } from './components/navtabbar/navtabbar.directive';
 import { FlyingButtonDirective } from './components/flyingButton/flyingbutton.directive';
 import { FooterbarDirective } from './components/footerbar/footerbar.directive';
 import { SidemenuDirective } from './components/sidemenu/sidemenu.directive';
@@ -89,6 +90,7 @@ angular.module('xchange', [
   .controller('AccesskeyController', AccesskeyController)
   .controller('TestController', TestController)
   .directive('acmeNavbar', NavbarDirective)
+  .directive('navtabbar', NavtabbarDirective)
   .directive('footerBar', FooterbarDirective)
   .directive('sideMenu', SidemenuDirective)
   .directive('noScopeRepeat', NoScopeRepeatDirective)
