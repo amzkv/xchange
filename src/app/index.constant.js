@@ -3,7 +3,7 @@
  */
 
 export const constant = {
-  ENV: 'development',
+  ENV: 'production',
   BASEURL_PROD: '365xchange.de',
   BASEURL_DEV: 'stage.365xchange.net',
   API_ENTRY: '/api/',

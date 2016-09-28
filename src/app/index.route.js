@@ -1,4 +1,4 @@
-export function routerConfig($stateProvider, $urlRouterProvider, $locationProvider) {
+export function routerConfig($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
   'ngInject';
   $stateProvider
 
@@ -233,6 +233,47 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         }
       }
     })
+    .state('accesskeyDocumentView', {
+      url: '/ak/document/:accessKey/:documentId',
+      templateUrl: 'app/accesskey/accesskey.html',
+      controller: 'AccesskeyController',
+      controllerAs: 'accesskey',
+      params: {
+        category: 'CUSTOMER',
+        collectionLocale: null,
+        locale: ''
+      },
+      data : {
+        pageTitle: '365 | Documents By Access Key',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
+      resolve: {
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
+        },
+
+        docs: function (storedAccessKey, LocalAccessService, documentsService, $stateParams) {
+          documentsService.filter = null;
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        },
+
+        category: function ($stateParams) {
+          return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
+    })
 
     .state('collection', {
       url: '/:collectionId',
@@ -264,6 +305,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
+      /*reloadOnSearch: false,*/
       params: {
         category: 'CUSTOMER',
         collectionLocale: null,
@@ -298,9 +340,67 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
         }
       }
 
+    })
+
+    .state('document', {
+      url: '/:collectionId/:customerId/:documentId',
+      parentState: 'customer',
+      templateUrl: 'app/customer/customer.html',
+      controller: 'CustomerController',
+      controllerAs: 'customer',
+      /*reloadOnSearch: false,*/
+      params: {
+        category: 'CUSTOMER',
+        collectionLocale: null,
+        locale: '',
+        currentCollection: null
+      },
+      data : {
+        pageTitle: '365 | Documents',
+        accessSettings: {
+          public: false,
+          accesskey: false,
+          customPerms: null
+        }
+      },
+      resolve: {
+        docs: function (documentsService, $stateParams) {
+          documentsService.filter = null;
+          return documentsService.callDocumentByOneCollection($stateParams.customerId);
+        },
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
+        },
+        category: function ($stateParams) {
+          return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
     });
+
+  /*$urlRouterProvider.rule(function ($injector, $location) {
+    var path = $location.url();
+
+    // check to see if the path already has a slash where it should be
+    if (path[path.length - 1] === '/' || path.indexOf('/?') > -1) {
+      return;
+    }
+
+    if (path.indexOf('?') > -1) {
+      return path.replace('?', '/?');
+    }
+
+    return path + '/';
+  });*/
 
   $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/');
+
 }

@@ -1,5 +1,5 @@
 export class EditDocumentController {
-  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll, ViewerService, uiGridConstants) {
+  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll, ViewerService, uiGridConstants, $state, $stateParams) {
     'ngInject';
 
     let self = this;
@@ -98,6 +98,7 @@ export class EditDocumentController {
           error = resp.error;
         }
         toastr.error(error, 'Error');
+        $mdDialog.hide();//ok?
       }
 
       if ($scope.editFormWatch) {
@@ -698,6 +699,81 @@ export class EditDocumentController {
           //todo
         }
       });
+    };
+
+    $scope.getDocumentIdWithOffset = function(offset) {
+      let offsetDocumentId = null;
+      //let thisDocId =
+      angular.forEach(thatScope.docs, function (item, itemkey) {
+        //manual list for now
+        if (item.id == documentId) {
+          //console.log('i o ',itemkey, offset);
+          //(offset < 0) &&
+          if ((itemkey + offset) <= 0) {
+            $scope.hasNoPrevDocument = true;
+          } else {
+            $scope.hasNoPrevDocument = false;
+          }
+
+          //(offset > 0) &&
+          if ((itemkey + offset + 1 >= thatScope.docs.length)) {
+            $scope.hasNoNextDocument = true;
+          } else {
+            $scope.hasNoNextDocument = false;
+          }
+
+          if (thatScope.docs[itemkey + offset]) {
+            offsetDocumentId = thatScope.docs[itemkey + offset].id;
+          }
+        }
+        return;
+      });
+
+      //console.log($scope.hasNoPrevDocument,$scope.hasNoNextDocument);
+      //console.log(documentId, offsetDocumentId);
+      if (offsetDocumentId) {
+        //console.log('load', offsetDocumentId);
+        return offsetDocumentId;
+      }
+    };
+
+    $scope.getDocumentIdWithOffset(0);
+
+
+    $scope.loadDocumentWithOffset = function(offset) {
+      let offsetDocumentId = $scope.getDocumentIdWithOffset(offset);
+      if (offsetDocumentId) {
+        $scope.loadDocument(offsetDocumentId);
+      }
+    };
+
+    $scope.loadDocument = function(offsetdocumentId) {
+      documentsService.callDocumentById(offsetdocumentId, key).then(
+      function (getResp) {
+        //success
+        //console.log('resp', getResp);
+        if (getResp.data.document) {
+          $scope.populateData(getResp);//update form from response
+          documentId = offsetdocumentId;
+          $scope.formChanged = false;
+          $scope.saveForm.$setPristine();
+          $scope.saveForm.$setSubmitted();
+          $stateParams.documentId = offsetdocumentId;
+          let state = 'document';
+          if ($stateParams.accessKey) {
+            state = 'accesskeyDocumentView';
+          }
+          $state.go(state, $stateParams, {reload: false, notify: false});
+        }
+      },
+        function (resp) {
+          //error
+        }
+      );
+      //clear documents list cache
+
+      //documentsService.cleanupRelatedLists('documents',documentId);//do not cleanup for now - we use modified cache
+
     };
 
     $scope.save = function (editForm) {

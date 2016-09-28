@@ -20,6 +20,7 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
           }*/
 
           stateChangeStartEvent();
+          //console.log('run1');
           $state.go(toState, toParams, options);
         } else {
           stateChangeStartEvent();//remove
@@ -42,6 +43,7 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
         }
 
         stateChangeStartEvent();
+        //console.log('run2');
         $state.go(toState, toParams, options);
         //$urlRouter.sync();
       }

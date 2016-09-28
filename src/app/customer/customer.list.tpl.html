@@ -11,7 +11,7 @@
       <!--<md-divider class="col-ruler" ng-if="(card.collections|filter: groupFilter).length"></md-divider>-->
       <div class="col-ruler" ng-if="(card.collections | collectionFilter:excludeCollections).length"></div>
     </div>
-    <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="editDocument($event, card.id);">
+    <div ng-repeat-end="" class="doc-list-row collection-list grid-nb" ng-click="goToDocument($event, card.id);">
       <div class="grid-column">
         <div class="list-item-text collection-item" ng-repeat="collection in card.collections | collectionFilter:excludeCollections">
           {{collection.title.locale || collection.title.value}}<span class="col-separator">{{$last ? '' : ', '}}&nbsp;</span>

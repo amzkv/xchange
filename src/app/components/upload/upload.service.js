@@ -48,6 +48,7 @@ export class UploadService {
 
     this.sendInterceptPromise = function(file, done) {
       file.status = 'queued';
+      let filename = file.name.replace(/[^\w\s~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');//strip special chars
       return $q(function(resolve, reject) {
 
         let options = {
@@ -55,7 +56,7 @@ export class UploadService {
         };
 
         let uploadOptions = {
-          'name': file.name
+          'name': filename
         };
 
         if (self.uploadType) {

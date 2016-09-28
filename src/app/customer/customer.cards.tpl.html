@@ -2,7 +2,7 @@
   <div docgrid class="docgrid">
     <!-- | filter:searchService.searchCriteria(documentsService.searchFilter)-->
     <div grid ng-repeat="card in (filteredDocs || docs)" class="column">
-      <md-card class="main-card view-module ie-fix" ng-click="editDocument($event, card.id);">
+      <md-card class="main-card view-module ie-fix" ng-click="goToDocument($event, card.id);">
         <!--<div class="card-upper-bar"></div>-->
         <md-card-title>
           <md-card-title-media>
