@@ -16,6 +16,8 @@ export function indexedDBConfig ($indexedDBProvider) {
     db.createObjectStore('document_detail', {keyPath: 'id'});
   }).upgradeDatabase(6, function(event, db, tx){
     db.createObjectStore('expiration', {keyPath: 'key'});
+  }).upgradeDatabase(7, function(event, db, tx){
+    db.createObjectStore('partner', {keyPath: 'id'});
   })
 
 }
