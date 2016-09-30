@@ -1,0 +1,214 @@
+<md-dialog ng-click="$event.stopPropagation();sideMenu=false;" class="edit-doc" style="background-color: #f5f5f5;min-width:1000px;width:1000px;height:100%;min-height:100%;overflow:hidden;" aria-label="documentEdit" ng-cloak>
+  <!--<div class="edit-nav-arrows">
+    <i class="edit-nav-arrows-prev mdi mdi-arrow-left"></i>
+    <i class="edit-nav-arrows-next mdi mdi-arrow-right"></i>
+  </div>-->
+  <md-toolbar style="position:relative;">
+    <div class="md-toolbar-tools">
+      <h2>{{partnerInfo.name1}}</h2>
+      <span flex></span>
+
+      <md-button class="md-icon-button hide-gt-xs" aria-label="editDocSideMenu" ng-click="$event.stopPropagation();toggleSideMenu();">
+        <i class="mdi mdi-dots-vertical" style="top: 14px;right: 70px;font-size: 1.9em;"></i>
+      </md-button>
+      <!--hide-gt-xs<div style="cursor: pointer;" class="" hide-gt-xs ng-click="$event.stopPropagation();toggleSideMenu();">
+        <i class="mdi mdi-dots-vertical nav-options"></i>
+        <div style="height: 3px;"></div>
+      </div>-->
+      <md-button class="md-icon-button" ng-click="cancel($event)">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <div layout="column" style="overflow-y: scroll;height: calc(100vh - 64px);">
+    <div data-ng-show="isShowContact" class="partner-Entry-UI">
+      <md-content class="md-padding-partner">
+        <md-tabs id="partnerTabUI" md-dynamic-height md-border-bottom md-selected="selectedPartnerTabIndex">
+          <md-tab label="{{'Company'}}" style="color:black !important;" md-on-select="onPartnerTabSelected()">
+            <md-content class="md-padding-partner partner-Entry-container" layout="column" style="padding: 5px;">
+              <form name="partnerEntry" novalidate>
+                <div flex layout="row" layout-align="center center">
+
+                                <span ng-switch="iconIndex">
+                                  <span ng-switch-when="1">
+                                      <i class="fa fa-trash-o"></i>
+                                  </span>
+                                  <span ng-switch-when="2">
+                                      <i class="fa fa-link"></i>
+                                  </span>
+                                  <span ng-switch-when="3" >
+                                      <i class="fa fa-users"></i>
+                                  </span>
+                                  <span ng-switch-when="4" style="opacity:0">
+                                  </span>
+                                </span>
+
+                  <md-select placeholder="{{'Partner type'}}" ng-model="partnerType" class="md-primary" md-on-close="onMaterialClose($event)" style="margin-left:10px">
+                    <md-option class="md-primary" ng-repeat="act in partnerTypeList" value="{{act.vendortype}}">{{act.vendortype}}</md-option>
+                  </md-select>
+
+                  <span flex></span>
+                  <md-button class="md-primary partner-button-color" ng-click="onSavePartner()" ng-disabled="currentPartner.hasOwnProperty('deleted')" ng-class="{'contact-disable-save':currentPartner.hasOwnProperty('deleted')}">
+                    {{'Save'}}
+                  </md-button>
+                  <!--Action button will be here-->
+                  <md-menu style="padding-top:14px;">
+                    <md-button aria-label="" class="md-icon-button partner-button-color" ng-click="$mdOpenMenu()">
+                      <i class="fa fa-ellipsis-v"></i>
+                    </md-button>
+                    <md-menu-content width="4">
+                      <md-menu-item>
+                        <md-button id="cmdSavePartner" class="partner-button-color" ng-click="onTrashOperationClick($event)" aria-label=" ">
+                          <div ng-if="currentPartner.hasOwnProperty('deleted')">
+                            <i class="fa fa-trash-o"></i>
+                            <span>unTrash</span>
+                          </div>
+                          <div ng-if="!currentPartner.hasOwnProperty('deleted')">
+                            <i class="fa fa-trash-o"></i>
+                            <span>Trash</span>
+                          </div>
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
+                </div>
+                <div flex layout="row">
+                  <div flex style="margin-right:10px">
+                    <md-input-container>
+                      <label>{{'Name1'}}</label>
+                      <input  name="name1" required data-ng-model="partnerInfo.name1" />
+                      <div ng-messages="partnerEntry.name1.$error">
+                        <span ng-message="required">{{'This field is required'}}</span>
+                      </div>
+                    </md-input-container>
+                    <md-input-container>
+                      <label>{{'Name2'}}</label>
+                      <input  name="name2" data-ng-model="partnerInfo.name2" />
+                    </md-input-container>
+                    <md-input-container>
+                      <label>{{'Street'}}</label>
+                      <input  name="street"  data-ng-model="partnerInfo.street"/>
+                    </md-input-container>
+                    <md-content layout="row">
+                      <md-input-container style="width:25%">
+                        <label>{{'Zip'}}</label>
+                        <input  name="zip"  data-ng-model="partnerInfo.zip"/>
+                      </md-input-container>
+                      <md-input-container style="width:75%">
+                        <label>{{'City'}}</label>
+                        <input  name="partnerCity"  data-ng-model="partnerInfo.city"/>
+                      </md-input-container>
+                    </md-content>
+                  </div>
+                  <div flex>
+                    <md-input-container>
+                      <label>{{'Partner#'}}</label>
+                      <input  name="PartnerNo"  data-ng-model="partnerInfo.no"/>
+                    </md-input-container>
+                    <md-content layout="row">
+                      <md-input-container style="padding-bottom:0px;width:100%">
+                        <label>{{'Url'}}</label>
+                        <input  name="url" data-ng-model="partnerInfo.url" />
+                      </md-input-container>
+                      <span class="partner-link-button" ng-if="isValidURL" ng-click="openPartnerInfo()">
+                                              <i class="fa fa-external-link"></i>
+                                          </span>
+                    </md-content>
+                    <md-input-container>
+                      <label>{{'Country'}}</label>
+                      <input  name="country"  data-ng-model="partnerInfo.country"/>
+                    </md-input-container>
+                    <md-input-container>
+                      <user-logo id="transactionLogo" style="margin-top:10px"></user-logo>
+                    </md-input-container>
+                  </div>
+                </div>
+                <div style="margin-top:7px">
+                  <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;">{{'Remarks'}}</label>
+                  <textarea name="remarks" data-ng-model="partnerInfo.remarks" style="height:120px !important;width:99%"></textarea>
+                </div>
+              </form>
+            </md-content>
+          </md-tab>
+          <md-tab id="tbPartner" label="{{'Contacts'}} ({{contactCounter}})" md-on-select="onContactTabSelected()" ng-if="(partnerInfo.id!=null)">
+            <md-content class="md-padding-partner contact-ui-apply-scrollbar">
+              <div layout="column">
+                <div class="partner-contact-eclipses-Menu"></div>
+                <ul class="partner-contact-containter">
+                  <li data-ng-repeat="contact  in partnerInfo.contacts">
+                    <div class="partner-contact-Row" layout="row" layout-align="start center" data-ng-mouseenter="onContactMouseHover()" data-ng-mouseleave="onContactMouseOut()">
+                      <div id="userSymbole" data-ng-style="onApplyOpacity(contact.isuser)">
+                        <div>
+                          <i class="fa fa-user"></i>
+                        </div>
+                      </div>
+                      <span flex="40" class="interactive-pointer" data-ng-click="onSelectforEdit($event,contact)">
+                                              {{contact.firstname}}&nbsp;{{contact.lastname}}
+                                          </span>
+                      <span flex>
+                                              {{contact.email}}
+                                          </span>
+                      <span class="interactive-pointer" style="opacity: 0.61"  data-ng-click="onSelectforEdit($event,contact)">
+                                              <i class="fa fa-pencil"></i>
+                                          </span>
+                    </div>
+                    <div>
+                      <span style="border: solid 1px rgba(0,0,0,0.24);border-radius: 2px" ng-if="contactInformations[contact.id] && currentContactId == contact.id" contact-information></span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </md-content>
+          </md-tab>
+          <!--<md-tab label="{{'DOCUMENTSUI'}} ({{documentCount}})" class="partner-document-tab" id="documentsTab" md-on-select="onDocumentTabSelected()" ng-if="(partnerInfo.id!=null)">
+            <md-content class="md-padding partner-document-tab-content">
+              <div class="partner-document-container" file-drop-handler ng-class="{'partner-document-container-dragover':isFileDragover}">
+                <div id="docTab" style="overflow-y:auto;overflow-x:hidden;">
+                  <ul>
+                    <li layout="column"
+                        data-isdocument="true"
+                        class="document-cardview-cell apply-random-back-color"
+                        ng-repeat="document in partnerWisedocumentList.documents" >
+                      <document-thumb data-ng-click="onDocumentItemClick($event,document)"></document-thumb>
+                    </li>
+                  </ul>
+                </div>
+                <div class="upload-box">
+                  <section>
+                    <i class="fa fa-cloud-upload"></i>
+                    {{'DROPFILE'}}
+                  </section>
+                </div>
+              </div>
+            </md-content>
+          </md-tab>-->
+        </md-tabs>
+      </md-content>
+    </div>
+    <!--<div class="partner-contact-Add-Container" data-ng-show="isShowContact" ng-if="(partnerInfo.id!=null)">
+      <input type="file" id="fileUI" multiple style="display:none" />
+      <md-fab-speed-dial md-open="demo.isOpen" md-direction="{{demo.selectedDirection}}"
+                         ng-class="demo.selectedMode">
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab contact-speed-dial" ng-style="{'background-color':topicColor}">
+            <md-icon md-svg-src="assets/images/icons/plus.svg"></md-icon>
+          </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+          <md-button aria-label="newpartner" class="md-fab md-raised md-mini" ng-style="{'background-color':topicColor}" data-ng-click="onAdd($event,1)">
+            <md-tooltip md-direction="left">{{'New partner'}}</md-tooltip>
+            <md-icon md-svg-src="assets/images/icons/users.svg"></md-icon>
+          </md-button>
+          <md-button aria-label="newuser" class="md-fab md-raised md-mini" ng-style="{'background-color':topicColor}" data-ng-click="onAdd($event,2)">
+            <md-tooltip md-direction="left">{{'New user'}}</md-tooltip>
+            <md-icon md-svg-src="assets/images/icons/contact.svg"></md-icon>
+          </md-button>
+          <md-button aria-label="newdocument" class="md-fab md-raised md-mini" ng-style="{'background-color':topicColor}" data-ng-click="onAdd($event,3)" >
+            <md-tooltip md-direction="left">{{'New document'}}</md-tooltip>
+            <md-icon md-svg-src="assets/images/icons/documents.svg"></md-icon>
+          </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
+    </div>-->
+  </div>
+</md-dialog>

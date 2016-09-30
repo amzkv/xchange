@@ -370,6 +370,54 @@ export class CollectionController {
 
     };
 
+    $scope.editPartner = function (event, collectionId, skipChangeState) {
+
+      let key = null;
+      if ($stateParams.accessKey) {
+        key = $stateParams.accessKey;
+        //return;
+      }
+
+      let parentScope = $scope;
+
+      $mdDialog.show({
+        controller: 'PartnerController' ,
+        templateUrl: 'app/partner/partner.html',
+        preserveScope: true,
+        parent: angular.element(document.body),
+        targetEvent: event,
+        disableParentScroll: true,
+        clickOutsideToClose:true,
+        /*escapeToClose: false,*/
+        /*fullscreen: true,*/
+        locals: {
+          thatScope: parentScope,
+          collectionId: collectionId,
+          key: key
+        },
+        hasBackdrop: true,
+        /*scope: $scope,*/
+        onRemoving: function(element, promise) {
+          //console.log('removing', $mdDialog);
+          $scope.mdClosing = true;
+          //promise.resolve($mdDialog.hide());
+          thatScope.mdClosing = true;
+        },
+        transformTemplate: function(template) {
+          return '<div class="md-dialog-container edit-doc">' + template + '</div>';
+        }
+      })
+        .then(function() {
+
+        }, function() {
+          /*$scope.returnPath();*/
+        });
+
+      event.stopPropagation();
+      event.preventDefault();
+
+    };
+
     $scope.$on('$destroy', function() {
       $scope.addListener();
       $scope.customerStateChangedListener();

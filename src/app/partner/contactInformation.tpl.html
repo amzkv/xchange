@@ -1,0 +1,89 @@
+<form name="ContactEntry" novalidate >
+  <md-dialog-content class="sticky-container">
+    <div class="md-actions" layout="row" layout-align="center center">
+                <span ng-if="ContactInformation.isuser" ng-class="{setzeroopacity:false}" style="margin-left:15px" >
+                    <i class="fa fa-user"></i>
+                </span>
+      <span flex></span>
+      <md-button ng-if="!removeCancel"  class="md-primary partner-button-color"  ng-click="onCloseDialog()">
+        {{'Cancel'}}
+      </md-button>
+      <md-button class="md-primary partner-button-color" ng-click="onClickOk(ContactInformation)">
+        {{'Save'}}
+      </md-button>
+      <md-menu style="padding-top:14px;">
+        <md-button aria-label="" class="md-icon-button partner-button-color" ng-click="$mdOpenMenu()">
+          <i class="fa fa-ellipsis-v"></i>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button class="partner-button-color" ng-click="onTrashOperationClick($event)" aria-label=" ">
+              <div ng-if="ContactInformation.hasOwnProperty('deleted')">
+                <i class="fa fa-trash-o"></i>
+                <span>unTrash</span>
+              </div>
+              <div ng-if="!ContactInformation.hasOwnProperty('deleted')">
+                <i class="fa fa-trash-o"></i>
+                <span>Trash</span>
+              </div>
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <div class="entryUI" layout="row">
+      <div flex>
+        <md-input-container>
+          <label>{{'First Name'}}</label>
+          <input  name="firstName" data-ng-model="ContactInformation.firstname" />
+          <div ng-messages="ContactEntry.firstName.$error">
+            <span ng-message="required">{{'REQUIREFILEDNOTIFICATION'}}</span>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>{{'Last Name'}}</label>
+          <input  name="lastName" required data-ng-model="ContactInformation.lastname"  />
+          <div ng-messages="ContactEntry.lastName.$error">
+            <span ng-message="required">{{'REQUIREFILEDNOTIFICATION'}}</span>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>{{'Email'}}</label>
+          <input type="email"  name="eMail" data-ng-model="ContactInformation.email" />
+          <div ng-messages="ContactEntry.eMail.$error">
+            <span ng-message="email">{{'EMAILFILEDNOTIFICATION'}}</span>
+          </div>
+        </md-input-container>
+      </div>
+      <div flex>
+        <md-input-container>
+          <label>{{'Phone'}}</label>
+          <input  name="phone" data-ng-model="ContactInformation.landline" />
+        </md-input-container>
+        <md-input-container>
+          <label>{{'Mobile'}}</label>
+          <input  name="mobile" data-ng-model="ContactInformation.mobile" />
+        </md-input-container>
+
+        <md-input-container layout="row">
+          <md-checkbox ng-model="ContactInformation.isColumn">
+            <span style="font-size: 15px;">{{'Create accesskey'}}</span>
+          </md-checkbox>
+        </md-input-container>
+        <md-input-container layout="row">
+          <md-checkbox ng-model="ContactInformation.isNotification">
+            <span style="font-size: 15px;">{{'Send notification'}}</span>
+          </md-checkbox>
+        </md-input-container>
+        <md-input-container>
+          <span style="margin-left: 7px;"><i class="fa fa-info" style="margin-right: 10px;"></i><span ng-if="ContactInformation.created" style="font-size: 14px;">&nbsp;{{formatDate(ContactInformation.created) | date:"dd.MM.yyyy"}}</span><span  ng-if="ContactInformation.updated" style="font-size: 14px;">&nbsp;/&nbsp;{{formatDate(ContactInformation.updated) | date:"dd.MM.yyyy"}}</span></span>
+        </md-input-container>
+
+      </div>
+    </div>
+    <div>
+      <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;">{{'Remarks'}}</label>
+      <textarea name="sample" data-ng-model="ContactInformation.remarks" style="height:8vh;width:99%;border: solid 1px rgba(0,0,0,0.24);border-radius: 2px"></textarea>
+    </div>
+  </md-dialog-content>
+</form>

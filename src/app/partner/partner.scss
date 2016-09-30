@@ -1,0 +1,69 @@
+.md-padding-partner {
+  padding: 20px;
+  /*margin: 26px;*/
+}
+
+md-tab-item {
+  /*margin: 10px 0 10px 5px;*/
+  top: 7px;
+  left: 5px;
+  padding: 10px !important;
+  &.md-active {
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.35) !important;
+    color: black !important;
+    font-weight: 600 !important;
+  }
+}
+
+md-ink-bar {
+  visibility: hidden;
+}
+
+.interactive-pointer {
+  cursor: pointer;
+}
+
+/*md-checkbox.md-checked .md-ink-ripple {
+  color: $header-color !important;
+}*/
+
+md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+  background-color: $header-color !important;;
+}
+
+#userSymbole {
+  height: 40px;
+  width: 40px;
+  background: rgb(225, 219, 219);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.partner-contact-eclipses-Menu {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(132, 208, 167);
+  position: absolute;
+  z-index: 200;
+  top: 100px;
+  left: 850px;
+  display: none;
+}
+
+.partner-contact-containter {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.partner-contact-Row {
+  height: 55px;
+  border-bottom: 1px solid rgba(114, 112, 112, 0.7);
+}

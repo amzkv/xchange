@@ -16,6 +16,7 @@ import { ChangeLogController } from './changelog/changelog.controller';
 import { TestController } from './test/test.controller';
 import { SearchController } from './search/search.controller';
 import { AccesskeyController } from './accesskey/accesskey.controller';
+import { PartnerController } from './partner/partner.controller';
 import { ConfigService } from './config/config';
 import { LoginService } from './login/login.service';
 import { CheckAuthService } from './login/checkAuth.service';
@@ -39,6 +40,8 @@ import { InfinicastWrapper } from './components/infinicast/infinicast.wrapper.pr
 import { NotificationService } from './notification/notification.service';
 import { UploadService } from './components/upload/upload.service';
 import { ViewerService } from './components/viewer/viewer.service';
+import { PartnerService } from './partner/partner.service';
+import { contactInformation } from './partner/contactInformation.directive';
 
 angular.module('xchange', [
   'ngAnimate',
@@ -88,6 +91,7 @@ angular.module('xchange', [
   .controller('EditDocumentController', EditDocumentController)
   .controller('ChangeLogController', ChangeLogController)
   .controller('AccesskeyController', AccesskeyController)
+  .controller('PartnerController', PartnerController)
   .controller('TestController', TestController)
   .directive('acmeNavbar', NavbarDirective)
   .directive('navtabbar', NavtabbarDirective)
@@ -99,10 +103,12 @@ angular.module('xchange', [
   .directive('compareTo', CompareTo)
   .directive('documentDataValidate', DocumentDataValidate)
   .directive('flyingButton', FlyingButtonDirective)
+  .directive('contactInformation', contactInformation)
   .filter('truncate', TruncateFilter)
   .filter('collectionFilter', CollectionFilter)
   .service('SearchService', SearchService)
   .provider('InfinicastWrapper', InfinicastWrapper)
   .service('NotificationService', NotificationService)
   .service('UploadService', UploadService)
-  .service('ViewerService', ViewerService);
+  .service('ViewerService', ViewerService)
+  .service('PartnerService', PartnerService);
