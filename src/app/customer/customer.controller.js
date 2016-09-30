@@ -6,6 +6,15 @@ export class CustomerController {
     'ngInject';
 
     //$scope.filterData = {};
+    if ($stateParams.currentCollection) {
+      if (!$rootScope.stateInfo) {
+        $rootScope.stateInfo = {};
+      }
+      $rootScope.stateInfo.currentCollection = $stateParams.currentCollection;
+    }
+    //$rootScope.globalState = $state.current.name;
+    $rootScope.globalState = 'home.collection.customer';
+    $rootScope.currentCustomerId = $stateParams.customerId;
 
     //$scope.groupFilters = [];
 
@@ -160,7 +169,7 @@ export class CustomerController {
         if (documentsService.filterCustomerId || documentsService.filterAccessKey) {
           //todo
           let docsPromise;
-          if (documentsService.filterCustomerId) {
+          if (!documentsService.filterAccessKey && documentsService.filterCustomerId) {
             docsPromise = documentsService.callDocumentByOneCollection(documentsService.filterCustomerId);
           }
           if (documentsService.filterAccessKey) {
@@ -191,6 +200,7 @@ export class CustomerController {
       //console.log('more', documentsService.busy,  documentsService.startValue, documentsService.endValue, $scope.totalDocCount, $scope.cacheStart);
 
       if (documentsService.busy) return;
+      //console.log('more');
 
       var startValue = documentsService.startValue;
       var endValue = documentsService.endValue;
@@ -255,9 +265,13 @@ export class CustomerController {
       //console.log($state.current);
       //if ($stateParams)
       $stateParams.documentId = documentId;
-      let state = 'document';
+      let state = 'home.collection.document';
       if ($stateParams.accessKey) {
-        state = 'accesskeyDocumentView';
+        if ($stateParams.collectionId && $stateParams.customerId) {
+          state = 'accesskeyDocumentViewLong';
+        } else {
+          state = 'accesskeyDocumentView';
+        }
       }
       $state.go(state, $stateParams, {reload: false, notify: false});
     };
@@ -278,9 +292,13 @@ export class CustomerController {
 
       let parentScope = $scope;
       $scope.returnPath = function () {
-        let stateName = 'customer';
+        let stateName = 'home.collection.customer';
         if ($stateParams.accessKey) {
-          stateName = 'accesskeyDocument';
+          if ($stateParams.collectionId && $stateParams.customerId) {
+            stateName = 'accesskeyDocumentFromCollection';
+          } else {
+            stateName = 'accesskeyDocument';
+          }
         }
         $state.go(stateName, $stateParams, {reload: false, notify: false});
       };

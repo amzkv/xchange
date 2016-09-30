@@ -1,15 +1,15 @@
 <ons-list ng-if="((collection.filteredDocs || collection.docs) || (search.filteredDocs || search.collections)).length > 0" class="list-offsets">
   <ons-list-item grid ng-repeat="card in ((collection.filteredDocs || collection.docs) || (search.filteredDocs || search.collections))" class="">
     <div class="a-card list-item">
-      <a ui-sref="customer({collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale, , currentCollection: card.title})">
+      <a ui-sref="{{ak ? 'accesskeyDocumentFromCollection' : 'home.collection.customer'}}({accessKey: ak, collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale, currentCollection: card.title})">
         <div>
-          <div class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
+          <div ng-if="!ak" class="card-count-list {{{'CUSTOMER':'count-customer', 'VENDOR':'count-customer', 'Lead':'count-customer',
           'Workflow': 'count-workflow', 'Type': 'count-other', 'Inbox': 'count-another', 'Monat': 'count-other',
           'Project': 'count-project', '':'count-another'}[card.group.value] || 'count-another'}}">
             {{card.count}}
           </div>
-          <span>{{card.title.locale}}</span>
-            <md-button ng-if="!{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">
+          <span class="card-title">{{card.title.locale}}</span>
+            <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="collection.editDialog($event, card)">
               <i class="material-icons">edit</i>
             </md-button>
         </div>

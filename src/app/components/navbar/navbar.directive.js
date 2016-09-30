@@ -65,7 +65,7 @@ class NavbarController {
     this.populateCurrentClass = function() {
       //console.log('populate params:',self.params);
       if (self.params.collectionId) {
-        let collectionsbyClass = documentsService.allCollections.filter(function (item) {
+        let collectionsbyClass = (documentsService.allCollections || documentsService.akCollections).filter(function (item) {
           return item.group.value == self.params.collectionId;
         });
 
@@ -80,7 +80,7 @@ class NavbarController {
     this.populateCurrentCollection = function() {
       //console.log('populate params:',self.params);
       if (self.params.customerId) {
-        let collectionById = documentsService.allCollections.filter(function (item) {
+        let collectionById = (documentsService.allCollections || documentsService.akCollections).filter(function (item) {
           return item.id == self.params.customerId;
         });
 
@@ -389,6 +389,13 @@ class NavbarController {
       }
     }, true);
 
+    $scope.$watch('documentsService.akCollections', function (newValue, oldValue, scope) {
+      if (newValue) {
+        self.populateCurrentClass();
+        self.populateCurrentCollection();
+      }
+    }, true);
+
     $scope.$watch('documentsService.coreItems', function (newValue, oldValue) {
       if (newValue && newValue != oldValue) {
         self.coreItems = newValue;
@@ -475,7 +482,9 @@ class NavbarController {
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, from, fromState){
       "use strict";
       $scope.dataChanged = false;
-      self.documentsView = ($state.current.name === 'customer');
+      $rootScope.globalState = toState.name;//???
+      //console.log('scs', $rootScope.globalState);
+      self.documentsView = ($state.current.name === 'home.collection.customer');
       self.hideHeader = ($state.current.name === 'register' || $state.current.name === 'login' || $state.current.name === 'confirm');
       if (!self.hideHeader && !self.coreItems) {
         let coreItemsP = documentsService.callDocumentsCore();
@@ -488,20 +497,28 @@ class NavbarController {
         }
       }
       /*fill all collections(task)*/
-      if (!self.hideHeader && !documentsService.allCollections) {
+
+      if (!toParams.accessKey && !self.hideHeader && !documentsService.allCollections) {
         let allCollections = documentsService.callDocumentAllCollections();
         if (allCollections) {
-          allCollections.then(function (response) {
+          allCollections.then(
+            function (response) {
             if (response.data) {
               documentsService.allCollections = response.data.collections;
             }
             setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
-          });
+              return;
+            },  function (errresp) {
+
+                }
+          );
         } else {
           setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
+          return;
         }
       } else {
         setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
+        return;
       }
     });
 
@@ -597,7 +614,7 @@ class NavbarController {
         self.params = toParams;
       }
 
-      if (self.state == 'customer' || self.state == 'accesskeyDocument') {
+      if (self.state == 'home.collection.customer' || self.state == 'accesskeyDocument') {
 
         $scope.groupFilters = [];
         $scope.filterData = {};
@@ -608,7 +625,7 @@ class NavbarController {
         $scope.filters = null;
       }
 
-      if (documentsService.allCollections) {
+      if (documentsService.allCollections || documentsService.akCollections) {
         self.populateCurrentClass();
         self.populateCurrentCollection();
       }
@@ -624,6 +641,7 @@ class NavbarController {
       "use strict";
       if(self.previousState && self.previousStateParams){
         $state.go(self.previousState, {id: self.previousStateParams.id})
+        $rootScope.globalState = self.previousState;//test it
       }
     };
 
@@ -633,10 +651,20 @@ class NavbarController {
       if(self.parentState){
         if (self.parentState == self.previousState) {
           //{id: self.previousStateParams.id}
-
           $state.go(self.previousState, self.previousStateParams);
+          $rootScope.globalState = self.previousState;//test it
+          $rootScope.stateInfo = {};//test it
         } else {
           $state.go(self.parentState, self.params);
+          $rootScope.globalState = self.parentState;//test it
+          $rootScope.stateInfo = {};//test it
+        }
+        //????
+        if ($rootScope.globalState == 'home') {
+          documentsService.currentClass = {};
+        }
+        if ($rootScope.globalState == 'home.collection') {
+          documentsService.currentCollection = {};
         }
       }
     };
@@ -649,7 +677,8 @@ class NavbarController {
         }
       } else {
         if (self.state !== 'home'){
-          $state.go('home');
+          $state.go('home',self.params);
+          $rootScope.globalState = 'home';//test it
         }
       }
     };

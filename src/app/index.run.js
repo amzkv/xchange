@@ -8,7 +8,8 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
     //update title
     $rootScope.title = toState.data ? toState.data.pageTitle : toParams.locale || toParams.collectionLocale || '';
     //check login status
-    event.preventDefault();
+    //event.preventDefault();
+    //console.log('start', toState);
 
     CheckAuthService.checkAuth().then(function(checkAuth) {
       if (!checkAuth) {
@@ -20,9 +21,11 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
           }*/
 
           stateChangeStartEvent();
+
           //console.log('run1');
-          $state.go(toState, toParams, options);
+          //$state.go(toState, toParams, options);
         } else {
+          //event.preventDefault();
           stateChangeStartEvent();//remove
           $state.go('login');
         }
@@ -44,7 +47,7 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
 
         stateChangeStartEvent();
         //console.log('run2');
-        $state.go(toState, toParams, options);
+        //$state.go(toState, toParams, options);
         //$urlRouter.sync();
       }
     });

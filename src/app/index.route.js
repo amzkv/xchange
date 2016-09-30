@@ -275,8 +275,128 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('collection', {
-      url: '/:collectionId',
+    .state('accesskeyCollection', {
+      url: '/ak/:accessKey/:collectionId',
+      parentState: 'accesskeyHome',
+      templateUrl: 'app/collection/collection.html',
+      controller: 'CollectionController',
+      controllerAs: 'collection',
+      params: {
+        collectionLocale: null
+      },
+      data : {
+        pageTitle: '365 | Collections',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
+      resolve: {
+        collection: function (documentsService, $stateParams) {
+          documentsService.filter = null;
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        }
+      }
+    })
+
+    .state('accesskeyDocumentFromCollection', {
+      url: '/ak/:accessKey/:collectionId/:customerId',
+      parentState: 'accesskeyCollection',
+      templateUrl: 'app/accesskey/accesskey.html',
+      controller: 'AccesskeyController',
+      controllerAs: 'accesskey',
+      params: {
+        category: 'CUSTOMER',
+        collectionLocale: null,
+        locale: ''
+      },
+      data : {
+        pageTitle: '365 | Documents By Access Key',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
+      resolve: {
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
+        },
+
+        docs: function (storedAccessKey, LocalAccessService, documentsService, $stateParams) {
+          //console.log('accesskeyDocumentFromCollection');
+          //if (documentsService.filter && documentsService.filter[0].collection != $stateParams.customerId) {
+            documentsService.filter = null;
+          //}
+          if ($stateParams.customerId) {
+            documentsService.filter = [{
+              'collection': $stateParams.customerId
+            }];
+          }
+
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        },
+
+        category: function ($stateParams) {
+          return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
+    })
+
+    .state('accesskeyDocumentViewLong', {
+      url: '/ak/:accessKey/:collectionId/:customerId/:documentId',
+      templateUrl: 'app/accesskey/accesskey.html',
+      controller: 'AccesskeyController',
+      controllerAs: 'accesskey',
+      params: {
+        category: 'CUSTOMER',
+        collectionLocale: null,
+        locale: ''
+      },
+      data : {
+        pageTitle: '365 | Documents By Access Key',
+        accessSettings: {
+          public: true,
+          accesskey: true,
+          customPerms: null
+        }
+      },
+      resolve: {
+        storedAccessKey: function(LocalAccessService) {
+          return LocalAccessService.getAccessKeyUserDataEncodedPromise();
+        },
+
+        docs: function (storedAccessKey, LocalAccessService, documentsService, $stateParams) {
+          //documentsService.filter = null;
+          let ak = $stateParams.accessKey || (storedAccessKey ? LocalAccessService.decryptCredentials(storedAccessKey) : '');
+          return documentsService.callDocumentByAccessKey(ak);//just to test, TODO
+        },
+
+        category: function ($stateParams) {
+          return $stateParams.category;
+        },
+        locale: function ($stateParams) {
+          return $stateParams.locale;
+        },
+        baseUrl: function(ConfigService){
+          "use strict";
+          return ConfigService.getBaseUrl();
+        }
+      }
+    })
+
+    .state('home.collection', {
+      url: ':collectionId',
       parentState: 'home',
       templateUrl: 'app/collection/collection.html',
       controller: 'CollectionController',
@@ -299,9 +419,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       }
     })
 
-    .state('customer', {
-      url: '/:collectionId/:customerId',
-      parentState: 'collection',
+    .state('home.collection.customer', {
+      url: '/:customerId',
+      parentState: 'home.collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',
@@ -342,9 +462,9 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
 
     })
 
-    .state('document', {
-      url: '/:collectionId/:customerId/:documentId',
-      parentState: 'customer',
+    .state('home.collection.document', {
+      url: '/:customerId/:documentId',
+      parentState: 'home.collection',
       templateUrl: 'app/customer/customer.html',
       controller: 'CustomerController',
       controllerAs: 'customer',

@@ -1,22 +1,25 @@
-<div class="filter-box" ng-show="documentsService.searchFilter">
-  <md-chips>
-    <md-chip ng-click="documentsService.searchFilter=''">
-        <span>
-            <strong>{{documentsService.searchFilter}}</strong>
-        </span>
-    </md-chip>
-  </md-chips>
+<div ng-class="(globalState == 'home.collection.customer' || globalState == 'home.collection.document') ? 'visible-block': 'hidden-block'">
+  <div class="filter-box" ng-show="documentsService.searchFilter">
+    <md-chips>
+      <md-chip ng-click="documentsService.searchFilter=''">
+          <span>
+              <strong>{{documentsService.searchFilter}}</strong>
+          </span>
+      </md-chip>
+    </md-chips>
+  </div>
+  <!-- | filter:searchService.searchCriteria(documentsService.searchFilter)-->
+  <div ng-show="!(filteredDocs || docs).length" class="no-docs">
+    {{'error.5011' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
+  </div>
+  <div ng-cloak=""
+       infinite-scroll="totalDocCount > pageSize ? more() : null"
+       infinite-scroll-disabled='documentService.busy'
+       infinite-scroll-distance='1'
+       ng-class="cardMode ? '' : 'list-box'"
+       ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
+  </div>
+  <ng-dropzone class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods"></ng-dropzone>
 </div>
-<!-- | filter:searchService.searchCriteria(documentsService.searchFilter)-->
-<div ng-show="!(filteredDocs || docs).length" class="no-docs">
-  {{'error.5011' | i18n}}<span ng-show="documentsService.searchFilter">. {{'common.filter' | i18n}}: "{{documentsService.searchFilter}}"</span>
-</div>
-<div ng-cloak=""
-     infinite-scroll="totalDocCount > pageSize ? more() : null"
-     infinite-scroll-disabled='documentService.busy'
-     infinite-scroll-distance='1'
-     ng-class="cardMode ? '' : 'list-box'"
-     ng-include="cardMode ? 'app/customer/customer.cards.tpl.html' : 'app/customer/customer.list.tpl.html'">
-</div>
-<ng-dropzone class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods"></ng-dropzone>
+<div ui-view></div>
 

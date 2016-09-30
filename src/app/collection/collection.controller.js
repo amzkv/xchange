@@ -2,10 +2,18 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter, UploadService) {
+  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter, UploadService, $state) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
+    //$scope.isDirectState = ($state.current.name == 'home.collection');
+    //$rootScope.globalState = $state.current.name;
+    $rootScope.globalState = 'home.collection';
+    $rootScope.currentCollectionId = $stateParams.collectionId;
+    //$rootScope.stateInfo.cu
+
+    $scope.ak = $stateParams.accessKey;
+    $scope.params = {};
 
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
@@ -30,14 +38,41 @@ export class CollectionController {
     $scope.viewModeService = ViewModeService;
     $scope.documentsService.searchFilter = '';
 
-    this.docs = collection.data.collections;
+    if (collection.data && collection.data.collections) {
+      this.docs = collection.data.collections;
+      $scope.params.currentClass = $scope.parentClass;
+      if (collection.data.collections.length) {
+        $scope.params.currentClass = collection.data.collections[0].group.locale;
+        documentsService.currentClass = collection.data.collections[0].group;
+      }
+    } else {
+      //console.log(documentsService.akCollections);
+      //ak
+      this.docs = [];
+      if (collection.data && collection.data.avail_filter) {
+        this.docs = documentsService.filterToCollections(collection.data.avail_filter, $stateParams.collectionId);
+        documentsService.akCollections = this.docs;
+        $scope.params.currentClass = $scope.parentClass;
+        if (this.docs.length) {
+          $scope.params.currentClass = this.docs[0].group.locale;
+          documentsService.currentClass = this.docs[0].group;
+        }
+      }
+    }
+
+    if (documentsService.currentClass) {
+      if (!$rootScope.stateInfo) {
+        $rootScope.stateInfo = {};
+      }
+      $rootScope.stateInfo.currentClass = documentsService.currentClass;
+      $rootScope.stateInfo.currentCollection = {};
+      documentsService.currentCollection = {};
+    }
+
     this.$q = $q;
     let deferred = this.$q.defer();
     $scope.parentClass = $stateParams.collectionId;
     let self = this;
-
-    $scope.params = {};
-    $scope.params.currentClass = collection.data.collections.length ? collection.data.collections[0].group.locale : $scope.parentClass;
 
     $scope.toggleMode = {
       thisState: ViewModeService.getState(),

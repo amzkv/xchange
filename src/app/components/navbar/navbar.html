@@ -15,8 +15,7 @@
         <span hide-sm hide-md ng-click="vm.navigateHome()">{{vm.appConfig.appName}}</span>
         <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state !== 'home'">
           <i class="material-icons">keyboard_arrow_right</i>
-        </span>
-
+        </span><!--{{vm.currentClass}}{{vm.currentCollection}}-->
         <span class="nav" ng-if="vm.state === 'accesskeyHome' || vm.state === 'accesskeyDocument'">
           {{vm.accessKeyUser.company || ('common.company'|i18n)}}
           <span class="docs-menu-separator-icon" hide-sm hide-md>
@@ -30,12 +29,12 @@
         </span>
         <span class="nav" ng-if="vm.state === 'search'" ng-click="vm.toggleFilter()">{{vm.params.searchPhrase}}</span>
         <span class="nav" ng-if="vm.state === 'changelog'" ng-click="vm.navigateHome()">{{'navbar.changelog' | i18n}}</span>
-        <span class="nav" ng-if="vm.state === 'collection'" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.currentClass.locale}}</span>
-        <span class="nav" ng-if="vm.state === 'customer'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.currentClass.locale}}</span>
-        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="vm.state === 'customer' && (vm.params.collectionLocale || vm.currentCollection.locale)">
+        <span class="nav" ng-if="vm.state === 'home.collection' || vm.state === 'accesskeyCollection'" ng-click="vm.navigateUp()">{{vm.params.collectionLocale || vm.currentClass.locale || documentsService.currentClass.locale}}</span>
+        <span class="nav" ng-if="vm.state === 'home.collection.customer' || vm.state === 'accesskeyDocumentFromCollection'" ng-click="vm.navigateUp()">{{vm.previousStateParams.collectionLocale || vm.currentClass.locale || documentsService.currentClass.locale}}</span>
+        <span class="docs-menu-separator-icon" hide-sm hide-md ng-if="(vm.state === 'home.collection.customer' || vm.state === 'accesskeyDocumentFromCollection') && (vm.params.collectionLocale || vm.currentCollection.locale || documentsService.currentCollection.locale)">
           <i class="material-icons">keyboard_arrow_right</i>
         </span>
-        <span class="nav" ng-if="vm.state === 'customer' && (vm.params.locale || vm.currentCollection.locale)" ng-click="vm.navigateUp()">{{vm.params.locale || vm.currentCollection.locale}}</span>
+        <span class="nav" ng-if="(vm.state === 'home.collection.customer' || vm.state === 'accesskeyDocumentFromCollection') && (vm.params.locale || vm.currentCollection.locale)" ng-click="vm.navigateUp()">{{vm.params.locale || vm.currentCollection.locale || documentsService.currentCollection.locale}}</span>
 
       </span>
     </h2>
@@ -88,12 +87,12 @@
       <ul>
         <li ng-click="vm.closeMenu();vm.navigateHome();"><a><i class="material-icons">home</i> {{'navbar.home' | i18n}}</a></li>
         <li ng-class="ci.group.value == vm.params.collectionId ? 'nav-menu-selected' : ''" ng-click="vm.closeMenu();" ng-repeat="ci in vm.coreItems">
-          <a ui-sref="collection({collectionId: ci.group.value, collectionLocale: ci.group.locale})">
+          <a ui-sref="home.collection({collectionId: ci.group.value, collectionLocale: ci.group.locale})">
             <i class="material-icons">keyboard_arrow_right</i>{{ci.group.locale}}
           </a>
         </li>
         <md-divider></md-divider>
-        <li ng-click="vm.closeMenu();">
+        <li ng-if="vm.coreItems" ng-click="vm.closeMenu();">
           <a ui-sref="changelog">
             <i class="material-icons">info_outline</i> {{'navbar.about' | i18n}}
           </a>

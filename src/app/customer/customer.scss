@@ -114,7 +114,8 @@ md-card-title-media {
 .mod-card-text {
   position: relative !important;
   margin-top: 5px !important;
-  font-size: 16px !important;
+  font-size: $card-title-size !important;
+  color: $header-color-darker;
 }
 
 .card-image {
@@ -129,14 +130,14 @@ md-card-title-media {
   /*bottom: 15px;
   position: absolute;*/
   word-break: break-all;
-  font-size: 18px;
-  line-height: 16px;
-  color: #310055;
-  font-weight: bold;
+  font-size: $card-title-size;
+  line-height: $card-title-size;
+  color: $header-color-darker;
+  /*font-weight: 600;*/
 }
 
 .list-item-text {
-  color: rgba(0,0,0,0.54);
+  color: rgba(0,0,0,0.64);
   padding-top: 0;
   font-size: 14px;
   font-weight: 400;
@@ -151,8 +152,8 @@ md-card-title-media {
 
 .collection-item-card {
   display: inline-block;
-  font-size: 10px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .list-item-text-r1 {
@@ -194,6 +195,10 @@ md-card-title-media {
 
 .md-secondary-subhead-selected {
   color: #CCCCCC !important;
+}
+
+.md-subhead {
+  color: $card-text-color-default !important;
 }
 
 .md-toolbar-tools {
@@ -316,7 +321,7 @@ md-card-title-media {
   }
 
   .pdf-controls {
-    position: fixed;
+    position: relative;
     bottom: 10px;
     /*bottom: 74px;*/
     left: 10px;
@@ -324,7 +329,8 @@ md-card-title-media {
     width: 334px;
     border-radius: 5px;
     background-color: $background-color !important;
-    opacity: 0.67;
+    /*opacity: 0.67;*/
+    /*z-index: 202;*/
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.35);
     padding-left: 5px;
       .fade {
@@ -403,7 +409,8 @@ md-card-title-media {
     /*padding: 5px;*/
     canvas, embed, object, img {
       /*height: calc(100vh - 129px);*/
-      height: calc(#{100vh} - #{129px});
+      /*height: calc(#{100vh} - #{129px});*//*actual*/
+      height: 100vh;
       /*64,48,5+5,6*/
       width: calc(#{100%} - #{10px});
       /*margin: 5px 5px 69px 5px;*/
@@ -528,6 +535,7 @@ md-card-title-media {
     height: 34px;
     margin-top: 6px;
     max-width: 300px;
+    width: 200px;
     overflow: hidden;
     padding: 7px;
     position: relative;
@@ -551,6 +559,33 @@ md-card-title-media {
     }
   }
 
+  .amount-label {
+    /*text-align: right !important;*/
+
+  }
+
+  @media screen and (min-width: 960px) {
+    .amount-container {
+      margin-left: auto !important;
+      label {
+        right: 0 !important;
+        left: auto !important;
+      }
+      input {
+        text-align: right;
+      }
+    }
+    .md-input-has-value.amount-container {
+      label {
+        right: -22px !important;
+      }
+    }
+  }
+
+  .md-datepicker-input-container {
+    /*min-width: 200px;*/
+  }
+
  .control-disabled, .control-disabled:hover {
    i {
      opacity: 0.4;
@@ -565,8 +600,8 @@ md-card-title-media {
   .doc-control-container {
     height: 100vh;
     /*height: calc(#{100vh} - #{74px});*/
-    width: 240px;
-    padding: 15px;
+    width: 200px;
+    padding: 30px;
   }
 
   .doc-control-fixed {
@@ -577,7 +612,35 @@ md-card-title-media {
     /*right: 18px;*/
     /*right: calc(#{18px} + #{50%} - #{500px});*/
     position: fixed !important;
-    width: 240px !important;
+    /*width: 210px !important;*/
+  }
+
+  .edit-header-workstatus {
+    padding: 5px;
+    margin-left: 15px;
+    background-color: $primary-color;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  .form-block-container {
+    padding: 0 10px 10px 20px;
+    label {
+      /*font: inherit;*/
+      font-size: 14px;
+    }
+    input, .md-text, .new-date-text {
+      font-family: inherit;
+      opacity: 0.7;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .mdic-mw {
+      max-width: 280px
+    }
+    .md-padding {
+      padding-bottom: 0;
+    }
   }
 
   /*md-dialog.edit-doc {
@@ -1001,14 +1064,14 @@ md-card-title-media {
   font-size: 12px;
   line-height: 36px;
   color: white;
-  padding: 0 10px 0 60px;
+  padding: 0 10px 0 35px;
   background: #666;
   background: linear-gradient(#666, #333);
   position: relative;
 }
 
 .breadcrumb a:first-child {
-  padding-left: 35px;
+  padding-left: 25px;
   border-radius: 5px 0 0 5px;
 }
 
@@ -1051,10 +1114,10 @@ md-card-title-media {
   content: none;
 }
 
-.breadcrumb a:before {
+/*.breadcrumb a:before {
   content: counter(flag);
   counter-increment: flag;
-  /*some styles now*/
+  !*some styles now*!
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -1067,7 +1130,7 @@ md-card-title-media {
   background: #444;
   background: linear-gradient(#444, #222);
   font-weight: bold;
-}
+}*/
 
 .flat a, .flat a:after {
   background: white;
@@ -1077,10 +1140,21 @@ md-card-title-media {
 .flat a:before {
   background: white;
   box-shadow: 0 0 0 1px #ccc;
+  color: black;
 }
-.flat a:hover, .flat a.active,
-.flat a:hover:after, .flat a.active:after{
-  background: #9EEB62;
+
+.flat a.active, .flat a.active:after{
+  /*background: #9EEB62;*/
+  background: $workflow-item-color-active;
+  color: $background-color;
+}
+
+.flat a:hover,
+.flat a:hover:after{
+  /*background: #9EEB62;*/
+  background: $header-color;
+  color: $background-color;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 0px) and (max-width: 400px) {

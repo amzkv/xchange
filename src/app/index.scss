@@ -10,6 +10,7 @@
 
 $primary-color: rgb(69,39,160);
 $header-color: #310055;
+$header-color-darker: #1e0033;
 $background-color: #f5f5f5;
 $font-color: #212121;
 $secondary-text: #727272;
@@ -27,7 +28,13 @@ $image-container-w: 165px;
 $image-container-h: 195px;
 
 $header-offset: 64px;
-$footer-offset: 24px;
+$footer-offset: 74px;/*24+50tabbar*/
+$tabbar-offset: 50px;
+
+$card-title-size: 20px;
+$card-text-color-default: #727272;
+
+$workflow-item-color-active: #731c5d;
 
 @font-face {
   font-family: 'Material Icons';
@@ -141,9 +148,23 @@ md-content.md-365red-theme {
   background-color: $background-color;
 }
 
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  color: rgba(255,255,255,1);
+}
+
 .list-offsets {
-  margin-top:$header-offset+$footer-offset;
+  margin-top:$header-offset+49px !important;
+  margin-bottom: 50px !important;
   /*margin-bottom: 24px;*/
+}
+
+.visible-block {
+  /*visibility: visible;*/
+  display: block;
+}
+.hidden-block {
+  /*visibility: hidden;*/
+  display: none;
 }
 
 .filter-box {
@@ -202,7 +223,7 @@ md-content.md-365red-theme {
     /*border: dashed 1px $divider-color;*/
     font-size: 12px;
     background-color: $background-color;
-    opacity: 0.5;
+    opacity: 0.6;
     margin: 0;
     text-align: center;
     span {
@@ -323,6 +344,11 @@ md-content.md-365red-theme {
 
 .dz-started {
   border: dashed 1px $divider-color !important;
+}
+
+.card-title {
+  color: $header-color-darker;
+  font-size: $card-title-size;
 }
 
 /**
