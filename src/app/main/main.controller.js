@@ -198,7 +198,7 @@ export class MainController {
     $scope.$on('$destroy', function() {
       $scope.addListener();
       $scope.customerStateChangedListener();
-      $scope.globalStateChangedListener();
+      //$scope.globalStateChangedListener();
     });
 
   }

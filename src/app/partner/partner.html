@@ -74,14 +74,14 @@
                 </div>
                 <div flex layout="row">
                   <div flex style="margin-right:10px">
-                    <md-input-container>
+                    <md-input-container layout="row">
                       <label>{{'Name1'}}</label>
                       <input  name="name1" required data-ng-model="partnerInfo.name1" />
                       <div ng-messages="partnerEntry.name1.$error">
                         <span ng-message="required">{{'This field is required'}}</span>
                       </div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container layout="row">
                       <label>{{'Name2'}}</label>
                       <input  name="name2" data-ng-model="partnerInfo.name2" />
                     </md-input-container>
@@ -124,7 +124,7 @@
                   </div>
                 </div>
                 <div style="margin-top:7px">
-                  <label style="display:block;color: rgba(0,0,0,0.54);font-size: 12px;padding-bottom: 8px;">{{'Remarks'}}</label>
+                  <label style="display:block;font-size: 12px;padding-bottom: 8px;">{{'Remarks'}}</label>
                   <textarea name="remarks" data-ng-model="partnerInfo.remarks" style="height:120px !important;width:99%"></textarea>
                 </div>
               </form>

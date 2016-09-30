@@ -31,6 +31,14 @@ md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-ico
   background-color: $header-color !important;;
 }
 
+input, .md-text, .new-date-text {
+  font-family: inherit;
+  color: $card-text-color-default !important;
+  /*opacity: 0.7;*/
+  font-size: 15px;
+  font-weight: 600;
+}
+
 #userSymbole {
   height: 40px;
   width: 40px;

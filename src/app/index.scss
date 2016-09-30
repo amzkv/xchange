@@ -32,7 +32,8 @@ $footer-offset: 74px;/*24+50tabbar*/
 $tabbar-offset: 50px;
 
 $card-title-size: 20px;
-$card-text-color-default: #727272;
+/*$card-text-color-default: #727272;*/
+$card-text-color-default: #222222;
 
 $workflow-item-color-active: #731c5d;
 
@@ -75,7 +76,7 @@ $workflow-item-color-active: #731c5d;
 
 html {
   /*font-family: 'Roboto Slab', serif;*/
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 * {
@@ -86,6 +87,31 @@ body,
 md-content,
 md-sidenav {
   background: $background-color;
+}
+
+/*[ng-cloak].splash {
+  display: block !important;
+  background-color: #00AA00;
+}
+
+.splash {
+  display: none;
+}*/
+
+.splash {
+  display: none;
+}
+
+[ng-cloak].splash {
+  display: block !important;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 100;
+  text-align: center;
+  img {
+    padding-top: calc(#{50vh} - #{50px});
+  }
 }
 
 /*md-backdrop.md-opaque {

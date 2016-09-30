@@ -14,6 +14,9 @@
   /*overflow: inherit;
   position: fixed;
   top: auto !important;*/
+  ons-tabbar {
+    display: none;
+  }
 }
 
 md-backdrop {
@@ -137,12 +140,24 @@ md-card-title-media {
 }
 
 .list-item-text {
-  color: rgba(0,0,0,0.64);
+  color: $card-text-color-default !important;
   padding-top: 0;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: .010em;
   line-height: 24px;
+}
+
+.profile-label {
+  font-size: 12px !important;
+  color: $card-text-color-default !important;
+  opacity: 1 !important;
+}
+
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
+  font-size: 14px !important;
+  color: $card-text-color-default !important;
+  opacity: 1 !important;
 }
 
 
@@ -577,7 +592,7 @@ md-card-title-media {
     }
     .md-input-has-value.amount-container {
       label {
-        right: -22px !important;
+        right: -10px !important;
       }
     }
   }
@@ -618,7 +633,7 @@ md-card-title-media {
   .edit-header-workstatus {
     padding: 5px;
     margin-left: 15px;
-    background-color: $primary-color;
+    background-color: #8430c1;
     border-radius: 3px;
     font-size: 14px;
   }
@@ -631,7 +646,8 @@ md-card-title-media {
     }
     input, .md-text, .new-date-text {
       font-family: inherit;
-      opacity: 0.7;
+      color: $card-text-color-default !important;
+      /*opacity: 0.7;*/
       font-size: 15px;
       font-weight: 600;
     }

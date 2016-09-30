@@ -28,6 +28,7 @@ export class LocalAccessService {
     let ids = [];
     //console.log('partners',this.accessKeyUser);
     if (this.accessKeyUser && this.accessKeyUser.partners) {
+      //console.log(this.accessKeyUser.partners);
 
       angular.forEach(this.accessKeyUser.partners, function (partner) {
         if (partner.uuid) {
