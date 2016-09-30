@@ -1,6 +1,7 @@
 export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessService, SearchService, InfinicastWrapper, $window) {
   'ngInject';
   $rootScope.searchService = SearchService;
+  $rootScope.showSplash = true;
 
   $rootScope.infinicast = InfinicastWrapper;
 
@@ -66,5 +67,11 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
   $rootScope.$on('$locationChangeStart', function() {
     $rootScope.previousPage = location.pathname;
   });
+
+  /*$rootScope.$on('$viewContentLoaded', function(event, state,) {
+    if (state == '@') {
+      $rootScope.showSplash = false;
+    }
+  });*/
 
 }

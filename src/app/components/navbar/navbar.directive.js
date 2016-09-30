@@ -103,7 +103,7 @@ class NavbarController {
         $timeout(function () {
           let oldHash = $location.hash();
           $location.hash('chat-bottom');
-          $anchorScroll.yOffset = 64;
+          /*$anchorScroll.yOffset = 64;*/
           $anchorScroll();
           $location.hash(oldHash);
         }, 300);
@@ -166,12 +166,18 @@ class NavbarController {
           );
         }
       } else {
+        //move to run once
+        let fullname = '';
+        if ($rootScope.infinicast.user.firstname && $rootScope.infinicast.user.lastname) {
+          fullname = $rootScope.infinicast.user.firstname + ' ' + $rootScope.infinicast.user.lastname;
+        }
         $rootScope.infinicast.setDataByPathName('userChat',
           {
             "fromUserType" : "partner",
             /*"idForPath" : self.currentRemotePartner.uuid,*/
             'text' : self.currentMessage,
-            'time' : new Date().getTime()
+            'time' : new Date().getTime(),
+            'fullname' : fullname
           }
         );
       }
@@ -232,7 +238,14 @@ class NavbarController {
           }
           if (me) {
             message.me = true;
+          } else {
+            /*console.log(message);
+            if ()*/
+            if (self.currentRemotePartner && message.fullname) {
+              self.currentRemotePartner.fullname = message.fullname;
+            }
           }
+
           self.chatMessages.push(message);
           self.scrollToLastMessage();
         }

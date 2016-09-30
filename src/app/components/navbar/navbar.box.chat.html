@@ -1,11 +1,11 @@
 <div class="options-popup chat-box" ng-show="vm.displayChat">
   <div class="box-header">{{!vm.chatIncomingUser && !vm.currentRemotePartner ? 'Chat' : ''}}
     <div class="chat-incoming-user chat-full-header" ng-if="vm.chatIncomingUser">
-      <strong>{{vm.chatIncomingUser.name}}</strong> from <i>{{vm.chatIncomingUser.company}}</i>
+      <strong class="chat-fullname">{{vm.chatIncomingUser.name}}</strong> from <i>{{vm.chatIncomingUser.company}}</i>
     </div>
     <div class="chat-incoming-user" ng-if="vm.currentRemotePartner">
       <i class="mdi mdi-account" ng-class="vm.currentRemotePartner.online ? 'partner-online' : 'partner-offline'"></i>
-      <strong>{{vm.currentRemotePartner.name}}</strong>
+      <span ng-if="vm.currentRemotePartner.fullname"><strong class="chat-fullname">{{vm.currentRemotePartner.fullname}}</strong> from </span><i>{{vm.currentRemotePartner.name}}</i>
     </div>
     <ul class="box-actions" ng-show="vm.accessKeyUser">
       <li ng-click="vm.togglePartners()">
@@ -31,9 +31,9 @@
       <!--ng-class="(($index + 1) % 2) ? 'me' : ''"-->
       <div class="message" ng-class="message.me ? 'me' : ''" ng-repeat="message in vm.chatMessages track by $index">
         <!--<div class="chat-username" style=""></div>-->
-        <i class="mdi mdi-account chat-box-user-icon" ng-class="message.me ? 'chat-box-user-icon-me' : ''" title="{{message.fromUserType == 'partner' ? message.partnerName : message.name}}"></i>
+        <i class="mdi mdi-account chat-box-user-icon" ng-class="message.me ? 'chat-box-user-icon-me' : ''" title="{{message.fromUserType == 'partner' ? (message.fullname ? message.fullname : message.partnerName) : message.name}}"></i>
         <div>
-          <p>
+          <p><span class="chat-message-username">{{message.fromUserType == 'partner' ? (message.fullname ? message.fullname : message.partnerName) : message.name}}</span><br/>
             {{message.text}}</p>
         </div>
       </div>
