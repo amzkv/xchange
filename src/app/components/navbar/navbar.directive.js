@@ -16,7 +16,7 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr, $timeout, $anchorScroll, $location) {
+  constructor ($mdSidenav, $rootScope, $state, ConfigService, LocalAccessService, $document, hotkeys, $scope, documentsService, ViewModeService, $mdComponentRegistry, CONSTANT, $window, NotificationService, toastr, $timeout, $anchorScroll, $location) {
     'ngInject';
 
     this.constant = CONSTANT;
@@ -91,6 +91,45 @@ class NavbarController {
         }
       }
     };
+
+
+    //add some hotkeys
+    hotkeys.add({
+      combo: 'ctrl+m',
+      description: 'Toggle sidenav',
+      callback: function($event) {
+        $event.preventDefault();
+        $mdSidenav('left').toggle();
+      }
+    });
+
+    hotkeys.add({
+      combo: 'ctrl+f',
+      description: 'Toggle search',
+      callback: function($event) {
+        $event.preventDefault();
+        self.toggleFilter();
+      }
+    });
+
+    hotkeys.add({
+      combo: 'ctrl+l',
+      description: 'Toggle notifications',
+      callback: function($event) {
+        $event.preventDefault();
+        self.displayNotifications ?  self.displayNotifications = false : self.displayNotifications = true;
+      }
+    });
+
+    hotkeys.add({
+      combo: 'ctrl+c',
+      description: 'Toggle chat',
+      callback: function($event) {
+        $event.preventDefault();
+        self.displayChat ?  self.displayChat = false : self.displayChat = true;
+      }
+    });
+
 
     /////////////////////notifications//////////////////
     //draft//

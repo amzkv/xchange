@@ -5,9 +5,11 @@ export function runBlock (CheckAuthService, $state, $rootScope, LocalAccessServi
 
   $rootScope.infinicast = InfinicastWrapper;
 
+  $rootScope.title = '365xchange';
+
   let stateChangeStartEvent = $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
     //update title
-    $rootScope.title = toState.data ? toState.data.pageTitle : toParams.locale || toParams.collectionLocale || '';
+    $rootScope.title = toState.data ? toState.data.pageTitle : toParams.locale || toParams.collectionLocale || '365xchange';
     //check login status
     //event.preventDefault();
     //console.log('start', toState);

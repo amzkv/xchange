@@ -1,4 +1,5 @@
-<md-toolbar layout="row" layout-align="center center" class="header md-primary" ng-if="!vm.hideHeader">
+<div class="options-backdrop" ng-show="vm.anyBoxIsShown()" ng-click="vm.hideBoxes();"></div>
+<md-toolbar layout="row" layout-align="center center" class="header md-primary" ng-if="!vm.hideHeader" ng-keypress="vm.keyPress($event)">
   <md-progress-linear ng-show="busy" md-mode="indeterminate"></md-progress-linear>
   <i class="mdi mdi-menu hamburger" ng-click="vm.toggle()"></i>
   <span class="nav-mob-header" ng-click="vm.navigateHome()">{{vm.appConfig.appName}}</span>
@@ -51,21 +52,19 @@
   <div style="position:fixed;right:30px;top:100px;cursor: pointer; color: blue;" ng-click="vm.testOnlineUpdate('offline');">offline Send</div>-->
 
   <i ng-show="dataChanged" class="mdi mdi-reload nav-reload" ng-click="$event.stopPropagation();vm.reloadData();"></i>
-  <i class="mdi mdi-bell nav-notifications" ng-click="$event.stopPropagation();vm.displayNotifications = !vm.displayNotifications">
+  <i class="mdi mdi-bell nav-notifications" ng-click="$event.stopPropagation();vm.hideBoxes();vm.displayNotifications = !vm.displayNotifications">
     <i ng-show="notificationService.notifications.length" class="nav-counts">{{notificationService.notifications.length}}</i>
   </i>
-  <i class="mdi mdi-comment nav-chat" ng-click="$event.stopPropagation();vm.displayChat = !vm.displayChat;vm.scrollToLastMessage();">
+  <i class="mdi mdi-comment nav-chat" ng-click="$event.stopPropagation();vm.hideBoxes();vm.displayChat = !vm.displayChat;vm.scrollToLastMessage();">
     <i ng-show="vm.chatMessages.length && !vm.displayChat" class="nav-counts">{{vm.chatMessages.length}}</i>
   </i>
-
-  <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.displayOptions = !vm.displayOptions"></i>
-  <i class="mdi mdi-magnify nav-filter" ng-click="vm.displayOptions = false;vm.toggleFilter()"></i>
+  <i class="mdi mdi-magnify nav-filter" ng-click="vm.hideBoxes();vm.displayOptions = false;vm.toggleFilter()"></i>
+  <i class="mdi mdi-dots-vertical nav-options" ng-click="$event.stopPropagation();vm.hideBoxes();vm.displayOptions = !vm.displayOptions"></i>
   <i class="nav-home" ng-click="vm.navigateHome()">
     <img src="assets/images/365Header.png" style="width:40px">
   </i>
 </md-toolbar>
 
-<div class="options-backdrop" ng-show="vm.anyBoxIsShown()" ng-click="vm.hideBoxes();"></div>
 <ng-include src="'app/components/navbar/navbar.box.options.html'"></ng-include>
 <ng-include src="'app/components/navbar/navbar.box.notifications.html'"></ng-include>
 <ng-include src="'app/components/navbar/navbar.box.chat.html'"></ng-include>

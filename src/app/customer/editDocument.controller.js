@@ -960,6 +960,15 @@ export class EditDocumentController {
       }
     };
 
+    hotkeys.add({
+      combo: 'ctrl+s',
+      description: 'Save form',
+      callback: function($event) {
+        $event.preventDefault();
+        $scope.save($scope.editForm);
+      }
+    });
+
     $scope.save = function (editForm) {
 
       function prepareCollections(collections) {

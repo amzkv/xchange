@@ -65,7 +65,8 @@ angular.module('xchange', [
   'angularLazyImg',
   'thatisuday.dropzone',
   'ui.grid',
-  'ui.grid.importer'
+  'ui.grid.importer',
+  'cfp.hotkeys'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)

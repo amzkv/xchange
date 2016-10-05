@@ -4,6 +4,9 @@
 
 .header {
   height: 64px;
+  position: relative;
+  z-index: 10;
+  opacity: .99;
   i,span:hover {
     cursor: pointer;
   }
@@ -46,17 +49,6 @@ md-progress-linear {
 
 .nav-menu-selected {
   background-color: #e1e1e1;
-}
-
-md-backdrop {
-  position:fixed;
-}
-
-.options-backdrop {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  z-index: 99;
 }
 
 .options-popup {
@@ -245,9 +237,9 @@ md-divider {
 
 .hamburger {
   position: absolute;
-  top: 14px;
+  top: 10px;
   left: 20px;
-  font-size: 1.9em;
+  font-size: 1.7em;
   display: block;
 }
 
@@ -273,12 +265,33 @@ md-divider {
   box-sizing: border-box;
 }
 
-.nav-filter {
+.nav-options,
+.nav-filter,
+.nav-chat,
+.nav-notifications {
   position: absolute;
-  top: 14px;
-  right: 10px;
-  font-size: 1.9em;
+  top: 12px;
+  font-size: 1.5em;
+  z-index: 15;
 }
+
+
+.nav-options {
+  right: 15px;
+}
+
+.nav-filter {
+  right: 65px;
+}
+
+.nav-chat {
+  right: 115px;
+}
+
+.nav-notifications {
+  right: 165px;
+}
+
 .nav-counts {
   position: absolute;
   font-style: normal;
@@ -299,19 +312,7 @@ md-divider {
   font-size: 1.9em;
 }
 
-.nav-notifications {
-  position: absolute;
-  top: 14px;
-  right: 170px;
-  font-size: 1.9em;
-}
 
-.nav-chat {
-  position: absolute;
-  top: 14px;
-  right: 120px;
-  font-size: 1.9em;
-}
 
 .nav-notification-box-icon {
   font-size: 1.9em;
@@ -348,13 +349,6 @@ md-divider {
 
 .chat-box-user-icon-me{
   color: #310055;
-}
-
-.nav-options {
-  position: absolute;
-  top: 14px;
-  right: 70px;
-  font-size: 1.9em;
 }
 
 .nav-mode-switch {
