@@ -1,0 +1,23 @@
+{
+  "needAnAccount" : "Noch kein Konto?",
+  "forgotYourPassword" : "Passwort vergessen?",
+  "alreadyMember" : "Konto vorhanden?",
+  "username" : "eMail",
+  "password" : "Passwort",
+  "createAccount" : "Konto erstellen",
+  "signin" : "Anmelden",
+  "registrationIsFree" : "Anmelden ist kostenfrei",
+  "iagreewTnC" : "Ich bestätige die AGB",
+  "firstName" : "Vorname",
+  "lastName" : "Nachname",
+  "companyName" : "Firma",
+  "email": "Email",
+  "confirmPassword" : "Passwort bestätigen",
+  "register" : "Registrieren",
+  "checkEmail" : "Dankeschön! Bitte überprüfen Sie Ihre eMails!",
+  "registrationConfirmation" : "Bestätigung der Registrierung",
+  "confirmationCode" : "Bestätigungscode",
+  "confirm" : "Bestätigen",
+  "clearLocalStorage" : "lokalen Speicher löschen",
+  "loggedIn" : "Erfolgreich angemeldet"
+}

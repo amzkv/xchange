@@ -1,0 +1,17 @@
+{
+  "home": "Home",
+  "about": "Über 365",
+  "logout": "Abmelden",
+  "login": "Anmelden",
+  "search": "Suchen",
+  "filter": "Filtern",
+  "mode": "Ansicht",
+  "list": "Listen",
+  "card": "Karten",
+  "documentsByAccessKey" : "Dokumente per Zugriffsschlüssel",
+  "changelog" : "Historie",
+  "fullscreen" : "Vollbild ein",
+  "regularscreen" : "Vollbild aus",
+  "emptysets" : "zeige leere Mappen",
+  "emptysetshid" : "verstecke leere Mappen"
+}

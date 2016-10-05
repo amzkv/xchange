@@ -1,0 +1,17 @@
+{
+  "home": "Home",
+  "about": "About",
+  "logout": "Logout",
+  "login": "Log in",
+  "search": "Search",
+  "filter": "Filter",
+  "mode": "Mode",
+  "list": "List",
+  "card": "Card",
+  "documentsByAccessKey" : "Documents By Access Key",
+  "changelog" : "Change Log",
+  "fullscreen" : "Full Screen",
+  "regularscreen" : "Regular screen",
+  "emptysets" : "Show empty sets",
+  "emptysetshid" : "Hide empty sets"
+}
