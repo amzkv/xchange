@@ -33,10 +33,10 @@
   }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 860px) {
   .list-item {
     .operation {
-      /*visibility: visible;*/
+      visibility: visible;
     }
   }
 }

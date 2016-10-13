@@ -2,6 +2,8 @@ export class PartnerController {
   constructor ($scope, $state, $stateParams, $mdDialog, PartnerService, collectionId, $window, toastr) {
     'ngInject';
 
+    console.log($scope.cardGroup);
+
     let self = this;
     $scope.isShowContact = true;
     $scope.contactInformations = [];
@@ -195,7 +197,11 @@ export class PartnerController {
       }
     };
 
-    PartnerService.callPartnerByCollectionId(collectionId).then(function(resp) {
+    let collectionType = 'CUSTOMER';
+
+
+    PartnerService.callPartnerByCollectionId(null, null, collectionId, collectionType).then(function(resp) {
+      console.log(resp);
       $scope.populateData(resp);
     });
 

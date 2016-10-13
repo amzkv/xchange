@@ -8,6 +8,8 @@ export class MainController {
 
     $scope.documentsService = documentsService;
 
+
+
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
       return UploadService.localAcceptHandler(file, done);

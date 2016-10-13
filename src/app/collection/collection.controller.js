@@ -2,7 +2,7 @@
  * Created by decipher on 18.2.16.
  */
 export class CollectionController {
-  constructor (collection, themeProvider, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter, UploadService, $state) {
+  constructor (collection, themeProvider, $window, $location, $timeout, $anchorScroll, ViewModeService, LocalAccessService, $scope, $rootScope, documentsService, $stateParams, $q, $mdDialog, $filter, UploadService, $state) {
     'ngInject';
 
     //themeProvider.setDefaultTheme('365violet');
@@ -14,6 +14,61 @@ export class CollectionController {
 
     $scope.ak = $stateParams.accessKey;
     $scope.params = {};
+
+    /*$rootScope.scrollPos = {}; // scroll position of each view
+
+    angular.element($window).bind("scroll", function(e) {
+      $rootScope.scrollPos[$location.path()] = $window.pageYOffset;
+    });
+
+    $scope.scrollClear = function(path) {
+      $rootScope.scrollPos[path] = 0;
+    };
+
+    $rootScope.$on('$stateChangeStart', function() {
+      $rootScope.okSaveScroll = false;
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function() {
+      $timeout(function() { // wait for DOM, then restore scroll position
+        //angular.element($window).animate({scrollTop: $rootScope.scrollPos[$location.path()].top}, "slow");
+        $anchorScroll.yOffset = $rootScope.scrollPos[$location.path()];
+        console.log($anchorScroll.yOffset);
+        $anchorScroll();
+        $rootScope.okSaveScroll = true;
+      }, 0);
+    });
+    */
+
+    /*$(window).on('scroll', function() {
+      $scope.scrollPos[$location.path()] = $(window).scrollTop();
+      console.log($scope.scrollPos);
+      /*if ($scope.okSaveScroll) { // false between $routeChangeStart and $routeChangeSuccess
+        $scope.scrollPos[$location.path()] = $(window).scrollTop();
+        //console.log($scope.scrollPos);
+      }*/
+    //});*/
+
+    /*angular.element($window).bind("scroll", function(e) {
+      $scope.scrollPos[$location.path()] = $window.pageYOffset;
+    });
+
+    $scope.scrollClear = function(path) {
+      $scope.scrollPos[path] = 0;
+    };
+
+    $rootScope.$on('$stateChangeStart', function() {
+      $scope.okSaveScroll = false;
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function() {
+      $timeout(function() { // wait for DOM, then restore scroll position
+        console.log('adjusting');
+        console.log($scope.scrollPos);
+        //$window.pageYOffset = $scope.scrollPos[$location.path()];
+        $scope.okSaveScroll = true;
+      }, 0);
+    });*/
 
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
@@ -370,7 +425,7 @@ export class CollectionController {
 
     };
 
-    $scope.editPartner = function (event, collectionId, skipChangeState) {
+    $scope.editPartner = function (event, collectionId, cardGroup, skipChangeState) {
 
       let key = null;
       if ($stateParams.accessKey) {
@@ -378,7 +433,10 @@ export class CollectionController {
         //return;
       }
 
+      console.log(collectionId);
+
       let parentScope = $scope;
+      $scope.cardGroup = cardGroup;
 
       $mdDialog.show({
         controller: 'PartnerController' ,
@@ -393,6 +451,7 @@ export class CollectionController {
         locals: {
           thatScope: parentScope,
           collectionId: collectionId,
+          group: cardGroup,
           key: key
         },
         hasBackdrop: true,

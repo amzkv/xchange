@@ -12,26 +12,16 @@ export class PartnerService {
     this.documentsService = documentsService;
   }
 
-  callPartnerByCollectionId(value, skipCache) {
+  callPartnerByCollectionId(value, skipCache, collectionId, type) {
 
     skipCache = skipCache || false;
 
     let configExtension = {
       "partner": {
         "method": "by ID",
-        "id": 902
+        "collection" : { "id" : collectionId, "type" : type }
       }
     };
-
-    /*API not ready again?*/
-    /*TODO replace to smth like that to retrieve actual data*/
-
-    /*let configExtension = {
-      "partner": {
-        "method": "collection",
-        "type": value
-      }
-    };*/
 
     let options = {
       "apiName" : "partner",
@@ -39,6 +29,7 @@ export class PartnerService {
       "itemKey": "partnerItems",
       "dataKey": "partner"
     };
+
 
     return this.documentsService.baseAuthCall(configExtension, options, value, skipCache);
   }

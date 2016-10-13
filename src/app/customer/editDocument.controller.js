@@ -1,5 +1,5 @@
 export class EditDocumentController {
-  constructor (thatScope, $sce, documentId, key, toastr, $filter, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll, ViewerService, uiGridConstants, $state, $stateParams) {
+  constructor (thatScope, $sce, documentId, key, toastr, $filter, hotkeys, FileSaver, $scope, $rootScope , documentsService, $timeout, $mdDialog, ConfigService, pdfDelegate, $location, $anchorScroll, ViewerService, uiGridConstants, $state, $stateParams) {
     'ngInject';
 
     let self = this;

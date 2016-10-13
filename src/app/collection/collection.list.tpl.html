@@ -9,7 +9,7 @@
             {{card.count}}
           </div>
           <span class="card-title">{{card.title.locale}}</span>
-            <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="editPartner($event, card.id)">
+            <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="editPartner($event, card.id, card.group.value)">
               <i class="material-icons">edit</i>
             </md-button>
         </div>
