@@ -1,4 +1,4 @@
-export function runBlock (CheckAuthService, $state, $anchorScroll, $rootScope, $timeout, $location, LocalAccessService, SearchService, InfinicastWrapper, $window) {
+export function runBlock (CheckAuthService, $state, $document, $rootScope, $timeout, $location, LocalAccessService, SearchService, InfinicastWrapper, $window) {
   'ngInject';
   $rootScope.searchService = SearchService;
   $rootScope.showSplash = true;
@@ -9,24 +9,18 @@ export function runBlock (CheckAuthService, $state, $anchorScroll, $rootScope, $
 
   $rootScope.scrollPos = {}; // scroll position of each view
 
+  //save scrolling position
   angular.element($window).bind("scroll", function(e) {
     $rootScope.scrollPos[$location.path()] = $window.pageYOffset;
   });
 
-  $rootScope.scrollClear = function(path) {
-    $rootScope.scrollPos[path] = 0;
-  };
-
-  $rootScope.$on('$stateChangeStart', function() {
-    $rootScope.okSaveScroll = false;
-  });
 
   $rootScope.$on('$stateChangeSuccess', function() {
-    $anchorScroll.yOffset = $rootScope.scrollPos[$location.path()];
-    console.log($anchorScroll.yOffset);
     $timeout(function() { // wait for DOM, then restore scroll position
-      $anchorScroll();
-      $rootScope.okSaveScroll = true;
+      $document.scrollTo(0, $rootScope.scrollPos[$location.path()], 1000).then(function() {
+        "use strict";
+
+      });
     }, 0);
   });
 

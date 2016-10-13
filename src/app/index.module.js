@@ -66,7 +66,8 @@ angular.module('xchange', [
   'thatisuday.dropzone',
   'ui.grid',
   'ui.grid.importer',
-  'cfp.hotkeys'
+  'cfp.hotkeys',
+  'duScroll'
 ])
   .constant('CONSTANT', constant)
   .value('langConf', langConf)
