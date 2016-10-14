@@ -14,7 +14,7 @@ export class PartnerService {
 
   callPartnerByCollectionId(value, skipCache, collectionId, type) {
 
-    skipCache = skipCache || false;
+    skipCache = true;
 
     let configExtension = {
       "partner": {
@@ -30,6 +30,7 @@ export class PartnerService {
       "dataKey": "partner"
     };
 
+    console.log(collectionId);
 
     return this.documentsService.baseAuthCall(configExtension, options, value, skipCache);
   }

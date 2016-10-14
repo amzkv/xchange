@@ -1,8 +1,8 @@
 export class PartnerController {
-  constructor ($scope, $state, $stateParams, $mdDialog, PartnerService, collectionId, $window, toastr) {
+  constructor ($scope, $state, group, $stateParams, $mdDialog, PartnerService, collectionId, $window, toastr) {
     'ngInject';
 
-    console.log($scope.cardGroup);
+    console.log(group);
 
     let self = this;
     $scope.isShowContact = true;
@@ -46,7 +46,7 @@ export class PartnerController {
         index++;
       });
       $scope.partnerIndex = finalIndex;
-    }
+    };
 
     $scope.onSavePartner = function(trashMode) {
 
@@ -158,7 +158,7 @@ export class PartnerController {
 
     $scope.getSelectedValue = function (text, index) {
       $scope.partnerIndex = index;
-    }
+    };
 
     $scope.populateData = function(resp) {
 
@@ -201,6 +201,7 @@ export class PartnerController {
 
 
     PartnerService.callPartnerByCollectionId(null, null, collectionId, collectionType).then(function(resp) {
+      console.log(collectionId);
       console.log(resp);
       $scope.populateData(resp);
     });

@@ -17,7 +17,7 @@ export function runBlock (CheckAuthService, $state, $document, $rootScope, $time
 
   $rootScope.$on('$stateChangeSuccess', function() {
     $timeout(function() { // wait for DOM, then restore scroll position
-      $document.scrollTo(0, $rootScope.scrollPos[$location.path()], 1000).then(function() {
+      $document.scrollTo(0, $rootScope.scrollPos[$location.path()], 1).then(function() {
         "use strict";
         console.log('scrolled successfully');
       });
