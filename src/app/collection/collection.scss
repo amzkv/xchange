@@ -7,7 +7,6 @@
   padding: 2px !important;
   margin: 0px !important;
   position: absolute;
-  left: 5px;
   top: 5px;
   min-height: 24px;
   height: 24px !important;
@@ -25,11 +24,17 @@
   }
 }
 
+.card-item {
+  .operation {
+    left: 5px;
+  }
+}
 
 .list-item {
+  position: relative;
   .operation {
-    position: relative;
-    top: 1px;
+    top: 15px;
+    right: 10px;
   }
 }
 

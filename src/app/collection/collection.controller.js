@@ -377,8 +377,6 @@ export class CollectionController {
         //return;
       }
 
-      console.log(collectionId);
-
       let parentScope = $scope;
       $scope.cardGroup = cardGroup;
 
@@ -390,7 +388,7 @@ export class CollectionController {
         targetEvent: event,
         disableParentScroll: true,
         clickOutsideToClose:true,
-        /*escapeToClose: false,*/
+        escapeToClose: false,
         /*fullscreen: true,*/
         locals: {
           thatScope: parentScope,

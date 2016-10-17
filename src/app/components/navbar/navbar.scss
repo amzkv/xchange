@@ -4,7 +4,7 @@
 
 .header {
   height: 64px;
-  position: relative;
+  position: fixed;
   z-index: 10;
   opacity: .99;
   i,span:hover {

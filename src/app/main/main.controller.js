@@ -8,6 +8,8 @@ export class MainController {
 
     $scope.documentsService = documentsService;
 
+    console.log(categories);
+
 
 
     let acceptH = function (file, done, dropzone) {
