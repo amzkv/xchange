@@ -15,6 +15,17 @@ md-tab-item {
   }
 }
 
+md-toolbar {
+  h2 {
+    max-width: 80%;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+  }
+}
+
 md-ink-bar {
   visibility: hidden;
 }
@@ -53,6 +64,14 @@ input, .md-text, .new-date-text {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+
+@media screen and (max-width: 840px) {
+  .partner-contact-email {
+    visibility: hidden;;
+  }
+}
+
 
 .partner-contact-eclipses-Menu {
   width: 100px;

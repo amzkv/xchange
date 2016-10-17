@@ -32,22 +32,22 @@
       </md-menu>
     </div>
     <div class="entryUI" layout="row">
-      <div flex>
-        <md-input-container>
+      <div flex layout-gt-sm="row" layout="column">
+        <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'First Name'}}</label>
           <input  name="firstName" data-ng-model="ContactInformation.firstname" />
           <div ng-messages="ContactEntry.firstName.$error">
             <span ng-message="required">{{'REQUIREFILEDNOTIFICATION'}}</span>
           </div>
         </md-input-container>
-        <md-input-container>
+        <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'Last Name'}}</label>
           <input  name="lastName" required data-ng-model="ContactInformation.lastname"  />
           <div ng-messages="ContactEntry.lastName.$error">
             <span ng-message="required">{{'REQUIREFILEDNOTIFICATION'}}</span>
           </div>
         </md-input-container>
-        <md-input-container>
+        <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'Email'}}</label>
           <input type="email"  name="eMail" data-ng-model="ContactInformation.email" />
           <div ng-messages="ContactEntry.eMail.$error">
@@ -55,12 +55,12 @@
           </div>
         </md-input-container>
       </div>
-      <div flex>
-        <md-input-container>
+      <div flex layout-gt-sm="row" layout="column">
+        <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'Phone'}}</label>
           <input  name="phone" data-ng-model="ContactInformation.landline" />
         </md-input-container>
-        <md-input-container>
+        <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'Mobile'}}</label>
           <input  name="mobile" data-ng-model="ContactInformation.mobile" />
         </md-input-container>

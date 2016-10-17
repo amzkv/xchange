@@ -72,7 +72,7 @@
                     </md-menu-content>
                   </md-menu>
                 </div>
-                <div flex layout="row">
+                <div flex layout-gt-sm="row" layout="column">
                   <div flex style="margin-right:10px">
                     <md-input-container layout="row">
                       <label>{{'Name1'}}</label>
@@ -85,7 +85,7 @@
                       <label>{{'Name2'}}</label>
                       <input  name="name2" data-ng-model="partnerInfo.name2" />
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container layout="row">
                       <label>{{'Street'}}</label>
                       <input  name="street"  data-ng-model="partnerInfo.street"/>
                     </md-input-container>
@@ -100,8 +100,8 @@
                       </md-input-container>
                     </md-content>
                   </div>
-                  <div flex>
-                    <md-input-container>
+                  <div flex layout-gt-sm="row" layout="column">
+                    <md-input-container layout="row">
                       <label>{{'Partner#'}}</label>
                       <input  name="PartnerNo"  data-ng-model="partnerInfo.no"/>
                     </md-input-container>
@@ -114,11 +114,11 @@
                                               <i class="fa fa-external-link"></i>
                                           </span>
                     </md-content>
-                    <md-input-container>
+                    <md-input-container layout="row">
                       <label>{{'Country'}}</label>
                       <input  name="country"  data-ng-model="partnerInfo.country"/>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container layout="row">
                       <user-logo id="transactionLogo" style="margin-top:10px"></user-logo>
                     </md-input-container>
                   </div>
@@ -145,7 +145,7 @@
                       <span flex="40" class="interactive-pointer" data-ng-click="onSelectforEdit($event,contact)">
                                               {{contact.firstname}}&nbsp;{{contact.lastname}}
                                           </span>
-                      <span flex>
+                      <span flex class="partner-contact-email">
                                               {{contact.email}}
                                           </span>
                       <span class="interactive-pointer" style="opacity: 0.61"  data-ng-click="onSelectforEdit($event,contact)">
