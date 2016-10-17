@@ -19,8 +19,20 @@
         </div>
         <div class="media-body">
           <small class="box-small ng-binding">
-            {{notification.entityName}} <a style="color:#444444;" href="{{notification.url}}">{{notification.title}}</a> {{notification.action}},
-            {{notification.header | date: "dd.MM.yyyy - hh:mm"}}
+            <!--{{notification.entityName}} <a style="color:#444444;" href="{{notification.url}}">{{notification.title}}</a> {{notification.action}},
+            {{notification.header | date: "dd.MM.yyyy - hh:mm"}}-->
+            {{notification.entityName}}
+            <span>{{notification.title}}</span>
+            <span ng-if="notification.hasNewCollections">{{notification.newCollectionsText}}</span>
+            <span ng-repeat="ncollection in notification.newCollections">
+              <a style="color:#444444;" href="/{{ncollection.group.value}}/{{ncollection.id}}/{{notification.id}}">{{ncollection.title.locale}}</a>{{$last ? '' : ', '}}
+            </span>
+
+            <span ng-if="notification.hasDroppedCollections">{{notification.droppedCollectionsText}}</span>
+            <span ng-repeat="dcollection in notification.droppedCollections">
+              <a href="/{{dcollection.group.value}}/{{dcollection.id}}">{{dcollection.title.locale}}</a>{{$last ? '' : ', '}}
+            </span><br/>
+            {{notification.date}}
           </small>
           <small class="box-title ng-binding"></small>
         </div>

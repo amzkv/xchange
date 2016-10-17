@@ -83,10 +83,11 @@ class InfinicastProxy {
     if (!pathInfo.pathConfig.checkMultipleIds || (pathInfo.pathConfig.checkMultipleIds && pathInfo.pathConfig.ids.length == 0)) {
       let path = this.getPath(pathInfo);
       let pathName = pathInfo.name;
-      //console.log('applying: ' + pathInfo.name);
+      //console.log('applying: ' + path);
       self.client.path(path).onDataChange(function(newValue, oldValue, scope) {
         //console.log('onChange:single:',pathName, newValue);
         self.rootScope.$apply(function () {
+          //console.log('change:', pathName, newValue);
           self.dataPool[pathName] = newValue;
           //callback.apply(this, args);
         });
@@ -138,6 +139,7 @@ class InfinicastProxy {
         //console.log('getData:single:',pathName, data);
         if (error == null) {
           self.rootScope.$apply(function () {
+            //console.log('get:', pathName, data);
             self.dataPool[pathName] = data;
           });
         }

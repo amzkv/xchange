@@ -51,14 +51,14 @@ export class StorageService {
     });
   }
 
-  cleanSelectedRecordsByCollectionForUser(storeName, entityId, userId) {
+  cleanSelectedRecordsByCollectionForUser(storeName, entityIdOrArray, userId) {
     if (!storeName) {
       return;
     }
     let recordIds = [];
     let self = this;
 
-    let filterFunc = function(entityId, userId, strId) {
+    let filterFunc = function(entityIdOrArray, userId, strId) {
       let re;
       if (storeName == 'documents') {
         re = /^(\w+)_\d+_\d+\/(\d+)$/gmi;
@@ -69,17 +69,22 @@ export class StorageService {
         re = /^([\/<all\/>|\w]+)\/(\d+)$/gmi;
       }
       let match = re.exec(strId);
-      //console.log('match', match, entityId, userId, strId);
-      if (match && match.length && (match[1] == entityId) && (match[2] == userId)) {
-        return true;
+      //console.log('match', match, entityIdOrArray, userId, strId);
+      let condition;
+      if (match && match.length) {
+        condition = angular.isArray(entityIdOrArray) ? (entityIdOrArray.indexOf(match[1]) !== -1) : (match[1] == entityIdOrArray);
+        if (condition && (match[2] == userId)) {
+          return true;
+        }
       }
+
       return false;
     };
 
     this.getAllRecords(storeName).then(function(topics) {
       if (topics.length) {
         topics.filter(function(item){
-          if (filterFunc(entityId, userId, item.id)) {
+          if (filterFunc(entityIdOrArray, userId, item.id)) {
             recordIds.push(item.id);
           }
           return true;
