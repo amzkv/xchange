@@ -32,7 +32,7 @@
       </md-menu>
     </div>
     <div class="entryUI" layout="row">
-      <div flex layout-gt-sm="row" layout="column">
+      <div flex layout="column">
         <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'First Name'}}</label>
           <input  name="firstName" data-ng-model="ContactInformation.firstname" />
@@ -55,7 +55,7 @@
           </div>
         </md-input-container>
       </div>
-      <div flex layout-gt-sm="row" layout="column">
+      <div flex layout="column">
         <md-input-container layout-gt-sm="row" layout="column">
           <label>{{'Phone'}}</label>
           <input  name="phone" data-ng-model="ContactInformation.landline" />
@@ -66,12 +66,12 @@
         </md-input-container>
 
         <md-input-container layout="row">
-          <md-checkbox ng-model="ContactInformation.isColumn">
+          <md-checkbox ng-model="ContactInformation.create_colkey">
             <span style="font-size: 15px;">{{'Create accesskey'}}</span>
           </md-checkbox>
         </md-input-container>
         <md-input-container layout="row">
-          <md-checkbox ng-model="ContactInformation.isNotification">
+          <md-checkbox ng-model="ContactInformation.notify_accesskey">
             <span style="font-size: 15px;">{{'Send notification'}}</span>
           </md-checkbox>
         </md-input-container>

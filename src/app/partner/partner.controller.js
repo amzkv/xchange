@@ -147,6 +147,7 @@ export class PartnerController {
           }
         });*/
         if (result.data.contact) {
+          console.log(result);
             $scope.contactInformations[contact.id] = result.data.contact;
             $scope.ContactInformation = result.data.contact;
             $scope.currentContactId = contact.id;
