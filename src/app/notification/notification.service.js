@@ -19,7 +19,7 @@ export class NotificationService {
       url: "/"
     };
     switch (type) {
-      case 'userCollection':
+      case 'userCollectionOld':
         notification.header = time;
         notification.entityName = data.group.locale;
         notification.title = data.title;
@@ -29,6 +29,52 @@ export class NotificationService {
         this.storageService.cleanSelectedRecordsByCollectionForUser('documents', notification.id, userId);
         //clear collections
         this.storageService.cleanSelectedRecordsByCollectionForUser('collections', data.group.value, userId);
+
+        return notification;
+        break;
+      case 'userCollection':
+        if (data.document) {
+          notification.id = data.document.id;
+          notification.newCollectionsText = ' added to';
+          notification.droppedCollectionsText = ' removed from';
+
+          notification.date = data.document.when;
+          notification.entityName = data.document.type.locale;//'Document'
+          notification.title = data.document.title;
+          notification.newCollections = [];
+          notification.droppedCollections = [];
+          notification.collectionValues = [];
+          notification.usedUrls = [];
+          if (data.document.collections && data.document.collections.length > 0) {
+            //notification.url = '/' + data.document.type.value + '/' + data.id;
+            angular.forEach(data.document.collections, function(collection) {
+              if (collection.action == 'new') {
+                //notification.newCollections
+                notification.hasNewCollections = true;
+                //collection.documentUrl = '/' + collection.group.value + '/' + collection.id + '/' + notification.id;
+                notification.newCollections.push(collection);
+              }
+              if (collection.action == 'dropped') {
+                notification.hasDroppedCollections = true;
+                notification.droppedCollections.push(collection);
+              }
+
+              notification.usedUrls.push('/' + collection.group.value + '/' + collection.id);
+              notification.usedUrls.push('/' + collection.group.value + '/' + collection.id + '/' + notification.id);
+
+              notification.collectionValues.push(collection.group.value);//
+
+            });
+          }
+          notification.originalData = data.document;
+          //clear docs
+          this.storageService.cleanSelectedRecordsByCollectionForUser('documents', notification.id, userId);
+
+          if (notification.collectionValues.length > 0) {
+            //clear collections
+            this.storageService.cleanSelectedRecordsByCollectionForUser('collections', notification.collectionValues, userId);
+          }
+        }
 
         return notification;
         break;

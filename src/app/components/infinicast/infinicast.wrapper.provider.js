@@ -83,10 +83,11 @@ class InfinicastProxy {
     if (!pathInfo.pathConfig.checkMultipleIds || (pathInfo.pathConfig.checkMultipleIds && pathInfo.pathConfig.ids.length == 0)) {
       let path = this.getPath(pathInfo);
       let pathName = pathInfo.name;
-      //console.log('applying: ' + pathInfo.name);
+      //console.log('applying: ' + path);
       self.client.path(path).onDataChange(function(newValue, oldValue, scope) {
         //console.log('onChange:single:',pathName, newValue);
-        self.$rootScope.$apply(function () {
+        self.rootScope.$apply(function () {
+          //console.log('change:', pathName, newValue);
           self.dataPool[pathName] = newValue;
           //callback.apply(this, args);
         });
@@ -101,7 +102,7 @@ class InfinicastProxy {
         //console.log('init multiple listener',path);
         self.client.path(path).onDataChange(function(newValue, oldValue, scope) {
           //console.log('onChange:multiple:',pathName, newValue);
-          self.$rootScope.$apply(function () {
+          self.rootScope.$apply(function () {
             //self.dataPool[pathName] = newValue;
             if (!self.dataPool[pathName]) {
               self.dataPool[pathName] = {};
@@ -137,7 +138,8 @@ class InfinicastProxy {
       self.client.path(path).getData(function(error, data, scope) {
         //console.log('getData:single:',pathName, data);
         if (error == null) {
-          self.$rootScope.$apply(function () {
+          self.rootScope.$apply(function () {
+            //console.log('get:', pathName, data);
             self.dataPool[pathName] = data;
           });
         }
@@ -152,7 +154,7 @@ class InfinicastProxy {
         self.client.path(path).getData(function(error, data, scope) {
           //console.log('getData:multiple:', pathName, data);
           if (error == null) {
-            self.$rootScope.$apply(function () {
+            self.rootScope.$apply(function () {
               //self.dataPool[pathName] = data;
               if (!self.dataPool[pathName]) {
                 self.dataPool[pathName] = {};

@@ -12,8 +12,8 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
         pathType: InfinicastWrapperProvider.pathTypes.userCollection,
         viewType: 'notification',
         pathConfig: {
-          type: 'user',
-          dataType: 'collection'
+          type: 'data',
+          dataType: 'document'
         }
       },
       {

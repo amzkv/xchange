@@ -295,12 +295,27 @@ class NavbarController {
           let scopeWatch = 'infinicast.dataPool.' + item.name;
           $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
             if (newValue != null) {
+              //console.log('notification', scopeWatch, newValue, oldValue);
               let notification = $scope.notificationService.processNotificationData(item.name, newValue, $rootScope.infinicast.user.userid);
               $scope.notificationService.addNotification(notification);
+
+              if (notification.usedUrls && notification.usedUrls.length > 0) {
+                angular.forEach(notification.usedUrls, function (url) {
+                  if ($state.href($state.current.name, $state.params).indexOf(url) !== -1) {
+                    $scope.dataChanged = true;
+                  }
+                });
+                if ($scope.dataChanged) {
+                  toastr.warning('Displayed data has been changed', 'Attention');
+                }
+              }
+              /*
               if ($state.href($state.current.name, $state.params).indexOf(notification.url) !== -1) {
                 $scope.dataChanged = true;
                 toastr.warning('Displayed data has been changed', 'Attention');
               }
+              */
+
             }
           }, true);
         }
@@ -363,14 +378,56 @@ class NavbarController {
       console.log('test');
       let time = new Date();
       //$rootScope.infinicast.setDataByUser('user', 'collection', {"test":time});
-      $rootScope.infinicast.setDataByPathName('userCollection',
-      { "id" : 394247,
+
+      let oldFormatData = {
+        "id" : 394247,
         "title" : "invoice received",
         "group" : {
           "locale" : "Workflow",
           "value" : "WORKFLOW"
         }
-      });
+      };
+
+      let newFormatData = {
+        "document": {
+          "id": 57905,
+          "title": "Verkauf_-_Rechnung_Sa_lzer_1",
+          "type": {
+            "value": "INVOICE",
+            "locale": "Rechnung"
+          },
+          "when": "2016-10-03 13:25:02",
+          "collections": [
+            {
+              "action": "dropped",
+              "id": 394247,
+              "title": {
+                "value": "INVOICE versendet",
+                "locale": "INVOICE versendet"
+              },
+              "group": {
+                "value": "WORKFLOW",
+                "locale": "Workflow"
+              }
+            },
+            {
+              "action": "new",
+              "id": 438602,
+              "title": {
+                "value": "INVOICE eingegangen",
+                "locale": "INVOICE eingegangen"
+              },
+              "group": {
+                "value": "WORKFLOW",
+                "locale": "Workflow"
+              }
+            }
+          ]
+        }
+      };
+
+      $rootScope.infinicast.setDataByPathName('userCollection', newFormatData
+      );
 
       /*$rootScope.infinicast.setDataByUser('user', 'collection',
         { "id" : 394247,
