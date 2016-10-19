@@ -84,14 +84,17 @@ class InfinicastProxy {
       let path = this.getPath(pathInfo);
       let pathName = pathInfo.name;
       //console.log('applying: ' + path);
-      self.client.path(path).onDataChange(function(newValue, oldValue, scope) {
-        //console.log('onChange:single:',pathName, newValue);
-        self.rootScope.$apply(function () {
-          //console.log('change:', pathName, newValue);
-          self.dataPool[pathName] = newValue;
-          //callback.apply(this, args);
+      if (path!=null) {
+        self.client.path(path).onDataChange(function (newValue, oldValue, scope) {
+          //console.log('onChange:single:',pathName, newValue);
+          self.rootScope.$apply(function () {
+            //console.log('change:', pathName, newValue);
+            newValue.fromChange = true;
+            self.dataPool[pathName] = newValue;
+            //callback.apply(this, args);
+          });
         });
-      });
+      }
     } else {
       let ids = pathInfo.pathConfig.ids;
       let path;
@@ -100,20 +103,21 @@ class InfinicastProxy {
         path = self.getPath(pathInfo, id);
         pathName = pathInfo.name;
         //console.log('init multiple listener',path);
-        self.client.path(path).onDataChange(function(newValue, oldValue, scope) {
-          //console.log('onChange:multiple:',pathName, newValue);
-          self.rootScope.$apply(function () {
-            //self.dataPool[pathName] = newValue;
-            if (!self.dataPool[pathName]) {
-              self.dataPool[pathName] = {};
-            }
-            self.dataPool[pathName][id] = newValue;
-            //callback.apply(this, args);
+        if (path!=null) {
+          self.client.path(path).onDataChange(function (newValue, oldValue, scope) {
+            //console.log('onChange:multiple:',pathName, newValue, id);
+            self.rootScope.$apply(function () {
+              //self.dataPool[pathName] = newValue;
+              if (!self.dataPool[pathName]) {
+                self.dataPool[pathName] = {};
+              }
+
+              newValue.fromChange = true;
+              self.dataPool[pathName][id] = newValue;
+              //callback.apply(this, args);
+            });
           });
-        });
-
-
-
+        }
       });
     }
   }
@@ -134,16 +138,19 @@ class InfinicastProxy {
     if (!pathInfo.pathConfig.checkMultipleIds || (pathInfo.pathConfig.checkMultipleIds && pathInfo.pathConfig.ids.length == 0)) {
       let path = this.getPath(pathInfo);
       let pathName = pathInfo.name;
-      //console.log('applying: ' + pathInfo.name);
-      self.client.path(path).getData(function(error, data, scope) {
-        //console.log('getData:single:',pathName, data);
-        if (error == null) {
-          self.rootScope.$apply(function () {
-            //console.log('get:', pathName, data);
-            self.dataPool[pathName] = data;
-          });
-        }
-      });
+      //console.log('applying-get: ' + pathInfo.name);
+      if (path!=null) {
+        self.client.path(path).getData(function (error, data, scope) {
+          //console.log('getData:single:',pathName, data);
+          if (error == null) {
+            self.rootScope.$apply(function () {
+              //console.log('get:', pathName, data);
+              data.fromGet = true;
+              self.dataPool[pathName] = data;
+            });
+          }
+        });
+      }
     } else {
       let ids = pathInfo.pathConfig.ids;
       let path;
@@ -151,19 +158,23 @@ class InfinicastProxy {
       angular.forEach(ids, function (id) {
         path = self.getPath(pathInfo, id);
         pathName = pathInfo.name;
-        self.client.path(path).getData(function(error, data, scope) {
-          //console.log('getData:multiple:', pathName, data);
-          if (error == null) {
-            self.rootScope.$apply(function () {
-              //self.dataPool[pathName] = data;
-              if (!self.dataPool[pathName]) {
-                self.dataPool[pathName] = {};
-              }
-              self.dataPool[pathName][id] = data;
-              //callback.apply(this, args);
-            });
-          }
-        });
+        if (path!=null) {
+          self.client.path(path).getData(function (error, data, scope) {
+            //console.log('getData:multiple:', pathName, data, id);
+            if (error == null) {
+              self.rootScope.$apply(function () {
+                //self.dataPool[pathName] = data;
+                if (!self.dataPool[pathName]) {
+                  self.dataPool[pathName] = {};
+                }
+                data.fromGet = true;
+
+                self.dataPool[pathName][id] = data;
+                //callback.apply(this, args);
+              });
+            }
+          });
+        }
       });
     }
   }
@@ -195,27 +206,36 @@ class InfinicastProxy {
           return '/' + pathInfo.pathConfig.type + '/' + userid + '/' + pathInfo.pathConfig.dataType;
       case this.pathTypes.userOnline:
         let accid = '';
-        if (this.user && this.user.account && this.user.account.uuid) {
+        /*if (this.user && this.user.account && this.user.account.uuid) {
           accid = this.user.account.uuid;
-        } else if (id) {
+        } else */
+        if (id) {
           accid = id;
+          return '/' + pathInfo.pathConfig.type + '/' + accid;
         }
+        return null;
         //let accid = this.user ? this.user.account.uuid : this.generateUuid();
-        return '/' + pathInfo.pathConfig.type + '/' + accid;
-      case this.pathTypes.userChat:
-          /*let userid2;
-          if (this.user && this.user.account.uuid) {
-            userid2 = this.user ? this.user.account.uuid : '';
-          } else {
-            userid2 = this.currentParnter ? this.currentParnter.uuid : '';
-          }*/
+
+/*      case this.pathTypes.userChat:
           let userid2 = '';
           if (this.user && this.user.account && this.user.account.uuid) {
             userid2 = this.user.account.uuid;
           } else if (id) {
             userid2 = id;
           }
-          return '/' + pathInfo.pathConfig.type + '/' + userid2;
+          return '/' + pathInfo.pathConfig.type + '/' + userid2;*/
+      case this.pathTypes.userChat:
+        let userid2 = '';
+        if (this.user && this.user.account && this.user.account.uuid) {
+          userid2 = this.getChatId();//trick
+        } else if (id) {
+          userid2 = id;
+        }
+
+        if (!userid2) {
+          return null;
+        }
+        return '/' + pathInfo.pathConfig.type + '/' + userid2;
       default:
             return null;
     }
@@ -334,21 +354,35 @@ class InfinicastProxy {
     this.rootScope = rootScope;
   }
 
+  getChatId() {
+    return this.user.firstname[0].toUpperCase() + this.user.lastname[0].toUpperCase() + this.user.account.id;
+  }
+
   goOffline() {
-    this.setDataByPathName('userOnline',
-      {
-        'status': 'offline',
-        'time': new Date().getTime()
-      });
+    let onlineData = {
+      'status': 'offline',
+      'time': new Date().getTime()
+    };
+    if (this.user) {
+      onlineData.name = this.user.firstname + ' ' + this.user.lastname;
+      onlineData.chatid = this.getChatId();
+      onlineData.idForPath = this.user.account.uuid;
+    }
+    this.setDataByPathName('userOnline', onlineData);
   }
 
   goOnline() {
     console.log('online');
-    this.setDataByPathName('userOnline',
-      {
-        'status': 'online',
-        'time': new Date().getTime()
-      });
+    let onlineData = {
+      'status': 'online',
+      'time': new Date().getTime()
+    };
+    if (this.user) {
+      onlineData.name = this.user.firstname + ' ' + this.user.lastname;
+      onlineData.chatid = this.getChatId();
+      onlineData.idForPath = this.user.account.uuid;
+    }
+    this.setDataByPathName('userOnline', onlineData);
   }
 
   /*setDataByUser(type, dataType, jsonData) {
@@ -365,10 +399,11 @@ class InfinicastProxy {
     }
   }
 
-  listen() {
-    if (this.listening) {
+  listen(force) {
+    if (this.listening && !force) {
       return;
     }
+    console.log('listening...');
     if (this.isConfigValid() && this.isUserValid()) {
       this.connect();
     }

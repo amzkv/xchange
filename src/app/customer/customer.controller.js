@@ -89,7 +89,7 @@ export class CustomerController {
 
         let partners = LocalAccessService.getPartnerIds();
         //dynamically inject ids to subscribe
-        $rootScope.infinicast.updatePathConfig('userChat', 'ids', partners);
+        //$rootScope.infinicast.updatePathConfig('userChat', 'ids', partners);
         $rootScope.infinicast.updatePathConfig('userOnline', 'ids', partners);
         $rootScope.infinicast.isAccessKeyUser = true;
         $rootScope.infinicast.listen();

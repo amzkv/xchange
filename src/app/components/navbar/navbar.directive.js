@@ -178,12 +178,64 @@ class NavbarController {
       }
     };
 
-    this.chatPartner = function (partner) {
+    this.chatPartner = function (partner, notification) {
       //console.log(partner);
       //let remoteUuid = partner.uuid;//to test it
       //partner.uuid = 'a0dd085d-a8a1-4380-9085-fadf969ff384';//TODO: remove after test
-      this.currentRemotePartner = partner;
-      self.displayPartners = false;
+      if (self.accessKeyUser && self.accessKeyUser.partners) {
+        this.partners = self.accessKeyUser.partners;
+        //accesskey
+          if (partner) {
+            //using partner list
+            notification = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', partner.uuid);
+            notification.partnerUuid = notification.idForPath;//??
+            //this.currentRemotePartner = partner;
+            //self.displayPartners = false;
+          }
+          //using online notification
+          if (notification.partnerUuid && notification.chatid) {
+
+            //console.log('notification', notification);
+            let partnerId = notification.chatid.replace(/\D/g, '');
+            self.currentPartnerId = partnerId;
+            self.currentChatId = notification.chatid;
+            angular.forEach(self.accessKeyUser.partners, function(thePartner) {
+              if (thePartner.uuid == notification.partnerUuid) {
+                //console.log('ok');
+                self.currentRemotePartner = thePartner;
+                //self.displayPartners = false;
+                //self.togglePartners();
+
+                let partnerStatus = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', thePartner.uuid);
+                //if (self.currentRemotePartner && self.currentRemotePartner.uuid == thePartner.uuid) {
+                  self.currentRemotePartner.online = (notification.status == 'online');
+                //}
+
+                if ($rootScope.infinicast) {
+                  //$rootScope.infinicast.listen();
+                  //console.log('infinicast', LocalAccessService.getPartnerIds());
+                  let partners = LocalAccessService.getPartnerIds();
+                  //dynamically inject ids to subscribe
+                  let chatids = [notification.chatid];
+                  //chatids.push();
+                  $rootScope.infinicast.updatePathConfig('userChat', 'ids', chatids);
+                  $rootScope.infinicast.updatePathConfig('userOnline', 'ids', partners);
+                  $rootScope.infinicast.isAccessKeyUser = true;
+                  $rootScope.infinicast.listen(true);
+                  //console.log($rootScope.infinicast);
+                }
+
+                //partner.lastSeen = partnerStatus.time;
+
+                self.displayPartners = false;
+                return;
+              }
+            });
+          }
+        //}
+      } else {
+        //regular
+      }
     };
 
     this.sendMessage = function() {
@@ -195,7 +247,8 @@ class NavbarController {
           $rootScope.infinicast.setDataByPathName('userChat',
             {
               "fromUserType" : "accessKey",
-              "idForPath" : self.currentRemotePartner.uuid,
+              /*"idForPath" : self.currentRemotePartner.uuid,*/
+              "idForPath" : self.currentChatId,
               "partnerName" : self.currentRemotePartner.name,/*send it to partner...*/
               "name" : self.accessKeyUser.name,
               "company" : self.accessKeyUser.company,
@@ -213,7 +266,7 @@ class NavbarController {
         $rootScope.infinicast.setDataByPathName('userChat',
           {
             "fromUserType" : "partner",
-            /*"idForPath" : self.currentRemotePartner.uuid,*/
+            "idForPath" : self.currentChatId || $rootScope.infinicast.getChatId(),
             'text' : self.currentMessage,
             'time' : new Date().getTime(),
             'fullname' : fullname
@@ -326,7 +379,8 @@ class NavbarController {
               //console.log('incoming chat message', newValue);
               if (self.currentRemotePartner) {
                 //me
-                var messageForPartner = newValue[self.currentRemotePartner.uuid];
+                var messageForPartner = newValue[self.currentChatId] || newValue[$rootScope.infinicast.getChatId()];
+                //var messageForPartner = newValue[self.currentRemotePartner.uuid];
                 if (messageForPartner) {
                   //console.log('add Message:', messageForPartner);
                   if (messageForPartner.fromUserType == 'partner') {
@@ -351,11 +405,35 @@ class NavbarController {
           $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
             if (newValue != null) {
               //console.log('incoming online status', newValue, self.partners);
+              //exclusive notification
+
+              if (newValue.status) {
+                /*if (newValue.fromChange) {
+                  let notification = $scope.notificationService.processNotificationData(item.name, newValue);
+                  $scope.notificationService.addNotification(notification);
+                }*/
+              } else {
+                //multiple
+                angular.forEach(newValue, function(partnerStatus, partnerUuid) {
+                  if (partnerStatus.fromChange && partnerStatus.status == 'online') {
+                    $scope.notificationService.addNotification($scope.notificationService.processNotificationData(item.name, partnerStatus, partnerUuid));
+                  }
+                });
+              }
+              /*let notification = $scope.notificationService.processNotificationData(item.name, newValue);
+              $scope.notificationService.addNotification(notification);*/
+              //console.log('pre-partners', self.partners);
               if (self.partners) {
+                //console.log('partners');
                 //newValue[self.currentRemotePartner.uuid];
                 //multiple case
                 angular.forEach(newValue, function(partnerStatus, partnerUuid) {
                   //console.log(partnerUuid, partnerStatus);
+                  /*if (partnerStatus.fromChange && partnerStatus.status == 'online') {
+                    let notification = $scope.notificationService.processNotificationData(item.name, partnerStatus, partnerUuid);
+                    $scope.notificationService.addNotification(notification);
+                  }*/
+
                   angular.forEach(self.partners, function (partner) {
                     partner.online = false;
                     if (partnerStatus.status == 'online') {
@@ -473,10 +551,18 @@ class NavbarController {
       console.log('test online');
       let time = new Date();
       status = status || 'online';
-      $rootScope.infinicast.setDataByPathName('userOnline',
-        { 'status' : status,
-          'time' : new Date().getTime()
-        });
+      let onlineData = {
+        'status' : status,
+        'time' : new Date().getTime()
+      };
+      if ($rootScope.infinicast.user) {
+        onlineData.idForPath = $rootScope.infinicast.user.account.uuid;
+        onlineData.name = $rootScope.infinicast.user.firstname + ' ' + $rootScope.infinicast.user.lastname;
+        onlineData.chatid = $rootScope.infinicast.user.firstname[0].toUpperCase() + $rootScope.infinicast.user.lastname[0].toUpperCase() + $rootScope.infinicast.user.account.id;
+      }
+      //console.log(onlineData);
+
+      $rootScope.infinicast.setDataByPathName('userOnline', onlineData);
     };
 
     //////////////////end notifications///////
@@ -729,7 +815,7 @@ class NavbarController {
         $scope.filterData = {};
         $scope.shownGroup = null;
 
-        $scope.filters = $rootScope.filters;
+        //$scope.filters = $rootScope.filters;
       } else {
         $scope.filters = null;
       }
@@ -745,6 +831,12 @@ class NavbarController {
         console.log('NavbarController listener $stateChangeSuccess');
         setState($state.current.name, from.name, fromState, $state.current.parentState, toParams);
       });*/
+
+    let filterWatch = $rootScope.$watch('filters',
+      function(newValue, oldValue, scope){
+        $scope.filters = $rootScope.filters;
+      }
+    );
 
     this.navigateBack = function(){
       "use strict";

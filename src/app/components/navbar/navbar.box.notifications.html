@@ -14,11 +14,13 @@
     <div class="box-item" ng-repeat="notification in notificationService.notifications">
       <div class="media">
         <div class="pull-left">
-          <i class="mdi mdi-alert-box nav-notification-box-icon"></i>
+          <i ng-if="notification.type == 'userCollection'" class="mdi mdi-alert-box nav-notification-box-icon"></i>
+          <!--TODO: uuid based chatPartner-->
+          <i ng-if="notification.type == 'userOnline'" ng-click="(vm.displayChat = true); vm.chatPartner(null, notification);" class="mdi mdi-comment nav-notification-box-icon" style="cursor: pointer" title="Click to talk"></i>
           <!--<img class="box-img-sm" ng-src="" alt="" src="">-->
         </div>
         <div class="media-body">
-          <small class="box-small ng-binding">
+          <small ng-if="notification.type == 'userCollection'" class="box-small ng-binding">
             <!--{{notification.entityName}} <a style="color:#444444;" href="{{notification.url}}">{{notification.title}}</a> {{notification.action}},
             {{notification.header | date: "dd.MM.yyyy - hh:mm"}}-->
             {{notification.entityName}}
@@ -33,6 +35,10 @@
               <a href="/{{dcollection.group.value}}/{{dcollection.id}}">{{dcollection.title.locale}}</a>{{$last ? '' : ', '}}
             </span><br/>
             {{notification.date}}
+          </small>
+          <small ng-if="notification.type == 'userOnline'" class="box-small ng-binding">
+            {{notification.entityName}} <span style="color:#444444;">{{notification.name}}</span> {{'is'}}<span style="{{(notification.status == 'online') ? 'color: green' : 'color: red'}}">&nbsp;{{notification.status}}&nbsp;</span>{{'now'}},
+            {{notification.date | date: "dd.MM.yyyy - hh:mm"}}
           </small>
           <small class="box-title ng-binding"></small>
         </div>

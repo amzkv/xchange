@@ -12,6 +12,7 @@ export class NotificationService {
     //default
     let notification = {
       id: data.id,
+      type: type,
       header: time,
       title: "default",
       action: "has been changed",
@@ -30,6 +31,17 @@ export class NotificationService {
         //clear collections
         this.storageService.cleanSelectedRecordsByCollectionForUser('collections', data.group.value, userId);
 
+        return notification;
+        break;
+      case 'userOnline':
+        notification.date = data.time;
+        notification.entityName = 'Partner';
+        notification.partnerUuid = userId;
+        notification.name = data.name;
+        notification.status = data.status;
+        notification.chatid = data.chatid;
+        notification.action = 'is ' + data.status + ' now';
+        notification.originalData = data;
         return notification;
         break;
       case 'userCollection':
