@@ -1,4 +1,5 @@
 <div class="content-container register-container" style="margin-top:0vh;height:100vh;overflow-y: scroll" layout="row" layout-sm="column">
+<div class="content-container register-container" style="margin-top:0vh;height:100vh;overflow-y: scroll" layout="row" layout-sm="column">
   <div flex class="content-left-border">
     <div class="login-left-content-settings">
       <span id="isAlreadyregistered" style="display: block; font-size: 12px;">{{'user.alreadyMember' | i18n}}</span>
@@ -17,7 +18,10 @@
       <div>
         <md-input-container>
           <label style="color:white !important">{{'user.lastName' | i18n}}</label>
-          <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="registration.person.lastName"  />
+          <input style="color:white !important;border-color: rgb(250, 245, 245) !important;" type="text" ng-model="registration.person.lastName"  required/>
+          <div ng-messages="registration.registrationForm.companyName.$error">
+            <span class="login-validation-color" ng-message="required">{{'error.5016'|i18n}}</span>
+          </div>
         </md-input-container>
       </div>
       <div>
@@ -42,7 +46,7 @@
       <div>
         <md-input-container>
           <label class="login-validation-color">{{'user.password' | i18n}}</label>
-          <input type="password" class="login-validation-border-color" data-ng-model="registration.person.passWord" minlength="3" name="passWord" required />
+          <input type="password" class="login-validation-border-color" data-ng-model="registration.person.passWord" minlength="6" name="passWord" required />
           <div ng-messages="registration.registrationForm.passWord.$error">
             <span class="login-validation-color" ng-message="required">{{'error.5023'|i18n}}</span>
             <div class="login-validation-color" ng-message="minlength">{{'error.5025'|i18n}}</div>

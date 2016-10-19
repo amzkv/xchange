@@ -54,17 +54,6 @@
             <span ng-message="email">{{'EMAILFILEDNOTIFICATION'}}</span>
           </div>
         </md-input-container>
-      </div>
-      <div flex layout="column">
-        <md-input-container layout-gt-sm="row" layout="column">
-          <label>{{'Phone'}}</label>
-          <input  name="phone" data-ng-model="ContactInformation.landline" />
-        </md-input-container>
-        <md-input-container layout-gt-sm="row" layout="column">
-          <label>{{'Mobile'}}</label>
-          <input  name="mobile" data-ng-model="ContactInformation.mobile" />
-        </md-input-container>
-
         <md-input-container layout="row">
           <md-checkbox ng-model="ContactInformation.create_colkey">
             <span style="font-size: 15px;">{{'Create accesskey'}}</span>
@@ -75,9 +64,20 @@
             <span style="font-size: 15px;">{{'Send notification'}}</span>
           </md-checkbox>
         </md-input-container>
+      </div>
+      <div flex layout="column">
+        <md-input-container layout-gt-sm="row" layout="column">
+          <label>{{'Phone'}}</label>
+          <input  name="phone" data-ng-model="ContactInformation.landline" />
+        </md-input-container>
+        <md-input-container layout-gt-sm="row" layout="column">
+          <label>{{'Mobile'}}</label>
+          <input  name="mobile" data-ng-model="ContactInformation.mobile" />
+        </md-input-container>
         <md-input-container>
           <span style="margin-left: 7px;"><i class="fa fa-info" style="margin-right: 10px;"></i><span ng-if="ContactInformation.created" style="font-size: 14px;">&nbsp;{{formatDate(ContactInformation.created) | date:"dd.MM.yyyy"}}</span><span  ng-if="ContactInformation.updated" style="font-size: 14px;">&nbsp;/&nbsp;{{formatDate(ContactInformation.updated) | date:"dd.MM.yyyy"}}</span></span>
         </md-input-container>
+
 
       </div>
     </div>

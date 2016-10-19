@@ -3,7 +3,7 @@
   "5001" : "Collection already exists",
   "5002" : "Cannot add collection to given class",
   "5003" : "Data is not valid",
-  "5004" : "Invalid data submitted",
+  "5004" : "Error: please check the data you provided",
   "5005" : "Unable to view file",
   "5006" : "Unable to fetch file data",
   "5007" : "Unable to save file",
