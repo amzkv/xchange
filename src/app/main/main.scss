@@ -403,3 +403,14 @@ div.a-card {
   }*/
 }
 
+
+.dropzone .dz-filename {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dropzone .dz-preview .dz-remove {
+  display: block;
+}
+

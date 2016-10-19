@@ -8,10 +8,6 @@ export class MainController {
 
     $scope.documentsService = documentsService;
 
-    console.log(categories);
-
-
-
     let acceptH = function (file, done, dropzone) {
       UploadService.dropzone = $scope.dzMethods.getDropzone();
       return UploadService.localAcceptHandler(file, done);
@@ -27,8 +23,18 @@ export class MainController {
       /* autoProcessQueue:false,*/
       accept: acceptH,
       dictDefaultMessage: '<span class="dz-drop-file"><strong>Drop file</strong> or click to upload</span>',
-      previewTemplate: UploadService.template/*,
-       dictDefaultMessage: '<img src="assets/images/dropzone.png" />'*/
+      previewTemplate: UploadService.template,
+      dictCancelUpload: 'Cancel upload',
+      dictRemoveFile: 'Remove file'
+    };
+
+    $scope.dzMethods = {};
+    $scope.removeNewFile = function(){
+      $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
+    };
+
+    $scope.resetDropzone = function() {
+      $scope.dzMethods.removeAllFiles();
     };
 
     $scope.documentsService.searchFilter = '';

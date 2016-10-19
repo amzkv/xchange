@@ -1,4 +1,4 @@
-export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide, InfinicastWrapperProvider) {
+export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide, InfinicastWrapperProvider, dropzoneOpsProvider) {
   'ngInject';
   // Enable log
 
@@ -163,6 +163,15 @@ export function config ($logProvider, toastrConfig, $mdThemingProvider, $provide
   //$scope.theme = 'default';
 
   //$provide.value('themeValue', 'default');
+
+  dropzoneOpsProvider.setOptions({
+    url : '/',
+    /*acceptedFiles : 'image/jpeg, images/jpg, image/png',*/
+    addRemoveLinks : true,
+    dictRemoveFile : 'Remove file',
+    dictCancelUpload: 'Cancel upload',
+    dictResponseError : 'Could not upload this file'
+  });
 
   //$mdThemingProvider.generateThemesOnDemand(true);
   $provide.value('themeProvider', $mdThemingProvider);
