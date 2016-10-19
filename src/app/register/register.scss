@@ -36,10 +36,9 @@ footer {
 }
 
 .register-container {
-  /*padding-top: 120px;*/
-  /*height: 100vh;*/
   overflow: hidden;
-  padding: 25vh 0px 23px;
+  padding: 4em 0 23px;
+  width: 100%;
   background: $header-color;
 }
 
@@ -151,6 +150,7 @@ footer {
 
 .registration-form{
   background-color: $header-color;
+  /*width: 100%;*/
 }
 
 .registration-form {
@@ -184,3 +184,11 @@ footer {
     border:none;
   }
 }
+
+  md-checkbox.agree-checkbox.md-default-theme:not([disabled]).md-warn .md-ink-ripple, md-checkbox:not([disabled]).md-warn .md-ink-ripple,
+  md-checkbox.agree-checkbox.md-default-theme:not([disabled]).md-warn .md-icon, md-checkbox:not([disabled]).md-warn .md-icon,
+  md-checkbox.agree-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+    color: #fff;
+    border-color: #fff !important;
+  }
+
