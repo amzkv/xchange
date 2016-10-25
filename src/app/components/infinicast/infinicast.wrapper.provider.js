@@ -102,7 +102,7 @@ class InfinicastProxy {
       angular.forEach(ids, function (id) {
         path = self.getPath(pathInfo, id);
         pathName = pathInfo.name;
-        //console.log('init multiple listener',path);
+        //console.log('init multiple listener',path, id);
         if (path!=null) {
           self.client.path(path).onDataChange(function (newValue, oldValue, scope) {
             //console.log('onChange:multiple:',pathName, newValue, id);
@@ -138,7 +138,7 @@ class InfinicastProxy {
     if (!pathInfo.pathConfig.checkMultipleIds || (pathInfo.pathConfig.checkMultipleIds && pathInfo.pathConfig.ids.length == 0)) {
       let path = this.getPath(pathInfo);
       let pathName = pathInfo.name;
-      //console.log('applying-get: ' + pathInfo.name);
+      //console.log('applying-get: ' + path);
       if (path!=null) {
         self.client.path(path).getData(function (error, data, scope) {
           //console.log('getData:single:',pathName, data);
@@ -160,7 +160,7 @@ class InfinicastProxy {
         pathName = pathInfo.name;
         if (path!=null) {
           self.client.path(path).getData(function (error, data, scope) {
-            //console.log('getData:multiple:', pathName, data, id);
+            //console.log('getData:multiple:', path, data, id);
             if (error == null) {
               self.rootScope.$apply(function () {
                 //self.dataPool[pathName] = data;
@@ -198,7 +198,7 @@ class InfinicastProxy {
     });
   }
 
-  getPath(pathInfo, id) {
+  getPath(pathInfo, id, additionalId) {
     //todo
     switch (pathInfo.pathType) {
       case this.pathTypes.userCollection:
@@ -211,7 +211,13 @@ class InfinicastProxy {
         } else */
         if (id) {
           accid = id;
-          return '/' + pathInfo.pathConfig.type + '/' + accid;
+          let onlinePath = '/' + pathInfo.pathConfig.type + '/' + accid;
+          if (additionalId) {
+            onlinePath = onlinePath + '/' + additionalId + '/'; //for broadcast
+          } else {
+            onlinePath = onlinePath + '/*/'; //to subscribe
+          }
+          return onlinePath;
         }
         return null;
         //let accid = this.user ? this.user.account.uuid : this.generateUuid();
@@ -272,14 +278,14 @@ class InfinicastProxy {
     }
   }
 
-  getPathByName(name, id) {
+  getPathByName(name, id, additionalId) {
     let self = this;
     let path = null;
     if (self.config.paths) {
       angular.forEach(self.config.paths, function(item, key){
         if (item.name == name) {
           if (id) {
-            path = self.getPath(item, id);
+            path = self.getPath(item, id, additionalId);
           } else {
             path = self.getPath(item);
           }
@@ -287,6 +293,7 @@ class InfinicastProxy {
         }
       });
     }
+    //console.log(path);
     return path;
   }
 
@@ -316,7 +323,7 @@ class InfinicastProxy {
     if (!this.listening) {
       return;
     }
-    //console.log('set data:', path, data);
+    //console.log('set data:', path, data, this.client.path(path));
     this.client.path(path).setData(data);
   }
 
@@ -382,7 +389,7 @@ class InfinicastProxy {
       onlineData.chatid = this.getChatId();
       onlineData.idForPath = this.user.account.uuid;
     }
-    this.setDataByPathName('userOnline', onlineData);
+    this.setDataByPathName('userOnline', onlineData, this.user.account.id);
   }
 
   /*setDataByUser(type, dataType, jsonData) {
@@ -392,8 +399,9 @@ class InfinicastProxy {
     this.setData(path, jsonData);
   }*/
 
-  setDataByPathName(pathName, data) {
-    let path = this.getPathByName(pathName, data.idForPath);//idForPath uuid for multiple id case, ex. chat/idForPath
+  setDataByPathName(pathName, data, additionalId) {
+    let path = this.getPathByName(pathName, data.idForPath, additionalId);//idForPath uuid for multiple id case, ex. chat/idForPath
+    //console.log('setDataByPathName', path, additionalId);
     if (path) {
       this.setData(path, data);
     }
