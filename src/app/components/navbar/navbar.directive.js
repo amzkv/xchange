@@ -164,8 +164,8 @@ class NavbarController {
               if (partnerStatus.status == 'online') {
                 partner.online = true;
               }
-              if (self.currentRemotePartner && self.currentRemotePartner.uuid == partner.uuid) {
-                self.currentRemotePartner.online = partner.online;
+              if (self.currentRemoteChatUser && self.currentRemoteChatUser.uuid == partner.uuid) {
+                self.currentRemoteChatUser.online = partner.online;
               }
               partner.lastSeen = partnerStatus.time;
               //$rootScope.infinicast.getDataByPathName('userOnline', null, partner.uuid)
@@ -189,11 +189,13 @@ class NavbarController {
             //using partner list
             notification = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', partner.uuid);
             notification.partnerUuid = notification.idForPath;//??
-            //this.currentRemotePartner = partner;
+            //this.currentRemoteChatUser = partner;
             //self.displayPartners = false;
           }
           //using online notification
           if (notification.partnerUuid && notification.chatid) {
+
+            //self.currentRemoteChatUser.online = (notification.status == 'online');
 
             //console.log('notification', notification);
             let partnerId = notification.chatid.replace(/\D/g, '');
@@ -202,13 +204,18 @@ class NavbarController {
             angular.forEach(self.accessKeyUser.partners, function(thePartner) {
               if (thePartner.uuid == notification.partnerUuid) {
                 //console.log('ok');
-                self.currentRemotePartner = thePartner;
+                self.currentRemoteChatUser = thePartner;
+                let partnerId = notification.chatid.replace(/\D/g, '');//chatid to userid
+                self.currentPartnerId = partnerId;
+                self.currentChatId = notification.chatid;
+                self.currentRemoteChatUser.fullname = notification.name;
                 //self.displayPartners = false;
                 //self.togglePartners();
 
-                let partnerStatus = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', thePartner.uuid);
-                //if (self.currentRemotePartner && self.currentRemotePartner.uuid == thePartner.uuid) {
-                  self.currentRemotePartner.online = (notification.status == 'online');
+                //let partnerStatus = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', thePartner.uuid);
+                //if (self.currentRemoteChatUser && self.currentRemoteChatUser.uuid == thePartner.uuid) {
+                  self.currentRemoteChatUser.online = (notification.status == 'online');
+
                 //}
 
                 if ($rootScope.infinicast) {
@@ -235,6 +242,51 @@ class NavbarController {
         //}
       } else {
         //regular
+        if ($rootScope.infinicast) {
+
+          //console.log('notification::',notification);
+
+          let chatids = [$rootScope.infinicast.getChatId(),notification.chatid];//my chatid and notifier's
+          //notifier doesnt know me, so we need to sub to both chatid or only notifier's
+          //but there can be the case of simulateus chat initiation so we leave both
+          /*
+
+          */
+
+          //notification format: rendered notification
+
+          let partnerId = notification.chatid.replace(/\D/g, '');//chatid to userid
+          self.currentPartnerId = partnerId;
+          self.currentChatId = notification.chatid;
+          self.currentRemoteChatUser = {
+            "fullname": notification.name,
+            "uuid": notification.partnerUuid
+          };
+
+          //console.log('chatPartner: notification',notification);
+
+          if (notification.userid) {
+            self.currentRemoteChatUser.userid = notification.userid;
+          }
+
+          $rootScope.infinicast.updatePathConfig('userChat', 'ids', chatids);
+          $rootScope.infinicast.isAccessKeyUser = false;
+          $rootScope.infinicast.listen(true);
+
+          self.currentRemoteChatUser.online = (notification.status == 'online');
+
+         /* let partnerStatus = $rootScope.infinicast.getDataPoolRecordByPathName('userOnline', thePartner.uuid);
+          //if (self.currentRemoteChatUser && self.currentRemoteChatUser.uuid == thePartner.uuid) {
+          self.currentRemoteChatUser.online = (partnerStatus.status == 'online');*/
+
+          /*if (self.currentRemoteChatUser && self.currentRemoteChatUser.userid == notification.userid) {
+            self.currentRemoteChatUser.online = (notification.status == 'online');
+            //partner.lastSeen = partnerStatus.time;
+          }*/
+
+          //partner.lastSeen = notification.time;
+
+        }
       }
     };
 
@@ -243,14 +295,15 @@ class NavbarController {
         return;
       }
       if (self.accessKeyUser && self.accessKeyUser.partners) {
-        if (self.currentRemotePartner) {
+        if (self.currentRemoteChatUser) {
           $rootScope.infinicast.setDataByPathName('userChat',
             {
-              "fromUserType" : "accessKey",
-              /*"idForPath" : self.currentRemotePartner.uuid,*/
+              "fromUserType" : "initiator",
+              "accessKeyUser" : true,
+              /*"idForPath" : self.currentRemoteChatUser.uuid,*/
               "idForPath" : self.currentChatId,
-              "partnerName" : self.currentRemotePartner.name,/*send it to partner...*/
-              "name" : self.accessKeyUser.name,
+              "partnerName" : self.currentRemoteChatUser.name,/*send it to partner...*/
+              "fullname" : self.accessKeyUser.name,
               "company" : self.accessKeyUser.company,
               'text' : self.currentMessage,
               'time' : new Date().getTime()
@@ -263,14 +316,32 @@ class NavbarController {
         if ($rootScope.infinicast.user.firstname && $rootScope.infinicast.user.lastname) {
           fullname = $rootScope.infinicast.user.firstname + ' ' + $rootScope.infinicast.user.lastname;
         }
+
+        let outgoingMessage = {
+          "idForPath" : self.currentChatId || $rootScope.infinicast.getChatId(),
+          'text' : self.currentMessage,
+          'time' : new Date().getTime(),
+          'fullname' : fullname
+        };
+
+
+       // if (self.currentChatId!=$rootScope.infinicast.getChatId()) {
+        if (self.currentChatId) {
+          //console.log('initiator');
+          outgoingMessage.fromUserType = 'initiator';
+
+          //outgoingMessage.fromUserType = 'accessKey';
+          //outgoingMessage.partnerName = self.currentRemoteChatUser.name;/*send it to partner...*/
+          outgoingMessage.company = $rootScope.infinicast.user.displayname;
+        } else {
+          outgoingMessage.fromUserType = 'acceptor';
+          outgoingMessage.company = $rootScope.infinicast.user.displayname;
+        }
+
+        //console.log('message:', outgoingMessage, self.currentChatId, $rootScope.infinicast.getChatId());
+
         $rootScope.infinicast.setDataByPathName('userChat',
-          {
-            "fromUserType" : "partner",
-            "idForPath" : self.currentChatId || $rootScope.infinicast.getChatId(),
-            'text' : self.currentMessage,
-            'time' : new Date().getTime(),
-            'fullname' : fullname
-          }
+          outgoingMessage
         );
       }
 
@@ -304,26 +375,37 @@ class NavbarController {
         let message = angular.copy(incMsg);
 
         if (incMsg.fromUserType) {
-          if (incMsg.fromUserType == 'accessKey' && !me) {
+          if (incMsg.fromUserType == 'initiator' && !me) {
             //console.log('ak message');
-            self.chatIncomingUser = {
-              name: incMsg.name,
-              company: incMsg.company,
-              partnerName: incMsg.partnerName
-            };
+            self.chatIncomingUser = self.chatIncomingUser || {};
+
+            self.chatIncomingUser.fullname = incMsg.fullname;
+            self.chatIncomingUser.company = incMsg.company;
+            self.chatIncomingUser.partnerName = incMsg.fullname;
+            self.chatIncomingUser.online = true;
+            if (incMsg.accessKeyUser) {
+              self.chatIncomingUser.accessKeyUser = true;
+            }
             //message.partnerName = incMsg.partnerName;
           }
-          if (incMsg.fromUserType == 'partner') {
+          if (incMsg.fromUserType == 'acceptor') {
             //console.log('partner message');
             /*self.chatIncomingUser = {
               name: incMsg.name,
               company: incMsg.company
             }*/
+
+            /*self.chatIncomingUser = {
+              name: incMsg.fullname,
+              company: incMsg.company,
+              partnerName: incMsg.fullname
+            };*/
+
             if (self.chatIncomingUser) {
               message.partnerName = self.chatIncomingUser.partnerName;
             } else {
-              if (self.currentRemotePartner) {
-                message.partnerName = self.currentRemotePartner.name;
+              if (self.currentRemoteChatUser) {
+                message.partnerName = self.currentRemoteChatUser.fullname;
               }
             }
             //message.partnerName = self.chatIncomingUser.partnerName;
@@ -333,10 +415,17 @@ class NavbarController {
           } else {
             /*console.log(message);
             if ()*/
-            if (self.currentRemotePartner && message.fullname) {
-              self.currentRemotePartner.fullname = message.fullname;
+            if (self.currentRemoteChatUser) {
+              if (message.fullname) {
+                self.currentRemoteChatUser.fullname = message.fullname;
+              }
+              if (message.company) {
+                self.currentRemoteChatUser.company = message.company;
+              }
             }
           }
+
+          //console.log('addMessage:', message);
 
           self.chatMessages.push(message);
           self.scrollToLastMessage();
@@ -377,20 +466,20 @@ class NavbarController {
           $rootScope.$watch(scopeWatch, function (newValue, oldValue, scope) {
             if (newValue != null) {
               //console.log('incoming chat message', newValue);
-              if (self.currentRemotePartner) {
+              if (self.currentRemoteChatUser) {
                 //me
-                var messageForPartner = newValue[self.currentChatId] || newValue[$rootScope.infinicast.getChatId()];
-                //var messageForPartner = newValue[self.currentRemotePartner.uuid];
-                if (messageForPartner) {
-                  //console.log('add Message:', messageForPartner);
-                  if (messageForPartner.fromUserType == 'partner') {
-                    addChatMessage(messageForPartner);
+                var messageForAcceptor = newValue[self.currentChatId] || newValue[$rootScope.infinicast.getChatId()];
+                //var messageForAcceptor = newValue[self.currentRemoteChatUser.uuid];
+                if (messageForAcceptor) {
+                  //console.log('add Message:', messageForAcceptor);
+                  if (messageForAcceptor.fromUserType == 'acceptor') {
+                    addChatMessage(messageForAcceptor);
                   } else {
-                    addChatMessage(messageForPartner, true);
+                    addChatMessage(messageForAcceptor, true);
                   }
                 }
               } else {
-                if (newValue.fromUserType == 'accessKey') {
+                if (newValue.fromUserType == 'initiator') {
                   addChatMessage(newValue);
                 } else {
                   addChatMessage(newValue, true);
@@ -408,6 +497,30 @@ class NavbarController {
               //exclusive notification
 
               if (newValue.status) {
+                //regular
+                //single
+
+                //console.log('single');
+                if (newValue.fromChange && newValue.status == 'online' && newValue.chatid!= $rootScope.infinicast.getChatId()) {
+                  $scope.notificationService.addNotification($scope.notificationService.processNotificationData(item.name, newValue, newValue.uuid));
+                }
+
+                /*partner.online = false;
+                if (newValue.status == 'online') {
+                  partner.online = true;
+                }*/
+                //console.log('onlineStatus', newValue, self.currentRemoteChatUser);
+
+                if (newValue.fromChange && self.currentRemoteChatUser && self.currentRemoteChatUser.userid == newValue.userid) {
+                  self.currentRemoteChatUser.online = (newValue.status == 'online');
+                  //partner.lastSeen = partnerStatus.time;
+                }
+
+                if (newValue.fromChange && self.chatIncomingUser && self.chatIncomingUser.fullname == newValue.name) {
+                  self.chatIncomingUser.online = (newValue.status == 'online');
+                  //partner.lastSeen = partnerStatus.time;
+                }
+
                 /*if (newValue.fromChange) {
                   let notification = $scope.notificationService.processNotificationData(item.name, newValue);
                   $scope.notificationService.addNotification(notification);
@@ -434,13 +547,18 @@ class NavbarController {
                     $scope.notificationService.addNotification(notification);
                   }*/
 
+                  //??
+                  if (partnerStatus.fromGet) {
+                    return;
+                  }
+
                   angular.forEach(self.partners, function (partner) {
                     partner.online = false;
                     if (partnerStatus.status == 'online') {
                       partner.online = true;
                     }
-                    if (self.currentRemotePartner && self.currentRemotePartner.uuid == partner.uuid) {
-                      self.currentRemotePartner.online = partner.online;
+                    if (self.currentRemoteChatUser && self.currentRemoteChatUser.uuid == partner.uuid) {
+                      self.currentRemoteChatUser.online = partner.online;
                     }
                     partner.lastSeen = partnerStatus.time;
                   });
@@ -558,7 +676,7 @@ class NavbarController {
       if ($rootScope.infinicast.user) {
         onlineData.idForPath = $rootScope.infinicast.user.account.uuid;
         onlineData.name = $rootScope.infinicast.user.firstname + ' ' + $rootScope.infinicast.user.lastname;
-        onlineData.chatid = $rootScope.infinicast.user.firstname[0].toUpperCase() + $rootScope.infinicast.user.lastname[0].toUpperCase() + $rootScope.infinicast.user.account.id;
+        onlineData.chatid = $rootScope.infinicast.getChatId();
       }
       //console.log(onlineData);
 

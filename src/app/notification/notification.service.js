@@ -36,12 +36,15 @@ export class NotificationService {
       case 'userOnline':
         notification.date = data.time;
         notification.entityName = 'Partner';
-        notification.partnerUuid = userId;
+        notification.partnerUuid = data.idForPath;
         notification.name = data.name;
         notification.status = data.status;
         notification.chatid = data.chatid;
         notification.action = 'is ' + data.status + ' now';
         notification.originalData = data;
+        if (data.userid) {
+          notification.userid = data.userid;
+        }
         return notification;
         break;
       case 'userCollection':

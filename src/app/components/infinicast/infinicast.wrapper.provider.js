@@ -23,6 +23,8 @@ class InfinicastProxy {
 
   setUser(user) {
     this.user = user;
+    /*let testUUID = 'dd00cf1c-7664-40f9-bdc0-de5d74e6faf4';
+    this.user.account.uuid = testUUID;//TODO:remove*/
   }
 
   isUserValid(skipLog) {
@@ -218,6 +220,11 @@ class InfinicastProxy {
             onlinePath = onlinePath + '/*/'; //to subscribe
           }
           return onlinePath;
+        } else {
+          if (this.user && this.user.account && this.user.account.uuid) {
+            accid = this.user.account.uuid;
+          }
+          return '/' + pathInfo.pathConfig.type + '/' + accid + '/*/';
         }
         return null;
         //let accid = this.user ? this.user.account.uuid : this.generateUuid();
@@ -232,10 +239,10 @@ class InfinicastProxy {
           return '/' + pathInfo.pathConfig.type + '/' + userid2;*/
       case this.pathTypes.userChat:
         let userid2 = '';
-        if (this.user && this.user.account && this.user.account.uuid) {
-          userid2 = this.getChatId();//trick
-        } else if (id) {
+        if (id) {
           userid2 = id;
+        } else if (this.user && this.user.account && this.user.account.uuid) {
+          userid2 = this.getChatId();//trick
         }
 
         if (!userid2) {
@@ -362,7 +369,7 @@ class InfinicastProxy {
   }
 
   getChatId() {
-    return this.user.firstname[0].toUpperCase() + this.user.lastname[0].toUpperCase() + this.user.account.id;
+    return this.user.firstname[0].toUpperCase() + this.user.lastname[0].toUpperCase() + this.user.userid;
   }
 
   goOffline() {
@@ -374,6 +381,7 @@ class InfinicastProxy {
       onlineData.name = this.user.firstname + ' ' + this.user.lastname;
       onlineData.chatid = this.getChatId();
       onlineData.idForPath = this.user.account.uuid;
+      onlineData.userid = this.user.userid;
     }
     this.setDataByPathName('userOnline', onlineData);
   }
@@ -388,8 +396,9 @@ class InfinicastProxy {
       onlineData.name = this.user.firstname + ' ' + this.user.lastname;
       onlineData.chatid = this.getChatId();
       onlineData.idForPath = this.user.account.uuid;
+      onlineData.userid = this.user.userid;
     }
-    this.setDataByPathName('userOnline', onlineData, this.user.account.id);
+    this.setDataByPathName('userOnline', onlineData, this.user.userid);
   }
 
   /*setDataByUser(type, dataType, jsonData) {
@@ -412,6 +421,7 @@ class InfinicastProxy {
       return;
     }
     console.log('listening...');
+    //console.log('using test acc.uuid');
     if (this.isConfigValid() && this.isUserValid()) {
       this.connect();
     }
