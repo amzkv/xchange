@@ -15,7 +15,7 @@
           </md-button>-->
         </div>
       </a>
-      <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="editPartner($event, card.id, card.group.value)">
+      <md-button ng-if="!ak && editAvailable" class="md-icon-button operation" ng-click="useEditPartner ? editPartner($event, card.id, card.group.value) : collection.editDialog($event, card)">
         <i class="material-icons">edit</i>
       </md-button>
     </div>

@@ -3,7 +3,7 @@
     <div grid ng-repeat="card in ((collection.filteredDocs || collection.docs) || (search.filteredDocs || search.collections))" class="a-card column card-item">
       <a ui-sref="{{ak ? 'accesskeyDocumentFromCollection' : 'home.collection.customer'}}({accessKey: ak, collectionId: card.group.value, collectionLocale: card.group.locale, customerId: card.id, locale: card.title.locale, currentCollection: card.title})">
         <md-card>
-          <md-button ng-if="!ak && !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[parentClass]" class="md-icon-button operation" ng-click="editPartner($event, card.id, card.group.value)">
+          <md-button ng-if="!ak && editAvailable" class="md-icon-button operation" ng-click="useEditPartner ? editPartner($event, card.id, card.group.value) : collection.editDialog($event, card)">
             <i class="material-icons">edit</i>
           </md-button>
           <md-card-title class="card-title-mod collection-text">

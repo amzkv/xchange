@@ -71,6 +71,8 @@ export class CollectionController {
     this.$q = $q;
     let deferred = this.$q.defer();
     $scope.parentClass = $stateParams.collectionId;
+    $scope.editAvailable = !{'Type': true, 'WORKFLOW': true, 'Monat': true, 'NEW': true, '' : false}[$scope.parentClass];
+    $scope.useEditPartner = {'CUSTOMER': true, 'LEAD': true, 'VENDOR': true, '' : false}[$scope.parentClass];
     let self = this;
 
     $scope.toggleMode = {
