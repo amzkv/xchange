@@ -88,7 +88,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $locationProvid
       data : {
         pageTitle: 'changelog',
         accessSettings: {
-          public: false,
+          public: true,
           accesskey: false,
           customPerms: null
         }
